@@ -1130,54 +1130,112 @@ const firebaseConfig = {
     // ========== GALLERY LOAD WITH DRAG-TO-REORDER ==========
     // Track the active snapshot unsubscribe so we never attach two listeners.
     let _gallerySnapshotUnsub = null;
+    // Expose so we can force-reload from a UI button.
+    window._reloadGallery = () => loadGallery();
+
+    function _setGalleryDebug(msg, isError) {
+      const el = document.getElementById('galleryDebugPanel');
+      if (!el) return;
+      el.style.display = 'block';
+      el.style.background = isError ? 'rgba(192,78,114,0.15)' : 'rgba(201,169,97,0.10)';
+      el.style.borderColor = isError ? '#c04e72' : 'rgba(201,169,97,0.4)';
+      el.innerHTML = msg;
+    }
 
     function loadGallery() {
       const galleryContainer = document.getElementById('adminGallery');
 
+      // Make sure the debug panel exists at the top of the gallery container.
+      // (Re-injected on every load so it survives container re-renders.)
+      let debugPanel = document.getElementById('galleryDebugPanel');
+      if (!debugPanel) {
+        debugPanel = document.createElement('div');
+        debugPanel.id = 'galleryDebugPanel';
+        debugPanel.style.cssText = 'display:none;margin:18px 0;padding:14px 16px;border:1px solid rgba(201,169,97,0.4);border-radius:4px;font-family:Inter,sans-serif;font-size:12px;color:var(--text);line-height:1.6;text-align:left;';
+      }
+
       // If a previous listener exists, tear it down before attaching a new one.
-      // onAuthStateChanged can fire multiple times (token refresh, network blip),
-      // and stacking listeners caused gallery cells to race / appear blank.
       if (_gallerySnapshotUnsub) {
         try { _gallerySnapshotUnsub(); } catch (e) { /* ignore */ }
         _gallerySnapshotUnsub = null;
       }
 
-      galleryContainer.innerHTML = '<p style="text-align:center;color:#888;margin-top:20px;">Loading gallery…</p>';
+      galleryContainer.innerHTML = '';
+      galleryContainer.appendChild(debugPanel);
+      const loadingMsg = document.createElement('p');
+      loadingMsg.id = 'galleryLoadingMsg';
+      loadingMsg.style.cssText = 'text-align:center;color:#888;margin-top:20px;';
+      loadingMsg.textContent = 'Loading gallery…';
+      galleryContainer.appendChild(loadingMsg);
+
+      _setGalleryDebug('⏳ Connecting to Firestore…', false);
 
       _gallerySnapshotUnsub = db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot((querySnapshot) => {
-        // If some docs lack sortOrder, fall back secondary sort by uploadedAt
-        let docs = [];
-        querySnapshot.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
+        const lm = document.getElementById('galleryLoadingMsg');
+        if (lm) lm.remove();
 
-        // Defensive: drop any doc that has no usable URL. These can appear
-        // when a Firestore write succeeded but Storage upload didn't (orphan),
-        // and would otherwise show as an empty/invisible cell under a category
-        // header — which is exactly the "header but no photos" symptom.
-        const skipped = [];
-        docs = docs.filter(d => {
+        // Read all docs raw
+        let rawDocs = [];
+        querySnapshot.forEach(doc => rawDocs.push({ id: doc.id, ...doc.data() }));
+
+        // Categorise: valid vs. invalid url
+        const valid = [];
+        const invalid = [];
+        rawDocs.forEach(d => {
           const ok = typeof d.url === 'string' && d.url.length > 8 && d.url.indexOf('http') === 0;
-          if (!ok) skipped.push(d.id);
-          return ok;
+          if (ok) valid.push(d);
+          else invalid.push(d);
         });
-        if (skipped.length) {
-          console.warn('Gallery: skipped ' + skipped.length + ' doc(s) with missing/invalid url:', skipped);
+
+        // Build debug summary (always shown so you can see what's actually there)
+        let debugHtml =
+          '<strong style="color:var(--accent);letter-spacing:1px;">GALLERY DIAGNOSTICS</strong><br>' +
+          'Firestore returned <b>' + rawDocs.length + '</b> document(s) total.<br>' +
+          '✅ Valid: <b>' + valid.length + '</b>  &nbsp; ⚠️ Missing/invalid url: <b>' + invalid.length + '</b><br>';
+
+        if (invalid.length) {
+          debugHtml += '<br><span style="color:#c04e72;">Documents with no usable image (these are why you see empty headers):</span><br>';
+          invalid.slice(0, 20).forEach(d => {
+            debugHtml += '&nbsp;• <code style="font-size:11px;">' + d.id + '</code> — category: <i>' + (d.category || '(none)') + '</i> — url: <code style="font-size:11px;color:#c04e72;">' + JSON.stringify(d.url) + '</code> ' +
+                         '<button style="margin:0 0 0 6px;padding:2px 8px;font-size:10px;background:#c04e72;color:#fff;border:none;border-radius:3px;cursor:pointer;letter-spacing:1px;" onclick="_deleteOrphanDoc(\'' + d.id + '\')">DELETE</button><br>';
+          });
+          if (invalid.length > 20) debugHtml += '&nbsp;…and ' + (invalid.length - 20) + ' more.<br>';
+          debugHtml += '<button style="margin-top:10px;padding:6px 12px;font-size:11px;background:#c04e72;color:#fff;border:none;border-radius:3px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;" onclick="_deleteAllOrphans()">Delete all ' + invalid.length + ' broken doc(s)</button>';
         }
 
-        docs.sort((a, b) => {
+        debugHtml += '<br><br><button style="padding:6px 12px;font-size:11px;background:rgba(201,169,97,0.2);color:var(--text);border:1px solid var(--gold);border-radius:3px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;" onclick="window._reloadGallery()">↻ Force reload</button>';
+
+        _setGalleryDebug(debugHtml, invalid.length > 0);
+
+        // Stash the invalid IDs for the cleanup buttons
+        window._galleryInvalidIds = invalid.map(d => d.id);
+
+        // Sort valid docs
+        valid.sort((a, b) => {
           if (a.sortOrder !== undefined && b.sortOrder !== undefined) return a.sortOrder - b.sortOrder;
           if (a.sortOrder !== undefined) return -1;
           if (b.sortOrder !== undefined) return 1;
           return 0;
         });
 
-        galleryContainer.innerHTML = '';
-        if (docs.length === 0) {
-          galleryContainer.innerHTML = '<p style="text-align:center;color:#888;margin-top:20px;">No photos in gallery yet.</p>';
+        // Remove any previously-rendered category sections (keep debug panel)
+        Array.from(galleryContainer.querySelectorAll('.gallery-category')).forEach(n => n.remove());
+        const noPhotoMsg = document.getElementById('galleryNoPhotoMsg');
+        if (noPhotoMsg) noPhotoMsg.remove();
+
+        if (valid.length === 0) {
+          const p = document.createElement('p');
+          p.id = 'galleryNoPhotoMsg';
+          p.style.cssText = 'text-align:center;color:#888;margin-top:20px;';
+          p.textContent = rawDocs.length === 0
+            ? 'No photos in gallery yet.'
+            : 'No usable photos found — see diagnostics above.';
+          galleryContainer.appendChild(p);
           return;
         }
 
         const categories = {};
-        docs.forEach(item => {
+        valid.forEach(item => {
           const category = item.category || 'Uncategorized';
           if (!categories[category]) categories[category] = [];
           categories[category].push({ imageUrl: item.url, docId: item.id, sortOrder: item.sortOrder });
@@ -1189,7 +1247,7 @@ const firebaseConfig = {
           catDiv.className = 'gallery-category';
           catDiv.innerHTML = `
             <h3>${category}</h3>
-            <p style="text-align:center; font-size:12px; color:#888; margin-top:-10px; margin-bottom:10px;">Hold &amp; drag photos to reorder</p>
+            <p style="text-align:center; font-size:12px; color:#888; margin-top:-10px; margin-bottom:10px;">Hold &amp; drag photos to reorder &nbsp;·&nbsp; <span id="${catId}-count">${categories[category].length}</span> photo(s)</p>
             <div class="gallery-wrapper">
               <div class="gallery-grid" id="${catId}" data-category="${category}"></div>
             </div>
@@ -1204,23 +1262,20 @@ const firebaseConfig = {
             cell.style.position = 'relative';
             cell.style.cursor = 'grab';
             cell.style.userSelect = 'none';
+            cell.style.minHeight = '250px';
+            cell.style.background = '#1a1418';
+            cell.style.borderRadius = '8px';
 
-            // Build the image element programmatically so a URL containing
-            // backticks/quotes can never break our template literal and leave
-            // a broken cell behind.
             const img = document.createElement('img');
             img.src = item.imageUrl;
             img.alt = 'Cut';
-            img.style.cssText = 'width:100%;height:250px;object-fit:cover;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.12);pointer-events:none;background:#1a1418;';
-            // If an image fails to load (storage rules / CORS / deleted file),
-            // mark it visibly instead of leaving a blank cell.
+            img.referrerPolicy = 'no-referrer';
+            img.style.cssText = 'width:100%;height:250px;object-fit:cover;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.12);pointer-events:none;display:block;';
             img.onerror = () => {
-              img.alt = 'Image failed to load';
-              img.style.background = '#3a1a20';
-              cell.title = 'This image failed to load — it may have been deleted from Storage. Press Remove to clean up.';
+              cell.style.background = '#3a1a20';
               const tag = document.createElement('div');
-              tag.textContent = '⚠ image missing';
-              tag.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-family:DM Sans,sans-serif;pointer-events:none;';
+              tag.innerHTML = '⚠ image failed to load<br><small style="font-size:10px;opacity:0.8;text-transform:none;letter-spacing:1px;">Storage rules or deleted file</small>';
+              tag.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-family:DM Sans,sans-serif;pointer-events:none;text-align:center;padding:10px;';
               cell.appendChild(tag);
             };
             cell.appendChild(img);
@@ -1242,16 +1297,36 @@ const firebaseConfig = {
           initDragReorder(grid);
         }
       }, (error) => {
-        // Realtime listener failed — usually Firestore rules or auth.
-        // Surface it instead of silently leaving the section blank.
         console.error('Gallery load error:', error);
-        galleryContainer.innerHTML =
-          '<p style="text-align:center;color:#c04e72;margin-top:20px;font-family:Inter,sans-serif;">' +
-          '⚠️ Could not load gallery: ' + (error.message || error.code || 'unknown error') +
-          '<br><small style="color:#888;">Check your sign-in and Firestore rules, then refresh.</small>' +
-          '</p>';
+        _setGalleryDebug(
+          '<strong style="color:#c04e72;">⚠️ Could not load gallery</strong><br>' +
+          'Error: <code>' + (error.code || 'unknown') + '</code><br>' +
+          'Message: ' + (error.message || 'unknown error') + '<br><br>' +
+          '<small style="color:#888;">This is almost always a Firestore Security Rules problem. Make sure rules allow your admin UID to read the <code>gallery</code> collection.</small><br><br>' +
+          '<button style="padding:6px 12px;font-size:11px;background:rgba(201,169,97,0.2);color:var(--text);border:1px solid var(--gold);border-radius:3px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;" onclick="window._reloadGallery()">↻ Try again</button>',
+          true
+        );
       });
     }
+
+    // Cleanup helpers exposed to the inline buttons in the debug panel.
+    window._deleteOrphanDoc = function(docId) {
+      if (!confirm('Delete broken Firestore doc ' + docId + '? (No image to lose, the photo file is already missing.)')) return;
+      db.collection('gallery').doc(docId).delete()
+        .then(() => showToast('🗑 Removed broken doc.'))
+        .catch(err => showToast('❌ ' + (err.message || 'Delete failed.'), false));
+    };
+
+    window._deleteAllOrphans = function() {
+      const ids = window._galleryInvalidIds || [];
+      if (!ids.length) { showToast('No broken docs to remove.'); return; }
+      if (!confirm('Delete ALL ' + ids.length + ' broken Firestore doc(s)? This cannot be undone.')) return;
+      const batch = db.batch();
+      ids.forEach(id => batch.delete(db.collection('gallery').doc(id)));
+      batch.commit()
+        .then(() => showToast('🗑 Removed ' + ids.length + ' broken doc(s).'))
+        .catch(err => showToast('❌ ' + (err.message || 'Delete failed.'), false));
+    };
 
     // ========== DRAG & DROP REORDER ==========
     function initDragReorder(grid) {
