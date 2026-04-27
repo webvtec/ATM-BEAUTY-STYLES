@@ -810,6 +810,16 @@
   <div id="toast" style="visibility:hidden; min-width:250px; margin-left:-125px; background-color:#4CAF50; color:#fff; text-align:center; border-radius:20px; padding:14px 20px; position:fixed; z-index:3000; left:50%; bottom:30px; font-size:15px; box-shadow:0 4px 12px rgba(0,0,0,0.2); opacity:0; transition:opacity 0.5s, bottom 0.5s; font-family:'DM Sans',sans-serif;"></div>
 
   <script>
+    // Unregister any stale service workers (these can intercept Firebase
+    // Storage uploads and silently break them, forcing repeated refreshes).
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(reg => reg.unregister());
+      }).catch(() => {});
+    }
+  </script>
+
+  <script>
 const firebaseConfig = {
   apiKey: "AIzaSyAWjZvo4O4pzjQ3VSkFYVk3nL2KJIUZrHo",
   authDomain: "atm-style-hairdresser.firebaseapp.com",
@@ -961,8 +971,33 @@ const firebaseConfig = {
         return;
       }
 
+      // Ensure we have a fresh, valid auth token BEFORE starting the upload.
+      // Stale tokens are the #1 cause of "I had to refresh five times to upload
+      // one photo" — Firebase Storage rejects writes with no useful UI signal,
+      // so we proactively force a refresh and bail out clearly if there's no
+      // session at all.
+      const currentUser = firebase.auth().currentUser;
+      if (!currentUser) {
+        alert('Your session expired. Please refresh and sign in again.');
+        return;
+      }
+
       const uploadBtn = document.getElementById('uploadBtn');
       uploadBtn.disabled = true;
+      uploadBtn.textContent = 'PREPARING…';
+
+      currentUser.getIdToken(true).then(() => {
+        _runUploadBatch(category);
+      }).catch((err) => {
+        console.error('Token refresh failed:', err);
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'ADD PHOTOS';
+        alert('Could not refresh your sign-in. Please refresh the page and try again.');
+      });
+    }
+
+    function _runUploadBatch(category) {
+      const uploadBtn = document.getElementById('uploadBtn');
 
       const progressDiv   = document.getElementById('uploadProgress');
       const progressBar   = document.getElementById('progressBar');
@@ -1016,6 +1051,11 @@ const firebaseConfig = {
             },
             () => {
               task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                // Defensive: never write a Firestore doc with a missing URL,
+                // which would render as an empty cell under a category header.
+                if (!downloadURL || typeof downloadURL !== 'string' || downloadURL.indexOf('http') !== 0) {
+                  throw new Error('Storage returned an empty download URL');
+                }
                 return db.collection('gallery').add({
                   url: downloadURL,
                   category: category,
@@ -1052,6 +1092,10 @@ const firebaseConfig = {
       Promise.all(filesToUpload.map((f, i) => uploadOne(f, i))).then(() => {
         if (failed === 0) {
           showToast('✅ ' + completed + (completed === 1 ? ' photo uploaded!' : ' photos uploaded!'));
+          // Make sure the gallery listener is alive (in case auth churn killed
+          // it earlier) and that we're looking at the gallery section so the
+          // user can immediately see the new photos.
+          if (!_gallerySnapshotUnsub) loadGallery();
         } else if (completed === 0) {
           showToast('❌ All ' + failed + ' uploads failed. Check your connection and try again.', false);
         } else {
@@ -1084,14 +1128,41 @@ const firebaseConfig = {
     }
 
     // ========== GALLERY LOAD WITH DRAG-TO-REORDER ==========
+    // Track the active snapshot unsubscribe so we never attach two listeners.
+    let _gallerySnapshotUnsub = null;
+
     function loadGallery() {
       const galleryContainer = document.getElementById('adminGallery');
+
+      // If a previous listener exists, tear it down before attaching a new one.
+      // onAuthStateChanged can fire multiple times (token refresh, network blip),
+      // and stacking listeners caused gallery cells to race / appear blank.
+      if (_gallerySnapshotUnsub) {
+        try { _gallerySnapshotUnsub(); } catch (e) { /* ignore */ }
+        _gallerySnapshotUnsub = null;
+      }
+
       galleryContainer.innerHTML = '<p style="text-align:center;color:#888;margin-top:20px;">Loading gallery…</p>';
 
-      db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot((querySnapshot) => {
+      _gallerySnapshotUnsub = db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot((querySnapshot) => {
         // If some docs lack sortOrder, fall back secondary sort by uploadedAt
         let docs = [];
         querySnapshot.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
+
+        // Defensive: drop any doc that has no usable URL. These can appear
+        // when a Firestore write succeeded but Storage upload didn't (orphan),
+        // and would otherwise show as an empty/invisible cell under a category
+        // header — which is exactly the "header but no photos" symptom.
+        const skipped = [];
+        docs = docs.filter(d => {
+          const ok = typeof d.url === 'string' && d.url.length > 8 && d.url.indexOf('http') === 0;
+          if (!ok) skipped.push(d.id);
+          return ok;
+        });
+        if (skipped.length) {
+          console.warn('Gallery: skipped ' + skipped.length + ' doc(s) with missing/invalid url:', skipped);
+        }
+
         docs.sort((a, b) => {
           if (a.sortOrder !== undefined && b.sortOrder !== undefined) return a.sortOrder - b.sortOrder;
           if (a.sortOrder !== undefined) return -1;
@@ -1133,11 +1204,38 @@ const firebaseConfig = {
             cell.style.position = 'relative';
             cell.style.cursor = 'grab';
             cell.style.userSelect = 'none';
-            cell.innerHTML = `
-              <img src="${item.imageUrl}" alt="Cut" style="width:100%;height:250px;object-fit:cover;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.12); pointer-events:none;">
-              <button class="remove-btn" onclick="removePhoto('${item.docId}')">✕ Remove</button>
-              <div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.5);color:var(--accent);border-radius:4px;padding:3px 6px;font-size:11px;pointer-events:none;">⠿ DRAG</div>
-            `;
+
+            // Build the image element programmatically so a URL containing
+            // backticks/quotes can never break our template literal and leave
+            // a broken cell behind.
+            const img = document.createElement('img');
+            img.src = item.imageUrl;
+            img.alt = 'Cut';
+            img.style.cssText = 'width:100%;height:250px;object-fit:cover;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.12);pointer-events:none;background:#1a1418;';
+            // If an image fails to load (storage rules / CORS / deleted file),
+            // mark it visibly instead of leaving a blank cell.
+            img.onerror = () => {
+              img.alt = 'Image failed to load';
+              img.style.background = '#3a1a20';
+              cell.title = 'This image failed to load — it may have been deleted from Storage. Press Remove to clean up.';
+              const tag = document.createElement('div');
+              tag.textContent = '⚠ image missing';
+              tag.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-family:DM Sans,sans-serif;pointer-events:none;';
+              cell.appendChild(tag);
+            };
+            cell.appendChild(img);
+
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.textContent = '✕ Remove';
+            removeBtn.onclick = () => removePhoto(item.docId);
+            cell.appendChild(removeBtn);
+
+            const dragTag = document.createElement('div');
+            dragTag.style.cssText = 'position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.5);color:var(--accent);border-radius:4px;padding:3px 6px;font-size:11px;pointer-events:none;';
+            dragTag.textContent = '⠿ DRAG';
+            cell.appendChild(dragTag);
+
             grid.appendChild(cell);
           });
 
@@ -1599,6 +1697,9 @@ const firebaseConfig = {
     // ========== ADMIN UID GUARD ==========
     const ADMIN_UID = "F3SR3yXXogOLUKwQC9aLGQUsWcn1";
 
+    // Guard so we don't re-run init on token refresh / network blips.
+    let _dashboardInitDone = false;
+
     // ========== AUTH GUARD WITH OVERLAY ==========
     firebase.auth().onAuthStateChanged(user => {
       const overlay = document.getElementById('accessOverlay');
@@ -1632,6 +1733,13 @@ const firebaseConfig = {
           content.style.display = 'block';
         }, 400);
       }, 600);
+
+      // Only initialize the dashboard data ONCE per page load. Without this
+      // guard, every auth-state ping (token refresh, focus change, etc.) was
+      // attaching another Firestore listener, which is what made the gallery
+      // race-condition / show empty cells.
+      if (_dashboardInitDone) return;
+      _dashboardInitDone = true;
 
       loadGallery();
       showSection('reservationsPage');
