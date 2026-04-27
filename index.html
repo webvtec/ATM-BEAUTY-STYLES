@@ -1368,11 +1368,14 @@ const firebaseConfig = {
       }
 
       for (const category in categories) {
+        // CSS-safe ID — strip non-alphanumerics so '&' and other special chars
+        // never produce an invalid HTML id (e.g. "BEAUTY & GROOMING").
+        const catId = 'gallery-' + category.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '');
         galleryContainer.innerHTML += `
           <div class="gallery-category">
             <h3>${category}</h3>
             <div class="gallery-wrapper">
-              <div class="gallery-grid" id="gallery-${category.replace(/\s+/g,'-')}"></div>
+              <div class="gallery-grid" id="${catId}"></div>
             </div>
             <div class="category-book-wrap">
               <a onclick="showSection('bookingSection')" class="book-now-btn book-now-btn--primary" href="javascript:void(0);">Book an Appointment</a>
@@ -1380,7 +1383,7 @@ const firebaseConfig = {
           </div>
         `;
 
-        const categoryContainer = document.getElementById(`gallery-${category.replace(/\s+/g,'-')}`);
+        const categoryContainer = document.getElementById(catId);
         categories[category].forEach((imageUrl) => {
           categoryContainer.innerHTML += `
             <div><img src="${imageUrl}" alt="Cut" loading="lazy" decoding="async" style="margin-bottom:10px;"></div>

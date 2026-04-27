@@ -1242,7 +1242,12 @@ const firebaseConfig = {
         });
 
         for (const category in categories) {
-          const catId = `gallery-${category.replace(/\s+/g,'-')}`;
+          // Build a CSS-safe ID. The category name can contain '&', spaces, etc.
+          // (e.g. "BEAUTY & GROOMING" or "WEAVES & EXTENSIONS"), and characters
+          // like '&' are illegal in CSS selectors — `querySelector('#x-&-y')`
+          // throws SyntaxError, which crashed the render loop here and left
+          // the gallery showing only category headers with no photos.
+          const catId = 'gallery-' + category.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '');
           const catDiv = document.createElement('div');
           catDiv.className = 'gallery-category';
           catDiv.innerHTML = `
@@ -1254,7 +1259,7 @@ const firebaseConfig = {
           `;
           galleryContainer.appendChild(catDiv);
 
-          const grid = catDiv.querySelector(`#${catId}`);
+          const grid = catDiv.querySelector('#' + catId);
           categories[category].forEach((item, index) => {
             const cell = document.createElement('div');
             cell.draggable = true;
