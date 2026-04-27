@@ -291,14 +291,70 @@
       font-size: 12px;
     }
 
-    #imagePreview {
-      max-width: 220px;
-      max-height: 220px;
+    #imagePreviewWrap { margin: 14px auto; }
+    #imagePreviewList .thumb {
+      position: relative;
+      width: 90px;
+      height: 90px;
       border-radius: 2px;
-      margin: 14px auto;
-      display: none;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
       border: 1px solid rgba(201,169,97,0.3);
+      background: #1a1418;
+    }
+    #imagePreviewList .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #imagePreviewList .thumb .thumb-remove {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 13px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #imagePreviewList .thumb.uploading::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+    }
+    #imagePreviewList .thumb.done::after {
+      content: '✓';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,120,60,0.55);
+      color: #fff;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #imagePreviewList .thumb.failed::after {
+      content: '!';
+      position: absolute;
+      inset: 0;
+      background: rgba(180,30,30,0.6);
+      color: #fff;
+      font-size: 28px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     #uploadProgress { display: none; margin-bottom: 14px; }
@@ -634,17 +690,20 @@
 
     <!-- Device Upload Area -->
     <div class="upload-area" id="uploadArea">
-      <input type="file" id="photoFileInput" accept="image/*" onchange="previewImage(event)"/>
+      <input type="file" id="photoFileInput" accept="image/*,.heic,.heif" multiple onchange="previewImage(event)"/>
       <div class="upload-icon">🌸</div>
-      <p><strong>Tap to choose a style photo</strong><br>or drag and drop here</p>
+      <p><strong>Tap to choose style photos</strong><br>You can select multiple at once, or drag &amp; drop here</p>
     </div>
 
-    <!-- Image Preview -->
-    <img id="imagePreview" alt="Preview"/>
+    <!-- Image Preview (multiple thumbnails) -->
+    <div id="imagePreviewWrap" style="display:none; margin:14px auto; text-align:center;">
+      <div id="imagePreviewList" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width:640px; margin:0 auto;"></div>
+      <p id="imagePreviewCount" style="font-size:11px; color:var(--text-dim); letter-spacing:2px; text-transform:uppercase; font-family:'Cormorant Garamond',serif; font-style:italic; margin-top:10px;"></p>
+    </div>
 
     <!-- Upload Progress -->
     <div id="uploadProgress">
-      <p style="font-size:11px; color:var(--text-dim); margin-bottom:6px; letter-spacing:2px; text-transform:uppercase; font-family:'Cormorant Garamond',serif; font-style:italic;">Uploading…</p>
+      <p id="uploadProgressLabel" style="font-size:11px; color:var(--text-dim); margin-bottom:6px; letter-spacing:2px; text-transform:uppercase; font-family:'Cormorant Garamond',serif; font-style:italic;">Uploading…</p>
       <progress id="progressBar" value="0" max="100"></progress>
     </div>
 
@@ -660,7 +719,7 @@
       <option value="BEAUTY &amp; GROOMING">BEAUTY &amp; GROOMING</option>
     </select>
 
-    <button onclick="uploadPhoto()" id="uploadBtn">Add Photo</button>
+    <button onclick="uploadPhoto()" id="uploadBtn">Add Photos</button>
 
     <div id="adminGallery"></div>
   </div>
@@ -776,35 +835,127 @@ const firebaseConfig = {
       document.getElementById('timeInputs').style.display = isAllDay ? 'none' : 'block';
     }
 
-    // ========== DEVICE UPLOAD ==========
-    function previewImage(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    // ========== DEVICE UPLOAD (multi-file, mobile-safe) ==========
 
-      const preview = document.getElementById('imagePreview');
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
+    // Holds File objects queued for upload. We keep our own array because
+    // <input type="file"> .files is read-only on most browsers, so we can't
+    // mutate it when the user removes a single thumbnail.
+    let pendingFiles = [];
 
-      // Update upload area text
-      const uploadArea = document.getElementById('uploadArea');
-      uploadArea.querySelector('p').innerHTML = `<strong>${file.name}</strong><br><span style="color:#888;">Ready to upload</span>`;
+    // Best-effort extension extraction. Some mobile browsers hand us files
+    // with no extension in the name (e.g. "image.jpg" becomes just "image"
+    // when shared from certain camera apps), or HEIC photos with no MIME.
+    // We always fall back to a safe default so the upload never breaks here.
+    function getSafeExtension(file) {
+      const name = (file && file.name) ? file.name : '';
+      const dot = name.lastIndexOf('.');
+      let ext = (dot > -1 && dot < name.length - 1) ? name.slice(dot + 1).toLowerCase() : '';
+      // Strip anything weird (query strings, spaces, etc.)
+      ext = ext.replace(/[^a-z0-9]/g, '');
+      if (ext && ext.length <= 5) return ext;
+      // Fall back to MIME type
+      const mime = (file && file.type) ? file.type.toLowerCase() : '';
+      if (mime === 'image/jpeg' || mime === 'image/jpg') return 'jpg';
+      if (mime === 'image/png')  return 'png';
+      if (mime === 'image/webp') return 'webp';
+      if (mime === 'image/gif')  return 'gif';
+      if (mime === 'image/heic' || mime === 'image/heif') return 'heic';
+      return 'jpg'; // safe default — server doesn't really care
     }
 
-    function uploadPhoto() {
-      const fileInput = document.getElementById('photoFileInput');
-      const categorySelect = document.getElementById('photoCategorySelect');
-      const category = categorySelect.value.trim();
-      const file = fileInput.files[0];
+    // Accept anything that LOOKS like an image. Some Android browsers report
+    // an empty MIME type for camera-roll photos, so we also accept by extension.
+    function looksLikeImage(file) {
+      if (!file) return false;
+      if (file.type && file.type.indexOf('image/') === 0) return true;
+      const ext = getSafeExtension(file);
+      return ['jpg','jpeg','png','webp','gif','heic','heif','bmp'].indexOf(ext) > -1;
+    }
 
-      if (!file) {
-        alert('Please select a photo from your device first.');
+    function renderPreviewList() {
+      const wrap = document.getElementById('imagePreviewWrap');
+      const list = document.getElementById('imagePreviewList');
+      const count = document.getElementById('imagePreviewCount');
+      list.innerHTML = '';
+
+      if (pendingFiles.length === 0) {
+        wrap.style.display = 'none';
+        document.getElementById('uploadArea').querySelector('p').innerHTML =
+          '<strong>Tap to choose style photos</strong><br>You can select multiple at once, or drag &amp; drop here';
         return;
       }
 
+      wrap.style.display = 'block';
+      count.textContent = pendingFiles.length === 1
+        ? '1 photo ready to upload'
+        : pendingFiles.length + ' photos ready to upload';
+
+      pendingFiles.forEach((file, idx) => {
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        thumb.dataset.idx = idx;
+
+        const img = document.createElement('img');
+        img.alt = file.name || 'photo';
+        // Use FileReader (works on every mobile browser, unlike URL.createObjectURL
+        // which can be flaky for HEIC on some Android builds)
+        const reader = new FileReader();
+        reader.onload = (e) => { img.src = e.target.result; };
+        reader.readAsDataURL(file);
+        thumb.appendChild(img);
+
+        const rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 'thumb-remove';
+        rm.textContent = '×';
+        rm.title = 'Remove from queue';
+        rm.onclick = () => {
+          pendingFiles.splice(idx, 1);
+          renderPreviewList();
+        };
+        thumb.appendChild(rm);
+
+        list.appendChild(thumb);
+      });
+
+      // Update upload area copy
+      document.getElementById('uploadArea').querySelector('p').innerHTML =
+        '<strong>' + pendingFiles.length + ' photo' + (pendingFiles.length === 1 ? '' : 's') +
+        ' selected</strong><br><span style="color:#888;">Tap to add more, or press Add Photos below</span>';
+    }
+
+    function previewImage(event) {
+      const newFiles = Array.from(event.target.files || []);
+      if (newFiles.length === 0) return;
+
+      // Filter to images only and append to existing queue (so users can pick
+      // a few, then pick more, without losing the first batch)
+      const accepted = [];
+      const rejected = [];
+      newFiles.forEach(f => {
+        if (looksLikeImage(f)) accepted.push(f);
+        else rejected.push(f.name || 'unknown');
+      });
+
+      pendingFiles = pendingFiles.concat(accepted);
+      renderPreviewList();
+
+      if (rejected.length) {
+        showToast('⚠️ Skipped non-image: ' + rejected.join(', '), false);
+      }
+
+      // Reset the input so picking the same file again still triggers onchange
+      event.target.value = '';
+    }
+
+    function uploadPhoto() {
+      const categorySelect = document.getElementById('photoCategorySelect');
+      const category = categorySelect.value.trim();
+
+      if (pendingFiles.length === 0) {
+        alert('Please select at least one photo from your device first.');
+        return;
+      }
       if (!category) {
         alert('Please select a category.');
         return;
@@ -812,62 +963,130 @@ const firebaseConfig = {
 
       const uploadBtn = document.getElementById('uploadBtn');
       uploadBtn.disabled = true;
-      uploadBtn.textContent = 'UPLOADING...';
 
-      const progressDiv = document.getElementById('uploadProgress');
-      const progressBar = document.getElementById('progressBar');
+      const progressDiv   = document.getElementById('uploadProgress');
+      const progressBar   = document.getElementById('progressBar');
+      const progressLabel = document.getElementById('uploadProgressLabel');
       progressDiv.style.display = 'block';
 
-      // Create unique filename
-      const timestamp = Date.now();
-      const ext = file.name.split('.').pop();
-      const fileName = `gallery/${timestamp}_${Math.random().toString(36).substring(2)}.${ext}`;
+      // Snapshot the queue so users adding more files mid-upload don't break things
+      const filesToUpload = pendingFiles.slice();
+      const total = filesToUpload.length;
+      const perFileProgress = new Array(total).fill(0); // 0..100 each
+      let completed = 0;
+      let failed   = 0;
 
-      const storageRef = storage.ref(fileName);
-      const uploadTask = storageRef.put(file);
+      const updateAggregateProgress = () => {
+        const sum = perFileProgress.reduce((a, b) => a + b, 0);
+        progressBar.value = sum / total;
+        progressLabel.textContent = 'Uploading… ' + (completed + failed) + ' / ' + total;
+        uploadBtn.textContent = 'UPLOADING ' + (completed + failed) + '/' + total + '…';
+      };
+      updateAggregateProgress();
 
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          progressBar.value = progress;
-        },
-        (error) => {
-          console.error("Upload error:", error);
-          alert('Upload failed: ' + error.message);
-          uploadBtn.disabled = false;
-          uploadBtn.textContent = 'ADD PHOTO';
-          progressDiv.style.display = 'none';
-        },
-        () => {
-          // Upload complete — get download URL
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            return db.collection('gallery').add({ url: downloadURL, category: category, sortOrder: Date.now(), uploadedAt: firebase.firestore.FieldValue.serverTimestamp() });
-          }).then(() => {
-            showToast('✅ Photo uploaded successfully!');
-            // Reset form
-            fileInput.value = '';
-            document.getElementById('imagePreview').style.display = 'none';
-            document.getElementById('imagePreview').src = '';
-            progressDiv.style.display = 'none';
-            progressBar.value = 0;
-            uploadBtn.disabled = false;
-            uploadBtn.textContent = 'ADD PHOTO';
-            document.getElementById('uploadArea').querySelector('p').innerHTML = '<strong>Tap to choose a photo</strong><br>or drag and drop here';
-          }).catch((error) => {
-            console.error("Firestore error:", error);
-            alert('Error saving photo reference: ' + error.message);
-            uploadBtn.disabled = false;
-            uploadBtn.textContent = 'ADD PHOTO';
-            progressDiv.style.display = 'none';
-          });
+      // Mark all preview thumbnails as uploading
+      const thumbEls = document.querySelectorAll('#imagePreviewList .thumb');
+      thumbEls.forEach(t => t.classList.add('uploading'));
+
+      // Upload each file in parallel — Firebase handles concurrency fine.
+      const startedAt = Date.now();
+      const uploadOne = (file, i) => new Promise((resolve) => {
+        try {
+          const ext = getSafeExtension(file);
+          const fileName = 'gallery/' + (startedAt + i) + '_' +
+                           Math.random().toString(36).substring(2) + '.' + ext;
+          const storageRef = storage.ref(fileName);
+          // Pass the MIME so Firebase serves it correctly even when the
+          // extension is fake. Default to image/jpeg if we can't tell.
+          const metadata = { contentType: file.type || 'image/jpeg' };
+          const task = storageRef.put(file, metadata);
+
+          task.on('state_changed',
+            (snapshot) => {
+              perFileProgress[i] = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              updateAggregateProgress();
+            },
+            (error) => {
+              console.error('Upload error for', file.name, error);
+              perFileProgress[i] = 100; // counted as done so aggregate finishes
+              failed++;
+              const t = thumbEls[i]; if (t) { t.classList.remove('uploading'); t.classList.add('failed'); }
+              updateAggregateProgress();
+              resolve({ ok: false, error: error });
+            },
+            () => {
+              task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                return db.collection('gallery').add({
+                  url: downloadURL,
+                  category: category,
+                  // Stagger sortOrder so the batch doesn't all collide on Date.now()
+                  sortOrder: Date.now() + i,
+                  uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+              }).then(() => {
+                perFileProgress[i] = 100;
+                completed++;
+                const t = thumbEls[i]; if (t) { t.classList.remove('uploading'); t.classList.add('done'); }
+                updateAggregateProgress();
+                resolve({ ok: true });
+              }).catch((error) => {
+                console.error('Firestore error for', file.name, error);
+                perFileProgress[i] = 100;
+                failed++;
+                const t = thumbEls[i]; if (t) { t.classList.remove('uploading'); t.classList.add('failed'); }
+                updateAggregateProgress();
+                resolve({ ok: false, error: error });
+              });
+            }
+          );
+        } catch (err) {
+          console.error('Unexpected error starting upload for', file && file.name, err);
+          perFileProgress[i] = 100;
+          failed++;
+          const t = thumbEls[i]; if (t) { t.classList.remove('uploading'); t.classList.add('failed'); }
+          updateAggregateProgress();
+          resolve({ ok: false, error: err });
         }
-      );
+      });
+
+      Promise.all(filesToUpload.map((f, i) => uploadOne(f, i))).then(() => {
+        if (failed === 0) {
+          showToast('✅ ' + completed + (completed === 1 ? ' photo uploaded!' : ' photos uploaded!'));
+        } else if (completed === 0) {
+          showToast('❌ All ' + failed + ' uploads failed. Check your connection and try again.', false);
+        } else {
+          showToast('⚠️ ' + completed + ' uploaded, ' + failed + ' failed. Failed photos kept in the queue.', false);
+        }
+
+        // Keep failed files in the queue so the user can retry them.
+        if (failed === 0) {
+          pendingFiles = [];
+        } else {
+          // Remove only the successfully uploaded files (those marked .done)
+          const stillPending = [];
+          filesToUpload.forEach((f, i) => {
+            const t = thumbEls[i];
+            if (!(t && t.classList.contains('done'))) stillPending.push(f);
+          });
+          // Anything added to pendingFiles AFTER we snapshotted should also be kept
+          const newlyAdded = pendingFiles.slice(filesToUpload.length);
+          pendingFiles = stillPending.concat(newlyAdded);
+        }
+
+        // Reset UI
+        document.getElementById('photoFileInput').value = '';
+        progressDiv.style.display = 'none';
+        progressBar.value = 0;
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'ADD PHOTOS';
+        renderPreviewList();
+      });
     }
 
     // ========== GALLERY LOAD WITH DRAG-TO-REORDER ==========
     function loadGallery() {
       const galleryContainer = document.getElementById('adminGallery');
-      galleryContainer.innerHTML = '';
+      galleryContainer.innerHTML = '<p style="text-align:center;color:#888;margin-top:20px;">Loading gallery…</p>';
 
       db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot((querySnapshot) => {
         // If some docs lack sortOrder, fall back secondary sort by uploadedAt
@@ -924,6 +1143,15 @@ const firebaseConfig = {
 
           initDragReorder(grid);
         }
+      }, (error) => {
+        // Realtime listener failed — usually Firestore rules or auth.
+        // Surface it instead of silently leaving the section blank.
+        console.error('Gallery load error:', error);
+        galleryContainer.innerHTML =
+          '<p style="text-align:center;color:#c04e72;margin-top:20px;font-family:Inter,sans-serif;">' +
+          '⚠️ Could not load gallery: ' + (error.message || error.code || 'unknown error') +
+          '<br><small style="color:#888;">Check your sign-in and Firestore rules, then refresh.</small>' +
+          '</p>';
       });
     }
 
