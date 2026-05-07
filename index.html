@@ -51,7 +51,7 @@
   "priceRange": "$$",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "5 Hope Road",
+    "streetAddress": "1B Friendship Park Road",
     "addressLocality": "Kingston",
     "addressCountry": "JM"
   },
@@ -955,7 +955,7 @@
 
   <div class="location-info">
     <h3>Location</h3>
-    <p>5 Hope Road, Kingston, Jamaica.</p>
+    <p>1B Friendship Park Road, Kingston, Jamaica.</p>
   </div>
 
   <div class="separator-line"></div>
@@ -1332,13 +1332,13 @@
                 'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',17000],['Hip length',19000],['Tailbone length',21000],['Classic length',24000],['Mid-thigh length',26000]]
             }},
             { name: 'Passion Twists', sizes: {
-                'Large': [['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]],
-                'Medium': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',19500],['Mid-thigh length',22500]],
-                'Small': [['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',21500],['Mid-thigh length',24500]]
+                'Large': [['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500]],
+                'Medium': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500]],
+                'Small': [['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500]]
             }},
             { name: 'Mini Twists', sizes: {
-                'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000],['Classic length',21000],['Mid-thigh length',24000]],
-                'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000],['Classic length',23000],['Mid-thigh length',26000]]
+                'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000]],
+                'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000]]
             }}
           ]},
           { group: 'Locs', styles: [
@@ -2115,18 +2115,15 @@ const firebaseConfig = {
         sizes: {
           'Large': [
             ['Armpit length', 8500], ['Bra-strap length', 9500], ['Mid-back length', 10500],
-            ['Waist length', 12500], ['Hip length', 14500], ['Tailbone length', 16500],
-            ['Classic length', 18500], ['Mid-thigh length', 21500]
+            ['Waist length', 12500], ['Hip length', 14500], ['Tailbone length', 16500]
           ],
           'Medium': [
             ['Armpit length', 9500], ['Bra-strap length', 10500], ['Mid-back length', 11500],
-            ['Waist length', 13500], ['Hip length', 15500], ['Tailbone length', 17500],
-            ['Classic length', 19500], ['Mid-thigh length', 22500]
+            ['Waist length', 13500], ['Hip length', 15500], ['Tailbone length', 17500]
           ],
           'Small': [
             ['Armpit length', 11500], ['Bra-strap length', 12500], ['Mid-back length', 13500],
-            ['Waist length', 15500], ['Hip length', 17500], ['Tailbone length', 19500],
-            ['Classic length', 21500], ['Mid-thigh length', 24500]
+            ['Waist length', 15500], ['Hip length', 17500], ['Tailbone length', 19500]
           ]
         }
       },
@@ -2135,13 +2132,11 @@ const firebaseConfig = {
         sizes: {
           'Medium': [
             ['Armpit length', 10000], ['Bra-strap length', 11000], ['Mid-back length', 12000],
-            ['Waist length', 14000], ['Hip length', 16000], ['Tailbone length', 18000],
-            ['Classic length', 21000], ['Mid-thigh length', 24000]
+            ['Waist length', 14000]
           ],
           'Small': [
             ['Armpit length', 12000], ['Bra-strap length', 13000], ['Mid-back length', 14000],
-            ['Waist length', 16000], ['Hip length', 18000], ['Tailbone length', 20000],
-            ['Classic length', 23000], ['Mid-thigh length', 26000]
+            ['Waist length', 16000]
           ]
         }
       },
@@ -2621,8 +2616,8 @@ const firebaseConfig = {
         const totalStr = total > 0 ? `\n💰 Total: $${total.toLocaleString()}` : '';
         const message = `🌸 NEW BOOKING — ATM BEAUTY STYLES\n\n🔢 Booking #: ${bookingNumber}\n👤 Name: ${name}\n📞 Phone: ${phone}\n📍 Date: ${formattedDate}\n⏰ Time: ${time}\n✨ Service: ${services}${totalStr}`;
 
-        const telegramBotToken = "8624976021:AAH66ZV65h7yF2TzWKzxi3uATSmq6ywWFS4";
-        const telegramChatId = "-1003703378968";
+        const telegramBotToken = "8682971831:AAFqC5ENgd-mqD0IjHFQkH5yIrjH7l7XJ78";
+        const telegramChatId = "-1003999284170";
 
         fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
           method: "POST",
