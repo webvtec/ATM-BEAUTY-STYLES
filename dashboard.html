@@ -24,26 +24,26 @@
        Matching luxury editorial system
        ========================================================= */
     :root {
-      /* ATM BEAUTY STYLES — Admin */
-      --ink:        #120810;
-      --ink-soft:   #1C1018;
-      --ink-line:   #2A1A22;
-      --cream:      #F7E8EE;
-      --cream-soft: #EDD8E2;
-      --paper:      #FDF6F9;
-      --red:        #C04E72;
-      --red-deep:   #8E2B4E;
-      --rose:       #C04E72;
-      --gold:       #C9A573;
-      --gold-soft:  #E0C49A;
-      --text:       #EDD8E2;
-      --text-dim:   #9A7A85;
-      --text-ink:   #1C1018;
+      /* ATM BEAUTY STYLES — Admin Pink & Blue */
+      --ink:        #0B0F1E;
+      --ink-soft:   #101728;
+      --ink-line:   #1A2540;
+      --cream:      #F0ECFF;
+      --cream-soft: #DDE4FF;
+      --paper:      #F8F6FF;
+      --red:        #E8519A;
+      --red-deep:   #B52F74;
+      --rose:       #E8519A;
+      --gold:       #5B9BD5;
+      --gold-soft:  #8DC4F0;
+      --text:       #DDE4FF;
+      --text-dim:   #7A90BB;
+      --text-ink:   #0B0F1E;
 
       --primary:  var(--ink);
       --accent:   var(--red);
       --accent2:  var(--red-deep);
-      --bg:       #FDF6F9;
+      --bg:       #F8F6FF;
       --white:    #ffffff;
     }
 
@@ -60,9 +60,9 @@
 
     body {
       background:
-        radial-gradient(ellipse 600px 400px at 20% -10%, rgba(192,78,114,0.07), transparent 60%),
-        radial-gradient(ellipse 500px 300px at 110% 110%, rgba(201,165,115,0.1), transparent 60%),
-        #FDF6F9;
+        radial-gradient(ellipse 600px 400px at 20% -10%, rgba(232,81,154,0.07), transparent 60%),
+        radial-gradient(ellipse 500px 300px at 110% 110%, rgba(91,155,213,0.09), transparent 60%),
+        #F8F6FF;
       background-attachment: fixed;
       min-height: 100vh;
     }
@@ -80,7 +80,7 @@
 
     /* ================ HEADER ================ */
     .header-bar {
-      background: #120810;
+      background: #0B0F1E;
       padding: 28px 20px 26px;
       text-align: center;
       font-family: 'Cormorant Garamond', serif;
@@ -104,7 +104,6 @@
     }
 
     /* ================ TOP MENU (tabs) ================ */
-    .top-menu {
       display: flex;
       flex-direction: row;
       align-items: stretch;
@@ -112,13 +111,13 @@
       gap: 0;
       background: var(--ink-soft);
       padding: 18px 16px;
-      border-bottom: 1px solid rgba(201,169,97,0.15);
+      border-bottom: 1px solid rgba(91,155,213,0.15);
       flex-wrap: wrap;
     }
     .top-menu button {
       background: transparent;
       color: var(--cream);
-      border: 1px solid rgba(201,169,97,0.3);
+      border: 1px solid rgba(91,155,213,0.3);
       padding: 14px 22px;
       border-radius: 0;
       cursor: pointer;
@@ -650,21 +649,21 @@
   <div id="accessOverlay" style="
     position:fixed;inset:0;z-index:99999;
     background:
-      radial-gradient(ellipse 600px 400px at 20% -10%, rgba(184,34,47,0.1), transparent 60%),
-      radial-gradient(ellipse 500px 300px at 110% 110%, rgba(201,165,115,0.1), transparent 60%),
-      #0E0E10;
+      radial-gradient(ellipse 600px 400px at 20% -10%, rgba(232,81,154,0.12), transparent 60%),
+      radial-gradient(ellipse 500px 300px at 110% 110%, rgba(91,155,213,0.10), transparent 60%),
+      #0B0F1E;
     display:flex;flex-direction:column;
     align-items:center;justify-content:center;
     gap:28px;">
-    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:4px;color:#C9A573;text-transform:uppercase;">The Gate</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:46px;letter-spacing:0;color:#F7E8EE;text-align:center;">Checking Access</div>
-    <div style="width:60px;height:1px;background:#C9A573;"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:4px;color:#5B9BD5;text-transform:uppercase;">The Gate</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:46px;letter-spacing:0;color:#F0ECFF;text-align:center;">Checking Access</div>
+    <div style="width:60px;height:1px;background:#5B9BD5;"></div>
     <div style="display:flex;gap:10px;">
-      <span style="width:6px;height:6px;border-radius:50%;background:#C9A573;animation:dotpulse 1.2s ease-in-out infinite;display:inline-block;"></span>
-      <span style="width:6px;height:6px;border-radius:50%;background:#C9A573;animation:dotpulse 1.2s ease-in-out 0.4s infinite;display:inline-block;"></span>
-      <span style="width:6px;height:6px;border-radius:50%;background:#C9A573;animation:dotpulse 1.2s ease-in-out 0.8s infinite;display:inline-block;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out infinite;display:inline-block;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out 0.4s infinite;display:inline-block;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out 0.8s infinite;display:inline-block;"></span>
     </div>
-    <div id="accessStatus" style="font-family:'DM Sans',sans-serif;font-size:11px;color:#9A9486;letter-spacing:3px;text-transform:uppercase;">Verifying identity…</div>
+    <div id="accessStatus" style="font-family:'DM Sans',sans-serif;font-size:11px;color:#7A90BB;letter-spacing:3px;text-transform:uppercase;">Verifying identity…</div>
   </div>
   <style>
     @keyframes dotpulse {
@@ -1128,97 +1127,29 @@ const firebaseConfig = {
     }
 
     // ========== GALLERY LOAD WITH DRAG-TO-REORDER ==========
-    // Track the active snapshot unsubscribe so we never attach two listeners.
     let _gallerySnapshotUnsub = null;
-    // Expose so we can force-reload from a UI button.
-    window._reloadGallery = () => loadGallery();
-
-    function _setGalleryDebug(msg, isError) {
-      const el = document.getElementById('galleryDebugPanel');
-      if (!el) return;
-      el.style.display = 'block';
-      el.style.background = isError ? 'rgba(192,78,114,0.15)' : 'rgba(201,169,97,0.10)';
-      el.style.borderColor = isError ? '#c04e72' : 'rgba(201,169,97,0.4)';
-      el.innerHTML = msg;
-    }
 
     function loadGallery() {
       const galleryContainer = document.getElementById('adminGallery');
 
-      // Make sure the debug panel exists at the top of the gallery container.
-      // (Re-injected on every load so it survives container re-renders.)
-      let debugPanel = document.getElementById('galleryDebugPanel');
-      if (!debugPanel) {
-        debugPanel = document.createElement('div');
-        debugPanel.id = 'galleryDebugPanel';
-        debugPanel.style.cssText = 'display:none;margin:18px 0;padding:14px 16px;border:1px solid rgba(201,169,97,0.4);border-radius:4px;font-family:Inter,sans-serif;font-size:12px;color:var(--text);line-height:1.6;text-align:left;';
-      }
-
-      // If a previous listener exists, tear it down before attaching a new one.
       if (_gallerySnapshotUnsub) {
-        try { _gallerySnapshotUnsub(); } catch (e) { /* ignore */ }
+        try { _gallerySnapshotUnsub(); } catch (e) {}
         _gallerySnapshotUnsub = null;
       }
 
-      galleryContainer.innerHTML = '';
-      galleryContainer.appendChild(debugPanel);
-      const loadingMsg = document.createElement('p');
-      loadingMsg.id = 'galleryLoadingMsg';
-      loadingMsg.style.cssText = 'text-align:center;color:#888;margin-top:20px;';
-      loadingMsg.textContent = 'Loading gallery…';
-      galleryContainer.appendChild(loadingMsg);
-
-      _setGalleryDebug('⏳ Connecting to Firestore…', false);
+      galleryContainer.innerHTML = '<p id="galleryLoadingMsg" style="text-align:center;color:#888;margin-top:20px;">Loading gallery…</p>';
 
       _gallerySnapshotUnsub = db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot((querySnapshot) => {
         const lm = document.getElementById('galleryLoadingMsg');
         if (lm) lm.remove();
 
-        // Read all docs raw
         let rawDocs = [];
         querySnapshot.forEach(doc => rawDocs.push({ id: doc.id, ...doc.data() }));
 
-        // Categorise: valid vs. invalid url
-        const valid = [];
-        const invalid = [];
-        rawDocs.forEach(d => {
-          const ok = typeof d.url === 'string' && d.url.length > 8 && d.url.indexOf('http') === 0;
-          if (ok) valid.push(d);
-          else invalid.push(d);
-        });
+        // Only show docs with a valid image URL
+        const valid = rawDocs.filter(d => typeof d.url === 'string' && d.url.length > 8 && d.url.indexOf('http') === 0);
 
-        // Build debug summary (always shown so you can see what's actually there)
-        let debugHtml =
-          '<strong style="color:var(--accent);letter-spacing:1px;"></strong><br>' +
-          'Firestore returned <b>' + rawDocs.length + '</b> document(s) total.<br>' +
-          '<b>' + valid.length + '</b>  &nbsp; <b>' + invalid.length + '</b><br>';
-
-        if (invalid.length) {
-          debugHtml += '<br><span style="color:#c04e72;">Documents with no usable image (these are why you see empty headers):</span><br>';
-          invalid.slice(0, 20).forEach(d => {
-            debugHtml += '&nbsp;• <code style="font-size:11px;">' + d.id + '</code> — category: <i>' + (d.category || '(none)') + '</i> — url: <code style="font-size:11px;color:#c04e72;">' + JSON.stringify(d.url) + '</code> ' +
-                         '<button style="margin:0 0 0 6px;padding:2px 8px;font-size:10px;background:#c04e72;color:#fff;border:none;border-radius:3px;cursor:pointer;letter-spacing:1px;" onclick="_deleteOrphanDoc(\'' + d.id + '\')">DELETE</button><br>';
-          });
-          if (invalid.length > 20) debugHtml += '&nbsp;…and ' + (invalid.length - 20) + ' more.<br>';
-          debugHtml += '<button style="margin-top:10px;padding:6px 12px;font-size:11px;background:#c04e72;color:#fff;border:none;border-radius:3px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;" onclick="_deleteAllOrphans()">Delete all ' + invalid.length + ' broken doc(s)</button>';
-        }
-
-        debugHtml += '<br><br><button style="padding:6px 12px;font-size:11px;background:rgba(201,169,97,0.2);color:var(--text);border:1px solid var(--gold);border-radius:3px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;" onclick="window._reloadGallery()">↻ Force reload</button>';
-
-        _setGalleryDebug(debugHtml, invalid.length > 0);
-
-        // Stash the invalid IDs for the cleanup buttons
-        window._galleryInvalidIds = invalid.map(d => d.id);
-
-        // Sort valid docs
-        valid.sort((a, b) => {
-          if (a.sortOrder !== undefined && b.sortOrder !== undefined) return a.sortOrder - b.sortOrder;
-          if (a.sortOrder !== undefined) return -1;
-          if (b.sortOrder !== undefined) return 1;
-          return 0;
-        });
-
-        // Remove any previously-rendered category sections (keep debug panel)
+        // Remove any previously-rendered category sections
         Array.from(galleryContainer.querySelectorAll('.gallery-category')).forEach(n => n.remove());
         const noPhotoMsg = document.getElementById('galleryNoPhotoMsg');
         if (noPhotoMsg) noPhotoMsg.remove();
@@ -1227,12 +1158,17 @@ const firebaseConfig = {
           const p = document.createElement('p');
           p.id = 'galleryNoPhotoMsg';
           p.style.cssText = 'text-align:center;color:#888;margin-top:20px;';
-          p.textContent = rawDocs.length === 0
-            ? 'No photos in gallery yet.'
-            : 'No usable photos found — see diagnostics above.';
+          p.textContent = 'No photos in gallery yet.';
           galleryContainer.appendChild(p);
           return;
         }
+
+        valid.sort((a, b) => {
+          if (a.sortOrder !== undefined && b.sortOrder !== undefined) return a.sortOrder - b.sortOrder;
+          if (a.sortOrder !== undefined) return -1;
+          if (b.sortOrder !== undefined) return 1;
+          return 0;
+        });
 
         const categories = {};
         valid.forEach(item => {
@@ -1242,11 +1178,6 @@ const firebaseConfig = {
         });
 
         for (const category in categories) {
-          // Build a CSS-safe ID. The category name can contain '&', spaces, etc.
-          // (e.g. "BEAUTY & GROOMING" or "WEAVES & EXTENSIONS"), and characters
-          // like '&' are illegal in CSS selectors — `querySelector('#x-&-y')`
-          // throws SyntaxError, which crashed the render loop here and left
-          // the gallery showing only category headers with no photos.
           const catId = 'gallery-' + category.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '');
           const catDiv = document.createElement('div');
           catDiv.className = 'gallery-category';
@@ -1260,7 +1191,7 @@ const firebaseConfig = {
           galleryContainer.appendChild(catDiv);
 
           const grid = catDiv.querySelector('#' + catId);
-          categories[category].forEach((item, index) => {
+          categories[category].forEach((item) => {
             const cell = document.createElement('div');
             cell.draggable = true;
             cell.dataset.docId = item.docId;
@@ -1268,7 +1199,7 @@ const firebaseConfig = {
             cell.style.cursor = 'grab';
             cell.style.userSelect = 'none';
             cell.style.minHeight = '250px';
-            cell.style.background = '#1a1418';
+            cell.style.background = '#0d1422';
             cell.style.borderRadius = '8px';
 
             const img = document.createElement('img');
@@ -1277,7 +1208,7 @@ const firebaseConfig = {
             img.referrerPolicy = 'no-referrer';
             img.style.cssText = 'width:100%;height:250px;object-fit:cover;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.12);pointer-events:none;display:block;';
             img.onerror = () => {
-              cell.style.background = '#3a1a20';
+              cell.style.background = '#1a2540';
               const tag = document.createElement('div');
               tag.innerHTML = '⚠ image failed to load<br><small style="font-size:10px;opacity:0.8;text-transform:none;letter-spacing:1px;">Storage rules or deleted file</small>';
               tag.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-family:DM Sans,sans-serif;pointer-events:none;text-align:center;padding:10px;';
@@ -1303,35 +1234,10 @@ const firebaseConfig = {
         }
       }, (error) => {
         console.error('Gallery load error:', error);
-        _setGalleryDebug(
-          '<strong style="color:#c04e72;">⚠️ Could not load gallery</strong><br>' +
-          'Error: <code>' + (error.code || 'unknown') + '</code><br>' +
-          'Message: ' + (error.message || 'unknown error') + '<br><br>' +
-          '<small style="color:#888;">This is almost always a Firestore Security Rules problem. Make sure rules allow your admin UID to read the <code>gallery</code> collection.</small><br><br>' +
-          '<button style="padding:6px 12px;font-size:11px;background:rgba(201,169,97,0.2);color:var(--text);border:1px solid var(--gold);border-radius:3px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;" onclick="window._reloadGallery()">↻ Try again</button>',
-          true
-        );
+        galleryContainer.innerHTML = '<p style="text-align:center;color:#e53935;margin-top:20px;">⚠️ Could not load gallery. Check your connection and try again.</p>';
       });
     }
 
-    // Cleanup helpers exposed to the inline buttons in the debug panel.
-    window._deleteOrphanDoc = function(docId) {
-      if (!confirm('Delete broken Firestore doc ' + docId + '? (No image to lose, the photo file is already missing.)')) return;
-      db.collection('gallery').doc(docId).delete()
-        .then(() => showToast('🗑 Removed broken doc.'))
-        .catch(err => showToast('❌ ' + (err.message || 'Delete failed.'), false));
-    };
-
-    window._deleteAllOrphans = function() {
-      const ids = window._galleryInvalidIds || [];
-      if (!ids.length) { showToast('No broken docs to remove.'); return; }
-      if (!confirm('Delete ALL ' + ids.length + ' broken Firestore doc(s)? This cannot be undone.')) return;
-      const batch = db.batch();
-      ids.forEach(id => batch.delete(db.collection('gallery').doc(id)));
-      batch.commit()
-        .then(() => showToast('🗑 Removed ' + ids.length + ' broken doc(s).'))
-        .catch(err => showToast('❌ ' + (err.message || 'Delete failed.'), false));
-    };
 
     // ========== DRAG & DROP REORDER ==========
     function initDragReorder(grid) {

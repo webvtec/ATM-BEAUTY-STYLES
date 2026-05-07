@@ -117,6 +117,8 @@
     background:
       radial-gradient(ellipse 800px 500px at 20% -10%, rgba(232,81,154,0.10), transparent 60%),
       radial-gradient(ellipse 600px 400px at 110% 110%, rgba(91,155,213,0.08), transparent 60%),
+      radial-gradient(ellipse 600px 500px at 50% 60%, rgba(91,155,213,0.06), transparent 65%),
+      radial-gradient(ellipse 400px 300px at 80% 20%, rgba(91,155,213,0.07), transparent 55%),
       radial-gradient(ellipse 900px 700px at 50% 50%, rgba(8,12,28,0.60), transparent 80%),
       linear-gradient(155deg, #0B0F1E 0%, #0F1A30 35%, #0D1422 60%, #0B0F1E 100%);
     background-attachment: scroll;
@@ -136,9 +138,6 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    box-shadow:
-      0 4px 32px rgba(0,0,0,0.55),
-      0 1px 0 rgba(255,255,255,0.04) inset;
   }
   /* shimmer top stripe */
   .header-bar::before {
@@ -164,26 +163,56 @@
     opacity: 0.85;
     z-index: 1;
   }
-  /* accent side stripes */
+
+  /* ===== ANIMATED RUNNING SIDE EDGES (full page height) ===== */
+  @keyframes runDown {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 120px; }
+  }
+  @keyframes runUp {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 -120px; }
+  }
   .header-bar-side-l,
   .header-bar-side-r {
     position: fixed;
     top: 0;
+    bottom: 0;
     width: 3px;
-    height: 68px;
     z-index: 1002;
-    background: repeating-linear-gradient(
-      180deg,
-      var(--red) 0 8px,
-      var(--cream) 8px 16px,
-      var(--gold) 16px 24px,
-      var(--cream) 24px 32px
-    );
-    opacity: 0.85;
     pointer-events: none;
+    background-size: 3px 120px;
   }
-  .header-bar-side-l { left: 0; }
-  .header-bar-side-r { right: 0; }
+  .header-bar-side-l {
+    left: 0;
+    background-image: repeating-linear-gradient(
+      180deg,
+      var(--red)   0px  20px,
+      transparent  20px 30px,
+      var(--gold)  30px 50px,
+      transparent  50px 60px,
+      var(--red)   60px 80px,
+      transparent  80px 90px,
+      var(--gold)  90px 110px,
+      transparent  110px 120px
+    );
+    animation: runDown 2.4s linear infinite;
+  }
+  .header-bar-side-r {
+    right: 0;
+    background-image: repeating-linear-gradient(
+      180deg,
+      var(--gold)  0px  20px,
+      transparent  20px 30px,
+      var(--red)   30px 50px,
+      transparent  50px 60px,
+      var(--gold)  60px 80px,
+      transparent  80px 90px,
+      var(--red)   90px 110px,
+      transparent  110px 120px
+    );
+    animation: runUp 2.4s linear infinite;
+  }
 
   .header-title {
     font-family: 'Cormorant Garamond', serif;
@@ -943,9 +972,56 @@
     <button onclick="closePaymentInfo()" style="position:absolute; top:14px; right:14px; background:transparent; border:1px solid rgba(26,26,30,0.2); width:32px; height:32px; border-radius:50%; font-size:14px; cursor:pointer; z-index:10001; color:var(--text-ink);">✕</button>
     <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:13px; color:var(--red); letter-spacing:3px; text-transform:uppercase; text-align:center; margin-bottom:8px;">Settle Up</div>
     <h3 style="margin:0 0 20px; color:var(--text-ink); text-align:center; font-family:'Playfair Display',serif; font-weight:700; font-size:28px; letter-spacing:0;">Payment Info</h3>
-    <div style="border:1px solid rgba(201,169,97,0.45); padding:22px; color:var(--text-ink); text-align:center; font-family:'Playfair Display',serif; font-style:italic; font-size:16px;">
-      Payment details coming soon.
+
+    <!-- Bank logo strip -->
+    <div style="background:linear-gradient(135deg,#CC0000,#990000); border-radius:6px 6px 0 0; padding:12px 18px; display:flex; align-items:center; gap:10px;">
+      <span style="font-size:22px;">🏦</span>
+      <span style="font-family:'Cormorant Garamond',serif; font-weight:700; font-size:18px; color:#fff; letter-spacing:1px;">Scotiabank</span>
+      <span style="margin-left:auto; font-family:'DM Sans',sans-serif; font-size:10px; color:rgba(255,255,255,0.7); letter-spacing:2px; text-transform:uppercase;">Jamaica</span>
     </div>
+
+    <!-- Account details -->
+    <div style="border:1px solid rgba(91,155,213,0.3); border-top:none; border-radius:0 0 6px 6px; overflow:hidden; margin-bottom:16px;">
+
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 16px; border-bottom:1px solid rgba(26,26,30,0.07);">
+        <span style="font-family:'DM Sans',sans-serif; font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1.5px;">Account Name</span>
+        <span style="font-family:'Cormorant Garamond',serif; font-weight:700; font-size:16px; color:var(--text-ink);">Anita Mcfarlane</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 16px; border-bottom:1px solid rgba(26,26,30,0.07); background:rgba(91,155,213,0.04);">
+        <span style="font-family:'DM Sans',sans-serif; font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1.5px;">Account Number</span>
+        <span style="font-family:'DM Sans',sans-serif; font-weight:700; font-size:16px; color:var(--text-ink); letter-spacing:2px;">1031697</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 16px; border-bottom:1px solid rgba(26,26,30,0.07);">
+        <span style="font-family:'DM Sans',sans-serif; font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1.5px;">Account Type</span>
+        <span style="font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text-ink);">Savings</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 16px; border-bottom:1px solid rgba(26,26,30,0.07); background:rgba(91,155,213,0.04);">
+        <span style="font-family:'DM Sans',sans-serif; font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1.5px;">Branch #</span>
+        <span style="font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text-ink);">50765</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 16px; border-bottom:1px solid rgba(26,26,30,0.07);">
+        <span style="font-family:'DM Sans',sans-serif; font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1.5px;">Branch Location</span>
+        <span style="font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text-ink); text-align:right; max-width:55%;">Corner Duke &amp; Port Royal St, Kingston</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 16px; background:rgba(91,155,213,0.04);">
+        <span style="font-family:'DM Sans',sans-serif; font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1.5px;">Currency</span>
+        <span style="font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text-ink);">JMD — Jamaican Dollar</span>
+      </div>
+    </div>
+
+    <!-- Deposit reminder -->
+    <div style="background:rgba(232,81,154,0.08); border:1px solid rgba(232,81,154,0.25); border-radius:6px; padding:12px 16px; text-align:center;">
+      <p style="margin:0; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:14px; color:var(--red); line-height:1.5;">
+        Transfer your <strong>$2,000 deposit</strong> to confirm your booking.<br>
+        <span style="font-size:12px; color:#888; font-style:normal; font-family:'DM Sans',sans-serif; letter-spacing:1px;">Use your booking reference number as the transfer note.</span>
+      </p>
+    </div>
+
   </div>
 </div>
 
@@ -953,13 +1029,38 @@
 <div class="content-section" id="bookingSection">
   <div class="section-kicker">Reserve Your Appointment</div>
   <h1>Book Now</h1>
-  <div style="max-width:520px; margin:18px auto 24px; background:rgba(24,24,27,0.6); border:1px solid rgba(201,169,97,0.25); border-radius:2px; padding:18px 22px; font-size:13px; color:var(--text); line-height:1.8; font-family:'Inter',sans-serif; backdrop-filter:blur(8px);">
-    <div style="font-family:'Playfair Display',serif; font-style:italic; color:var(--gold); font-size:14px; letter-spacing:2px; margin-bottom:10px; text-transform:uppercase;">The House Rules</div>
-    <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px dotted rgba(201,169,97,0.2);"><span style="color:var(--text-dim);">Working Days</span><span>Monday – Saturday</span></div>
-    <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px dotted rgba(201,169,97,0.2);"><span style="color:var(--text-dim);">Hours</span><span>8:00 AM – 5:00 PM</span></div>
-    <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px dotted rgba(201,169,97,0.2);"><span style="color:var(--text-dim);">Sunday</span><span>Closed</span></div>
-    <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px dotted rgba(201,169,97,0.2);"><span style="color:var(--text-dim);">After 5 PM</span><span>Late Night Fee: $2,500</span></div>
-    <div style="padding-top:8px; font-style:italic; color:var(--red); font-size:12px;">A deposit is required to confirm your booking.</div>
+  <div style="max-width:520px; margin:18px auto 24px; background:rgba(11,15,30,0.75); border:1px solid rgba(91,155,213,0.22); border-radius:2px; padding:18px 22px; font-size:13px; color:var(--text); line-height:1.8; font-family:'DM Sans',sans-serif; backdrop-filter:blur(8px);">
+    <div style="font-family:'Playfair Display',serif; font-style:italic; color:var(--gold); font-size:14px; letter-spacing:2px; margin-bottom:12px; text-transform:uppercase;">The House Rules</div>
+
+    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted rgba(91,155,213,0.18);"><span style="color:var(--text-dim);">Working Days</span><span>Monday – Saturday</span></div>
+    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted rgba(91,155,213,0.18);"><span style="color:var(--text-dim);">Hours</span><span>8:00 AM – 5:00 PM</span></div>
+    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted rgba(91,155,213,0.18);"><span style="color:var(--text-dim);">Sunday</span><span>Closed</span></div>
+    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted rgba(91,155,213,0.18);"><span style="color:var(--text-dim);">After 5 PM</span><span>Late Night Fee: $2,500</span></div>
+    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted rgba(91,155,213,0.18);"><span style="color:var(--text-dim);">Hair Length</span><span>4 inches &amp; over only</span></div>
+    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted rgba(91,155,213,0.18);"><span style="color:var(--text-dim);">Guests</span><span>No extra company</span></div>
+    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted rgba(91,155,213,0.18);"><span style="color:var(--text-dim);">Hair Condition</span><span>Must be clean</span></div>
+    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dotted rgba(91,155,213,0.18);"><span style="color:var(--text-dim);">Deposit</span><span style="color:var(--red); font-weight:600;">$2,000 required</span></div>
+
+    <!-- Lateness Policy -->
+    <div style="margin-top:12px; padding:10px 14px; background:rgba(232,81,154,0.06); border:1px solid rgba(232,81,154,0.22); border-radius:4px;">
+      <div style="font-family:'Playfair Display',serif; font-style:italic; color:var(--gold); font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;">⌛ Lateness Policy</div>
+      <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px dotted rgba(232,81,154,0.15);">
+        <span style="color:var(--text-dim); font-size:12px;">15 min late</span>
+        <span style="color:var(--red); font-weight:700; font-size:12px; letter-spacing:0.5px;">BOOKING CANCELLED</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:4px 0;">
+        <span style="color:var(--text-dim); font-size:12px;">To re-secure slot</span>
+        <span style="color:var(--red); font-weight:700; font-size:12px;">New $2,000 deposit</span>
+      </div>
+    </div>
+
+    <div style="margin-top:10px; padding:10px 14px; background:rgba(232,81,154,0.08); border:1px solid rgba(232,81,154,0.22); border-radius:4px; display:flex; align-items:flex-start; gap:10px;">
+      <span style="font-size:15px; flex-shrink:0; margin-top:1px;">🏦</span>
+      <div style="font-size:12px; line-height:1.6; color:var(--text-dim);">
+        Send deposit to <strong style="color:var(--text);">Scotiabank · Anita Mcfarlane · Acc# 1031697</strong> (Savings, JMD).<br>
+        Use your booking reference as the transfer note. &nbsp;<a onclick="showPaymentInfo()" href="javascript:void(0);" style="color:var(--gold); text-decoration:none; font-size:11px; letter-spacing:1px; text-transform:uppercase;">Full details →</a>
+      </div>
+    </div>
   </div>
   <form onsubmit="submitBooking(event)">
     <label for="name">Name:</label>
@@ -987,26 +1088,21 @@
           <option value="hair-Goddess Knotless Braids">Goddess Knotless Braids — from $9,500</option>
           <option value="hair-Tribal Braids">Tribal Braids — from $8,000</option>
           <option value="hair-Fulani Braids">Fulani Braids — from $8,500</option>
-          <option value="hair-Stitch Braids">Stitch Braids (Feed-In Cornrows) — from $7,000</option>
           <option value="hair-Lemonade Braids">Lemonade Braids — from $9,500</option>
           <option value="hair-Box Braids">Box Braids — from $7,500</option>
           <option value="hair-Jumbo Braids">Jumbo Braids — from $8,000</option>
-          <option value="hair-Invisible Loc Braids">Invisible Loc Braids — from $10,000</option>
         </optgroup>
         <optgroup label="Twists">
           <option value="hair-Island Twist">Island Twist — from $10,000</option>
           <option value="hair-Passion Twists">Passion Twists — from $8,500</option>
-          <option value="hair-Marley Twists">Marley Twists — from $8,000</option>
           <option value="hair-Mini Twists">Mini Twists — from $10,000</option>
         </optgroup>
         <optgroup label="Locs">
           <option value="hair-Soft Locs">Soft Locs — from $10,000</option>
           <option value="hair-Butterfly Locs">Butterfly Locs — from $11,000</option>
           <option value="hair-Faux Locs">Faux Locs — from $9,000</option>
-          <option value="hair-Invisible Locs">Invisible Locs — from $9,000</option>
         </optgroup>
         <optgroup label="Cornrows">
-          <option value="hair-Basic Cornrows">Basic Cornrows — from $5,000</option>
           <option value="hair-Straight Back Cornrows">Straight Back Cornrows — from $5,000</option>
           <option value="hair-Design Cornrows">Design Cornrows — from $5,000</option>
           <option value="hair-Zig-Zag Cornrows">Zig-Zag Cornrows — from $5,000</option>
@@ -1025,9 +1121,6 @@
           <option value="hair-Sleek Ponytail">Sleek Ponytail — from $4,500</option>
           <option value="hair-Braided Ponytail">Braided Ponytail — from $5,000</option>
           <option value="hair-Half-Up Half-Down Ponytail">Half-Up Half-Down Ponytail — from $7,000</option>
-        </optgroup>
-        <optgroup label="Other">
-          <option value="hair-Other">Other — $0</option>
         </optgroup>
       </select>
     </div>
@@ -1190,11 +1283,6 @@
                 'Medium': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',19500],['Mid-thigh length',22500]],
                 'Small': [['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',21500],['Mid-thigh length',24500]]
             }},
-            { name: 'Stitch Braids', subtitle: 'Feed-In Cornrows', sizes: {
-                'Large': [['Armpit length',7000],['Bra-strap length',8000],['Mid-back length',9000],['Waist length',10000],['Hip length',11000],['Tailbone length',12000],['Classic length',14000],['Mid-thigh length',17000]],
-                'Medium': [['Armpit length',8000],['Bra-strap length',9000],['Mid-back length',10000],['Waist length',11000],['Hip length',12000],['Tailbone length',13000],['Classic length',15000],['Mid-thigh length',18000]],
-                'Small': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',12000],['Hip length',13000],['Tailbone length',15000],['Classic length',17000],['Mid-thigh length',20000]]
-            }},
             { name: 'Lemonade Braids', sizes: {
                 'Medium': [['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]],
                 'Small': [['Bra-strap length',11500],['Mid-back length',12500],['Waist length',14500],['Hip length',16500],['Tailbone length',18500],['Classic length',20500],['Mid-thigh length',23500]]
@@ -1206,11 +1294,6 @@
             }},
             { name: 'Jumbo Braids', subtitle: 'Large only', sizes: {
                 'Large': [['Mid-back length',8000],['Waist length',9000],['Hip length',10000],['Tailbone length',11000],['Classic length',13000],['Mid-thigh length',16000]]
-            }},
-            { name: 'Invisible Loc Braids', sizes: {
-                'Large': [['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000],['Tailbone length',17000],['Classic length',20000],['Mid-thigh length',23000]],
-                'Medium': [['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000],['Classic length',21000],['Mid-thigh length',24000]],
-                'Small': [['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000],['Classic length',23000],['Mid-thigh length',26000]]
             }}
           ]},
           { group: 'Twists', styles: [
@@ -1222,11 +1305,6 @@
                 'Large': [['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]],
                 'Medium': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',19500],['Mid-thigh length',22500]],
                 'Small': [['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',21500],['Mid-thigh length',24500]]
-            }},
-            { name: 'Marley Twists', sizes: {
-                'Large': [['Armpit length',8000],['Bra-strap length',9000],['Mid-back length',10000],['Waist length',12000],['Hip length',14000],['Tailbone length',16000],['Classic length',18000],['Mid-thigh length',21000]],
-                'Medium': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000],['Tailbone length',17000],['Classic length',19000],['Mid-thigh length',22000]],
-                'Small': [['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',21000],['Mid-thigh length',24000]]
             }},
             { name: 'Mini Twists', sizes: {
                 'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000],['Classic length',21000],['Mid-thigh length',24000]],
@@ -1245,15 +1323,9 @@
             { name: 'Faux Locs', sizes: {
                 'Medium': [['Armpit length',9000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000]],
                 'Small': [['Armpit length',9000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000]]
-            }},
-            { name: 'Invisible Locs', sizes: {
-                'Large': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000]],
-                'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000]],
-                'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000]]
             }}
           ]},
           { group: 'Cornrows', styles: [
-            { name: 'Basic Cornrows', sizes: { 'Options': [['5–6 Cornrows',5000],['7–8 Cornrows',6000],['9–10 Cornrows',7000],['11–12 Cornrows',8000]] }},
             { name: 'Straight Back Cornrows', sizes: { 'Options': [['2–4 Cornrows',5000],['5–6 Cornrows',5500],['7–8 Cornrows',6000],['9–10 Cornrows',6500],['11–12 Cornrows',7000]] }},
             { name: 'Design Cornrows', sizes: { 'Options': [['Simple Design',5000],['Medium Design',6000],['Detailed Design',7000],['Complex / Custom Design','8,000 – 9,000']] }},
             { name: 'Zig-Zag Cornrows', sizes: { 'Options': [['Basic Zig-Zag',5000],['Medium Pattern',6000],['Detailed Pattern',7000],['Complex Pattern','8,000 – 9,000']] }}
@@ -1947,27 +2019,6 @@ const firebaseConfig = {
           ]
         }
       },
-      'Stitch Braids': {
-        emoji: '🌸',
-        subtitle: 'Feed-In Cornrows',
-        sizes: {
-          'Large': [
-            ['Armpit length', 7000], ['Bra-strap length', 8000], ['Mid-back length', 9000],
-            ['Waist length', 10000], ['Hip length', 11000], ['Tailbone length', 12000],
-            ['Classic length', 14000], ['Mid-thigh length', 17000]
-          ],
-          'Medium': [
-            ['Armpit length', 8000], ['Bra-strap length', 9000], ['Mid-back length', 10000],
-            ['Waist length', 11000], ['Hip length', 12000], ['Tailbone length', 13000],
-            ['Classic length', 15000], ['Mid-thigh length', 18000]
-          ],
-          'Small': [
-            ['Armpit length', 9000], ['Bra-strap length', 10000], ['Mid-back length', 11000],
-            ['Waist length', 12000], ['Hip length', 13000], ['Tailbone length', 15000],
-            ['Classic length', 17000], ['Mid-thigh length', 20000]
-          ]
-        }
-      },
       'Lemonade Braids': {
         emoji: '🌸',
         sizes: {
@@ -2013,26 +2064,6 @@ const firebaseConfig = {
           ]
         }
       },
-      'Invisible Loc Braids': {
-        emoji: '🌸',
-        sizes: {
-          'Large': [
-            ['Bra-strap length', 10000], ['Mid-back length', 11000], ['Waist length', 13000],
-            ['Hip length', 15000], ['Tailbone length', 17000], ['Classic length', 20000],
-            ['Mid-thigh length', 23000]
-          ],
-          'Medium': [
-            ['Bra-strap length', 11000], ['Mid-back length', 12000], ['Waist length', 14000],
-            ['Hip length', 16000], ['Tailbone length', 18000], ['Classic length', 21000],
-            ['Mid-thigh length', 24000]
-          ],
-          'Small': [
-            ['Bra-strap length', 13000], ['Mid-back length', 14000], ['Waist length', 16000],
-            ['Hip length', 18000], ['Tailbone length', 20000], ['Classic length', 23000],
-            ['Mid-thigh length', 26000]
-          ]
-        }
-      },
       // ============ TWISTS ============
       'Island Twist': {
         emoji: '🌀',
@@ -2066,26 +2097,6 @@ const firebaseConfig = {
             ['Armpit length', 11500], ['Bra-strap length', 12500], ['Mid-back length', 13500],
             ['Waist length', 15500], ['Hip length', 17500], ['Tailbone length', 19500],
             ['Classic length', 21500], ['Mid-thigh length', 24500]
-          ]
-        }
-      },
-      'Marley Twists': {
-        emoji: '🌀',
-        sizes: {
-          'Large': [
-            ['Armpit length', 8000], ['Bra-strap length', 9000], ['Mid-back length', 10000],
-            ['Waist length', 12000], ['Hip length', 14000], ['Tailbone length', 16000],
-            ['Classic length', 18000], ['Mid-thigh length', 21000]
-          ],
-          'Medium': [
-            ['Armpit length', 9000], ['Bra-strap length', 10000], ['Mid-back length', 11000],
-            ['Waist length', 13000], ['Hip length', 15000], ['Tailbone length', 17000],
-            ['Classic length', 19000], ['Mid-thigh length', 22000]
-          ],
-          'Small': [
-            ['Armpit length', 11000], ['Bra-strap length', 12000], ['Mid-back length', 13000],
-            ['Waist length', 15000], ['Hip length', 17000], ['Tailbone length', 19000],
-            ['Classic length', 21000], ['Mid-thigh length', 24000]
           ]
         }
       },
@@ -2146,33 +2157,7 @@ const firebaseConfig = {
           ]
         }
       },
-      'Invisible Locs': {
-        emoji: '🌿',
-        sizes: {
-          'Large': [
-            ['Armpit length', 9000], ['Bra-strap length', 10000], ['Mid-back length', 11000],
-            ['Waist length', 13000], ['Hip length', 15000]
-          ],
-          'Medium': [
-            ['Armpit length', 10000], ['Bra-strap length', 11000], ['Mid-back length', 12000],
-            ['Waist length', 14000], ['Hip length', 16000]
-          ],
-          'Small': [
-            ['Armpit length', 12000], ['Bra-strap length', 13000], ['Mid-back length', 14000],
-            ['Waist length', 16000], ['Hip length', 18000]
-          ]
-        }
-      },
       // ============ CORNROWS ============
-      'Basic Cornrows': {
-        emoji: '✨',
-        sizes: {
-          'Options': [
-            ['5–6 Cornrows', 5000], ['7–8 Cornrows', 6000],
-            ['9–10 Cornrows', 7000], ['11–12 Cornrows', 8000]
-          ]
-        }
-      },
       'Straight Back Cornrows': {
         emoji: '✨',
         sizes: {
@@ -2291,11 +2276,6 @@ const firebaseConfig = {
       };
     });
 
-    // Other (free-form)
-    pricingCardDefs['hair-Other'] = {
-      label: 'Hair — Other', basePrice: 0, isOther: true,
-      html: () => buildPricingCard('🌸 OTHER HAIR SERVICE', [{ title: 'Add-Ons:', items: hairAddons.map(a => ({...a, isAddon:true})) }], 0)
-    };
   })();
 
   function onServiceChange() {
