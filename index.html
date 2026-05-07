@@ -87,8 +87,8 @@
     --red:        #E8519A;   /* hot pink */
     --red-deep:   #B52F74;   /* deep pink */
     --rose:       #E8519A;
-    --gold:       #5B9BD5;   /* sky blue accent */
-    --gold-soft:  #8DC4F0;
+    --gold:       #3BB0FF;   /* bright blue accent */
+    --gold-soft:  #7ACEFF;
     --text:       #DDE4FF;
     --text-dim:   #7A90BB;
     --text-ink:   #0B0F1E;
@@ -139,7 +139,7 @@
     justify-content: center;
     z-index: 1000;
   }
-  /* shimmer top stripe */
+  /* shimmer top stripe only */
   .header-bar::before {
     content: '';
     position: absolute;
@@ -151,27 +151,17 @@
     opacity: 0.9;
     z-index: 1;
   }
-  /* shimmer bottom stripe */
-  .header-bar::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg,
-      var(--gold) 0%, var(--cream) 25%,
-      var(--red) 50%, var(--cream) 75%, var(--gold) 100%);
-    opacity: 0.85;
-    z-index: 1;
-  }
+  /* no bottom stripe */
+  .header-bar::after { content: none; }
 
-  /* ===== ANIMATED RUNNING SIDE EDGES (full page height) ===== */
+  /* ===== ANIMATED CONTINUOUS SIDE EDGES (full page height) ===== */
   @keyframes runDown {
-    0%   { background-position: 0 0; }
-    100% { background-position: 0 120px; }
+    from { background-position: 0 0; }
+    to   { background-position: 0 60px; }
   }
   @keyframes runUp {
-    0%   { background-position: 0 0; }
-    100% { background-position: 0 -120px; }
+    from { background-position: 0 0; }
+    to   { background-position: 0 -60px; }
   }
   .header-bar-side-l,
   .header-bar-side-r {
@@ -181,37 +171,27 @@
     width: 3px;
     z-index: 1002;
     pointer-events: none;
-    background-size: 3px 120px;
+    background-size: 3px 60px;
   }
   .header-bar-side-l {
     left: 0;
-    background-image: repeating-linear-gradient(
+    background-image: linear-gradient(
       180deg,
-      var(--red)   0px  20px,
-      transparent  20px 30px,
-      var(--gold)  30px 50px,
-      transparent  50px 60px,
-      var(--red)   60px 80px,
-      transparent  80px 90px,
-      var(--gold)  90px 110px,
-      transparent  110px 120px
+      var(--red)  0%,
+      var(--gold) 50%,
+      var(--red)  100%
     );
-    animation: runDown 2.4s linear infinite;
+    animation: runDown 2s linear infinite;
   }
   .header-bar-side-r {
     right: 0;
-    background-image: repeating-linear-gradient(
+    background-image: linear-gradient(
       180deg,
-      var(--gold)  0px  20px,
-      transparent  20px 30px,
-      var(--red)   30px 50px,
-      transparent  50px 60px,
-      var(--gold)  60px 80px,
-      transparent  80px 90px,
-      var(--red)   90px 110px,
-      transparent  110px 120px
+      var(--gold) 0%,
+      var(--red)  50%,
+      var(--gold) 100%
     );
-    animation: runUp 2.4s linear infinite;
+    animation: runUp 2s linear infinite;
   }
 
   .header-title {
@@ -2932,7 +2912,7 @@ const firebaseConfig = {
   }
 </script>
 <!-- Footer Banner -->
-<div style="position:fixed;bottom:0;left:0;right:0;background-color:#1a1a1a;border-top:2px solid var(--accent);text-align:center;padding:5px 20px;font-family:Bebas Neue,cursive;font-size:13px;letter-spacing:2px;color:#aaa;z-index:1000;"><a href="https://webvtec.com" target="_blank" style="color:#aaa;text-decoration:underline;display:block;width:100%;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">CLICK TO REQUEST YOUR OWN WEBSITE. <span style="color:var(--accent);">webvtec.com</span></a></div>
+<div style="position:fixed;bottom:0;left:0;right:0;background:#07091A;border-top:1px solid rgba(232,81,154,0.2);text-align:center;padding:5px 12px;font-family:DM Sans,sans-serif;font-size:10px;letter-spacing:1.5px;color:rgba(240,236,255,0.3);z-index:1000;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><a href="https://www.webvtec.com" target="_blank" style="color:rgba(240,236,255,0.3);text-decoration:none;white-space:nowrap;">Click to request your own website &nbsp;·&nbsp; webvtec.com</a></div>
 </body>
 </html>
 
