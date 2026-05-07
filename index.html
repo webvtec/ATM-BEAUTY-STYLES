@@ -77,21 +77,21 @@
      Palette: Deep plum-noir, blush petal, signature rose, champagne gold
      ========================================================= */
   :root {
-    /* ATM BEAUTY STYLES — girly premium palette */
-    --ink:        #120810;   /* deep plum-noir */
-    --ink-soft:   #1C1018;
-    --ink-line:   #2A1A22;
-    --cream:      #F7E8EE;   /* soft blush petal */
-    --cream-soft: #EDD8E2;
-    --paper:      #FDF6F9;
-    --red:        #C04E72;   /* signature rose */
-    --red-deep:   #8E2B4E;
-    --rose:       #C04E72;
-    --gold:       #C9A573;   /* warm champagne gold */
-    --gold-soft:  #E0C49A;
-    --text:       #EDD8E2;
-    --text-dim:   #9A7A85;
-    --text-ink:   #1C1018;
+    /* ATM BEAUTY STYLES — Pink & Blue premium palette */
+    --ink:        #0B0F1E;   /* deep navy-noir */
+    --ink-soft:   #101728;
+    --ink-line:   #1A2540;
+    --cream:      #F0ECFF;   /* soft lavender-white */
+    --cream-soft: #DDE4FF;
+    --paper:      #F8F6FF;
+    --red:        #E8519A;   /* hot pink */
+    --red-deep:   #B52F74;   /* deep pink */
+    --rose:       #E8519A;
+    --gold:       #5B9BD5;   /* sky blue accent */
+    --gold-soft:  #8DC4F0;
+    --text:       #DDE4FF;
+    --text-dim:   #7A90BB;
+    --text-ink:   #0B0F1E;
 
     /* legacy aliases */
     --primary:  var(--ink);
@@ -106,7 +106,7 @@
   html, body {
     margin: 0;
     padding: 0;
-    background: #0A0A12;
+    background: #0A0E1C;
     color: var(--text);
     font-family: 'DM Sans', -apple-system, sans-serif;
     font-weight: 400;
@@ -115,10 +115,10 @@
 
   body {
     background:
-      radial-gradient(ellipse 800px 500px at 20% -10%, rgba(192,78,114,0.09), transparent 60%),
-      radial-gradient(ellipse 600px 400px at 110% 110%, rgba(201,165,115,0.07), transparent 60%),
-      radial-gradient(ellipse 900px 700px at 50% 50%, rgba(30,8,20,0.55), transparent 80%),
-      linear-gradient(155deg, #120810 0%, #1A0B14 35%, #16091A 60%, #120810 100%);
+      radial-gradient(ellipse 800px 500px at 20% -10%, rgba(232,81,154,0.10), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 110% 110%, rgba(91,155,213,0.08), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 50% 50%, rgba(8,12,28,0.60), transparent 80%),
+      linear-gradient(155deg, #0B0F1E 0%, #0F1A30 35%, #0D1422 60%, #0B0F1E 100%);
     background-attachment: scroll;
     padding-bottom: 82px; /* room for bottom nav + hosting banner */
     min-height: 100vh;
@@ -131,7 +131,7 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     height: 68px;
-    background: #0E0810;
+    background: #0A0E1C;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -159,8 +159,8 @@
     bottom: 0; left: 0; right: 0;
     height: 3px;
     background: linear-gradient(90deg,
-      var(--red) 0%, var(--cream) 25%,
-      var(--gold) 50%, var(--cream) 75%, var(--red) 100%);
+      var(--gold) 0%, var(--cream) 25%,
+      var(--red) 50%, var(--cream) 75%, var(--gold) 100%);
     opacity: 0.85;
     z-index: 1;
   }
@@ -176,7 +176,7 @@
       180deg,
       var(--red) 0 8px,
       var(--cream) 8px 16px,
-      #1a5b9c 16px 24px,
+      var(--gold) 16px 24px,
       var(--cream) 24px 32px
     );
     opacity: 0.85;
@@ -298,7 +298,7 @@
     left: 0; right: 0;
     bottom: 27px; /* sits flush on top of hosting banner */
     height: 32px;
-    background: #0E0E10;
+    background: #0A0E1C;
     border-top: 1px solid rgba(201,169,97,0.2);
     display: flex;
     justify-content: space-around;
@@ -1339,7 +1339,7 @@
 <!-- Admin Login Modal -->
 <div id="adminLoginModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background-color:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:10000; backdrop-filter:blur(4px);">
   <div style="background:var(--cream); padding:40px 32px 28px; border-radius:2px; text-align:center; max-width:360px; width:90%; box-shadow:0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--gold); position:relative;">
-    <div style="position:absolute; top:0; left:0; right:0; height:4px; background:repeating-linear-gradient(135deg,var(--red) 0 8px,var(--cream) 8px 16px,#1a5b9c 16px 24px,var(--cream) 24px 32px);"></div>
+    <div style="position:absolute; top:0; left:0; right:0; height:4px; background:repeating-linear-gradient(135deg,var(--red) 0 8px,var(--cream) 8px 16px,var(--gold) 16px 24px,var(--cream) 24px 32px);"></div>
     <span onclick="closeAdminModal()" style="position:absolute; top:14px; right:14px; font-size:14px; cursor:pointer; color:var(--text-ink); line-height:1; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(26,26,30,0.2); border-radius:50%;">✕</span>
     <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:12px; color:var(--red); letter-spacing:3px; text-transform:uppercase; margin-bottom:6px; margin-top:8px;">Staff Entrance</div>
     <h3 style="margin:0 0 8px; color:var(--text-ink); font-family:'Playfair Display',serif; font-weight:700; font-size:26px; letter-spacing:0;">Admin Access</h3>
@@ -1592,13 +1592,59 @@ const firebaseConfig = {
 
 
   // ========== SERVICE DURATIONS ==========
-  // All cuts use a 30–45 min default; duration is looked up by prefix
+  // Duration in minutes, keyed by service-name + size-length combo.
+  // For slot blocking: we store the duration on the booking so the next
+  // slot is only unlocked once the previous appointment's estimated time is done.
+  const SERVICE_DURATIONS = {
+    // KNOTLESS BOX BRAIDS
+    'Large — Bra-strap length': 240, 'Large — Mid-back length': 300, 'Large — Waist length': 330,
+    'Large — Hip length': 360, 'Large — Tailbone length': 390, 'Large — Classic length': 420,
+    'Large — Mid-thigh length': 480,
+    'Medium — Armpit length': 300, 'Medium — Bra-strap length': 330, 'Medium — Mid-back length': 360,
+    'Medium — Waist length': 390, 'Medium — Hip length': 420, 'Medium — Tailbone length': 450,
+    'Medium — Classic length': 510, 'Medium — Mid-thigh length': 600,
+    'Small — Armpit length': 360, 'Small — Bra-strap length': 390, 'Small — Mid-back length': 420,
+    'Small — Waist length': 450, 'Small — Hip length': 480, 'Small — Tailbone length': 540,
+    'Small — Classic length': 600, 'Small — Mid-thigh length': 720,
+    // CORNROWS (short services)
+    '2–4 Cornrows': 45, '5–6 Cornrows': 60, '7–8 Cornrows': 90, '9–10 Cornrows': 120,
+    '11–12 Cornrows': 150,
+    'Simple Design': 90, 'Medium Design': 120, 'Detailed Design': 150, 'Complex / Custom Design': 210,
+    'Basic Zig-Zag': 90, 'Medium Pattern': 120, 'Detailed Pattern': 150, 'Complex Pattern': 210,
+    // QUICK WEAVE / PONYTAILS
+    'Basic Install': 150, 'With Styling': 180,
+    'Basic Style': 60,
+  };
+
+  // Default duration per style type (minutes) when specific size/length not yet picked
+  const STYLE_DEFAULT_DURATIONS = {
+    'Knotless Box Braids': 360, 'Boho Knotless Braids': 390, 'Goddess Knotless Braids': 420,
+    'Tribal Braids': 330, 'Fulani Braids': 360, 'Stitch Braids': 360, 'Lemonade Braids': 360,
+    'Box Braids': 300, 'Jumbo Braids': 240, 'Invisible Loc Braids': 360,
+    'Island Twist': 390, 'Passion Twists': 360, 'Marley Twists': 360, 'Mini Twists': 420,
+    'Soft Locs': 360, 'Butterfly Locs': 390, 'Faux Locs': 360, 'Invisible Locs': 360,
+    'Basic Cornrows': 90, 'Straight Back Cornrows': 90, 'Design Cornrows': 120, 'Zig-Zag Cornrows': 120,
+    'Natural Sew-In': 210, 'Closure Sew-In': 270, 'Frontal Sew-In': 330,
+    'Basic Quick Weave': 90, 'Styled Quick Weave': 120, 'Closure Quick Weave': 150,
+    'Sleek Ponytail': 45, 'Braided Ponytail': 60, 'Half-Up Half-Down Ponytail': 90,
+  };
+
   function getServiceDurationByKey(key) {
-    return 30;
+    // key is like "hair-Knotless Box Braids"
+    const styleName = key.replace(/^hair-/, '');
+    // If the user has selected a specific cut item (size+length), use exact duration
+    if (selectedCutItem) {
+      // selectedCutItem is like "Large — Bra-strap length"
+      if (SERVICE_DURATIONS[selectedCutItem] !== undefined) {
+        return SERVICE_DURATIONS[selectedCutItem];
+      }
+    }
+    // Fall back to style default
+    return STYLE_DEFAULT_DURATIONS[styleName] || 240;
   }
 
   function getSelectedServices() {
-    const haircut = document.getElementById('haircutType')?.value || "NONE";
+    const haircut = document.getElementById('adultService')?.value || "NONE";
     if (!haircut || haircut === 'NONE') return 'No services selected';
 
     const def = pricingCardDefs[haircut];
@@ -1616,7 +1662,7 @@ const firebaseConfig = {
   }
 
   function getSelectedServiceDuration() {
-    const haircut = document.getElementById('haircutType').value;
+    const haircut = document.getElementById('adultService')?.value || "NONE";
     return getServiceDurationByKey(haircut);
   }
 
@@ -1633,7 +1679,7 @@ const firebaseConfig = {
   let selectedCutPrice = null; // price of the currently selected cut (if override exists)
 
   function getSelectedTotal() {
-    const haircut = document.getElementById('haircutType')?.value || 'NONE';
+    const haircut = document.getElementById('adultService')?.value || 'NONE';
     if (!haircut || haircut === 'NONE') return 0;
     const def = pricingCardDefs[haircut];
     let total = selectedCutPrice !== null ? selectedCutPrice : (def?.basePrice || 0);
@@ -1656,11 +1702,13 @@ const firebaseConfig = {
       selectedCutItem = name;
       el.classList.add('selected');
       // Check for a per-cut price override
-      const haircut = document.getElementById('haircutType')?.value || 'NONE';
+      const haircut = document.getElementById('adultService')?.value || 'NONE';
       const overrides = cutPriceOverrides[haircut];
       selectedCutPrice = (overrides && overrides[name] !== undefined) ? overrides[name] : null;
     }
     updateSelectionSummary();
+    // Reload slots because duration may have changed
+    loadAvailableSlots();
   }
 
   function toggleAddon(el, name) {
@@ -1687,8 +1735,12 @@ const firebaseConfig = {
     } else {
       summaryBox.style.display = 'block';
       const total = getSelectedTotal();
-      const totalStr = total > 0 ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(200,25,45,0.3);font-family:'Bebas Neue',cursive;letter-spacing:1px;font-size:15px;color:var(--accent);">💰 ESTIMATED TOTAL: $${total.toLocaleString()}</div>` : '';
-      summaryText.innerHTML = parts.map(p => `<span style="display:inline-block;background:#2a2a2a;border:1px solid var(--accent);border-radius:4px;padding:3px 8px;margin:3px 3px 3px 0;font-size:12px;color:var(--accent);font-weight:700;">${p}</span>`).join('') + totalStr;
+      const dur = getSelectedServiceDuration();
+      const durHrs = Math.floor(dur / 60);
+      const durMins = dur % 60;
+      const durLabel = durHrs > 0 ? (durMins > 0 ? `${durHrs}h ${durMins}m` : `${durHrs}h`) : `${durMins}m`;
+      const totalStr = total > 0 ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(232,81,154,0.3);font-family:'Bebas Neue',cursive;letter-spacing:1px;font-size:15px;color:var(--accent);">💰 ESTIMATED TOTAL: $${total.toLocaleString()} &nbsp;·&nbsp; ⏱ ${durLabel}</div>` : `<div style="margin-top:6px;font-size:12px;color:var(--gold);font-style:italic;">⏱ Est. ${durLabel}</div>`;
+      summaryText.innerHTML = parts.map(p => `<span style="display:inline-block;background:#1a2540;border:1px solid var(--accent);border-radius:4px;padding:3px 8px;margin:3px 3px 3px 0;font-size:12px;color:var(--accent);font-weight:700;">${p}</span>`).join('') + totalStr;
     }
   }
 
@@ -1732,13 +1784,19 @@ const firebaseConfig = {
     document.head.appendChild(s);
   })();
 
-  function buildCutRow(name, price, isAddon) {
+  function buildCutRow(name, price, isAddon, durationMins) {
     const cls = isAddon ? 'addon-item' : 'cut-item';
-    const dotColor = isAddon ? '#e0c060' : 'var(--accent)';
+    const dotColor = isAddon ? 'var(--gold)' : 'var(--accent)';
     const fn = isAddon ? `toggleAddon(this,'${name.replace(/'/g,"\\'")}')` : `toggleCut(this,'${name.replace(/'/g,"\\'")}')`;
     const priceStr = price && price !== '$' ? `<span class="item-price">${price}</span>` : '';
+    let durStr = '';
+    if (!isAddon && durationMins) {
+      const h = Math.floor(durationMins / 60);
+      const m = durationMins % 60;
+      durStr = `<span style="font-size:10px;color:var(--gold);margin-left:4px;opacity:0.85;">${h > 0 ? h+'h' : ''}${m > 0 ? m+'m' : ''}</span>`;
+    }
     return `<div class="${cls}" onclick="${fn}">
-      <span class="item-label"><span class="item-dot" style="background:${dotColor};"></span>${name}${priceStr}</span>
+      <span class="item-label"><span class="item-dot" style="background:${dotColor};"></span>${name}${priceStr}${durStr}</span>
       <span class="item-check">☐</span>
     </div>`;
   }
@@ -1773,7 +1831,7 @@ const firebaseConfig = {
       <div class="tap-hint">${hasCutSections ? '👆 Tap a size + length, plus any add-ons' : '👆 Tap add-ons below to include them'}</div>`;
     sections.forEach(sec => {
       if (sec.title) html += `<div class="card-section-title">${sec.title}</div>`;
-      sec.items.forEach(it => { html += buildCutRow(it.name, it.price, it.isAddon); });
+      sec.items.forEach(it => { html += buildCutRow(it.name, it.price, it.isAddon, it.durationMins); });
     });
     html += `</div>`;
     return html;
@@ -2200,10 +2258,11 @@ const firebaseConfig = {
       Object.entries(data.sizes).forEach(([sizeName, lengths]) => {
         sections.push({
           title: sizeName,
-          items: lengths.map(([lengthName, price]) => ({
-            name: `${sizeName} — ${lengthName}`,
-            price: '$' + price.toLocaleString()
-          }))
+          items: lengths.map(([lengthName, price]) => {
+            const cutKey = `${sizeName} — ${lengthName}`;
+            const dur = SERVICE_DURATIONS[cutKey] || SERVICE_DURATIONS[lengthName] || null;
+            return { name: cutKey, price: '$' + price.toLocaleString(), durationMins: dur };
+          })
         });
       });
       sections.push({
@@ -2246,7 +2305,7 @@ const firebaseConfig = {
     const card = document.getElementById('serviceIncludesCard');
     clearSelections();
 
-    hidden.value = (svc === 'NONE') ? 'NONE' : svc;
+    if (hidden) hidden.value = (svc === 'NONE') ? 'NONE' : svc;
 
     if (svc && svc !== 'NONE' && pricingCardDefs[svc]) {
       card.innerHTML = pricingCardDefs[svc].html();
@@ -2279,9 +2338,13 @@ const firebaseConfig = {
   }
 
   // ========== SLOT LOADING ==========
+  // Smart sequential booking:
+  // • First slot of the day is 8:00 AM (or 9:00 AM if 8 AM is in the past)
+  // • Additional slots only open AFTER the previous booking's estimated end time
+  // • If no booking exists yet, only 8:00 AM (or 9:00 AM) is available
   async function loadAvailableSlots() {
     const date = document.getElementById('date').value;
-    const haircut = document.getElementById('haircutType')?.value || "NONE";
+    const haircut = document.getElementById('adultService')?.value || "NONE";
 
     const timeSelect = document.getElementById('selectedTime');
     timeSelect.innerHTML = "<option value=''>-- Select a time --</option>";
@@ -2301,79 +2364,118 @@ const firebaseConfig = {
       return;
     }
 
-    const openMinutes = convertToMinutes(business.open);
-    const closeMinutes = convertToMinutes(business.close);
+    const openMinutes  = convertToMinutes(business.open);   // 480 = 8:00 AM
+    const closeMinutes = convertToMinutes(business.close);  // 1020 = 5:00 PM (last appt = 6 PM)
+    // Allow booking up to 6 PM (late-night fee applies after 5 PM)
+    const lastSlotMinutes = closeMinutes + 60; // 6:00 PM = 1080
+
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const selectedDate = new Date(date + "T00:00:00");
+    const isToday = selectedDate.getTime() === today.getTime();
+    const currentMinutes = isToday ? now.getHours() * 60 + now.getMinutes() : 0;
+
+    function formatMins(m) {
+      const h = Math.floor(m / 60);
+      const min = m % 60;
+      const ampm = h >= 12 ? "PM" : "AM";
+      const displayH = ((h + 11) % 12 + 1);
+      return `${displayH}:${min.toString().padStart(2, "0")} ${ampm}`;
+    }
 
     try {
-      const SLOT_INTERVAL = 30; // fixed 30-minute slot intervals
+      // Fetch all active bookings for this date
       const snapshot = await db.collection("bookings").where("date", "==", date).get();
       const bookings = snapshot.docs
         .filter(doc => doc.data().status !== 'Cancelled')
         .map(doc => {
-          const bookedTime = convertToMinutes(normalizeTimeStr(doc.data().time));
-          return { start: bookedTime, end: bookedTime + 30 };
-        });
+          const d = doc.data();
+          const startMin = convertToMinutes(normalizeTimeStr(d.time));
+          const dur = (typeof d.duration === 'number' && d.duration > 30) ? d.duration : 240; // fallback 4hrs
+          return { start: startMin, end: startMin + dur };
+        })
+        .sort((a, b) => a.start - b.start);
 
+      // Fetch unavailable ranges
       const unavailableSnapshot = await db.collection("unavailableDays").where("date", "==", date).get();
       let unavailableRanges = [];
       unavailableSnapshot.forEach(doc => {
         const data = doc.data();
         if (data.allDay) {
-          unavailableRanges.push({ start: openMinutes, end: closeMinutes });
+          unavailableRanges.push({ start: openMinutes, end: lastSlotMinutes });
         } else {
           const start = convertToMinutes(normalizeTimeStr(data.startTime));
-          const end = convertToMinutes(normalizeTimeStr(data.endTime));
+          const end   = convertToMinutes(normalizeTimeStr(data.endTime));
           if (!isNaN(start) && !isNaN(end) && end > start) unavailableRanges.push({ start, end });
         }
       });
 
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const selectedDate = new Date(date + "T00:00:00");
-      const isToday = selectedDate.getTime() === today.getTime();
-      const currentMinutes = isToday ? now.getHours() * 60 + now.getMinutes() : 0;
+      // --- SMART SEQUENTIAL LOGIC ---
+      // The first eligible slot is always 8:00 AM (or 9:00 AM if already past / today is now after 8)
+      let candidateSlots = [];
 
-      function formatMins(m) {
-        const h = Math.floor(m / 60);
-        const min = m % 60;
-        const ampm = h >= 12 ? "PM" : "AM";
-        const displayH = ((h + 11) % 12 + 1);
-        return `${displayH}:${min.toString().padStart(2, "0")} ${ampm}`;
+      if (bookings.length === 0) {
+        // No bookings yet — only offer 8:00 AM (or 9:00 AM if past)
+        const firstSlot = openMinutes; // 8:00 AM = 480
+        const altSlot = openMinutes + 60; // 9:00 AM = 540
+        const slot = (isToday && currentMinutes >= firstSlot) ? altSlot : firstSlot;
+        // Check slot fits in day and isn't blocked
+        if (slot + duration <= lastSlotMinutes + 1 && !isUnavailable(slot, duration, unavailableRanges)) {
+          if (!(isToday && slot <= currentMinutes)) {
+            candidateSlots.push(slot);
+          }
+        }
+      } else {
+        // There are bookings — next slot is after the last booking's end time
+        const lastBooking = bookings[bookings.length - 1];
+        const nextSlot = lastBooking.end; // right when last one finishes
+
+        // Ensure next slot doesn't conflict with unavailable ranges
+        let adjusted = nextSlot;
+        for (const r of unavailableRanges) {
+          if (adjusted < r.end && adjusted + duration > r.start) {
+            adjusted = r.end;
+          }
+        }
+
+        // Must be within closing time and in the future
+        if (adjusted + duration <= lastSlotMinutes + 1) {
+          if (!(isToday && adjusted <= currentMinutes)) {
+            candidateSlots.push(adjusted);
+          }
+        }
       }
 
-      const SLOT_DISPLAY_DURATION = 30; // always show 30-min window on label
-      let t = openMinutes;
-      while (t + SLOT_INTERVAL <= closeMinutes + 1) {
-        const slotEnd = t + SLOT_DISPLAY_DURATION;
-        const bookingEnd = t + duration; // used only for conflict checking
-
-        if (isToday && t <= currentMinutes) { t += SLOT_INTERVAL; continue; }
-
-        const blockingRange = unavailableRanges.find(r => !(bookingEnd <= r.start || t >= r.end));
-        if (blockingRange) { t = blockingRange.end; continue; }
-
-        const bookedConflict = bookings.some(b => !(bookingEnd <= b.start || t >= b.end));
-        if (bookedConflict) { t += SLOT_INTERVAL; continue; }
-
-        const label = `${formatMins(t)} - ${formatMins(slotEnd)}`;
-        let option = document.createElement("option");
-        option.value = formatMins(t);
-        option.textContent = label;
-        timeSelect.appendChild(option);
-
-        t += SLOT_INTERVAL;
+      if (candidateSlots.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "No available slots for this day";
+        timeSelect.innerHTML = '';
+        timeSelect.appendChild(opt);
+        return;
       }
 
-      if (timeSelect.options.length === 1) {
-        let option = document.createElement("option");
-        option.value = "";
-        option.textContent = "No available slots";
-        timeSelect.appendChild(option);
-      }
+      // Add a placeholder first
+      timeSelect.innerHTML = "<option value=''>-- Select a time --</option>";
+      candidateSlots.forEach(t => {
+        const slotEnd = t + duration;
+        const lateNote = t >= closeMinutes ? " ★ Late Night Fee +$2,500" : "";
+        const label = `${formatMins(t)} – ${formatMins(slotEnd)}${lateNote}`;
+        const opt = document.createElement("option");
+        opt.value = formatMins(t);
+        opt.textContent = label;
+        timeSelect.appendChild(opt);
+      });
+
     } catch (err) {
       console.error("Error loading slots:", err);
       timeSelect.innerHTML = "<option value=''>Error loading slots</option>";
     }
+  }
+
+  function isUnavailable(slotStart, duration, unavailableRanges) {
+    const slotEnd = slotStart + duration;
+    return unavailableRanges.some(r => !(slotEnd <= r.start || slotStart >= r.end));
   }
 
   // ========== BOOKING ==========
@@ -2419,14 +2521,16 @@ const firebaseConfig = {
 
         return db.collection('bookings').where('date', '==', date).get()
           .then((querySnapshot) => {
-            const newServiceEndTime = selectedMinutes + 30;
+            const newDuration = getSelectedServiceDuration();
+            const newServiceEndTime = selectedMinutes + newDuration;
 
             for (let doc of querySnapshot.docs) {
               const data = doc.data();
               if (data.status === 'Cancelled') continue;
               let bookedTime = data.time.trim().replace(/\s+/g, ' ');
               let bookedMinutes = convertToMinutes(bookedTime);
-              let bookedEndTime = bookedMinutes + 30;
+              const existDur = (typeof data.duration === 'number' && data.duration > 30) ? data.duration : 240;
+              let bookedEndTime = bookedMinutes + existDur;
 
               if (selectedMinutes < bookedEndTime && bookedMinutes < newServiceEndTime) return false;
             }
@@ -2464,7 +2568,7 @@ const firebaseConfig = {
       return;
     }
 
-    const haircutVal = document.getElementById('haircutType')?.value || 'NONE';
+    const haircutVal = document.getElementById('adultService')?.value || 'NONE';
     const isOtherCut = haircutVal.endsWith('-Other');
     if (isOtherCut && selectedAddons.size === 0) {
       alert('Please select at least one add-on for the Other option before booking.');
@@ -2848,7 +2952,7 @@ const firebaseConfig = {
   }
 </script>
 <!-- Footer Banner -->
-<div style="position:fixed;bottom:0;left:0;right:0;background:#0A0610;border-top:1px solid rgba(192,78,114,0.2);text-align:center;padding:5px 20px;font-family:DM Sans,sans-serif;font-size:10px;letter-spacing:2px;color:rgba(247,232,238,0.3);z-index:1000;text-transform:uppercase;"><a href="https://www.webvtec.com" target="_blank" style="color:rgba(247,232,238,0.3);text-decoration:none;">Click to request your own website &nbsp;·&nbsp; webvtec.com</a></div>
+<div style="position:fixed;bottom:0;left:0;right:0;background:#07091A;border-top:1px solid rgba(232,81,154,0.2);text-align:center;padding:5px 20px;font-family:DM Sans,sans-serif;font-size:10px;letter-spacing:2px;color:rgba(240,236,255,0.3);z-index:1000;text-transform:uppercase;"><a href="https://www.webvtec.com" target="_blank" style="color:rgba(240,236,255,0.3);text-decoration:none;">Click to request your own website &nbsp;·&nbsp; webvtec.com</a></div>
 </body>
 </html>
 
