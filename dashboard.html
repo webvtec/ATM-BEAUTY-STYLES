@@ -1189,9 +1189,9 @@ const firebaseConfig = {
 
         // Build debug summary (always shown so you can see what's actually there)
         let debugHtml =
-          '<strong style="color:var(--accent);letter-spacing:1px;">GALLERY DIAGNOSTICS</strong><br>' +
+          '<strong style="color:var(--accent);letter-spacing:1px;"></strong><br>' +
           'Firestore returned <b>' + rawDocs.length + '</b> document(s) total.<br>' +
-          '✅ Valid: <b>' + valid.length + '</b>  &nbsp; ⚠️ Missing/invalid url: <b>' + invalid.length + '</b><br>';
+          '<b>' + valid.length + '</b>  &nbsp; <b>' + invalid.length + '</b><br>';
 
         if (invalid.length) {
           debugHtml += '<br><span style="color:#c04e72;">Documents with no usable image (these are why you see empty headers):</span><br>';
