@@ -2343,10 +2343,9 @@ const firebaseConfig = {
   }
 
   // ========== SLOT LOADING ==========
-  // Smart sequential booking:
-  // • First slot of the day is 8:00 AM (or 9:00 AM if 8 AM is in the past)
-  // • Additional slots only open AFTER the previous booking's estimated end time
-  // • If no booking exists yet, only 8:00 AM (or 9:00 AM) is available
+  // Shows all available 30-minute slots across the full working day.
+  // A slot is available if: it's in the future, not blocked by unavailableDays,
+  // and does not overlap with any existing active booking (start < existingEnd && existingStart < newEnd).
   async function loadAvailableSlots() {
     const date = document.getElementById('date').value;
     const haircut = document.getElementById('adultService')?.value || "NONE";
@@ -2370,7 +2369,7 @@ const firebaseConfig = {
     }
 
     const openMinutes  = convertToMinutes(business.open);   // 480 = 8:00 AM
-    const closeMinutes = convertToMinutes(business.close);  // 1020 = 5:00 PM (last appt = 6 PM)
+    const closeMinutes = convertToMinutes(business.close);  // 1020 = 5:00 PM
     // Allow booking up to 6 PM (late-night fee applies after 5 PM)
     const lastSlotMinutes = closeMinutes + 60; // 6:00 PM = 1080
 
@@ -2391,15 +2390,14 @@ const firebaseConfig = {
     try {
       // Fetch all active bookings for this date
       const snapshot = await db.collection("bookings").where("date", "==", date).get();
-      const bookings = snapshot.docs
+      const bookedRanges = snapshot.docs
         .filter(doc => doc.data().status !== 'Cancelled')
         .map(doc => {
           const d = doc.data();
           const startMin = convertToMinutes(normalizeTimeStr(d.time));
-          const dur = (typeof d.duration === 'number' && d.duration > 30) ? d.duration : 240; // fallback 4hrs
+          const dur = (typeof d.duration === 'number' && d.duration > 30) ? d.duration : 240;
           return { start: startMin, end: startMin + dur };
-        })
-        .sort((a, b) => a.start - b.start);
+        });
 
       // Fetch unavailable ranges
       const unavailableSnapshot = await db.collection("unavailableDays").where("date", "==", date).get();
@@ -2415,52 +2413,30 @@ const firebaseConfig = {
         }
       });
 
-      // --- SMART SEQUENTIAL LOGIC ---
-      // The first eligible slot is always 8:00 AM (or 9:00 AM if already past / today is now after 8)
-      let candidateSlots = [];
+      // Generate every 30-min slot across the full day
+      const candidateSlots = [];
+      for (let t = openMinutes; t + duration <= lastSlotMinutes + 1; t += 30) {
+        // Skip past times for today
+        if (isToday && t <= currentMinutes) continue;
 
-      if (bookings.length === 0) {
-        // No bookings yet — only offer 8:00 AM (or 9:00 AM if past)
-        const firstSlot = openMinutes; // 8:00 AM = 480
-        const altSlot = openMinutes + 60; // 9:00 AM = 540
-        const slot = (isToday && currentMinutes >= firstSlot) ? altSlot : firstSlot;
-        // Check slot fits in day and isn't blocked
-        if (slot + duration <= lastSlotMinutes + 1 && !isUnavailable(slot, duration, unavailableRanges)) {
-          if (!(isToday && slot <= currentMinutes)) {
-            candidateSlots.push(slot);
-          }
-        }
-      } else {
-        // There are bookings — next slot is after the last booking's end time
-        const lastBooking = bookings[bookings.length - 1];
-        const nextSlot = lastBooking.end; // right when last one finishes
+        const slotEnd = t + duration;
 
-        // Ensure next slot doesn't conflict with unavailable ranges
-        let adjusted = nextSlot;
-        for (const r of unavailableRanges) {
-          if (adjusted < r.end && adjusted + duration > r.start) {
-            adjusted = r.end;
-          }
-        }
+        // Skip if overlaps any existing booking
+        const conflictsBooking = bookedRanges.some(b => t < b.end && b.start < slotEnd);
+        if (conflictsBooking) continue;
 
-        // Must be within closing time and in the future
-        if (adjusted + duration <= lastSlotMinutes + 1) {
-          if (!(isToday && adjusted <= currentMinutes)) {
-            candidateSlots.push(adjusted);
-          }
-        }
+        // Skip if overlaps any unavailable range
+        const conflictsUnavailable = unavailableRanges.some(r => t < r.end && r.start < slotEnd);
+        if (conflictsUnavailable) continue;
+
+        candidateSlots.push(t);
       }
 
       if (candidateSlots.length === 0) {
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.textContent = "No available slots for this day";
-        timeSelect.innerHTML = '';
-        timeSelect.appendChild(opt);
+        timeSelect.innerHTML = "<option value=''>No available slots for this day</option>";
         return;
       }
 
-      // Add a placeholder first
       timeSelect.innerHTML = "<option value=''>-- Select a time --</option>";
       candidateSlots.forEach(t => {
         const slotEnd = t + duration;
@@ -2552,10 +2528,6 @@ const firebaseConfig = {
     event.preventDefault();
 
     const user = firebase.auth().currentUser;
-    if (!user) {
-      googleSignIn();
-      return;
-    }
 
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -2583,16 +2555,30 @@ const firebaseConfig = {
     const bookingNumber = generateBookingNumber(name);
     const duration = getSelectedServiceDuration();
     const total = getSelectedTotal();
+    const newStart = convertToMinutes(time);
+    const newEnd = newStart + duration;
 
-    validateTimeSlot(date, time)
-      .then((isAvailable) => {
-        if (!isAvailable) {
-          alert('This time is not available. Please choose another time.');
+    // Re-check for conflicts at submit time (in case another booking snuck in)
+    db.collection('bookings').where('date', '==', date).get()
+      .then(snapshot => {
+        const conflict = snapshot.docs.some(doc => {
+          const d = doc.data();
+          if (d.status === 'Cancelled') return false;
+          const bStart = convertToMinutes(normalizeTimeStr(d.time));
+          const bDur = (typeof d.duration === 'number' && d.duration > 30) ? d.duration : 240;
+          const bEnd = bStart + bDur;
+          return newStart < bEnd && bStart < newEnd;
+        });
+
+        if (conflict) {
+          alert('This time slot was just taken. Please choose another time.');
+          loadAvailableSlots();
           return Promise.reject('Time slot not available');
         }
 
         return db.collection('bookings').add({
-          uid: user.uid,
+          uid: user ? user.uid : 'guest',
+          email: user ? (user.email || '') : 'guest',
           bookingNumber,
           name,
           phone,
