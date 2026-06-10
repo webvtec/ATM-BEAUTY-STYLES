@@ -2413,9 +2413,11 @@ const firebaseConfig = {
         }
       });
 
-      // Generate every 30-min slot across the full day
+      // Generate every 30-min slot across the full day.
+      // A slot is only shown if the full service duration fits before closing
+      // AND it doesn't overlap any existing booking or blocked range.
       const candidateSlots = [];
-      for (let t = openMinutes; t + duration <= lastSlotMinutes + 1; t += 30) {
+      for (let t = openMinutes; t + duration <= lastSlotMinutes; t += 30) {
         // Skip past times for today
         if (isToday && t <= currentMinutes) continue;
 
@@ -2440,8 +2442,11 @@ const firebaseConfig = {
       timeSelect.innerHTML = "<option value=''>-- Select a time --</option>";
       candidateSlots.forEach(t => {
         const slotEnd = t + duration;
-        const lateNote = t >= closeMinutes ? " ★ Late Night Fee +$2,500" : "";
-        const label = `${formatMins(t)} – ${formatMins(slotEnd)}${lateNote}`;
+        const durHrs = Math.floor(duration / 60);
+        const durMins = duration % 60;
+        const durLabel = durHrs > 0 ? (durMins > 0 ? `${durHrs}h ${durMins}m` : `${durHrs}h`) : `${durMins}m`;
+        const lateNote = t >= closeMinutes ? " ★ Late Night" : "";
+        const label = `${formatMins(t)} – ${formatMins(slotEnd)} (${durLabel})${lateNote}`;
         const opt = document.createElement("option");
         opt.value = formatMins(t);
         opt.textContent = label;
