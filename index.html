@@ -436,11 +436,128 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
 }
 .webv-footer a{color:rgba(232,81,154,0.3);text-decoration:none;}
 
+/* ===== PROMO TICKER ===== */
+.promo-ticker-wrap{
+  position:relative;z-index:2;
+  width:min(480px,88vw);margin:0 auto 28px;
+}
+.promo-ticker{
+  overflow:hidden;
+  /* subtle glassmorphism container */
+}
+.promo-track{
+  display:flex;gap:12px;
+  animation:tickerSlide 16s ease-in-out infinite;
+  width:max-content;
+}
+.promo-track:hover{animation-play-state:paused;}
+
+@keyframes tickerSlide{
+  0%,10%   { transform:translateX(0); }
+  18%,30%  { transform:translateX(calc(-25% - 3px)); }
+  38%,50%  { transform:translateX(calc(-50% - 6px)); }
+  58%,70%  { transform:translateX(calc(-75% - 9px)); }
+  78%,92%  { transform:translateX(0); }
+  100%     { transform:translateX(0); }
+}
+
+.promo-card{
+  width:min(360px,80vw);flex-shrink:0;
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-radius:2px;
+  cursor:default;
+  position:relative;overflow:hidden;
+}
+.promo-card::before{
+  content:'';position:absolute;inset:0;
+  border-radius:2px;pointer-events:none;
+}
+.promo-pink{
+  background:rgba(232,81,154,0.12);
+  border:1px solid rgba(232,81,154,0.35);
+  box-shadow:0 8px 32px rgba(232,81,154,0.15),inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.promo-gold{
+  background:rgba(212,175,110,0.1);
+  border:1px solid rgba(212,175,110,0.35);
+  box-shadow:0 8px 32px rgba(212,175,110,0.12),inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.promo-green{
+  background:rgba(60,180,100,0.1);
+  border:1px solid rgba(60,180,100,0.35);
+  box-shadow:0 8px 32px rgba(60,180,100,0.12),inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.promo-bestie{
+  background:rgba(160,80,220,0.1);
+  border:1px solid rgba(160,80,220,0.35);
+  box-shadow:0 8px 32px rgba(160,80,220,0.12),inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.promo-icon{
+  font-size:28px;flex-shrink:0;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+.promo-text{
+  display:flex;flex-direction:column;gap:4px;flex:1;text-align:left;min-width:0;
+}
+.promo-label{
+  font-family:'Playfair Display',serif;font-weight:700;font-style:italic;
+  font-size:14px;color:var(--white);letter-spacing:0.3px;
+  text-shadow:0 1px 6px rgba(0,0,0,0.5);
+}
+.promo-pink .promo-label{color:var(--pink-soft);}
+.promo-gold .promo-label{color:var(--gold-soft);}
+.promo-green .promo-label{color:#7DEBA0;}
+.promo-bestie .promo-label{color:#D4A8FF;}
+.promo-desc{
+  font-size:11px;color:rgba(255,255,255,0.7);line-height:1.5;
+  white-space:normal;
+}
+.promo-btn{
+  flex-shrink:0;padding:8px 14px;
+  background:var(--pink);color:var(--white);
+  font-family:'Inter',sans-serif;font-weight:700;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;text-decoration:none;cursor:pointer;
+  border:none;white-space:nowrap;
+  transition:all 0.3s;
+  box-shadow:0 4px 14px rgba(232,81,154,0.35);
+}
+.promo-btn:hover{background:var(--pink-deep);letter-spacing:3px;}
+.promo-btn-gold{
+  background:var(--gold);color:var(--noir);
+  box-shadow:0 4px 14px rgba(212,175,110,0.3);
+}
+.promo-btn-gold:hover{background:var(--gold-soft);letter-spacing:3px;}
+.promo-btn-green{
+  background:#3CB464;color:#fff;
+  box-shadow:0 4px 14px rgba(60,180,100,0.3);
+}
+.promo-btn-green:hover{background:#2A9A50;letter-spacing:3px;}
+.promo-btn-bestie{
+  background:#A050DC;color:#fff;
+  box-shadow:0 4px 14px rgba(160,80,220,0.3);
+}
+.promo-btn-bestie:hover{background:#8030C0;letter-spacing:3px;}
+
+/* dot indicators */
+.promo-dots{
+  display:flex;justify-content:center;gap:8px;margin-top:10px;
+}
+.promo-dot{
+  width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);
+  cursor:pointer;transition:all 0.3s;border:none;padding:0;
+}
+.promo-dot.active{background:var(--pink);transform:scale(1.3);}
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:480px){
   .hero h1{font-size:32px;}
   form{padding:28px 20px;margin:20px 12px 40px;}
   .gallery-grid{grid-template-columns:repeat(2,1fr);gap:4px;}
+  .promo-card{width:82vw;padding:14px 14px;}
+  .promo-label{font-size:13px;}
+  .promo-desc{font-size:10px;}
 }
 </style>
 </head>
@@ -503,6 +620,98 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
+
+      <!-- ===== PROMO TICKER ===== -->
+      <div class="promo-ticker-wrap">
+        <div class="promo-ticker">
+          <!-- duplicated for seamless infinite loop -->
+          <div class="promo-track" id="promoTrack">
+
+            <div class="promo-card promo-pink">
+              <div class="promo-icon">🎂</div>
+              <div class="promo-text">
+                <span class="promo-label">Birthday Perks</span>
+                <span class="promo-desc">Automated 10% off during your birthday month — just book and we handle the rest.</span>
+              </div>
+              <a class="promo-btn" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Now</a>
+            </div>
+
+            <div class="promo-card promo-gold">
+              <div class="promo-icon">⭐</div>
+              <div class="promo-text">
+                <span class="promo-label">Loyalty Rewards</span>
+                <span class="promo-desc">Book 5 back to back — your 6th style is 10% off. Sign up when you book.</span>
+              </div>
+              <a class="promo-btn promo-btn-gold" onclick="showSection('bookingSection')" href="javascript:void(0);">Join Now</a>
+            </div>
+
+            <div class="promo-card promo-green">
+              <div class="promo-icon">🍓</div>
+              <div class="promo-text">
+                <span class="promo-label">Wednesday Treat</span>
+                <span class="promo-desc">Book on a Wednesday — get a luxury snack box at your station + 10% off. Grapes, strawberries, crackers & sparkling juice on a bamboo tray.</span>
+              </div>
+              <a class="promo-btn promo-btn-green" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Wed</a>
+            </div>
+
+            <div class="promo-card promo-bestie">
+              <div class="promo-icon">👯‍♀️</div>
+              <div class="promo-text">
+                <span class="promo-label">Bring Your Bestie</span>
+                <span class="promo-desc">Book together and you BOTH get 10% off right now. Share the link after you book.</span>
+              </div>
+              <a class="promo-btn promo-btn-bestie" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Now</a>
+            </div>
+
+            <!-- duplicates for seamless loop -->
+            <div class="promo-card promo-pink">
+              <div class="promo-icon">🎂</div>
+              <div class="promo-text">
+                <span class="promo-label">Birthday Perks</span>
+                <span class="promo-desc">Automated 10% off during your birthday month — just book and we handle the rest.</span>
+              </div>
+              <a class="promo-btn" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Now</a>
+            </div>
+
+            <div class="promo-card promo-gold">
+              <div class="promo-icon">⭐</div>
+              <div class="promo-text">
+                <span class="promo-label">Loyalty Rewards</span>
+                <span class="promo-desc">Book 5 back to back — your 6th style is 10% off. Sign up when you book.</span>
+              </div>
+              <a class="promo-btn promo-btn-gold" onclick="showSection('bookingSection')" href="javascript:void(0);">Join Now</a>
+            </div>
+
+            <div class="promo-card promo-green">
+              <div class="promo-icon">🍓</div>
+              <div class="promo-text">
+                <span class="promo-label">Wednesday Treat</span>
+                <span class="promo-desc">Book on a Wednesday — get a luxury snack box at your station + 10% off. Grapes, strawberries, crackers & sparkling juice on a bamboo tray.</span>
+              </div>
+              <a class="promo-btn promo-btn-green" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Wed</a>
+            </div>
+
+            <div class="promo-card promo-bestie">
+              <div class="promo-icon">👯‍♀️</div>
+              <div class="promo-text">
+                <span class="promo-label">Bring Your Bestie</span>
+                <span class="promo-desc">Book together and you BOTH get 10% off right now. Share the link after you book.</span>
+              </div>
+              <a class="promo-btn promo-btn-bestie" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Now</a>
+            </div>
+
+          </div>
+        </div>
+        <!-- dot indicators -->
+        <div class="promo-dots">
+          <span class="promo-dot active" onclick="goToSlide(0)"></span>
+          <span class="promo-dot" onclick="goToSlide(1)"></span>
+          <span class="promo-dot" onclick="goToSlide(2)"></span>
+          <span class="promo-dot" onclick="goToSlide(3)"></span>
+        </div>
+      </div>
+      <!-- ===== END PROMO TICKER ===== -->
+
       <div class="hero-kicker">Kingston's Finest</div>
       <h1 style="text-align:center;">Your Hair,<br>Elevated</h1>
       <p class="hero-sub">Premium braids, locs, twists, weaves and styling — crafted with precision at ATM Beauty Styles.</p>
@@ -1046,6 +1255,7 @@ let selectedAddons = new Set();
 let vipSelected = false;
 let squeezeInActive = false;
 let discountApplied = false;
+let discountRate = 0;
 
 function toggleCut(el, name) {
   document.querySelectorAll('.cut-item.selected').forEach(e => e.classList.remove('selected'));
@@ -1070,11 +1280,11 @@ function updateSelectionSummary() {
   if(parts.length === 0) { summaryBox.style.display = 'none'; summaryText.innerHTML = ''; return; }
   summaryBox.style.display = 'block';
   let total = getSelectedTotal();
-  if(discountApplied) total = Math.round(total * 0.9);
+  if(discountApplied) total = Math.round(total * (1 - discountRate));
   const dur = getSelectedServiceDuration();
   const durH = Math.floor(dur/60), durM = dur%60;
   const durLabel = durH > 0 ? (durM > 0 ? `${durH}h ${durM}m` : `${durH}h`) : `${durM}m`;
-  const totalStr = total > 0 ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(232,81,154,0.3);font-weight:700;letter-spacing:1px;font-size:14px;color:var(--pink);">💰 ESTIMATED TOTAL: $${total.toLocaleString()}${discountApplied ? ' <span style="font-size:11px;color:#4CAF50;">(10% OFF applied)</span>' : ''} · ⏱ ${durLabel}</div>` : '';
+  const totalStr = total > 0 ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(232,81,154,0.3);font-weight:700;letter-spacing:1px;font-size:14px;color:var(--pink);">💰 ESTIMATED TOTAL: $${total.toLocaleString()}${discountApplied ? ` <span style="font-size:11px;color:#4CAF50;">(${Math.round(discountRate*100)}% OFF applied)</span>` : ''} · ⏱ ${durLabel}</div>` : '';
   summaryText.innerHTML = parts.map(p => `<span style="display:inline-block;background:var(--noir-card);border:1px solid var(--pink);padding:3px 8px;margin:3px 3px 3px 0;font-size:12px;color:var(--pink);font-weight:600;">${p}</span>`).join('') + totalStr;
 }
 function clearSelections() {
@@ -1097,8 +1307,16 @@ function toggleVIP(el) {
 function checkDiscountCode() {
   const code = document.getElementById('discountCode').value.trim().toUpperCase();
   const msg = document.getElementById('discountMsg');
-  if(code === 'WEBVTEC10') { discountApplied = true; msg.innerHTML = '<span class="discount-applied">✓ 10% discount applied</span>'; }
-  else { discountApplied = false; msg.innerHTML = ''; }
+  if(code === 'WEBVTEC10') {
+    discountApplied = true; discountRate = 0.10;
+    msg.innerHTML = '<span class="discount-applied">✓ 10% discount applied</span>';
+  } else if(code === 'BESTIE15') {
+    discountApplied = true; discountRate = 0.15;
+    msg.innerHTML = '<span class="discount-applied">✓ Bestie deal — 15% off applied 👯‍♀️</span>';
+  } else {
+    discountApplied = false; discountRate = 0;
+    msg.innerHTML = '';
+  }
   updateSelectionSummary();
 }
 
@@ -1306,7 +1524,7 @@ function submitBooking(event) {
   const bookingNumber = generateBookingNumber(name);
   const duration = getSelectedServiceDuration();
   let total = getSelectedTotal();
-  if(discountApplied) total = Math.round(total * 0.9);
+  if(discountApplied) total = Math.round(total * (1 - discountRate));
   const newStart = convertToMinutes(time);
   const newEnd = newStart + duration;
 
@@ -1339,7 +1557,7 @@ function submitBooking(event) {
     fetch(FUNCTIONS_URL + '/sendBookingEmail', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email, name, bookingNumber, date:formattedDate, time, services, total, vipStation:vipSelected }) }).catch(()=>{});
     // Reset form
     document.querySelector("#bookingSection form").reset();
-    clearSelections(); discountApplied = false;
+    clearSelections(); discountApplied = false; discountRate = 0;
     document.getElementById('serviceIncludesCard').style.display='none';
     document.getElementById('serviceIncludesCard').innerHTML='';
     document.getElementById("selectedTime").innerHTML="<option value=''>Pick date & service first</option>";
@@ -1364,7 +1582,18 @@ function submitBooking(event) {
           <div style="font-size:13px;color:#1a1a1a;line-height:1.65;"><strong>Bookings without a deposit will be cancelled.</strong> Please send your $2,000 deposit now to secure your spot.</div>
         </div>
         <p style="font-size:12px;color:#666;margin:10px 0 0;text-align:left;line-height:1.6;padding:12px;border:1px dashed rgba(26,26,30,0.15);">For online payment, open the menu and view <b>Payment Info</b>. Use your booking reference number.</p>
-        <button onclick="closeBookingModal()" style="margin-top:18px;padding:14px 34px;background:var(--noir);color:var(--white);border:1px solid var(--noir);font-size:11px;cursor:pointer;font-weight:600;letter-spacing:4px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.background='var(--pink)';this.style.borderColor='var(--pink)'" onmouseout="this.style.background='var(--noir)';this.style.borderColor='var(--noir)'">Close</button>
+
+        <!-- BESTIE BUTTON -->
+        <div style="margin-top:18px;background:linear-gradient(135deg,rgba(232,81,154,0.08),rgba(212,175,110,0.06));border:1px solid rgba(232,81,154,0.25);padding:16px;text-align:center;">
+          <div style="font-size:20px;margin-bottom:6px;">👯‍♀️</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--text-dark);margin-bottom:4px;">Bring Your Bestie</div>
+          <div style="font-size:12px;color:#666;line-height:1.5;margin-bottom:12px;">Book together and you <strong>BOTH</strong> get <strong style="color:var(--pink);">10% off</strong> — right now.</div>
+          <button onclick="shareWithBestie('${bookingNumber}','${formattedDate}','${time}')" style="width:100%;padding:13px;background:linear-gradient(135deg,var(--pink),var(--pink-deep));color:var(--white);border:none;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(232,81,154,0.3);" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">
+            💌 Book with your bestie — BOTH get 10% off
+          </button>
+        </div>
+
+        <button onclick="closeBookingModal()" style="margin-top:12px;padding:14px 34px;background:var(--noir);color:var(--white);border:1px solid var(--noir);font-size:11px;cursor:pointer;font-weight:600;letter-spacing:4px;text-transform:uppercase;transition:all 0.3s;width:100%;" onmouseover="this.style.background='var(--pink)';this.style.borderColor='var(--pink)'" onmouseout="this.style.background='var(--noir)';this.style.borderColor='var(--noir)'">Close</button>
       </div>`;
     document.getElementById('bookingModal').style.display = 'flex';
   }).catch(err => {
@@ -1377,6 +1606,37 @@ function submitBooking(event) {
 }
 
 function closeBookingModal() { document.getElementById('bookingModal').style.display = 'none'; }
+
+// ========== BESTIE SHARE ==========
+function shareWithBestie(bookingNumber, date, time) {
+  const siteUrl = window.location.origin + window.location.pathname;
+  const bestiCode = 'BESTIE15';
+  const msg = `👯‍♀️ Hey! I just booked at ATM Beauty Styles and we can BOTH get 10% off if you book too!\n\n✂ Book here: ${siteUrl}\n🏷 Use code: ${bestiCode} at checkout\n📅 I'm going on ${date} at ${time}\n\nLet's go together! 💕`;
+
+  // Try native share first (works great on mobile)
+  if (navigator.share) {
+    navigator.share({
+      title: 'Book with me at ATM Beauty Styles — BOTH get 10% off!',
+      text: msg,
+      url: siteUrl
+    }).catch(() => {});
+  } else {
+    // Fallback — copy to clipboard + show success
+    navigator.clipboard.writeText(msg).then(() => {
+      Swal.fire({
+        title: '✅ Copied!',
+        html: `<p style="font-size:14px;color:#555;line-height:1.6;">Share this message with your bestie — tell her to use code <strong style="color:var(--pink);">BESTIE15</strong> when she books!</p><div style="background:#fff0f7;border:1px solid rgba(232,81,154,0.2);padding:12px;margin-top:12px;font-size:12px;color:#333;text-align:left;line-height:1.7;">${msg.replace(/\n/g,'<br>')}</div>`,
+        confirmButtonColor: '#E8519A',
+        confirmButtonText: 'Done',
+        width: 420
+      });
+    }).catch(() => {
+      // Last fallback — WhatsApp deeplink
+      const waUrl = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+      window.open(waUrl, '_blank');
+    });
+  }
+}
 
 // ========== PAYMENT INFO ==========
 function showPaymentInfo() { document.getElementById('paymentInfoModal').style.display = 'flex'; }
@@ -1483,6 +1743,36 @@ function cancelUserBooking(bookingId, bookingNumber) {
     });
   });
 }
+
+// ========== PROMO TICKER DOTS ==========
+const CARD_WIDTH_APPROX = 372; // card width (360) + gap (12)
+function goToSlide(index) {
+  const track = document.getElementById('promoTrack');
+  if(!track) return;
+  track.style.animation = 'none';
+  track.style.transform = `translateX(${-(index * CARD_WIDTH_APPROX)}px)`;
+  track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+  document.querySelectorAll('.promo-dot').forEach((d,i) => d.classList.toggle('active', i === index));
+  clearTimeout(window._promoTimer);
+  window._promoTimer = setTimeout(() => {
+    track.style.animation = '';
+    track.style.transform = '';
+    track.style.transition = '';
+  }, 5000);
+}
+// sync dots with 16s CSS animation — 4 slides
+(function syncDots() {
+  const totalMs = 16000;
+  // slide boundaries match keyframe %: 0-18%, 18-38%, 38-58%, 58-78%
+  setInterval(() => {
+    const elapsed = (Date.now() % totalMs) / totalMs;
+    let active = 0;
+    if(elapsed > 0.15 && elapsed < 0.37) active = 1;
+    else if(elapsed > 0.35 && elapsed < 0.57) active = 2;
+    else if(elapsed > 0.55 && elapsed < 0.78) active = 3;
+    document.querySelectorAll('.promo-dot').forEach((d,i) => d.classList.toggle('active', i === active));
+  }, 200);
+})();
 
 // ========== PHONE FORMAT ==========
 document.addEventListener("DOMContentLoaded", function() {
