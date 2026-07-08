@@ -439,37 +439,29 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
 /* ===== PROMO TICKER ===== */
 .promo-ticker-wrap{
   position:relative;z-index:2;
-  width:min(480px,88vw);margin:0 auto 28px;
+  width:min(560px,92vw);margin:0 auto 28px;
 }
 .promo-ticker{
   overflow:hidden;
-  /* subtle glassmorphism container */
+  width:100%;
 }
 .promo-track{
-  display:flex;gap:12px;
-  animation:tickerSlide 16s ease-in-out infinite;
-  width:max-content;
+  display:flex;gap:0;
+  transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+  width:100%;
 }
-.promo-track:hover{animation-play-state:paused;}
-
-@keyframes tickerSlide{
-  0%,10%   { transform:translateX(0); }
-  18%,30%  { transform:translateX(calc(-25% - 3px)); }
-  38%,50%  { transform:translateX(calc(-50% - 6px)); }
-  58%,70%  { transform:translateX(calc(-75% - 9px)); }
-  78%,92%  { transform:translateX(0); }
-  100%     { transform:translateX(0); }
-}
-
 .promo-card{
-  width:min(360px,80vw);flex-shrink:0;
-  display:flex;align-items:center;gap:14px;
-  padding:16px 18px;
+  min-width:100%;width:100%;flex-shrink:0;
+  display:flex;align-items:center;gap:16px;
+  padding:20px 22px;
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-radius:2px;
-  cursor:default;
+  cursor:grab;
   position:relative;overflow:hidden;
+  user-select:none;
 }
+.promo-card:active{cursor:grabbing;}
 .promo-card::before{
   content:'';position:absolute;inset:0;
   border-radius:2px;pointer-events:none;
@@ -555,9 +547,10 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
   .hero h1{font-size:32px;}
   form{padding:28px 20px;margin:20px 12px 40px;}
   .gallery-grid{grid-template-columns:repeat(2,1fr);gap:4px;}
-  .promo-card{width:82vw;padding:14px 14px;}
+  .promo-ticker-wrap{width:94vw;}
   .promo-label{font-size:13px;}
-  .promo-desc{font-size:10px;}
+  .promo-desc{font-size:11px;}
+  .promo-card{padding:16px 14px;gap:12px;}
 }
 </style>
 </head>
@@ -649,44 +642,7 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
               <div class="promo-icon">🍓</div>
               <div class="promo-text">
                 <span class="promo-label">Wednesday Treat</span>
-                <span class="promo-desc">Book on a Wednesday — get a luxury snack box at your station + 10% off. Grapes, strawberries, crackers & sparkling juice on a bamboo tray.</span>
-              </div>
-              <a class="promo-btn promo-btn-green" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Wed</a>
-            </div>
-
-            <div class="promo-card promo-bestie">
-              <div class="promo-icon">👯‍♀️</div>
-              <div class="promo-text">
-                <span class="promo-label">Bring Your Bestie</span>
-                <span class="promo-desc">Book together and you BOTH get 10% off right now. Share the link after you book.</span>
-              </div>
-              <a class="promo-btn promo-btn-bestie" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Now</a>
-            </div>
-
-            <!-- duplicates for seamless loop -->
-            <div class="promo-card promo-pink">
-              <div class="promo-icon">🎂</div>
-              <div class="promo-text">
-                <span class="promo-label">Birthday Perks</span>
-                <span class="promo-desc">Automated 10% off during your birthday month — just book and we handle the rest.</span>
-              </div>
-              <a class="promo-btn" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Now</a>
-            </div>
-
-            <div class="promo-card promo-gold">
-              <div class="promo-icon">⭐</div>
-              <div class="promo-text">
-                <span class="promo-label">Loyalty Rewards</span>
-                <span class="promo-desc">Book 5 back to back — your 6th style is 10% off. Sign up when you book.</span>
-              </div>
-              <a class="promo-btn promo-btn-gold" onclick="showSection('bookingSection')" href="javascript:void(0);">Join Now</a>
-            </div>
-
-            <div class="promo-card promo-green">
-              <div class="promo-icon">🍓</div>
-              <div class="promo-text">
-                <span class="promo-label">Wednesday Treat</span>
-                <span class="promo-desc">Book on a Wednesday — get a luxury snack box at your station + 10% off. Grapes, strawberries, crackers & sparkling juice on a bamboo tray.</span>
+                <span class="promo-desc">Book on a Wednesday — get a luxury snack box at your station + 10% off. Grapes, strawberries, crackers &amp; sparkling juice on a bamboo tray.</span>
               </div>
               <a class="promo-btn promo-btn-green" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Wed</a>
             </div>
@@ -1744,34 +1700,86 @@ function cancelUserBooking(bookingId, bookingNumber) {
   });
 }
 
-// ========== PROMO TICKER DOTS ==========
-const CARD_WIDTH_APPROX = 372; // card width (360) + gap (12)
-function goToSlide(index) {
+// ========== PROMO SLIDESHOW ==========
+(function initPromoSlider() {
+  const TOTAL = 4;
+  const AUTO_MS = 5000; // 5 seconds per slide
+  let current = 0;
+  let autoTimer = null;
+  let dragStartX = null;
+  let dragStartY = null;
+  let isDragging = false;
+
   const track = document.getElementById('promoTrack');
-  if(!track) return;
-  track.style.animation = 'none';
-  track.style.transform = `translateX(${-(index * CARD_WIDTH_APPROX)}px)`;
-  track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
-  document.querySelectorAll('.promo-dot').forEach((d,i) => d.classList.toggle('active', i === index));
-  clearTimeout(window._promoTimer);
-  window._promoTimer = setTimeout(() => {
-    track.style.animation = '';
-    track.style.transform = '';
-    track.style.transition = '';
-  }, 5000);
-}
-// sync dots with 16s CSS animation — 4 slides
-(function syncDots() {
-  const totalMs = 16000;
-  // slide boundaries match keyframe %: 0-18%, 18-38%, 38-58%, 58-78%
-  setInterval(() => {
-    const elapsed = (Date.now() % totalMs) / totalMs;
-    let active = 0;
-    if(elapsed > 0.15 && elapsed < 0.37) active = 1;
-    else if(elapsed > 0.35 && elapsed < 0.57) active = 2;
-    else if(elapsed > 0.55 && elapsed < 0.78) active = 3;
-    document.querySelectorAll('.promo-dot').forEach((d,i) => d.classList.toggle('active', i === active));
-  }, 200);
+  const dots = document.querySelectorAll('.promo-dot');
+
+  function goToSlide(index, fromUser) {
+    // wrap around
+    current = ((index % TOTAL) + TOTAL) % TOTAL;
+    track.style.transform = `translateX(${-(current * 100)}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    if(fromUser) resetAuto(); // reset timer when user swipes/taps
+  }
+
+  function nextSlide() { goToSlide(current + 1, false); }
+
+  function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(nextSlide, AUTO_MS);
+  }
+
+  // expose for dot onclick
+  window.goToSlide = (i) => goToSlide(i, true);
+
+  // ── Touch swipe ──────────────────────────────────────────
+  track.addEventListener('touchstart', e => {
+    dragStartX = e.touches[0].clientX;
+    dragStartY = e.touches[0].clientY;
+    isDragging = false;
+  }, { passive: true });
+
+  track.addEventListener('touchmove', e => {
+    if(dragStartX === null) return;
+    const dx = e.touches[0].clientX - dragStartX;
+    const dy = e.touches[0].clientY - dragStartY;
+    if(!isDragging && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
+      isDragging = true;
+    }
+  }, { passive: true });
+
+  track.addEventListener('touchend', e => {
+    if(!isDragging || dragStartX === null) { dragStartX = null; return; }
+    const dx = e.changedTouches[0].clientX - dragStartX;
+    dragStartX = null; isDragging = false;
+    if(Math.abs(dx) > 40) goToSlide(dx < 0 ? current + 1 : current - 1, true);
+  });
+
+  // ── Mouse drag (desktop) ─────────────────────────────────
+  track.addEventListener('mousedown', e => {
+    dragStartX = e.clientX;
+    isDragging = false;
+    track.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mousemove', e => {
+    if(dragStartX === null) return;
+    if(!isDragging && Math.abs(e.clientX - dragStartX) > 8) isDragging = true;
+  });
+  window.addEventListener('mouseup', e => {
+    if(dragStartX === null) { return; }
+    track.style.cursor = 'grab';
+    const dx = e.clientX - dragStartX;
+    dragStartX = null;
+    if(isDragging && Math.abs(dx) > 40) goToSlide(dx < 0 ? current + 1 : current - 1, true);
+    isDragging = false;
+  });
+
+  // prevent link clicks from firing during drag
+  track.addEventListener('click', e => {
+    if(isDragging) { e.preventDefault(); e.stopPropagation(); }
+  });
+
+  // start
+  resetAuto();
 })();
 
 // ========== PHONE FORMAT ==========
