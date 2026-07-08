@@ -161,7 +161,7 @@ body{
 .hero{
   position:relative;min-height:100vh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;text-align:center;
-  padding:100px 24px 60px;overflow:hidden;
+  padding:76px 24px 60px;overflow:hidden;
 }
 .hero-bg{
   position:absolute;inset:0;z-index:0;
@@ -306,8 +306,16 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
 
 /* ===== DISCOUNT CODE FIELD ===== */
 .discount-field{
-  margin-top:14px;padding:14px;background:rgba(212,175,110,0.05);
-  border:1px dashed rgba(212,175,110,0.35);
+  margin-top:14px;
+  margin-left:-32px;margin-right:-32px;
+  padding:14px 32px;
+  background:rgba(212,175,110,0.05);
+  border-top:1px dashed rgba(212,175,110,0.35);
+  border-bottom:1px dashed rgba(212,175,110,0.35);
+  border-left:none;border-right:none;
+}
+@media(max-width:480px){
+  .discount-field{margin-left:-20px;margin-right:-20px;padding:14px 20px;}
 }
 .discount-field label{margin-top:0 !important;color:var(--gold) !important;}
 .discount-applied{color:#2d7a3e;font-weight:600;font-size:12px;margin-top:6px;}
