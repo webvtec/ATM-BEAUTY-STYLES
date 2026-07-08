@@ -159,13 +159,9 @@ body{
 
 /* ===== HERO SECTION ===== */
 .hero{
-  position:relative;
-  height:calc(100vh - 64px - 56px - 23px); /* viewport minus header, bottom nav, webv footer */
-  min-height:480px;
-  display:flex;flex-direction:column;
+  position:relative;min-height:100vh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;text-align:center;
-  padding:12px 20px 8px;
-  overflow:hidden;
+  padding:100px 24px 60px;overflow:hidden;
 }
 .hero-bg{
   position:absolute;inset:0;z-index:0;
@@ -175,37 +171,35 @@ body{
   content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(8,8,8,0.5) 0%,rgba(8,8,8,0.65) 60%,#080808 100%);
 }
-.hero-content{position:relative;z-index:1;max-width:680px;width:100%;}
+.hero-content{position:relative;z-index:1;max-width:680px;}
 .hero-kicker{
-  font-family:'Playfair Display',serif;font-style:italic;font-size:11px;
-  color:var(--pink-soft);letter-spacing:5px;text-transform:uppercase;margin-bottom:6px;
+  font-family:'Playfair Display',serif;font-style:italic;font-size:13px;
+  color:var(--pink-soft);letter-spacing:5px;text-transform:uppercase;margin-bottom:16px;
   text-shadow:0 1px 12px rgba(0,0,0,0.5);
 }
 .hero h1{
-  font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,5.5vw,48px);
-  color:var(--white);line-height:1.05;letter-spacing:-0.5px;margin-bottom:8px;
+  font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(36px,8vw,64px);
+  color:var(--white);line-height:1.1;letter-spacing:-1px;margin-bottom:20px;
   text-shadow:0 2px 20px rgba(0,0,0,0.4);
 }
-.hero h1::after{display:none;}
 .hero-sub{
-  font-size:12px;color:rgba(255,255,255,0.72);line-height:1.5;
-  max-width:400px;margin:0 auto 12px;
+  font-size:15px;color:rgba(255,255,255,0.75);line-height:1.7;max-width:460px;margin:0 auto 32px;
   text-shadow:0 1px 8px rgba(0,0,0,0.5);
 }
 .hero-cta{
-  display:inline-block;padding:11px 36px;background:var(--pink);color:var(--white);
-  font-family:'Inter',sans-serif;font-weight:700;font-size:10px;letter-spacing:4px;
+  display:inline-block;padding:16px 48px;background:var(--pink);color:var(--white);
+  font-family:'Inter',sans-serif;font-weight:700;font-size:11px;letter-spacing:4px;
   text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;
-  transition:all 0.3s;box-shadow:0 6px 24px rgba(232,81,154,0.4);
+  transition:all 0.3s;box-shadow:0 8px 32px rgba(232,81,154,0.4);
 }
-.hero-cta:hover{background:var(--pink-deep);letter-spacing:5px;box-shadow:0 10px 32px rgba(232,81,154,0.5);}
+.hero-cta:hover{background:var(--pink-deep);letter-spacing:5px;box-shadow:0 12px 40px rgba(232,81,154,0.5);}
 .hero-discount{
-  margin-top:8px;padding:8px 18px;
+  margin-top:28px;padding:14px 28px;
   background:rgba(212,175,110,0.1);border:1px solid rgba(212,175,110,0.3);
   display:inline-block;backdrop-filter:blur(8px);
 }
 .hero-discount span{
-  font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:var(--gold);
+  font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--gold);
 }
 
 /* ===== BOTTOM NAV ===== */
@@ -231,10 +225,8 @@ body{
 @media(max-width:380px){.nav-item{font-size:8px;letter-spacing:1px;}.nav-item .nav-icon{font-size:16px;}}
 
 /* ===== CONTENT SECTIONS ===== */
-.content-section{display:none;padding-top:0;min-height:calc(100vh - 64px);position:relative;z-index:1;}
+.content-section{display:none;padding-top:64px;min-height:100vh;position:relative;z-index:1;}
 .content-section.active{display:block;}
-/* Non-hero sections still need top padding for fixed header */
-.content-section:not(#heroSection){padding-top:64px;}
 .section-kicker{
   text-align:center;font-family:'Playfair Display',serif;font-style:italic;
   font-size:13px;color:var(--pink);letter-spacing:4px;text-transform:uppercase;margin-top:40px;
@@ -447,7 +439,7 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
 /* ===== PROMO TICKER ===== */
 .promo-ticker-wrap{
   position:relative;z-index:2;
-  width:min(560px,92vw);margin:0 auto 10px;
+  width:min(560px,92vw);margin:0 auto 28px;
 }
 .promo-ticker{
   overflow:hidden;
@@ -461,8 +453,8 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
 }
 .promo-card{
   min-width:100%;width:100%;flex-shrink:0;
-  display:flex;align-items:center;gap:14px;
-  padding:13px 16px;
+  display:flex;align-items:center;gap:16px;
+  padding:20px 22px;
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-radius:2px;
   cursor:grab;
@@ -495,15 +487,15 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
   box-shadow:0 8px 32px rgba(160,80,220,0.12),inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .promo-icon{
-  font-size:22px;flex-shrink:0;
+  font-size:28px;flex-shrink:0;
   filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4));
 }
 .promo-text{
-  display:flex;flex-direction:column;gap:2px;flex:1;text-align:left;min-width:0;
+  display:flex;flex-direction:column;gap:4px;flex:1;text-align:left;min-width:0;
 }
 .promo-label{
   font-family:'Playfair Display',serif;font-weight:700;font-style:italic;
-  font-size:13px;color:var(--white);letter-spacing:0.3px;
+  font-size:14px;color:var(--white);letter-spacing:0.3px;
   text-shadow:0 1px 6px rgba(0,0,0,0.5);
 }
 .promo-pink .promo-label{color:var(--pink-soft);}
@@ -511,13 +503,13 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
 .promo-green .promo-label{color:#7DEBA0;}
 .promo-bestie .promo-label{color:#D4A8FF;}
 .promo-desc{
-  font-size:10px;color:rgba(255,255,255,0.7);line-height:1.4;
+  font-size:11px;color:rgba(255,255,255,0.7);line-height:1.5;
   white-space:normal;
 }
 .promo-btn{
-  flex-shrink:0;padding:7px 12px;
+  flex-shrink:0;padding:8px 14px;
   background:var(--pink);color:var(--white);
-  font-family:'Inter',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;
+  font-family:'Inter',sans-serif;font-weight:700;font-size:9px;letter-spacing:2px;
   text-transform:uppercase;text-decoration:none;cursor:pointer;
   border:none;white-space:nowrap;
   transition:all 0.3s;
@@ -542,7 +534,7 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
 
 /* dot indicators */
 .promo-dots{
-  display:flex;justify-content:center;gap:8px;margin-top:6px;
+  display:flex;justify-content:center;gap:8px;margin-top:10px;
 }
 .promo-dot{
   width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);
@@ -676,7 +668,7 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
       </div>
       <!-- ===== END PROMO TICKER ===== -->
 
-      <div class="hero-kicker" style="margin-top:4px;">Kingston's Finest</div>
+      <div class="hero-kicker">Kingston's Finest</div>
       <h1 style="text-align:center;">Your Hair,<br>Elevated</h1>
       <p class="hero-sub">Premium braids, locs, twists, weaves and styling — crafted with precision at ATM Beauty Styles.</p>
       <a class="hero-cta" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Your Appointment</a>
