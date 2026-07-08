@@ -1,824 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATM BEAUTY STYLES</title>
-  <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dqqr9udcs/image/upload/v1777308109/7347cfb21af93a86d6dff16dab182606_tplv-tiktokx-cropcenter_1080_1080_t7npci.jpg">
-  <link rel="icon" type="image/png" sizes="16x16" href="https://res.cloudinary.com/dqqr9udcs/image/upload/v1777308109/7347cfb21af93a86d6dff16dab182606_tplv-tiktokx-cropcenter_1080_1080_t7npci.jpg">
-  <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/dqqr9udcs/image/upload/v1777308109/7347cfb21af93a86d6dff16dab182606_tplv-tiktokx-cropcenter_1080_1080_t7npci.jpg">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/dqqr9udcs/image/upload/v1777308109/7347cfb21af93a86d6dff16dab182606_tplv-tiktokx-cropcenter_1080_1080_t7npci.jpg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATM BEAUTY STYLES — Admin</title>
+<link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dqqr9udcs/image/upload/v1777308109/7347cfb21af93a86d6dff16dab182606_tplv-tiktokx-cropcenter_1080_1080_t7npci.jpg">
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --noir:#0D0D0D;--noir-soft:#161616;--noir-card:#1C1C1C;--noir-line:#2A2A2A;
+  --gold:#C9A96E;--gold-soft:#D4B896;--cream:#FBF8F3;--cream-soft:#F0EDE6;
+  --wine:#722F37;--wine-deep:#5A1E28;--rose:#C48B9F;
+  --text-light:#E8E4DD;--text-dim:#8A8580;--text-dark:#1A1A1A;
+  --bg:#FBF8F3;--white:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-dark);-webkit-font-smoothing:antialiased;min-height:100vh;}
+body{background:radial-gradient(ellipse 600px 400px at 20% -10%,rgba(201,169,110,0.06),transparent 60%),radial-gradient(ellipse 500px 300px at 110% 110%,rgba(196,139,159,0.06),transparent 60%),var(--bg);background-attachment:fixed;}
 
-  <!-- Firebase Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+.header-bar{background:var(--noir);padding:24px 20px 22px;text-align:center;font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:24px;letter-spacing:1px;color:var(--cream);border-bottom:1px solid rgba(201,169,110,0.15);position:relative;}
+.header-bar::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--wine) 0%,var(--gold) 50%,var(--wine) 100%);opacity:0.8;}
 
-  <style>
-    /* =========================================================
-       ATM BEAUTY STYLES — Admin Dashboard
-       Matching luxury editorial system
-       ========================================================= */
-    :root {
-      /* ATM BEAUTY STYLES — Admin Pink & Blue */
-      --ink:        #0B0F1E;
-      --ink-soft:   #101728;
-      --ink-line:   #1A2540;
-      --cream:      #F0ECFF;
-      --cream-soft: #DDE4FF;
-      --paper:      #F8F6FF;
-      --red:        #E8519A;
-      --red-deep:   #B52F74;
-      --rose:       #E8519A;
-      --gold:       #5B9BD5;
-      --gold-soft:  #8DC4F0;
-      --text:       #DDE4FF;
-      --text-dim:   #7A90BB;
-      --text-ink:   #0B0F1E;
+.top-menu{display:flex;align-items:stretch;justify-content:center;gap:0;background:var(--noir-soft);padding:16px;border-bottom:1px solid rgba(201,169,110,0.1);flex-wrap:wrap;}
+.top-menu button{background:transparent;color:var(--cream);border:1px solid rgba(201,169,110,0.2);padding:13px 20px;cursor:pointer;font-weight:600;flex:1 1 160px;min-width:140px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:all 0.25s;margin:2px;}
+.top-menu button:hover,.top-menu button.active-tab{background:linear-gradient(135deg,var(--wine),var(--wine-deep));color:var(--cream);border-color:var(--wine);}
 
-      --primary:  var(--ink);
-      --accent:   var(--red);
-      --accent2:  var(--red-deep);
-      --bg:       #F8F6FF;
-      --white:    #ffffff;
-    }
+.admin-container{max-width:1100px;margin:32px auto;padding:40px 36px;background:var(--cream);box-shadow:0 20px 60px rgba(0,0,0,0.08),0 0 0 1px rgba(201,169,110,0.2);position:relative;}
+.admin-container::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--rose),var(--gold));}
+.content-section{display:none;}.content-section.active{display:block;}
 
-    * { box-sizing: border-box; }
+h2{color:var(--text-dark);text-align:center;font-family:'Playfair Display',serif;font-weight:700;font-size:32px;margin:8px 0 6px;}
+h2::after{content:'';display:block;width:48px;height:1px;background:var(--gold);margin:16px auto 24px;}
+.admin-kicker{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:11px;color:var(--wine);letter-spacing:3px;text-transform:uppercase;margin-bottom:4px;}
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'DM Sans', -apple-system, sans-serif;
-      background: var(--paper);
-      color: var(--text-ink);
-      -webkit-font-smoothing: antialiased;
-    }
+input[type="text"],input[type="date"],input[type="time"],select{width:100%;padding:13px 14px;margin-bottom:14px;border:none;border-bottom:1px solid rgba(26,26,30,0.15);font-family:'Inter',sans-serif;font-size:14px;background:transparent;color:var(--text-dark);transition:border-color 0.3s;}
+input:focus,select:focus{outline:none;border-bottom-color:var(--gold);box-shadow:0 1px 0 var(--gold);}
+select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23722F37' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:34px;cursor:pointer;}
+button{background:var(--noir);color:var(--cream);padding:13px 24px;border:1px solid var(--noir);cursor:pointer;margin-bottom:14px;font-family:'Inter',sans-serif;font-weight:600;font-size:10px;letter-spacing:4px;text-transform:uppercase;transition:all 0.3s;}
+button:hover{background:var(--wine);border-color:var(--wine);}
+label{font-size:10px;font-weight:600;color:var(--wine);text-transform:uppercase;letter-spacing:2.5px;display:block;margin-bottom:6px;margin-top:14px;font-family:'Inter',sans-serif;}
 
-    body {
-      background:
-        radial-gradient(ellipse 600px 400px at 20% -10%, rgba(232,81,154,0.07), transparent 60%),
-        radial-gradient(ellipse 500px 300px at 110% 110%, rgba(91,155,213,0.09), transparent 60%),
-        #F8F6FF;
-      background-attachment: fixed;
-      min-height: 100vh;
-    }
+/* Upload Area */
+.upload-area{border:1px dashed var(--gold);padding:40px 24px;text-align:center;margin-bottom:18px;cursor:pointer;background:var(--bg);transition:all 0.3s;position:relative;}
+.upload-area:hover{background:#fff;border-color:var(--wine);}
+.upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;margin:0;}
+.upload-area .upload-icon{font-size:32px;margin-bottom:10px;color:var(--gold);}
+.upload-area p{margin:0;font-size:13px;color:var(--text-dark);letter-spacing:1px;}
+.upload-area strong{color:var(--wine);font-weight:600;text-transform:uppercase;letter-spacing:2px;font-size:12px;}
 
-    /* Paper grain */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.03;
-      z-index: 1;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
+#imagePreviewWrap{margin:14px auto;}
+#imagePreviewList .thumb{position:relative;width:90px;height:90px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.12);border:1px solid rgba(201,169,110,0.2);background:var(--noir-card);}
+#imagePreviewList .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+#imagePreviewList .thumb .thumb-remove{position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:13px;cursor:pointer;padding:0;margin:0;display:flex;align-items:center;justify-content:center;}
+#imagePreviewList .thumb.uploading::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.45);}
+#imagePreviewList .thumb.done::after{content:'✓';position:absolute;inset:0;background:rgba(0,120,60,0.55);color:#fff;font-size:28px;display:flex;align-items:center;justify-content:center;}
+#imagePreviewList .thumb.failed::after{content:'!';position:absolute;inset:0;background:rgba(180,30,30,0.6);color:#fff;font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+#uploadProgress{display:none;margin-bottom:14px;}
+#uploadProgress progress{width:100%;height:4px;accent-color:var(--wine);}
 
-    /* ================ HEADER ================ */
-    .header-bar {
-      background: #0B0F1E;
-      padding: 28px 20px 26px;
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-style: italic;
-      font-size: 26px;
-      letter-spacing: 0.5px;
-      color: var(--cream);
-      border-bottom: 1px solid rgba(201,169,97,0.2);
-      position: relative;
-    }
-    .header-bar::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg,
-        var(--red) 0%, var(--cream) 25%,
-        var(--gold) 50%, var(--cream) 75%, var(--red) 100%);
-      opacity: 0.85;
-    }
+/* Gallery */
+.gallery-category{margin-top:40px;}
+.gallery-category h3{text-align:center;margin-bottom:20px;font-size:24px;color:var(--text-dark);font-family:'Playfair Display',serif;font-weight:700;position:relative;}
+.gallery-category h3::before{content:'✦';display:block;color:var(--gold);font-size:16px;margin-bottom:2px;font-weight:400;}
+.gallery-category h3::after{content:'';display:block;width:32px;height:1px;background:var(--gold);margin:8px auto 0;}
+.gallery-wrapper{max-width:1100px;margin:0 auto;padding:0 10px;}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.gallery-grid .gallery-cell{position:relative;overflow:hidden;aspect-ratio:1;border:1px solid rgba(201,169,110,0.15);cursor:grab;}
+.gallery-grid .gallery-cell img{width:100%;height:100%;object-fit:cover;display:block;}
+.gallery-grid .gallery-cell .delete-btn{position:absolute;bottom:6px;right:6px;background:rgba(114,47,55,0.9);color:#fff;border:none;padding:4px 8px;font-size:10px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:background 0.2s;}
+.gallery-grid .gallery-cell .delete-btn:hover{background:var(--wine);}
 
-    /* ================ TOP MENU (tabs) ================ */
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
-      justify-content: center;
-      gap: 0;
-      background: var(--ink-soft);
-      padding: 18px 16px;
-      border-bottom: 1px solid rgba(91,155,213,0.15);
-      flex-wrap: wrap;
-    }
-    .top-menu button {
-      background: transparent;
-      color: var(--cream);
-      border: 1px solid rgba(91,155,213,0.3);
-      padding: 14px 22px;
-      border-radius: 0;
-      cursor: pointer;
-      font-weight: 600;
-      width: auto;
-      flex: 1 1 180px;
-      min-width: 150px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      transition: all 0.25s ease;
-      margin: 2px;
-    }
-    .top-menu button:hover {
-      background: linear-gradient(135deg, var(--rose), var(--red-deep));
-      color: var(--cream);
-      border-color: var(--rose);
-    }
+/* Revenue Dashboard */
+.revenue-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0;}
+.rev-card{background:var(--bg);border:1px solid rgba(201,169,110,0.15);padding:20px;text-align:center;}
+.rev-card .rev-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+.rev-card .rev-value{font-family:'Playfair Display',serif;font-weight:700;font-size:28px;color:var(--text-dark);}
+.rev-card .rev-sub{font-size:11px;color:var(--text-dim);margin-top:4px;}
+.rev-card.gold-card{border-color:var(--gold);background:rgba(201,169,110,0.04);}
+.rev-card.gold-card .rev-value{color:var(--gold);}
+.rev-card.wine-card{border-color:var(--wine);background:rgba(114,47,55,0.03);}
+.rev-card.wine-card .rev-value{color:var(--wine);}
 
-    /* ================ ADMIN CONTAINER ================ */
-    .admin-container {
-      max-width: 1100px;
-      margin: 36px auto;
-      padding: 44px 36px;
-      background: var(--cream);
-      border-radius: 2px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(201,169,97,0.3);
-      border-top: none;
-      position: relative;
-    }
-    .admin-container::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
-    }
-    .admin-container::after {
-      content: '';
-      position: absolute;
-      top: 18px; left: 18px; right: 18px; bottom: 18px;
-      border: 1px solid rgba(192,78,114,0.12);
-      pointer-events: none;
-      border-radius: 1px;
-    }
+/* Reservation Cards */
+.reservation-group{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:var(--text-dark);margin:28px 0 14px;padding-bottom:8px;border-bottom:1px solid rgba(201,169,110,0.2);}
+.reservation-card{background:var(--bg);border:1px solid rgba(201,169,110,0.15);padding:18px;margin-bottom:14px;border-left:4px solid var(--gold);transition:all 0.3s;}
+.reservation-card.highlighted{border-color:var(--wine);background:rgba(114,47,55,0.04);box-shadow:0 4px 20px rgba(114,47,55,0.15);}
+.reservation-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.reservation-header h3{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:var(--text-dark);margin:0;}
+.badge{padding:4px 10px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cream);}
+.badge.today{background:var(--wine);}
+.badge.tomorrow{background:var(--gold);color:var(--noir);}
+.badge.upcoming{background:var(--noir);}
+.badge.past{background:var(--text-dim);}
 
-    h2 {
-      color: var(--text-ink);
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-style: normal;
-      letter-spacing: 0;
-      font-size: 34px;
-      margin: 8px 0 6px;
-      position: relative;
-    }
-    h2::after {
-      content: '';
-      display: block;
-      width: 50px;
-      height: 1px;
-      background: var(--gold);
-      margin: 18px auto 26px;
-    }
-    .admin-kicker {
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 12px;
-      color: var(--red);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
+.action-buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.action-buttons button{margin-bottom:0;padding:8px 14px;font-size:10px;letter-spacing:2px;}
+.cancel-btn{background:transparent;color:var(--wine);border:1px solid var(--wine);}
+.cancel-btn:hover{background:var(--wine);color:var(--cream);}
+.deposit-btn{background:transparent;color:var(--text-dark);border-color:var(--text-dark);}
+.deposit-btn:hover{background:var(--noir);color:var(--gold);}
+.status-btn{background:transparent;color:var(--gold);border-color:var(--gold);}
+.status-btn:hover{background:var(--gold);color:var(--noir);}
 
-    /* Form fields */
-    input[type="text"], input[type="date"], input[type="time"], select {
-      width: 100%;
-      padding: 13px 14px;
-      margin-bottom: 14px;
-      border: none;
-      border-bottom: 1px solid rgba(26,26,30,0.2);
-      border-radius: 0;
-      box-sizing: border-box;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      background: transparent;
-      color: var(--text-ink);
-      transition: border-color 0.25s ease;
-    }
-    input:focus, select:focus {
-      outline: none;
-      border-bottom-color: var(--rose);
-      box-shadow: 0 1px 0 var(--red);
-    }
-    select {
-      appearance: none; -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C04E72' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 34px;
-      cursor: pointer;
-    }
+.clear-container{margin-top:32px;padding-top:24px;border-top:1px solid rgba(201,169,110,0.15);}
 
-    button {
-      background: var(--ink);
-      color: var(--cream);
-      padding: 14px 28px;
-      border: 1px solid var(--ink);
-      border-radius: 0;
-      cursor: pointer;
-      margin-bottom: 16px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 11px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      transition: all 0.3s ease;
-    }
-    button:hover {
-      background: var(--rose);
-      border-color: var(--rose);
-      letter-spacing: 5px;
-    }
+/* Partner Cut Row */
+.partner-cut{font-size:12px;color:var(--wine);font-weight:600;margin-top:4px;padding:4px 8px;background:rgba(114,47,55,0.05);border-left:2px solid var(--wine);display:inline-block;}
 
-    /* ================ UPLOAD AREA ================ */
-    .upload-area {
-      border: 1px dashed var(--gold);
-      border-radius: 2px;
-      padding: 40px 24px;
-      text-align: center;
-      margin-bottom: 18px;
-      cursor: pointer;
-      background: var(--paper);
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    .upload-area:hover {
-      background: #fff;
-      border-color: var(--rose);
-    }
-    .upload-area input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-    .upload-area .upload-icon {
-      font-size: 32px;
-      margin-bottom: 10px;
-      color: var(--gold);
-    }
-    .upload-area p {
-      margin: 0;
-      font-size: 13px;
-      color: var(--text-ink);
-      font-family: 'DM Sans', sans-serif;
-      letter-spacing: 1px;
-    }
-    .upload-area strong {
-      color: var(--rose);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 12px;
-    }
+/* Toast */
+#toast{visibility:hidden;min-width:280px;background:var(--noir);color:var(--cream);text-align:center;padding:14px 24px;position:fixed;z-index:9999;left:50%;transform:translateX(-50%);bottom:30px;font-size:13px;letter-spacing:1px;font-family:'Inter',sans-serif;transition:opacity 0.5s,bottom 0.5s;border:1px solid rgba(201,169,110,0.2);}
 
-    #imagePreviewWrap { margin: 14px auto; }
-    #imagePreviewList .thumb {
-      position: relative;
-      width: 90px;
-      height: 90px;
-      border-radius: 2px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-      border: 1px solid rgba(201,169,97,0.3);
-      background: #1a1418;
-    }
-    #imagePreviewList .thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    #imagePreviewList .thumb .thumb-remove {
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      background: rgba(0,0,0,0.7);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 22px;
-      height: 22px;
-      font-size: 13px;
-      line-height: 1;
-      cursor: pointer;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #imagePreviewList .thumb.uploading::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-    }
-    #imagePreviewList .thumb.done::after {
-      content: '✓';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,120,60,0.55);
-      color: #fff;
-      font-size: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #imagePreviewList .thumb.failed::after {
-      content: '!';
-      position: absolute;
-      inset: 0;
-      background: rgba(180,30,30,0.6);
-      color: #fff;
-      font-size: 28px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #uploadProgress { display: none; margin-bottom: 14px; }
-    #uploadProgress progress {
-      width: 100%;
-      height: 4px;
-      border-radius: 0;
-      accent-color: var(--red);
-    }
-
-    /* ================ GALLERY (admin) ================ */
-    .gallery-category { margin-top: 44px; }
-    .gallery-category h3 {
-      text-align: center;
-      margin-bottom: 22px;
-      font-size: 26px;
-      color: var(--text-ink);
-      text-transform: none;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      letter-spacing: 0;
-      position: relative;
-    }
-    .gallery-category h3::before {
-      content: '✦';
-      display: block;
-      color: var(--gold);
-      font-style: italic;
-      font-weight: 400;
-      font-size: 20px;
-      margin-bottom: 2px;
-    }
-    .gallery-category h3::after {
-      content: '';
-      display: block;
-      width: 36px;
-      height: 1px;
-      background: var(--gold);
-      margin: 10px auto 0;
-    }
-
-    .gallery-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 10px; }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    @media (min-width: 768px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
-
-    .gallery-grid div { position: relative; }
-
-    .gallery-grid img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 2px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-      border: 1px solid rgba(201,169,97,0.25);
-      transition: all 0.35s ease;
-    }
-    .gallery-grid img:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.28);
-      border-color: var(--gold);
-    }
-
-    .remove-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(18,8,16,0.88);
-      color: var(--cream);
-      border: 1px solid var(--rose);
-      padding: 6px 10px;
-      border-radius: 0;
-      cursor: pointer;
-      font-size: 10px;
-      font-weight: 600;
-      margin-bottom: 0;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      backdrop-filter: blur(6px);
-      transition: all 0.25s ease;
-    }
-    .remove-btn:hover {
-      background: var(--rose);
-      color: var(--cream);
-    }
-
-    /* ================ TABLE ================ */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 30px;
-      background: #fff;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    }
-    th, td {
-      border: none;
-      border-bottom: 1px solid rgba(26,26,30,0.08);
-      padding: 14px 10px;
-      text-align: center;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-    }
-    th {
-      background: var(--ink);
-      color: var(--gold);
-      font-weight: 500;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-size: 11px;
-      padding: 16px 10px;
-      border-bottom: 1px solid var(--gold);
-    }
-
-    /* ================ SECTIONS ================ */
-    .content-section { display: none; }
-    .content-section.active { display: block; animation: fadeUp 0.4s ease; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    .clear-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 26px;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .clear-container input {
-      padding: 12px 14px;
-      border: 1px solid rgba(26,26,30,0.2);
-      border-radius: 0;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    /* ================ RESERVATION CARDS ================ */
-    .reservation-card {
-      background: #fff;
-      border-radius: 2px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      padding: 22px 24px;
-      margin: 14px 0;
-      border-left: 3px solid var(--rose);
-      border-top: 1px solid rgba(201,169,97,0.2);
-      position: relative;
-      transition: box-shadow 0.25s ease;
-    }
-    .reservation-card:hover {
-      box-shadow: 0 8px 26px rgba(0,0,0,0.14);
-    }
-
-    .reservation-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 12px;
-      margin-bottom: 12px;
-      border-bottom: 1px dotted rgba(26,26,30,0.15);
-    }
-    .reservation-header h3 {
-      margin: 0;
-      color: var(--text-ink);
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      letter-spacing: 0;
-      font-size: 20px;
-    }
-
-    .badge {
-      padding: 5px 12px;
-      border-radius: 0;
-      font-size: 10px;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .badge.today    { background: var(--rose); color: var(--cream); }
-    .badge.upcoming { background: var(--gold); color: var(--ink); }
-    .badge.tomorrow { background: var(--ink); color: var(--gold); border: 1px solid var(--gold); }
-    .badge.past     { background: transparent; color: var(--text-dim); border: 1px solid rgba(26,26,30,0.2); }
-
-    .reservation-group {
-      margin-top: 36px;
-      margin-bottom: 14px;
-      padding: 14px 20px;
-      background: var(--ink);
-      color: var(--cream);
-      border-radius: 0;
-      font-size: 14px;
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      position: relative;
-    }
-    .reservation-group::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
-      opacity: 0.85;
-    }
-
-    .highlighted {
-      border: 2px solid var(--gold) !important;
-      box-shadow: 0 0 0 4px rgba(201,169,97,0.15), 0 8px 26px rgba(0,0,0,0.15) !important;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .reservation-card .action-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 14px;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .cancel-btn, .deposit-btn, .status-btn {
-      flex: 1;
-      padding: 11px 14px;
-      font-weight: 600;
-      border-radius: 0;
-      border: 1px solid;
-      cursor: pointer;
-      margin-bottom: 0;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 10px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      transition: all 0.25s ease;
-      min-width: 90px;
-    }
-    .cancel-btn {
-      background: transparent;
-      color: var(--rose);
-      border-color: var(--rose);
-    }
-    .cancel-btn:hover { background: var(--rose); color: var(--cream); }
-
-    .deposit-btn {
-      background: transparent;
-      color: var(--text-ink);
-      border-color: var(--text-ink);
-    }
-    .deposit-btn:hover { background: var(--ink); color: var(--gold); }
-
-    .status-btn {
-      background: transparent;
-      color: var(--gold);
-      border-color: var(--gold);
-    }
-    .status-btn:hover { background: var(--gold); color: var(--ink); }
-
-    #unavailableDateInput, #startTimeInput, #endTimeInput {
-      width: 100%;
-      padding: 13px 14px;
-      margin-bottom: 14px;
-      border: none;
-      border-bottom: 1px solid rgba(26,26,30,0.2);
-      border-radius: 0;
-      box-sizing: border-box;
-      font-family: 'DM Sans', sans-serif;
-      background: transparent;
-    }
-
-    .status-completed { color: #2d7a3e; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 11px; }
-    .status-not { color: var(--rose); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 11px; }
-    .status-none { color: var(--text-dim); font-style: italic; font-size: 12px; }
-
-    label {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--rose);
-      text-transform: uppercase;
-      letter-spacing: 2.5px;
-      display: block;
-      margin-bottom: 6px;
-      margin-top: 14px;
-      font-family: 'DM Sans', sans-serif;
-    }
-  </style>
+@media(max-width:600px){
+  .admin-container{margin:16px 8px;padding:24px 16px;}
+  .top-menu{padding:10px;}
+  .top-menu button{padding:10px 12px;font-size:9px;letter-spacing:2px;}
+  .revenue-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
 </head>
-
 <body>
 
-  <!-- ===== CHECKING ACCESS OVERLAY ===== -->
-  <div id="accessOverlay" style="
-    position:fixed;inset:0;z-index:99999;
-    background:
-      radial-gradient(ellipse 600px 400px at 20% -10%, rgba(232,81,154,0.12), transparent 60%),
-      radial-gradient(ellipse 500px 300px at 110% 110%, rgba(91,155,213,0.10), transparent 60%),
-      #0B0F1E;
-    display:flex;flex-direction:column;
-    align-items:center;justify-content:center;
-    gap:28px;">
-    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:4px;color:#5B9BD5;text-transform:uppercase;">The Gate</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:46px;letter-spacing:0;color:#F0ECFF;text-align:center;">Checking Access</div>
-    <div style="width:60px;height:1px;background:#5B9BD5;"></div>
+<!-- Access Overlay -->
+<div id="accessOverlay" style="position:fixed;inset:0;z-index:99999;background:radial-gradient(ellipse 600px 400px at 20% -10%,rgba(201,169,110,0.08),transparent 60%),var(--noir);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;">
+  <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:12px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;">The Gate</div>
+  <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:42px;color:var(--cream);text-align:center;">Checking Access</div>
+  <div style="width:48px;height:1px;background:var(--gold);"></div>
+  <div style="display:flex;gap:10px;">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--wine);animation:dotpulse 1.2s ease-in-out infinite;"></span>
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--wine);animation:dotpulse 1.2s ease-in-out 0.4s infinite;"></span>
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--wine);animation:dotpulse 1.2s ease-in-out 0.8s infinite;"></span>
+  </div>
+  <div id="accessStatus" style="font-family:'Inter',sans-serif;font-size:11px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;">Verifying identity…</div>
+</div>
+<style>@keyframes dotpulse{0%,100%{opacity:0.2;transform:scale(0.8);}50%{opacity:1;transform:scale(1.2);}} #dashboardContent{display:none;}</style>
+
+<div id="dashboardContent">
+<div class="header-bar">ATM Beauty Styles — Admin</div>
+<div class="top-menu">
+  <button onclick="showSection('revenueSection')" id="tabRevenue">Revenue</button>
+  <button onclick="showSection('reservationsPage')" id="tabReservations">Reservations</button>
+  <button onclick="showSection('gallerySection')" id="tabGallery">Gallery</button>
+  <button onclick="showSection('unavailableDaysSection')" id="tabSchedule">Schedule</button>
+</div>
+
+<!-- Revenue Dashboard -->
+<div id="revenueSection" class="admin-container content-section">
+  <div class="admin-kicker">Business Intelligence</div>
+  <h2>Revenue Dashboard</h2>
+  <div style="display:flex;gap:10px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;">
+    <button onclick="loadRevenue('week')" id="revWeek" style="margin-bottom:0;">This Week</button>
+    <button onclick="loadRevenue('month')" id="revMonth" style="margin-bottom:0;">This Month</button>
+    <button onclick="loadRevenue('all')" id="revAll" style="margin-bottom:0;">All Time</button>
+  </div>
+  <div class="revenue-grid" id="revenueGrid">
+    <div class="rev-card"><div class="rev-label">Loading…</div><div class="rev-value">—</div></div>
+  </div>
+  <div id="revenueBreakdown" style="margin-top:24px;"></div>
+</div>
+
+<!-- Reservations -->
+<div class="admin-container content-section" id="reservationsPage">
+  <div class="admin-kicker">Appointments</div>
+  <h2>Reservations</h2>
+  <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+    <input id="reservationSearch" placeholder="Search reservations…" type="text" style="flex:1;min-width:180px;"/>
+    <button onclick="searchReservations()" style="margin-bottom:0;">Search</button>
+  </div>
+  <div id="reservationsList"></div>
+  <div class="clear-container">
+    <input id="clearInput" placeholder='Type "CONFIRM" to clear past reservations' type="text"/>
+    <button onclick="clearReservations()">Clear Past Reservations</button>
+  </div>
+</div>
+
+<!-- Gallery -->
+<div id="gallerySection" class="admin-container content-section">
+  <div class="admin-kicker">The Style Gallery</div>
+  <h2>Upload Style Photo</h2>
+  <div class="upload-area" id="uploadArea">
+    <input type="file" id="photoFileInput" accept="image/*,.heic,.heif" multiple onchange="previewImage(event)"/>
+    <div class="upload-icon">✦</div>
+    <p><strong>Tap to choose style photos</strong><br>You can select multiple at once</p>
+  </div>
+  <div id="imagePreviewWrap" style="display:none;margin:14px auto;text-align:center;">
+    <div id="imagePreviewList" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:640px;margin:0 auto;"></div>
+    <p id="imagePreviewCount" style="font-size:11px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;font-style:italic;margin-top:10px;"></p>
+  </div>
+  <div id="uploadProgress"><p id="uploadProgressLabel" style="font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:2px;text-transform:uppercase;font-style:italic;">Uploading…</p><progress id="progressBar" value="0" max="100"></progress></div>
+  <label for="photoCategorySelect">Select Category</label>
+  <select id="photoCategorySelect">
+    <option value="BRAIDS">BRAIDS</option><option value="KNOTLESS">KNOTLESS</option>
+    <option value="WEAVES &amp; EXTENSIONS">WEAVES & EXTENSIONS</option><option value="LASHES">LASHES</option>
+    <option value="NATURAL STYLES">NATURAL STYLES</option><option value="SILK PRESS">SILK PRESS</option>
+    <option value="COLOUR">COLOUR</option><option value="BEAUTY &amp; GROOMING">BEAUTY & GROOMING</option>
+  </select>
+  <button onclick="uploadPhoto()" id="uploadBtn">Add Photos</button>
+  <div id="adminGallery"></div>
+</div>
+
+<!-- Unavailable Days -->
+<div class="admin-container content-section" id="unavailableDaysSection">
+  <div class="admin-kicker">Schedule</div>
+  <h2>Unavailable Days</h2>
+  <label>Date</label><input id="unavailableDateInput" type="date"/>
+  <label style="display:flex;align-items:center;gap:8px;margin-top:16px;"><input checked id="allDayCheckbox" onchange="toggleTimeInputs()" type="checkbox" style="width:auto;margin:0;"/> All Day</label>
+  <div id="timeInputs" style="display:none;margin-top:10px;">
+    <label>From</label><input id="startTimeInput" type="time"/>
+    <label>Until</label><input id="endTimeInput" type="time"/>
+  </div>
+  <button onclick="addUnavailableDate()">Add Unavailable Date</button>
+  <h3 style="font-family:'Playfair Display',serif;font-weight:700;color:var(--text-dark);font-size:22px;margin-top:32px;margin-bottom:14px;text-align:center;">
+    <span style="display:block;font-family:'Playfair Display',serif;font-style:italic;font-size:11px;color:var(--wine);letter-spacing:3px;text-transform:uppercase;font-weight:400;margin-bottom:2px;">Blocked Dates</span>
+    The Calendar
+  </h3>
+  <ul id="unavailableDatesList" style="font-size:13px;list-style:none;padding:0;"></ul>
+</div>
+
+<!-- Conflict Modal -->
+<div id="conflictModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:2000;">
+  <div style="background:#fff;padding:20px;max-width:450px;width:90%;max-height:80%;overflow-y:auto;box-shadow:0 4px 10px rgba(0,0,0,0.2);border-top:4px solid var(--gold);">
+    <h3 style="margin-bottom:10px;color:var(--gold);">⚠️ Conflicting Bookings</h3>
+    <p style="font-size:14px;color:#333;margin-bottom:15px;">The following bookings conflict. Please contact the client and cancel before marking this time as unavailable.</p>
+    <div id="conflictList"></div>
+    <div style="text-align:right;margin-top:15px;"><button onclick="closeConflictModal()" style="margin-bottom:0;">Close</button></div>
+  </div>
+</div>
+
+<!-- Deposit Modal -->
+<div id="depositModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:1000;">
+  <div style="background:#fff;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,0.2);border-top:3px solid var(--gold);">
+    <h3 style="font-family:'Playfair Display',serif;font-size:20px;margin-bottom:18px;">Update Payment</h3>
+    <label style="display:block;margin:10px 0;text-align:left;font-size:13px;cursor:pointer;"><input type="radio" name="depositChoice" value="Made" style="width:auto;margin-right:8px;"/> Made</label>
+    <label style="display:block;margin:10px 0;text-align:left;font-size:13px;cursor:pointer;"><input type="radio" name="depositChoice" value="Not Made" style="width:auto;margin-right:8px;"/> Not Made</label>
+    <label style="display:block;margin:10px 0;text-align:left;font-size:13px;cursor:pointer;"><input type="radio" name="depositChoice" value="Partial" style="width:auto;margin-right:8px;"/> Partial</label>
+    <div style="display:flex;gap:10px;margin-top:18px;">
+      <button onclick="closeDepositModal()" style="flex:1;background:var(--bg);color:var(--text-dark);border:1px solid #ddd;margin-bottom:0;">Cancel</button>
+      <button onclick="confirmDeposit()" style="flex:1;margin-bottom:0;">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Status Modal -->
+<div id="statusModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:1000;">
+  <div style="background:#fff;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,0.2);border-top:3px solid var(--gold);">
+    <h3 style="font-family:'Playfair Display',serif;font-size:20px;margin-bottom:18px;">Update Status</h3>
+    <label style="display:block;margin:10px 0;text-align:left;font-size:13px;cursor:pointer;"><input type="radio" name="statusChoice" value="Completed" style="width:auto;margin-right:8px;"/> Completed</label>
+    <label style="display:block;margin:10px 0;text-align:left;font-size:13px;cursor:pointer;"><input type="radio" name="statusChoice" value="Not Completed" style="width:auto;margin-right:8px;"/> Not Completed</label>
+    <label style="display:block;margin:10px 0;text-align:left;font-size:13px;cursor:pointer;"><input type="radio" name="statusChoice" value="No-Show" style="width:auto;margin-right:8px;"/> No-Show</label>
+    <div style="display:flex;gap:10px;margin-top:18px;">
+      <button onclick="closeStatusModal()" style="flex:1;background:var(--bg);color:var(--text-dark);border:1px solid #ddd;margin-bottom:0;">Cancel</button>
+      <button onclick="confirmStatus()" style="flex:1;margin-bottom:0;">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Cancel Modal -->
+<div id="adminCancelModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);justify-content:center;align-items:center;z-index:2000;">
+  <div style="background:#fff;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,0.25);border-top:4px solid var(--wine);">
+    <input type="hidden" id="adminCancelBookingId"/>
+    <div style="font-size:40px;margin-bottom:10px;">⚠️</div>
+    <h3 style="font-family:'Playfair Display',serif;font-style:italic;font-size:22px;color:var(--text-dark);">Cancel Booking?</h3>
+    <p style="font-size:14px;color:#666;margin:8px 0 22px;line-height:1.5;">This will mark the booking as <strong style="color:var(--wine);">Cancelled</strong>.</p>
     <div style="display:flex;gap:10px;">
-      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out infinite;display:inline-block;"></span>
-      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out 0.4s infinite;display:inline-block;"></span>
-      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out 0.8s infinite;display:inline-block;"></span>
-    </div>
-    <div id="accessStatus" style="font-family:'DM Sans',sans-serif;font-size:11px;color:#7A90BB;letter-spacing:3px;text-transform:uppercase;">Verifying identity…</div>
-  </div>
-  <style>
-    @keyframes dotpulse {
-      0%,100%{opacity:0.2;transform:scale(0.8);}
-      50%{opacity:1;transform:scale(1.2);}
-    }
-    #dashboardContent{display:none;}
-  </style>
-
-  <div id="dashboardContent">
-  <div class="header-bar">ATM Beauty Styles — Admin</div>
-
-  <div class="top-menu">
-    <button onclick="showSection('gallerySection')">Gallery</button>
-    <button onclick="showSection('reservationsPage')">Reservations</button>
-    <button onclick="showSection('unavailableDaysSection')">Unavailable Days</button>
-  </div>
-
-  <!-- Gallery Management -->
-  <div id="gallerySection" class="admin-container content-section">
-    <div class="admin-kicker">The Style Gallery</div>
-    <h2>Upload Style Photo</h2>
-
-    <!-- Device Upload Area -->
-    <div class="upload-area" id="uploadArea">
-      <input type="file" id="photoFileInput" accept="image/*,.heic,.heif" multiple onchange="previewImage(event)"/>
-      <div class="upload-icon">🌸</div>
-      <p><strong>Tap to choose style photos</strong><br>You can select multiple at once, or drag &amp; drop here</p>
-    </div>
-
-    <!-- Image Preview (multiple thumbnails) -->
-    <div id="imagePreviewWrap" style="display:none; margin:14px auto; text-align:center;">
-      <div id="imagePreviewList" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width:640px; margin:0 auto;"></div>
-      <p id="imagePreviewCount" style="font-size:11px; color:var(--text-dim); letter-spacing:2px; text-transform:uppercase; font-family:'Cormorant Garamond',serif; font-style:italic; margin-top:10px;"></p>
-    </div>
-
-    <!-- Upload Progress -->
-    <div id="uploadProgress">
-      <p id="uploadProgressLabel" style="font-size:11px; color:var(--text-dim); margin-bottom:6px; letter-spacing:2px; text-transform:uppercase; font-family:'Cormorant Garamond',serif; font-style:italic;">Uploading…</p>
-      <progress id="progressBar" value="0" max="100"></progress>
-    </div>
-
-    <label for="photoCategorySelect">Select Category</label>
-    <select id="photoCategorySelect">
-      <option value="BRAIDS">BRAIDS</option>
-      <option value="KNOTLESS">KNOTLESS</option>
-      <option value="WEAVES &amp; EXTENSIONS">WEAVES &amp; EXTENSIONS</option>
-      <option value="LASHES">LASHES</option>
-      <option value="NATURAL STYLES">NATURAL STYLES</option>
-      <option value="SILK PRESS">SILK PRESS</option>
-      <option value="COLOUR">COLOUR</option>
-      <option value="BEAUTY &amp; GROOMING">BEAUTY &amp; GROOMING</option>
-    </select>
-
-    <button onclick="uploadPhoto()" id="uploadBtn">Add Photos</button>
-
-    <div id="adminGallery"></div>
-  </div>
-
-  <!-- Reservations Section -->
-  <div class="admin-container content-section" id="reservationsPage">
-    <div class="admin-kicker">Appointments</div>
-    <h2>Reservations</h2>
-    <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
-      <input id="reservationSearch" placeholder="Search reservations…" type="text" style="flex:1; min-width:180px;"/>
-      <button onclick="searchReservations()" style="margin-bottom:0;">Search</button>
-    </div>
-    <div id="reservationsList"></div>
-    <div class="clear-container">
-      <input id="clearInput" placeholder='Type "CONFIRM" to clear past reservations' type="text"/>
-      <button onclick="clearReservations()">Clear Past Reservations</button>
+      <button onclick="closeAdminCancelModal()" style="flex:1;background:#eee;color:#333;border:none;margin-bottom:0;">Keep</button>
+      <button onclick="confirmAdminCancel()" style="flex:1;background:var(--wine);border-color:var(--wine);margin-bottom:0;">Yes, Cancel</button>
     </div>
   </div>
+</div>
 
-  <!-- Unavailable Days -->
-  <div class="admin-container content-section" id="unavailableDaysSection">
-    <div class="admin-kicker">Schedule</div>
-    <h2>Unavailable Days</h2>
-    <label>Date</label>
-    <input id="unavailableDateInput" type="date"/>
-    <label style="display:flex; align-items:center; gap:8px; margin-top:16px;"><input checked id="allDayCheckbox" onchange="toggleTimeInputs()" type="checkbox" style="width:auto; margin:0;"/> All Day</label>
-    <div id="timeInputs" style="display:none; margin-top:10px;">
-      <label>From</label>
-      <input id="startTimeInput" type="time"/>
-      <label>Until</label>
-      <input id="endTimeInput" type="time"/>
-    </div>
-    <button onclick="addUnavailableDate()">Add Unavailable Date</button>
-    <h3 style="font-family:'Cormorant Garamond',serif; font-weight:700; color:var(--text-ink); font-size:22px; margin-top:32px; margin-bottom:14px; text-align:center;">
-      <span style="display:block; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:11px; color:var(--red); letter-spacing:3px; text-transform:uppercase; font-weight:400; margin-bottom:2px;">Blocked Dates</span>
-      The Calendar
-    </h3>
-    <ul id="unavailableDatesList" style="font-family:'DM Sans',sans-serif; font-size:13px; list-style:none; padding:0;"></ul>
-  </div>
+<div id="toast"></div>
+</div>
 
-  <!-- Conflict Modal -->
-  <div id="conflictModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:2000;">
-    <div style="background:#fff; padding:20px; border-radius:12px; max-width:450px; width:90%; max-height:80%; overflow-y:auto; box-shadow:0 4px 10px rgba(0,0,0,0.2); border-top:4px solid #ff9800;">
-      <h3 style="margin-bottom:10px; color:#ff9800;">⚠️ Conflicting Bookings</h3>
-      <p style="font-size:14px; color:#333; margin-bottom:15px;">The following bookings conflict. Please <strong>contact the client</strong> and <strong>cancel the booking</strong> before marking this time as unavailable.</p>
-      <div id="conflictList"></div>
-      <div style="text-align:right; margin-top:15px;">
-        <button onclick="closeConflictModal()" style="background:var(--primary); color:var(--accent); border:none; padding:8px 14px; border-radius:6px; cursor:pointer; margin-bottom:0;">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Deposit Modal -->
-  <div id="depositModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
-    <div style="background:#fff; padding:24px; border-radius:12px; max-width:320px; width:90%; text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.2); border-top:4px solid var(--accent);">
-      <h3 style="margin-bottom:15px; font-family:'Cormorant Garamond',serif; font-style:italic; letter-spacing:1px; color:var(--ink);">UPDATE PAYMENT STATUS</h3>
-      <label style="display:block; text-align:left; margin:10px 0; font-weight:normal; text-transform:none; letter-spacing:0;">
-        <input type="radio" name="depositChoice" value="Made"> 💵 PAYMENT MADE
-      </label>
-      <label style="display:block; text-align:left; margin:10px 0; font-weight:normal; text-transform:none; letter-spacing:0;">
-        <input type="radio" name="depositChoice" value="No"> ❌ NO PAYMENT MADE
-      </label>
-      <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
-        <button onclick="closeDepositModal()" style="background:#ccc; color:#333; border:none; padding:8px 16px; border-radius:6px; margin-bottom:0;">Cancel</button>
-        <button onclick="confirmDeposit()" style="background:#4CAF50; color:white; border:none; padding:8px 16px; border-radius:6px; margin-bottom:0;">Confirm</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Status Modal -->
-  <div id="statusModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1100;">
-    <div style="background:#fff; padding:24px; border-radius:12px; max-width:320px; width:90%; text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.2); border-top:4px solid var(--accent);">
-      <h3 style="margin-bottom:15px; font-family:'Cormorant Garamond',serif; font-style:italic; letter-spacing:1px; color:var(--ink);">UPDATE BOOKING STATUS</h3>
-      <label style="display:block; text-align:left; margin:10px 0; font-weight:normal; text-transform:none; letter-spacing:0;">
-        <input type="radio" name="statusChoice" value="Completed"> ✅ Completed
-      </label>
-      <label style="display:block; text-align:left; margin:10px 0; font-weight:normal; text-transform:none; letter-spacing:0;">
-        <input type="radio" name="statusChoice" value="Not Completed"> ❌ Not Completed
-      </label>
-      <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
-        <button onclick="closeStatusModal()" style="background:#ccc; color:#333; border:none; padding:8px 16px; border-radius:6px; margin-bottom:0;">Cancel</button>
-        <button onclick="confirmStatus()" style="background:var(--primary); color:var(--accent); border:none; padding:8px 16px; border-radius:6px; margin-bottom:0;">Confirm</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast -->
-  <div id="toast" style="visibility:hidden; min-width:250px; margin-left:-125px; background-color:#4CAF50; color:#fff; text-align:center; border-radius:20px; padding:14px 20px; position:fixed; z-index:3000; left:50%; bottom:30px; font-size:15px; box-shadow:0 4px 12px rgba(0,0,0,0.2); opacity:0; transition:opacity 0.5s, bottom 0.5s; font-family:'DM Sans',sans-serif;"></div>
-
-  <script>
-    // Unregister any stale service workers (these can intercept Firebase
-    // Storage uploads and silently break them, forcing repeated refreshes).
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(regs => {
-        regs.forEach(reg => reg.unregister());
-      }).catch(() => {});
-    }
-  </script>
-
-  <script>
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyAWjZvo4O4pzjQ3VSkFYVk3nL2KJIUZrHo",
   authDomain: "atm-style-hairdresser.firebaseapp.com",
@@ -827,927 +286,342 @@ const firebaseConfig = {
   messagingSenderId: "765176582563",
   appId: "1:765176582563:web:789b73c9577ccd5fd68a16"
 };
-
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-
-    // ========== SECTION TOGGLE ==========
-    function showSection(sectionId) {
-      document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-      document.getElementById(sectionId).classList.add('active');
-    }
-
-    function toggleTimeInputs() {
-      const isAllDay = document.getElementById('allDayCheckbox').checked;
-      document.getElementById('timeInputs').style.display = isAllDay ? 'none' : 'block';
-    }
-
-    // ========== DEVICE UPLOAD (multi-file, mobile-safe) ==========
-
-    // Holds File objects queued for upload. We keep our own array because
-    // <input type="file"> .files is read-only on most browsers, so we can't
-    // mutate it when the user removes a single thumbnail.
-    let pendingFiles = [];
-
-    // Best-effort extension extraction. Some mobile browsers hand us files
-    // with no extension in the name (e.g. "image.jpg" becomes just "image"
-    // when shared from certain camera apps), or HEIC photos with no MIME.
-    // We always fall back to a safe default so the upload never breaks here.
-    function getSafeExtension(file) {
-      const name = (file && file.name) ? file.name : '';
-      const dot = name.lastIndexOf('.');
-      let ext = (dot > -1 && dot < name.length - 1) ? name.slice(dot + 1).toLowerCase() : '';
-      // Strip anything weird (query strings, spaces, etc.)
-      ext = ext.replace(/[^a-z0-9]/g, '');
-      if (ext && ext.length <= 5) return ext;
-      // Fall back to MIME type
-      const mime = (file && file.type) ? file.type.toLowerCase() : '';
-      if (mime === 'image/jpeg' || mime === 'image/jpg') return 'jpg';
-      if (mime === 'image/png')  return 'png';
-      if (mime === 'image/webp') return 'webp';
-      if (mime === 'image/gif')  return 'gif';
-      if (mime === 'image/heic' || mime === 'image/heif') return 'heic';
-      return 'jpg'; // safe default — server doesn't really care
-    }
-
-    // Accept anything that LOOKS like an image. Some Android browsers report
-    // an empty MIME type for camera-roll photos, so we also accept by extension.
-    function looksLikeImage(file) {
-      if (!file) return false;
-      if (file.type && file.type.indexOf('image/') === 0) return true;
-      const ext = getSafeExtension(file);
-      return ['jpg','jpeg','png','webp','gif','heic','heif','bmp'].indexOf(ext) > -1;
-    }
-
-    function renderPreviewList() {
-      const wrap = document.getElementById('imagePreviewWrap');
-      const list = document.getElementById('imagePreviewList');
-      const count = document.getElementById('imagePreviewCount');
-      list.innerHTML = '';
-
-      if (pendingFiles.length === 0) {
-        wrap.style.display = 'none';
-        document.getElementById('uploadArea').querySelector('p').innerHTML =
-          '<strong>Tap to choose style photos</strong><br>You can select multiple at once, or drag &amp; drop here';
-        return;
-      }
-
-      wrap.style.display = 'block';
-      count.textContent = pendingFiles.length === 1
-        ? '1 photo ready to upload'
-        : pendingFiles.length + ' photos ready to upload';
-
-      pendingFiles.forEach((file, idx) => {
-        const thumb = document.createElement('div');
-        thumb.className = 'thumb';
-        thumb.dataset.idx = idx;
-
-        const img = document.createElement('img');
-        img.alt = file.name || 'photo';
-        // Use FileReader (works on every mobile browser, unlike URL.createObjectURL
-        // which can be flaky for HEIC on some Android builds)
-        const reader = new FileReader();
-        reader.onload = (e) => { img.src = e.target.result; };
-        reader.readAsDataURL(file);
-        thumb.appendChild(img);
-
-        const rm = document.createElement('button');
-        rm.type = 'button';
-        rm.className = 'thumb-remove';
-        rm.textContent = '×';
-        rm.title = 'Remove from queue';
-        rm.onclick = () => {
-          pendingFiles.splice(idx, 1);
-          renderPreviewList();
-        };
-        thumb.appendChild(rm);
-
-        list.appendChild(thumb);
-      });
-
-      // Update upload area copy
-      document.getElementById('uploadArea').querySelector('p').innerHTML =
-        '<strong>' + pendingFiles.length + ' photo' + (pendingFiles.length === 1 ? '' : 's') +
-        ' selected</strong><br><span style="color:#888;">Tap to add more, or press Add Photos below</span>';
-    }
-
-    function previewImage(event) {
-      const newFiles = Array.from(event.target.files || []);
-      if (newFiles.length === 0) return;
-
-      // Filter to images only and append to existing queue (so users can pick
-      // a few, then pick more, without losing the first batch)
-      const accepted = [];
-      const rejected = [];
-      newFiles.forEach(f => {
-        if (looksLikeImage(f)) accepted.push(f);
-        else rejected.push(f.name || 'unknown');
-      });
-
-      pendingFiles = pendingFiles.concat(accepted);
-      renderPreviewList();
-
-      if (rejected.length) {
-        showToast('⚠️ Skipped non-image: ' + rejected.join(', '), false);
-      }
-
-      // Reset the input so picking the same file again still triggers onchange
-      event.target.value = '';
-    }
-
-    function uploadPhoto() {
-      const categorySelect = document.getElementById('photoCategorySelect');
-      const category = categorySelect.value.trim();
-
-      if (pendingFiles.length === 0) {
-        alert('Please select at least one photo from your device first.');
-        return;
-      }
-      if (!category) {
-        alert('Please select a category.');
-        return;
-      }
-
-      // Ensure we have a fresh, valid auth token BEFORE starting the upload.
-      // Stale tokens are the #1 cause of "I had to refresh five times to upload
-      // one photo" — Firebase Storage rejects writes with no useful UI signal,
-      // so we proactively force a refresh and bail out clearly if there's no
-      // session at all.
-      const currentUser = firebase.auth().currentUser;
-      if (!currentUser) {
-        alert('Your session expired. Please refresh and sign in again.');
-        return;
-      }
-
-      const uploadBtn = document.getElementById('uploadBtn');
-      uploadBtn.disabled = true;
-      uploadBtn.textContent = 'PREPARING…';
-
-      currentUser.getIdToken(true).then(() => {
-        _runUploadBatch(category);
-      }).catch((err) => {
-        console.error('Token refresh failed:', err);
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = 'ADD PHOTOS';
-        alert('Could not refresh your sign-in. Please refresh the page and try again.');
-      });
-    }
-
-    function _runUploadBatch(category) {
-      const uploadBtn = document.getElementById('uploadBtn');
-
-      const progressDiv   = document.getElementById('uploadProgress');
-      const progressBar   = document.getElementById('progressBar');
-      const progressLabel = document.getElementById('uploadProgressLabel');
-      progressDiv.style.display = 'block';
-
-      // Snapshot the queue so users adding more files mid-upload don't break things
-      const filesToUpload = pendingFiles.slice();
-      const total = filesToUpload.length;
-      const perFileProgress = new Array(total).fill(0); // 0..100 each
-      let completed = 0;
-      let failed   = 0;
-
-      const updateAggregateProgress = () => {
-        const sum = perFileProgress.reduce((a, b) => a + b, 0);
-        progressBar.value = sum / total;
-        progressLabel.textContent = 'Uploading… ' + (completed + failed) + ' / ' + total;
-        uploadBtn.textContent = 'UPLOADING ' + (completed + failed) + '/' + total + '…';
-      };
-      updateAggregateProgress();
-
-      // Mark all preview thumbnails as uploading
-      const thumbEls = document.querySelectorAll('#imagePreviewList .thumb');
-      thumbEls.forEach(t => t.classList.add('uploading'));
-
-      // Upload each file in parallel — Firebase handles concurrency fine.
-      const startedAt = Date.now();
-      const uploadOne = (file, i) => new Promise((resolve) => {
-        try {
-          const ext = getSafeExtension(file);
-          const fileName = 'gallery/' + (startedAt + i) + '_' +
-                           Math.random().toString(36).substring(2) + '.' + ext;
-          const storageRef = storage.ref(fileName);
-          // Pass the MIME so Firebase serves it correctly even when the
-          // extension is fake. Default to image/jpeg if we can't tell.
-          const metadata = { contentType: file.type || 'image/jpeg' };
-          const task = storageRef.put(file, metadata);
-
-          task.on('state_changed',
-            (snapshot) => {
-              perFileProgress[i] = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              updateAggregateProgress();
-            },
-            (error) => {
-              console.error('Upload error for', file.name, error);
-              perFileProgress[i] = 100; // counted as done so aggregate finishes
-              failed++;
-              const t = thumbEls[i]; if (t) { t.classList.remove('uploading'); t.classList.add('failed'); }
-              updateAggregateProgress();
-              resolve({ ok: false, error: error });
-            },
-            () => {
-              task.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                // Defensive: never write a Firestore doc with a missing URL,
-                // which would render as an empty cell under a category header.
-                if (!downloadURL || typeof downloadURL !== 'string' || downloadURL.indexOf('http') !== 0) {
-                  throw new Error('Storage returned an empty download URL');
-                }
-                return db.collection('gallery').add({
-                  url: downloadURL,
-                  category: category,
-                  // Stagger sortOrder so the batch doesn't all collide on Date.now()
-                  sortOrder: Date.now() + i,
-                  uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-              }).then(() => {
-                perFileProgress[i] = 100;
-                completed++;
-                const t = thumbEls[i]; if (t) { t.classList.remove('uploading'); t.classList.add('done'); }
-                updateAggregateProgress();
-                resolve({ ok: true });
-              }).catch((error) => {
-                console.error('Firestore error for', file.name, error);
-                perFileProgress[i] = 100;
-                failed++;
-                const t = thumbEls[i]; if (t) { t.classList.remove('uploading'); t.classList.add('failed'); }
-                updateAggregateProgress();
-                resolve({ ok: false, error: error });
-              });
-            }
-          );
-        } catch (err) {
-          console.error('Unexpected error starting upload for', file && file.name, err);
-          perFileProgress[i] = 100;
-          failed++;
-          const t = thumbEls[i]; if (t) { t.classList.remove('uploading'); t.classList.add('failed'); }
-          updateAggregateProgress();
-          resolve({ ok: false, error: err });
-        }
-      });
-
-      Promise.all(filesToUpload.map((f, i) => uploadOne(f, i))).then(() => {
-        if (failed === 0) {
-          showToast('✅ ' + completed + (completed === 1 ? ' photo uploaded!' : ' photos uploaded!'));
-          // Make sure the gallery listener is alive (in case auth churn killed
-          // it earlier) and that we're looking at the gallery section so the
-          // user can immediately see the new photos.
-          if (!_gallerySnapshotUnsub) loadGallery();
-        } else if (completed === 0) {
-          showToast('❌ All ' + failed + ' uploads failed. Check your connection and try again.', false);
-        } else {
-          showToast('⚠️ ' + completed + ' uploaded, ' + failed + ' failed. Failed photos kept in the queue.', false);
-        }
-
-        // Keep failed files in the queue so the user can retry them.
-        if (failed === 0) {
-          pendingFiles = [];
-        } else {
-          // Remove only the successfully uploaded files (those marked .done)
-          const stillPending = [];
-          filesToUpload.forEach((f, i) => {
-            const t = thumbEls[i];
-            if (!(t && t.classList.contains('done'))) stillPending.push(f);
-          });
-          // Anything added to pendingFiles AFTER we snapshotted should also be kept
-          const newlyAdded = pendingFiles.slice(filesToUpload.length);
-          pendingFiles = stillPending.concat(newlyAdded);
-        }
-
-        // Reset UI
-        document.getElementById('photoFileInput').value = '';
-        progressDiv.style.display = 'none';
-        progressBar.value = 0;
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = 'ADD PHOTOS';
-        renderPreviewList();
-      });
-    }
-
-    // ========== GALLERY LOAD WITH DRAG-TO-REORDER ==========
-    let _gallerySnapshotUnsub = null;
-
-    function loadGallery() {
-      const galleryContainer = document.getElementById('adminGallery');
-
-      if (_gallerySnapshotUnsub) {
-        try { _gallerySnapshotUnsub(); } catch (e) {}
-        _gallerySnapshotUnsub = null;
-      }
-
-      galleryContainer.innerHTML = '<p id="galleryLoadingMsg" style="text-align:center;color:#888;margin-top:20px;">Loading gallery…</p>';
-
-      _gallerySnapshotUnsub = db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot((querySnapshot) => {
-        const lm = document.getElementById('galleryLoadingMsg');
-        if (lm) lm.remove();
-
-        let rawDocs = [];
-        querySnapshot.forEach(doc => rawDocs.push({ id: doc.id, ...doc.data() }));
-
-        // Only show docs with a valid image URL
-        const valid = rawDocs.filter(d => typeof d.url === 'string' && d.url.length > 8 && d.url.indexOf('http') === 0);
-
-        // Remove any previously-rendered category sections
-        Array.from(galleryContainer.querySelectorAll('.gallery-category')).forEach(n => n.remove());
-        const noPhotoMsg = document.getElementById('galleryNoPhotoMsg');
-        if (noPhotoMsg) noPhotoMsg.remove();
-
-        if (valid.length === 0) {
-          const p = document.createElement('p');
-          p.id = 'galleryNoPhotoMsg';
-          p.style.cssText = 'text-align:center;color:#888;margin-top:20px;';
-          p.textContent = 'No photos in gallery yet.';
-          galleryContainer.appendChild(p);
-          return;
-        }
-
-        valid.sort((a, b) => {
-          if (a.sortOrder !== undefined && b.sortOrder !== undefined) return a.sortOrder - b.sortOrder;
-          if (a.sortOrder !== undefined) return -1;
-          if (b.sortOrder !== undefined) return 1;
-          return 0;
-        });
-
-        const categories = {};
-        valid.forEach(item => {
-          const category = item.category || 'Uncategorized';
-          if (!categories[category]) categories[category] = [];
-          categories[category].push({ imageUrl: item.url, docId: item.id, sortOrder: item.sortOrder });
-        });
-
-        for (const category in categories) {
-          const catId = 'gallery-' + category.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '');
-          const catDiv = document.createElement('div');
-          catDiv.className = 'gallery-category';
-          catDiv.innerHTML = `
-            <h3>${category}</h3>
-            <p style="text-align:center; font-size:12px; color:#888; margin-top:-10px; margin-bottom:10px;">Hold &amp; drag photos to reorder &nbsp;·&nbsp; <span id="${catId}-count">${categories[category].length}</span> photo(s)</p>
-            <div class="gallery-wrapper">
-              <div class="gallery-grid" id="${catId}" data-category="${category}"></div>
-            </div>
-          `;
-          galleryContainer.appendChild(catDiv);
-
-          const grid = catDiv.querySelector('#' + catId);
-          categories[category].forEach((item) => {
-            const cell = document.createElement('div');
-            cell.draggable = true;
-            cell.dataset.docId = item.docId;
-            cell.style.position = 'relative';
-            cell.style.cursor = 'grab';
-            cell.style.userSelect = 'none';
-            cell.style.minHeight = '250px';
-            cell.style.background = '#0d1422';
-            cell.style.borderRadius = '8px';
-
-            const img = document.createElement('img');
-            img.src = item.imageUrl;
-            img.alt = 'Cut';
-            img.referrerPolicy = 'no-referrer';
-            img.style.cssText = 'width:100%;height:250px;object-fit:cover;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.12);pointer-events:none;display:block;';
-            img.onerror = () => {
-              cell.style.background = '#1a2540';
-              const tag = document.createElement('div');
-              tag.innerHTML = '⚠ image failed to load<br><small style="font-size:10px;opacity:0.8;text-transform:none;letter-spacing:1px;">Storage rules or deleted file</small>';
-              tag.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-family:DM Sans,sans-serif;pointer-events:none;text-align:center;padding:10px;';
-              cell.appendChild(tag);
-            };
-            cell.appendChild(img);
-
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'remove-btn';
-            removeBtn.textContent = '✕ Remove';
-            removeBtn.onclick = () => removePhoto(item.docId);
-            cell.appendChild(removeBtn);
-
-            const dragTag = document.createElement('div');
-            dragTag.style.cssText = 'position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.5);color:var(--accent);border-radius:4px;padding:3px 6px;font-size:11px;pointer-events:none;';
-            dragTag.textContent = '⠿ DRAG';
-            cell.appendChild(dragTag);
-
-            grid.appendChild(cell);
-          });
-
-          initDragReorder(grid);
-        }
-      }, (error) => {
-        console.error('Gallery load error:', error);
-        galleryContainer.innerHTML = '<p style="text-align:center;color:#e53935;margin-top:20px;">⚠️ Could not load gallery. Check your connection and try again.</p>';
-      });
-    }
-
-
-    // ========== DRAG & DROP REORDER ==========
-    function initDragReorder(grid) {
-      let dragSrc = null;
-
-      grid.addEventListener('dragstart', e => {
-        dragSrc = e.target.closest('[draggable]');
-        if (!dragSrc) return;
-        dragSrc.style.opacity = '0.4';
-        e.dataTransfer.effectAllowed = 'move';
-      });
-
-      grid.addEventListener('dragover', e => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        const target = e.target.closest('[draggable]');
-        if (target && target !== dragSrc) {
-          const rect = target.getBoundingClientRect();
-          const after = e.clientX > rect.left + rect.width / 2;
-          if (after) {
-            grid.insertBefore(dragSrc, target.nextSibling);
-          } else {
-            grid.insertBefore(dragSrc, target);
-          }
-        }
-      });
-
-      grid.addEventListener('dragend', e => {
-        if (dragSrc) dragSrc.style.opacity = '';
-        dragSrc = null;
-
-        // Save new order to Firestore
-        const cells = Array.from(grid.querySelectorAll('[draggable]'));
-        const batch = db.batch();
-        cells.forEach((cell, index) => {
-          const docId = cell.dataset.docId;
-          if (docId) {
-            batch.update(db.collection('gallery').doc(docId), { sortOrder: index });
-          }
-        });
-        batch.commit()
-          .then(() => showToast('✅ Photo order saved.'))
-          .catch(err => showToast('❌ Failed to save order.', false));
-      });
-
-      // Touch support (long-press drag)
-      let touchDragEl = null, touchClone = null, touchOffsetX = 0, touchOffsetY = 0, longPressTimer = null;
-
-      grid.addEventListener('touchstart', e => {
-        const cell = e.target.closest('[draggable]');
-        if (!cell) return;
-        longPressTimer = setTimeout(() => {
-          touchDragEl = cell;
-          const rect = cell.getBoundingClientRect();
-          touchOffsetX = e.touches[0].clientX - rect.left;
-          touchOffsetY = e.touches[0].clientY - rect.top;
-          touchClone = cell.cloneNode(true);
-          touchClone.style.cssText = `position:fixed;top:${rect.top}px;left:${rect.left}px;width:${rect.width}px;opacity:0.7;z-index:9999;pointer-events:none;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.4);transition:none;`;
-          document.body.appendChild(touchClone);
-          cell.style.opacity = '0.3';
-          navigator.vibrate && navigator.vibrate(50);
-        }, 400);
-      }, { passive: true });
-
-      grid.addEventListener('touchmove', e => {
-        if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
-        if (!touchDragEl) return;
-        e.preventDefault();
-        const touch = e.touches[0];
-        touchClone.style.top = (touch.clientY - touchOffsetY) + 'px';
-        touchClone.style.left = (touch.clientX - touchOffsetX) + 'px';
-        // Find element underneath
-        touchClone.style.display = 'none';
-        const el = document.elementFromPoint(touch.clientX, touch.clientY);
-        touchClone.style.display = '';
-        const target = el && el.closest('[draggable]');
-        if (target && target !== touchDragEl && target.parentElement === grid) {
-          const rect = target.getBoundingClientRect();
-          const after = touch.clientX > rect.left + rect.width / 2;
-          if (after) grid.insertBefore(touchDragEl, target.nextSibling);
-          else grid.insertBefore(touchDragEl, target);
-        }
-      }, { passive: false });
-
-      const endTouch = () => {
-        if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
-        if (!touchDragEl) return;
-        touchDragEl.style.opacity = '';
-        touchClone && touchClone.remove();
-        touchClone = null;
-        // Save order
-        const cells = Array.from(grid.querySelectorAll('[draggable]'));
-        const batch = db.batch();
-        cells.forEach((cell, index) => {
-          const docId = cell.dataset.docId;
-          if (docId) batch.update(db.collection('gallery').doc(docId), { sortOrder: index });
-        });
-        batch.commit()
-          .then(() => showToast('✅ Photo order saved.'))
-          .catch(() => showToast('❌ Failed to save order.', false));
-        touchDragEl = null;
-      };
-
-      grid.addEventListener('touchend', endTouch, { passive: true });
-      grid.addEventListener('touchcancel', endTouch, { passive: true });
-    }
-
-    function removePhoto(docId) {
-      if (!confirm("Remove this photo?")) return;
-      db.collection('gallery').doc(docId).delete()
-        .then(() => showToast('🗑 Photo removed.'))
-        .catch((error) => alert('Error removing photo: ' + error.message));
-    }
-
-    // ========== RESERVATIONS ==========
-    function loadReservations() {
-      const reservationsContainer = document.getElementById('reservationsList');
-      db.collection('bookings').orderBy("date", "asc").onSnapshot(snapshot => {
-        reservationsContainer.innerHTML = '';
-
-        if (snapshot.empty) {
-          reservationsContainer.innerHTML = "<p style='color:#888;text-align:center;'>No reservations found.</p>";
-          return;
-        }
-
-        const now = new Date();
-        const todayY = now.getFullYear(), todayM = now.getMonth(), todayD = now.getDate();
-        const tomorrow = new Date(now);
-        tomorrow.setDate(todayD + 1);
-
-        const todayList = [], tomorrowList = [], upcomingList = [], pastList = [];
-
-        snapshot.forEach(doc => {
-          const booking = doc.data();
-          if (typeof booking.date !== "string") return;
-
-          const [y, m, d] = booking.date.split('-').map(Number);
-          const bDate = new Date(y, m - 1, d);
-          const bY = bDate.getFullYear(), bM = bDate.getMonth(), bD = bDate.getDate();
-
-          const formattedDate = bDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-          const bookingWithSort = { id: doc.id, ...booking, date: formattedDate, timeSort: convertTimeToMinutes(booking.time) };
-
-          if (bY === todayY && bM === todayM && bD === todayD) todayList.push(bookingWithSort);
-          else if (bY === tomorrow.getFullYear() && bM === tomorrow.getMonth() && bD === tomorrow.getDate()) tomorrowList.push(bookingWithSort);
-          else if (bDate > tomorrow) upcomingList.push(bookingWithSort);
-          else if (bDate < new Date(todayY, todayM, todayD)) pastList.push(bookingWithSort);
-        });
-
-        const sortByTime = (a, b) => a.timeSort - b.timeSort;
-        todayList.sort(sortByTime); tomorrowList.sort(sortByTime);
-        upcomingList.sort(sortByTime); pastList.sort(sortByTime);
-
-        function renderGroup(title, list, badgeClass) {
-          if (!list.length) return;
-          reservationsContainer.innerHTML += `<div class="reservation-group">${title}</div>`;
-          list.forEach(booking => {
-            const isCancelled = booking.status === 'Cancelled';
-            reservationsContainer.innerHTML += `
-              <div class="reservation-card" data-id="${booking.id}" style="${isCancelled ? 'opacity:0.7; border-left-color:var(--red-deep);' : ''}">
-                <div class="reservation-header">
-                  <h3>${booking.name}</h3>
-                  <div style="display:flex; gap:6px; align-items:center;">
-                    ${isCancelled ? `<span class="badge" style="background:var(--red-deep); color:var(--cream);">Cancelled · ${(booking.cancelledBy === 'client' ? 'Client' : 'Admin')}</span>` : `<span class="badge ${badgeClass}">${title}</span>`}
-                  </div>
-                </div>
-                <div style="display:grid; grid-template-columns:120px 1fr; gap:4px 14px; font-size:13px; margin:0;">
-                  <span style="color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; padding-top:2px;">Ref #</span><span style="font-family:'Cormorant Garamond',serif; font-weight:600;">${booking.bookingNumber || "—"}</span>
-                  <span style="color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; padding-top:2px;">Phone</span><span>${booking.phone}</span>
-                  <span style="color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; padding-top:2px;">Date</span><span>${booking.date}</span>
-                  <span style="color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; padding-top:2px;">Time</span><span>${booking.time}</span>
-                  <span style="color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; padding-top:2px;">Service</span><span>${booking.service}</span>
-                  ${booking.total ? `<span style="color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; padding-top:2px;">Total</span><span style="font-family:'Cormorant Garamond',serif; font-weight:700; color:var(--text-ink);">$${Number(booking.total).toLocaleString()}</span>` : ''}
-                  <span style="color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; padding-top:2px;">Payment</span><span>${booking.deposit || "—"}</span>
-                  <span style="color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; font-size:10px; padding-top:2px;">Status</span><span class="${booking.status === 'Completed' ? 'status-completed' : booking.status === 'Cancelled' ? 'status-not' : booking.status === 'Not Completed' ? 'status-not' : 'status-none'}">${booking.status || "Not set"}</span>
-                </div>
-                <div class="action-buttons">
-                  ${!isCancelled
-                    ? `<button class="cancel-btn" onclick="cancelReservation('${booking.id}')">Cancel</button>`
-                    : `<button class="cancel-btn" disabled style="opacity:0.4; cursor:not-allowed;">Cancelled</button>`
-                  }
-                  <button class="deposit-btn" onclick="updateDeposit('${booking.id}')">Payment</button>
-                  ${title === "Today" && !isCancelled ? `<button class="status-btn" onclick="updateStatus('${booking.id}')">Status</button>` : ""}
-                </div>
-              </div>
-            `;
-          });
-        }
-
-        renderGroup("Today", todayList, "today");
-        renderGroup("Tomorrow", tomorrowList, "tomorrow");
-        renderGroup("Upcoming", upcomingList, "upcoming");
-        renderGroup("Past", pastList, "past");
-      });
-    }
-
-    function convertTimeToMinutes(timeStr) {
-      if (!timeStr) return 0;
-      const timeParts = timeStr.trim().split(' ');
-      if (timeParts.length !== 2) return 0;
-      const [time, period] = timeParts;
-      const [hours, minutes] = time.split(':').map(Number);
-      if (isNaN(hours) || isNaN(minutes)) return 0;
-      let totalMinutes = (hours * 60) + minutes;
-      if (period.toUpperCase() === 'PM' && hours !== 12) totalMinutes += (12 * 60);
-      if (period.toUpperCase() === 'AM' && hours === 12) totalMinutes -= (12 * 60);
-      return totalMinutes;
-    }
-
-    function searchReservations() {
-      const query = document.getElementById("reservationSearch").value.toLowerCase();
-      document.querySelectorAll(".highlighted").forEach(el => el.classList.remove("highlighted"));
-      if (!query) return;
-
-      const cards = document.querySelectorAll(".reservation-card");
-      for (let card of cards) {
-        if (card.innerText.toLowerCase().includes(query)) {
-          card.classList.add("highlighted");
-          card.scrollIntoView({ behavior: "smooth", block: "center" });
-          break;
-        }
-      }
-    }
-
-    function clearReservations() {
-      const confirmInput = document.getElementById('clearInput').value.trim();
-      if (confirmInput !== 'CONFIRM') { alert('TYPE "CONFIRM" TO CLEAR PAST RESERVATIONS.'); return; }
-
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      db.collection('bookings').get().then(snapshot => {
-        const batch = db.batch();
-        snapshot.forEach(doc => {
-          const booking = doc.data();
-          if (booking.date && typeof booking.date === "string") {
-            const [year, month, day] = booking.date.split('-').map(Number);
-            const bookingDate = new Date(year, month - 1, day);
-            bookingDate.setHours(0, 0, 0, 0);
-            if (bookingDate < today) batch.delete(doc.ref);
-          }
-        });
-        return batch.commit();
-      }).then(() => {
-        showToast('✅ Past reservations cleared.');
-        document.getElementById('clearInput').value = '';
-      }).catch(err => {
-        console.error(err);
-        alert("Failed to clear past reservations.");
-      });
-    }
-
-    function cancelReservation(orderId) {
-      document.getElementById('adminCancelBookingId').value = orderId;
-      document.getElementById('adminCancelModal').style.display = 'flex';
-    }
-
-    function confirmAdminCancel() {
-      const orderId = document.getElementById('adminCancelBookingId').value;
-      if (!orderId) return;
-      db.collection("bookings").doc(orderId).update({ status: 'Cancelled', cancelledBy: 'admin' })
-        .then(() => { closeAdminCancelModal(); showToast('🗑 Booking cancelled.'); })
-        .catch(err => { closeAdminCancelModal(); alert("Failed to cancel: " + err.message); });
-    }
-
-    function closeAdminCancelModal() {
-      document.getElementById('adminCancelModal').style.display = 'none';
-      document.getElementById('adminCancelBookingId').value = '';
-    }
-
-    // ========== DEPOSIT ==========
-    let currentBookingId = null;
-
-    function updateDeposit(bookingId) {
-      currentBookingId = bookingId;
-      document.querySelectorAll('input[name="depositChoice"]').forEach(r => r.checked = false);
-      document.getElementById('depositModal').style.display = 'flex';
-    }
-
-    function confirmDeposit() {
-      const choice = document.querySelector('input[name="depositChoice"]:checked');
-      if (!choice) { showToast("⚠️ Please select an option.", false); return; }
-
-      db.collection('bookings').doc(currentBookingId).update({ deposit: choice.value })
-        .then(() => { closeDepositModal(); showToast(`✅ Payment status: ${choice.value}`); })
-        .catch(error => showToast("❌ Failed to update payment.", false));
-    }
-
-    function closeDepositModal() {
-      document.getElementById('depositModal').style.display = 'none';
-      currentBookingId = null;
-    }
-
-    // ========== STATUS ==========
-    let currentStatusBookingId = null;
-
-    function updateStatus(bookingId) {
-      currentStatusBookingId = bookingId;
-      document.querySelectorAll('input[name="statusChoice"]').forEach(r => r.checked = false);
-      document.getElementById('statusModal').style.display = 'flex';
-    }
-
-    function confirmStatus() {
-      const choice = document.querySelector('input[name="statusChoice"]:checked');
-      if (!choice) { alert("Please select an option."); return; }
-
-      db.collection('bookings').doc(currentStatusBookingId).update({ status: choice.value })
-        .then(() => { closeStatusModal(); loadReservations(); })
-        .catch(error => alert("Failed to update status."));
-    }
-
-    function closeStatusModal() {
-      document.getElementById('statusModal').style.display = 'none';
-      currentStatusBookingId = null;
-    }
-
-    // ========== UNAVAILABLE DAYS ==========
-    async function addUnavailableDate() {
-      const date = document.getElementById('unavailableDateInput').value;
-      const allDay = document.getElementById('allDayCheckbox').checked;
-      const startTime = document.getElementById('startTimeInput').value;
-      const endTime = document.getElementById('endTimeInput').value;
-
-      if (!date) { alert("Please select a date."); return; }
-      if (!allDay && (!startTime || !endTime)) { alert("Please provide both start and end time."); return; }
-
-      const [yyyy, mm, dd] = date.split("-");
-      const finalDate = `${yyyy}-${mm}-${dd}`;
-
-      try {
-        const snapshot = await db.collection("bookings").where("date", "==", finalDate).get();
-        const conflicts = [];
-
-        if (!snapshot.empty) {
-          snapshot.forEach(doc => {
-            const booking = doc.data();
-            const bookingTime = booking.time || null;
-
-            if (allDay) {
-              conflicts.push({ id: doc.id, ...booking });
-            } else if (bookingTime) {
-              const bookingMinutes = convertTimeToMinutes(bookingTime);
-              const startMinutes = convertTimeToMinutes(startTime);
-              const endMinutes = convertTimeToMinutes(endTime);
-              if (bookingMinutes >= startMinutes && bookingMinutes <= endMinutes) conflicts.push({ id: doc.id, ...booking });
-            }
-          });
-        }
-
-        if (conflicts.length > 0) { showConflictModal(conflicts); return; }
-
-        await db.collection("unavailableDays").add({
-          date: finalDate, allDay,
-          startTime: allDay ? null : startTime,
-          endTime: allDay ? null : endTime,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        document.getElementById('unavailableDateInput').value = '';
-        document.getElementById('startTimeInput').value = '';
-        document.getElementById('endTimeInput').value = '';
-        document.getElementById('allDayCheckbox').checked = true;
-        document.getElementById('timeInputs').style.display = 'none';
-
-        showToast('✅ Unavailable day added.');
-      } catch (error) {
-        console.error(error);
-        alert("Failed to add unavailable day.");
-      }
-    }
-
-    function loadUnavailableDates() {
-      const list = document.getElementById('unavailableDatesList');
-      db.collection('unavailableDays').orderBy('date').onSnapshot(snapshot => {
-        list.innerHTML = '';
-        snapshot.forEach(doc => {
-          const d = doc.data();
-          let formattedDate = d.date;
-          if (d.date && d.date.includes("-")) {
-            const [yyyy, mm, dd] = d.date.split("-");
-            formattedDate = new Date(yyyy, mm - 1, dd).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-          }
-          let text = `${formattedDate} — ${d.allDay ? 'All Day' : `${d.startTime} to ${d.endTime}`}`;
-          list.innerHTML += `<li style="margin-bottom:8px;">${text} <button onclick="removeUnavailableDate('${doc.id}')" style="background:#e53935; color:white; border:none; padding:3px 8px; border-radius:4px; cursor:pointer; font-size:12px; margin-bottom:0;">Remove</button></li>`;
-        });
-      });
-    }
-
-    function removeUnavailableDate(id) { db.collection('unavailableDays').doc(id).delete(); }
-
-    // ========== CONFLICT MODAL ==========
-    function showConflictModal(conflicts) {
-      const conflictList = document.getElementById('conflictList');
-      conflictList.innerHTML = '';
-      conflicts.forEach(booking => {
-        conflictList.innerHTML += `
-          <div style="padding:12px; margin-bottom:12px; border:1px solid #ddd; border-radius:8px; background:#fafafa;">
-            <p style="margin:4px 0;font-size:14px;"><strong>Name:</strong> ${booking.name || "N/A"}</p>
-            <p style="margin:4px 0;font-size:14px;"><strong>Phone:</strong> ${booking.phone || "N/A"}</p>
-            <p style="margin:4px 0;font-size:14px;"><strong>Service:</strong> ${booking.service || "N/A"}</p>
-            <p style="margin:4px 0;font-size:14px;"><strong>Date:</strong> ${booking.date}</p>
-            <p style="margin:4px 0;font-size:14px;"><strong>Time:</strong> ${booking.time || "N/A"}</p>
-            <button onclick="goToReservationsAndHighlight('${booking.id}')" style="margin-top:8px; background:var(--accent); color:var(--primary); border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:bold; margin-bottom:0;">Go to Reservations</button>
-          </div>
-        `;
-      });
-      document.getElementById('conflictModal').style.display = 'flex';
-    }
-
-    function goToReservationsAndHighlight(bookingId) {
-      closeConflictModal();
-      showSection('reservationsPage');
-      setTimeout(() => {
-        const targetCard = document.querySelector(`[data-id="${bookingId}"]`);
-        if (targetCard) {
-          document.querySelectorAll(".highlighted").forEach(el => el.classList.remove("highlighted"));
-          targetCard.classList.add("highlighted");
-          targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
-          setTimeout(() => targetCard.classList.remove("highlighted"), 6000);
-        }
-      }, 500);
-    }
-
-    function closeConflictModal() {
-      document.getElementById('conflictModal').style.display = 'none';
-    }
-
-    // ========== TOAST ==========
-    function showToast(message, success = true) {
-      const toast = document.getElementById("toast");
-      toast.innerText = message;
-      toast.style.backgroundColor = success ? "#4CAF50" : "#e53935";
-      toast.style.visibility = "visible";
-      toast.style.opacity = "1";
-      toast.style.bottom = "50px";
-      setTimeout(() => {
-        toast.style.opacity = "0";
-        toast.style.bottom = "30px";
-        setTimeout(() => { toast.style.visibility = "hidden"; }, 500);
-      }, 3000);
-    }
-
-    // ========== ADMIN UID GUARD ==========
-    const ADMIN_UID = "FGdKiGMHBHRUegBwcNSpufB7PXz2";
-
-    // Guard so we don't re-run init on token refresh / network blips.
-    let _dashboardInitDone = false;
-
-    // ========== AUTH GUARD WITH OVERLAY ==========
-    firebase.auth().onAuthStateChanged(user => {
-      const overlay = document.getElementById('accessOverlay');
-      const status  = document.getElementById('accessStatus');
-      const content = document.getElementById('dashboardContent');
-
-      if (!user) {
-        status.textContent = 'Access Denied — Redirecting...';
-        status.style.color = '#e53935';
-        setTimeout(() => { window.location.href = 'index.html'; }, 1200);
-        return;
-      }
-
-      if (user.uid !== ADMIN_UID) {
-        status.textContent = 'Unauthorised — Signing Out...';
-        status.style.color = '#e53935';
-        firebase.auth().signOut().then(() => {
-          setTimeout(() => { window.location.href = 'index.html'; }, 1200);
-        });
-        return;
-      }
-
-      // Verified admin — reveal dashboard
-      status.textContent = 'Access Granted ✨';
-      status.style.color = '#4CAF50';
-      setTimeout(() => {
-        overlay.style.transition = 'opacity 0.4s';
-        overlay.style.opacity = '0';
-        setTimeout(() => {
-          overlay.style.display = 'none';
-          content.style.display = 'block';
-        }, 400);
-      }, 600);
-
-      // Only initialize the dashboard data ONCE per page load. Without this
-      // guard, every auth-state ping (token refresh, focus change, etc.) was
-      // attaching another Firestore listener, which is what made the gallery
-      // race-condition / show empty cells.
-      if (_dashboardInitDone) return;
-      _dashboardInitDone = true;
-
-      loadGallery();
-      showSection('reservationsPage');
-      loadReservations();
-      loadUnavailableDates();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+const PARTNER_CUT_RATE = 0.10; // 10% off every booking for partner
+
+function showSection(sectionId) {
+  document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(sectionId).classList.add('active');
+  document.querySelectorAll('.top-menu button').forEach(b => b.classList.remove('active-tab'));
+  const tabMap = {revenueSection:'tabRevenue',reservationsPage:'tabReservations',gallerySection:'tabGallery',unavailableDaysSection:'tabSchedule'};
+  const tab = document.getElementById(tabMap[sectionId]);
+  if(tab) tab.classList.add('active-tab');
+}
+function toggleTimeInputs() { document.getElementById('timeInputs').style.display = document.getElementById('allDayCheckbox').checked ? 'none' : 'block'; }
+
+// ========== REVENUE DASHBOARD ==========
+function loadRevenue(period) {
+  const grid = document.getElementById('revenueGrid');
+  const breakdown = document.getElementById('revenueBreakdown');
+  grid.innerHTML = '<div class="rev-card"><div class="rev-label">Loading…</div><div class="rev-value">—</div></div>';
+  breakdown.innerHTML = '';
+
+  // Highlight active button
+  ['revWeek','revMonth','revAll'].forEach(id => document.getElementById(id).style.opacity = '0.5');
+  const activeId = period === 'week' ? 'revWeek' : period === 'month' ? 'revMonth' : 'revAll';
+  document.getElementById(activeId).style.opacity = '1';
+
+  db.collection('bookings').get().then(snapshot => {
+    const now = new Date();
+    const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay()); startOfWeek.setHours(0,0,0,0);
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    let bookings = [];
+    snapshot.forEach(doc => { const d = doc.data(); if(d.date && d.status !== 'Cancelled') bookings.push(d); });
+
+    if(period === 'week') bookings = bookings.filter(b => new Date(b.date) >= startOfWeek);
+    else if(period === 'month') bookings = bookings.filter(b => new Date(b.date) >= startOfMonth);
+
+    let totalRevenue = 0, totalBookings = bookings.length, totalPartnerCut = 0;
+    const serviceCount = {};
+
+    bookings.forEach(b => {
+      const amt = Number(b.total) || 0;
+      totalRevenue += amt;
+      totalPartnerCut += Math.round(amt * PARTNER_CUT_RATE);
+      // Count services
+      const svc = (b.service || '').split(' | ')[0].replace(/^Hair — /,'').split(' (')[0];
+      if(svc) serviceCount[svc] = (serviceCount[svc] || 0) + 1;
     });
-  </script>
-  <!-- Admin Cancel Booking Modal -->
-  <div id="adminCancelModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.55); justify-content:center; align-items:center; z-index:2000;">
-    <div style="background:#fff; padding:28px 24px; border-radius:14px; max-width:320px; width:90%; text-align:center; box-shadow:0 8px 30px rgba(0,0,0,0.25); border-top:4px solid #e53935;">
-      <input type="hidden" id="adminCancelBookingId"/>
-      <div style="font-size:40px; margin-bottom:10px;">⚠️</div>
-      <h3 style="margin:0 0 8px; font-family:'Cormorant Garamond',serif; font-style:italic; letter-spacing:1px; color:#1a1a1a; font-size:22px;">CANCEL BOOKING?</h3>
-      <p style="font-size:14px; color:#666; margin:0 0 22px; font-family:'DM Sans',sans-serif; line-height:1.5;">This will mark the booking as <strong style="color:#e53935;">Cancelled</strong>. The client will still appear in the list with a cancelled status.</p>
-      <div style="display:flex; gap:10px; justify-content:center;">
-        <button onclick="closeAdminCancelModal()" style="flex:1; background:#eee; color:#333; border:none; padding:11px 16px; border-radius:6px; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:700; margin-bottom:0; font-size:14px;">Keep</button>
-        <button onclick="confirmAdminCancel()" style="flex:1; background:#e53935; color:white; border:none; padding:11px 16px; border-radius:6px; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:700; margin-bottom:0; font-size:14px;">Yes, Cancel</button>
-      </div>
-    </div>
-  </div>
 
-  </div><!-- end #dashboardContent -->
+    const netRevenue = totalRevenue - totalPartnerCut;
+    const avgBooking = totalBookings > 0 ? Math.round(totalRevenue / totalBookings) : 0;
+
+    grid.innerHTML = `
+      <div class="rev-card"><div class="rev-label">Total Bookings</div><div class="rev-value">${totalBookings}</div></div>
+      <div class="rev-card gold-card"><div class="rev-label">Gross Revenue</div><div class="rev-value">$${totalRevenue.toLocaleString()}</div><div class="rev-sub">JMD</div></div>
+      <div class="rev-card wine-card"><div class="rev-label">Partner Cut (10%)</div><div class="rev-value">$${totalPartnerCut.toLocaleString()}</div><div class="rev-sub">Webv Tec commission</div></div>
+      <div class="rev-card"><div class="rev-label">Net Revenue</div><div class="rev-value" style="color:#2d7a3e;">$${netRevenue.toLocaleString()}</div><div class="rev-sub">After partner cut</div></div>
+      <div class="rev-card"><div class="rev-label">Avg per Booking</div><div class="rev-value">$${avgBooking.toLocaleString()}</div></div>
+    `;
+
+    // Service breakdown
+    const sorted = Object.entries(serviceCount).sort((a,b) => b[1] - a[1]);
+    if(sorted.length > 0) {
+      let brkHtml = '<div style="font-family:Playfair Display,serif;font-weight:700;font-size:20px;margin-bottom:14px;text-align:center;">Top Services</div>';
+      sorted.slice(0,10).forEach(([svc, count], i) => {
+        const pct = Math.round((count / totalBookings) * 100);
+        brkHtml += `<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;padding:10px 14px;background:var(--bg);border:1px solid rgba(201,169,110,0.1);">
+          <span style="font-family:Playfair Display,serif;font-weight:700;font-size:18px;color:var(--gold);width:28px;">${i+1}</span>
+          <div style="flex:1;"><div style="font-weight:600;font-size:13px;">${svc}</div><div style="height:4px;background:rgba(201,169,110,0.15);margin-top:4px;"><div style="height:4px;background:var(--gold);width:${pct}%;"></div></div></div>
+          <span style="font-weight:700;font-size:14px;color:var(--text-dark);">${count}</span>
+        </div>`;
+      });
+      breakdown.innerHTML = brkHtml;
+    }
+  });
+}
+
+// ========== UPLOAD (preserved from original) ==========
+let pendingFiles = [];
+function getSafeExtension(file) {
+  const name = (file&&file.name)?file.name:''; const dot = name.lastIndexOf('.');
+  let ext = (dot>-1&&dot<name.length-1)?name.slice(dot+1).toLowerCase():'';
+  ext = ext.replace(/[^a-z0-9]/g,'');
+  if(ext&&ext.length<=5) return ext;
+  const mime = (file&&file.type)?file.type.toLowerCase():'';
+  if(mime==='image/jpeg'||mime==='image/jpg') return 'jpg'; if(mime==='image/png') return 'png';
+  if(mime==='image/webp') return 'webp'; if(mime==='image/gif') return 'gif';
+  return 'jpg';
+}
+function looksLikeImage(file) {
+  if(!file) return false; if(file.type&&file.type.indexOf('image/')===0) return true;
+  return ['jpg','jpeg','png','webp','gif','heic','heif','bmp'].indexOf(getSafeExtension(file))>-1;
+}
+function renderPreviewList() {
+  const wrap=document.getElementById('imagePreviewWrap'),list=document.getElementById('imagePreviewList'),count=document.getElementById('imagePreviewCount');
+  list.innerHTML='';
+  if(pendingFiles.length===0){wrap.style.display='none';document.getElementById('uploadArea').querySelector('p').innerHTML='<strong>Tap to choose style photos</strong><br>You can select multiple at once';return;}
+  wrap.style.display='block';
+  count.textContent=pendingFiles.length===1?'1 photo ready to upload':pendingFiles.length+' photos ready to upload';
+  pendingFiles.forEach((file,idx) => {
+    const thumb=document.createElement('div');thumb.className='thumb';thumb.dataset.idx=idx;
+    const img=document.createElement('img');img.alt=file.name||'photo';
+    const reader=new FileReader();reader.onload=e=>{img.src=e.target.result;};reader.readAsDataURL(file);thumb.appendChild(img);
+    const rm=document.createElement('button');rm.type='button';rm.className='thumb-remove';rm.textContent='×';rm.onclick=()=>{pendingFiles.splice(idx,1);renderPreviewList();};thumb.appendChild(rm);
+    list.appendChild(thumb);
+  });
+  document.getElementById('uploadArea').querySelector('p').innerHTML='<strong>'+pendingFiles.length+' photo'+(pendingFiles.length===1?'':'s')+' selected</strong><br><span style="color:#888;">Tap to add more</span>';
+}
+function previewImage(event) {
+  const newFiles=Array.from(event.target.files||[]);if(newFiles.length===0) return;
+  const accepted=[],rejected=[];
+  newFiles.forEach(f=>{if(looksLikeImage(f)) accepted.push(f);else rejected.push(f.name||'unknown');});
+  pendingFiles=pendingFiles.concat(accepted);renderPreviewList();
+  if(rejected.length) showToast('⚠️ Skipped non-image: '+rejected.join(', '),false);
+  event.target.value='';
+}
+function uploadPhoto() {
+  const category=document.getElementById('photoCategorySelect').value.trim();
+  if(pendingFiles.length===0){alert('Please select at least one photo.');return;}
+  if(!category){alert('Please select a category.');return;}
+  const currentUser=firebase.auth().currentUser;
+  if(!currentUser){alert('Session expired. Please refresh.');return;}
+  const uploadBtn=document.getElementById('uploadBtn');uploadBtn.disabled=true;uploadBtn.textContent='PREPARING…';
+  currentUser.getIdToken(true).then(()=>{_runUploadBatch(category);}).catch(()=>{uploadBtn.disabled=false;uploadBtn.textContent='ADD PHOTOS';alert('Could not refresh sign-in.');});
+}
+function _runUploadBatch(category) {
+  const uploadBtn=document.getElementById('uploadBtn'),progressDiv=document.getElementById('uploadProgress'),progressBar=document.getElementById('progressBar'),progressLabel=document.getElementById('uploadProgressLabel');
+  progressDiv.style.display='block';
+  const filesToUpload=pendingFiles.slice(),total=filesToUpload.length,perFileProgress=new Array(total).fill(0);
+  let completed=0,failed=0;
+  const updateAgg=()=>{const sum=perFileProgress.reduce((a,b)=>a+b,0);progressBar.value=sum/total;progressLabel.textContent='Uploading… '+(completed+failed)+' / '+total;uploadBtn.textContent='UPLOADING '+(completed+failed)+'/'+total+'…';};
+  updateAgg();
+  const thumbEls=document.querySelectorAll('#imagePreviewList .thumb');
+  thumbEls.forEach(t=>t.classList.add('uploading'));
+  const startedAt=Date.now();
+  const uploadOne=(file,i)=>new Promise(resolve=>{
+    try{
+      const ext=getSafeExtension(file),fileName='gallery/'+(startedAt+i)+'_'+Math.random().toString(36).substring(2)+'.'+ext;
+      const storageRef=storage.ref(fileName),metadata={contentType:file.type||'image/jpeg'},task=storageRef.put(file,metadata);
+      task.on('state_changed',
+        snap=>{perFileProgress[i]=(snap.bytesTransferred/snap.totalBytes)*100;updateAgg();},
+        err=>{perFileProgress[i]=100;failed++;const t=thumbEls[i];if(t){t.classList.remove('uploading');t.classList.add('failed');}updateAgg();resolve({ok:false});},
+        ()=>{task.snapshot.ref.getDownloadURL().then(url=>{
+          if(!url||typeof url!=='string'||url.indexOf('http')!==0) throw new Error('Bad URL');
+          return db.collection('gallery').add({url,category,sortOrder:Date.now()+i,uploadedAt:firebase.firestore.FieldValue.serverTimestamp()});
+        }).then(()=>{perFileProgress[i]=100;completed++;const t=thumbEls[i];if(t){t.classList.remove('uploading');t.classList.add('done');}updateAgg();resolve({ok:true});
+        }).catch(()=>{perFileProgress[i]=100;failed++;const t=thumbEls[i];if(t){t.classList.remove('uploading');t.classList.add('failed');}updateAgg();resolve({ok:false});});}
+      );
+    }catch(e){perFileProgress[i]=100;failed++;updateAgg();resolve({ok:false});}
+  });
+  Promise.all(filesToUpload.map((f,i)=>uploadOne(f,i))).then(()=>{
+    if(failed===0) showToast('✅ '+completed+(completed===1?' photo uploaded!':' photos uploaded!'));
+    else if(completed===0) showToast('❌ All uploads failed.',false);
+    else showToast('⚠️ '+completed+' uploaded, '+failed+' failed.',false);
+    if(failed===0) pendingFiles=[];
+    else { const still=[];filesToUpload.forEach((f,i)=>{const t=thumbEls[i];if(!(t&&t.classList.contains('done'))) still.push(f);});pendingFiles=still.concat(pendingFiles.slice(filesToUpload.length)); }
+    document.getElementById('photoFileInput').value='';progressDiv.style.display='none';progressBar.value=0;uploadBtn.disabled=false;uploadBtn.textContent='ADD PHOTOS';renderPreviewList();
+    if(!_gallerySnapshotUnsub) loadGallery();
+  });
+}
+
+// ========== GALLERY ==========
+let _gallerySnapshotUnsub=null;
+function loadGallery() {
+  const gc=document.getElementById('adminGallery');
+  if(_gallerySnapshotUnsub){try{_gallerySnapshotUnsub();}catch(e){}_gallerySnapshotUnsub=null;}
+  gc.innerHTML='<p style="text-align:center;color:#888;margin-top:20px;">Loading gallery…</p>';
+  _gallerySnapshotUnsub=db.collection('gallery').orderBy('sortOrder','asc').onSnapshot(snap=>{
+    const lm=document.getElementById('galleryLoadingMsg');if(lm) lm.remove();
+    let rawDocs=[];snap.forEach(doc=>rawDocs.push({id:doc.id,...doc.data()}));
+    const valid=rawDocs.filter(d=>typeof d.url==='string'&&d.url.length>8&&d.url.indexOf('http')===0);
+    Array.from(gc.querySelectorAll('.gallery-category')).forEach(n=>n.remove());
+    const noMsg=document.getElementById('galleryNoPhotoMsg');if(noMsg) noMsg.remove();
+    if(valid.length===0){const p=document.createElement('p');p.id='galleryNoPhotoMsg';p.style.cssText='text-align:center;color:#888;margin-top:20px;';p.textContent='No photos in gallery yet.';gc.appendChild(p);return;}
+    valid.sort((a,b)=>{if(a.sortOrder!==undefined&&b.sortOrder!==undefined) return a.sortOrder-b.sortOrder;return 0;});
+    const categories={};valid.forEach(item=>{const cat=item.category||'Uncategorized';if(!categories[cat]) categories[cat]=[];categories[cat].push({imageUrl:item.url,docId:item.id,sortOrder:item.sortOrder});});
+    for(const category in categories){
+      const catId='admin-gallery-'+category.replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'');
+      const section=document.createElement('div');section.className='gallery-category';
+      section.innerHTML=`<h3>${category}</h3><div class="gallery-wrapper"><div class="gallery-grid" id="${catId}"></div></div>`;
+      gc.appendChild(section);
+      const grid=document.getElementById(catId);
+      categories[category].forEach(item=>{
+        const cell=document.createElement('div');cell.className='gallery-cell';cell.draggable=true;cell.dataset.docId=item.docId;
+        cell.innerHTML=`<img src="${item.imageUrl}" alt="${category}" loading="lazy"><button class="delete-btn" onclick="removePhoto('${item.docId}')">✕ Remove</button>`;
+        const dragTag=document.createElement('div');dragTag.style.cssText='position:absolute;top:6px;left:6px;background:rgba(0,0,0,0.5);color:var(--gold);padding:3px 6px;font-size:10px;pointer-events:none;letter-spacing:1px;';dragTag.textContent='⠿ DRAG';
+        cell.appendChild(dragTag);grid.appendChild(cell);
+      });
+      initDragReorder(grid);
+    }
+  });
+}
+
+function initDragReorder(grid) {
+  let dragSrc=null;
+  grid.addEventListener('dragstart',e=>{dragSrc=e.target.closest('[draggable]');if(!dragSrc) return;dragSrc.style.opacity='0.4';e.dataTransfer.effectAllowed='move';});
+  grid.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';const target=e.target.closest('[draggable]');if(target&&target!==dragSrc){const rect=target.getBoundingClientRect();if(e.clientX>rect.left+rect.width/2) grid.insertBefore(dragSrc,target.nextSibling);else grid.insertBefore(dragSrc,target);}});
+  grid.addEventListener('dragend',e=>{if(dragSrc) dragSrc.style.opacity='';dragSrc=null;const cells=Array.from(grid.querySelectorAll('[draggable]'));const batch=db.batch();cells.forEach((cell,i)=>{const docId=cell.dataset.docId;if(docId) batch.update(db.collection('gallery').doc(docId),{sortOrder:i});});batch.commit().then(()=>showToast('✅ Photo order saved.')).catch(()=>showToast('❌ Failed to save order.',false));});
+  let touchDragEl=null,touchClone=null,touchOffsetX=0,touchOffsetY=0,longPressTimer=null;
+  grid.addEventListener('touchstart',e=>{const cell=e.target.closest('[draggable]');if(!cell) return;longPressTimer=setTimeout(()=>{touchDragEl=cell;const rect=cell.getBoundingClientRect();touchOffsetX=e.touches[0].clientX-rect.left;touchOffsetY=e.touches[0].clientY-rect.top;touchClone=cell.cloneNode(true);touchClone.style.cssText=`position:fixed;top:${rect.top}px;left:${rect.left}px;width:${rect.width}px;opacity:0.7;z-index:9999;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,0.4);transition:none;`;document.body.appendChild(touchClone);cell.style.opacity='0.3';navigator.vibrate&&navigator.vibrate(50);},400);},{passive:true});
+  grid.addEventListener('touchmove',e=>{if(longPressTimer){clearTimeout(longPressTimer);longPressTimer=null;}if(!touchDragEl) return;e.preventDefault();const touch=e.touches[0];touchClone.style.top=(touch.clientY-touchOffsetY)+'px';touchClone.style.left=(touch.clientX-touchOffsetX)+'px';touchClone.style.display='none';const el=document.elementFromPoint(touch.clientX,touch.clientY);touchClone.style.display='';const target=el&&el.closest('[draggable]');if(target&&target!==touchDragEl&&target.parentElement===grid){const rect=target.getBoundingClientRect();if(touch.clientX>rect.left+rect.width/2) grid.insertBefore(touchDragEl,target.nextSibling);else grid.insertBefore(touchDragEl,target);}},{passive:false});
+  const endTouch=()=>{if(longPressTimer){clearTimeout(longPressTimer);longPressTimer=null;}if(!touchDragEl) return;touchDragEl.style.opacity='';touchClone&&touchClone.remove();touchClone=null;const cells=Array.from(grid.querySelectorAll('[draggable]'));const batch=db.batch();cells.forEach((cell,i)=>{const docId=cell.dataset.docId;if(docId) batch.update(db.collection('gallery').doc(docId),{sortOrder:i});});batch.commit().then(()=>showToast('✅ Photo order saved.')).catch(()=>showToast('❌ Failed to save order.',false));touchDragEl=null;};
+  grid.addEventListener('touchend',endTouch,{passive:true});grid.addEventListener('touchcancel',endTouch,{passive:true});
+}
+function removePhoto(docId){if(!confirm("Remove this photo?")) return;db.collection('gallery').doc(docId).delete().then(()=>showToast('🗑 Photo removed.')).catch(e=>alert('Error: '+e.message));}
+
+// ========== RESERVATIONS (with 10% partner cut) ==========
+function loadReservations() {
+  const rc=document.getElementById('reservationsList');
+  db.collection('bookings').orderBy("date","asc").onSnapshot(snapshot=>{
+    rc.innerHTML='';
+    if(snapshot.empty){rc.innerHTML="<p style='color:#888;text-align:center;'>No reservations found.</p>";return;}
+    const now=new Date(),todayY=now.getFullYear(),todayM=now.getMonth(),todayD=now.getDate();
+    const tomorrow=new Date(now);tomorrow.setDate(todayD+1);
+    const todayList=[],tomorrowList=[],upcomingList=[],pastList=[];
+    snapshot.forEach(doc=>{
+      const booking=doc.data();if(typeof booking.date!=="string") return;
+      const [y,m,d]=booking.date.split('-').map(Number);const bDate=new Date(y,m-1,d);
+      const formattedDate=bDate.toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+      const bookingWithSort={id:doc.id,...booking,date:formattedDate,timeSort:convertTimeToMinutes(booking.time)};
+      if(bDate.getFullYear()===todayY&&bDate.getMonth()===todayM&&bDate.getDate()===todayD) todayList.push(bookingWithSort);
+      else if(bDate.getFullYear()===tomorrow.getFullYear()&&bDate.getMonth()===tomorrow.getMonth()&&bDate.getDate()===tomorrow.getDate()) tomorrowList.push(bookingWithSort);
+      else if(bDate>tomorrow) upcomingList.push(bookingWithSort);
+      else pastList.push(bookingWithSort);
+    });
+    const sortByTime=(a,b)=>a.timeSort-b.timeSort;
+    todayList.sort(sortByTime);tomorrowList.sort(sortByTime);upcomingList.sort(sortByTime);pastList.sort(sortByTime);
+
+    function renderGroup(title,list,badgeClass){
+      if(!list.length) return;
+      rc.innerHTML+=`<div class="reservation-group">${title}</div>`;
+      list.forEach(booking=>{
+        const isCancelled=booking.status==='Cancelled';
+        const total=Number(booking.total)||0;
+        const partnerCut=Math.round(total*PARTNER_CUT_RATE);
+        const netAmount=total-partnerCut;
+        rc.innerHTML+=`
+          <div class="reservation-card" data-id="${booking.id}" style="${isCancelled?'opacity:0.7;border-left-color:var(--wine);':''}">
+            <div class="reservation-header">
+              <h3>${booking.name}</h3>
+              <div style="display:flex;gap:6px;align-items:center;">
+                ${isCancelled?`<span class="badge" style="background:var(--wine);">Cancelled · ${booking.cancelledBy==='client'?'Client':'Admin'}</span>`:`<span class="badge ${badgeClass}">${title}</span>`}
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:120px 1fr;gap:4px 14px;font-size:13px;">
+              <span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Ref #</span><span style="font-family:'Playfair Display',serif;font-weight:600;">${booking.bookingNumber||"—"}</span>
+              <span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Phone</span><span>${booking.phone}</span>
+              ${booking.email&&booking.email!=='guest'?`<span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Email</span><span>${booking.email}</span>`:''}
+              <span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Date</span><span>${booking.date}</span>
+              <span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Time</span><span>${booking.time}</span>
+              <span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Service</span><span>${booking.service}</span>
+              ${total?`<span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Total</span><span style="font-family:'Playfair Display',serif;font-weight:700;">$${total.toLocaleString()}</span>`:''}
+              ${total?`<span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Partner 10%</span><span class="partner-cut">-$${partnerCut.toLocaleString()} → Net: $${netAmount.toLocaleString()}</span>`:''}
+              ${booking.vipStation?`<span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">VIP</span><span style="color:var(--gold);font-weight:600;">★ Private Station</span>`:''}
+              ${booking.squeezeIn?`<span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Squeeze-In</span><span style="color:var(--wine);font-weight:600;">⚡ Emergency</span>`:''}
+              ${booking.discountCode?`<span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Discount</span><span style="color:#2d7a3e;font-weight:600;">🏷 ${booking.discountCode}</span>`:''}
+              <span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Payment</span><span>${booking.deposit||"—"}</span>
+              <span style="color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-size:10px;padding-top:2px;">Status</span><span style="font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:${booking.status==='Completed'?'#2d7a3e':booking.status==='Cancelled'?'var(--wine)':'var(--text-dim)'};">${booking.status||"Not set"}</span>
+            </div>
+            <div class="action-buttons">
+              ${!isCancelled?`<button class="cancel-btn" onclick="cancelReservation('${booking.id}')">Cancel</button>`:`<button class="cancel-btn" disabled style="opacity:0.4;cursor:not-allowed;">Cancelled</button>`}
+              <button class="deposit-btn" onclick="updateDeposit('${booking.id}')">Payment</button>
+              ${title==="Today"&&!isCancelled?`<button class="status-btn" onclick="updateStatus('${booking.id}')">Status</button>`:""}
+            </div>
+          </div>`;
+      });
+    }
+    renderGroup("Today",todayList,"today");renderGroup("Tomorrow",tomorrowList,"tomorrow");
+    renderGroup("Upcoming",upcomingList,"upcoming");renderGroup("Past",pastList,"past");
+  });
+}
+
+function convertTimeToMinutes(timeStr){if(!timeStr) return 0;const parts=timeStr.trim().split(' ');if(parts.length!==2) return 0;const [time,period]=parts;const [hours,minutes]=time.split(':').map(Number);if(isNaN(hours)||isNaN(minutes)) return 0;let total=(hours*60)+minutes;if(period.toUpperCase()==='PM'&&hours!==12) total+=720;if(period.toUpperCase()==='AM'&&hours===12) total-=720;return total;}
+function searchReservations(){const query=document.getElementById("reservationSearch").value.toLowerCase();document.querySelectorAll(".highlighted").forEach(el=>el.classList.remove("highlighted"));if(!query) return;const cards=document.querySelectorAll(".reservation-card");for(let card of cards){if(card.innerText.toLowerCase().includes(query)){card.classList.add("highlighted");card.scrollIntoView({behavior:"smooth",block:"center"});break;}}}
+function clearReservations(){const ci=document.getElementById('clearInput').value.trim();if(ci!=='CONFIRM'){alert('TYPE "CONFIRM" TO CLEAR PAST RESERVATIONS.');return;}const today=new Date();today.setHours(0,0,0,0);db.collection('bookings').get().then(snap=>{const batch=db.batch();snap.forEach(doc=>{const b=doc.data();if(b.date&&typeof b.date==="string"){const [y,m,d]=b.date.split('-').map(Number);const bd=new Date(y,m-1,d);bd.setHours(0,0,0,0);if(bd<today) batch.delete(doc.ref);}});return batch.commit();}).then(()=>{showToast('✅ Past reservations cleared.');document.getElementById('clearInput').value='';}).catch(()=>alert("Failed to clear."));}
+function cancelReservation(id){document.getElementById('adminCancelBookingId').value=id;document.getElementById('adminCancelModal').style.display='flex';}
+function confirmAdminCancel(){const id=document.getElementById('adminCancelBookingId').value;if(!id) return;db.collection("bookings").doc(id).update({status:'Cancelled',cancelledBy:'admin'}).then(()=>{closeAdminCancelModal();showToast('🗑 Booking cancelled.');}).catch(err=>{closeAdminCancelModal();alert("Failed: "+err.message);});}
+function closeAdminCancelModal(){document.getElementById('adminCancelModal').style.display='none';document.getElementById('adminCancelBookingId').value='';}
+let currentBookingId=null;
+function updateDeposit(bookingId){currentBookingId=bookingId;document.querySelectorAll('input[name="depositChoice"]').forEach(r=>r.checked=false);document.getElementById('depositModal').style.display='flex';}
+function confirmDeposit(){const choice=document.querySelector('input[name="depositChoice"]:checked');if(!choice){showToast("⚠️ Please select an option.",false);return;}db.collection('bookings').doc(currentBookingId).update({deposit:choice.value}).then(()=>{closeDepositModal();showToast(`✅ Payment: ${choice.value}`);}).catch(()=>showToast("❌ Failed.",false));}
+function closeDepositModal(){document.getElementById('depositModal').style.display='none';currentBookingId=null;}
+let currentStatusBookingId=null;
+function updateStatus(bookingId){currentStatusBookingId=bookingId;document.querySelectorAll('input[name="statusChoice"]').forEach(r=>r.checked=false);document.getElementById('statusModal').style.display='flex';}
+function confirmStatus(){const choice=document.querySelector('input[name="statusChoice"]:checked');if(!choice){alert("Select an option.");return;}db.collection('bookings').doc(currentStatusBookingId).update({status:choice.value}).then(()=>{closeStatusModal();}).catch(()=>alert("Failed."));}
+function closeStatusModal(){document.getElementById('statusModal').style.display='none';currentStatusBookingId=null;}
+
+// ========== UNAVAILABLE DAYS ==========
+async function addUnavailableDate(){
+  const date=document.getElementById('unavailableDateInput').value;if(!date){alert("Please select a date.");return;}
+  const allDay=document.getElementById('allDayCheckbox').checked;
+  const startTime=document.getElementById('startTimeInput').value;const endTime=document.getElementById('endTimeInput').value;
+  if(!allDay&&(!startTime||!endTime)){alert("Please enter start and end times.");return;}
+  try{
+    const bookingsSnap=await db.collection('bookings').where('date','==',date).get();
+    const activeBookings=[];bookingsSnap.forEach(doc=>{const d=doc.data();if(d.status!=='Cancelled') activeBookings.push({id:doc.id,...d});});
+    if(activeBookings.length>0){showConflictModal(activeBookings);return;}
+    await db.collection('unavailableDays').add({date,allDay,startTime:allDay?null:startTime,endTime:allDay?null:endTime});
+    document.getElementById('unavailableDateInput').value='';document.getElementById('startTimeInput').value='';document.getElementById('endTimeInput').value='';
+    document.getElementById('allDayCheckbox').checked=true;document.getElementById('timeInputs').style.display='none';
+    showToast('✅ Unavailable day added.');
+  }catch(e){alert("Failed to add unavailable day.");}
+}
+function loadUnavailableDates(){
+  const list=document.getElementById('unavailableDatesList');
+  db.collection('unavailableDays').orderBy('date').onSnapshot(snap=>{
+    list.innerHTML='';snap.forEach(doc=>{
+      const d=doc.data();let fd=d.date;
+      if(d.date&&d.date.includes("-")){const [y,m,dd]=d.date.split("-");fd=new Date(y,m-1,dd).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});}
+      list.innerHTML+=`<li style="margin-bottom:8px;padding:8px 12px;background:var(--bg);border:1px solid rgba(201,169,110,0.1);display:flex;justify-content:space-between;align-items:center;"><span>${fd} — ${d.allDay?'All Day':`${d.startTime} to ${d.endTime}`}</span><button onclick="removeUnavailableDate('${doc.id}')" style="background:var(--wine);color:white;border:none;padding:4px 10px;font-size:11px;cursor:pointer;margin-bottom:0;">Remove</button></li>`;
+    });
+  });
+}
+function removeUnavailableDate(id){db.collection('unavailableDays').doc(id).delete();}
+function showConflictModal(conflicts){const cl=document.getElementById('conflictList');cl.innerHTML='';conflicts.forEach(b=>{cl.innerHTML+=`<div style="padding:12px;margin-bottom:12px;border:1px solid #ddd;background:#fafafa;"><p style="margin:4px 0;font-size:14px;"><strong>Name:</strong> ${b.name||"N/A"}</p><p style="margin:4px 0;font-size:14px;"><strong>Phone:</strong> ${b.phone||"N/A"}</p><p style="margin:4px 0;font-size:14px;"><strong>Time:</strong> ${b.time||"N/A"}</p><button onclick="goToReservationsAndHighlight('${b.id}')" style="margin-top:8px;margin-bottom:0;">Go to Reservations</button></div>`;});document.getElementById('conflictModal').style.display='flex';}
+function goToReservationsAndHighlight(bookingId){closeConflictModal();showSection('reservationsPage');setTimeout(()=>{const tc=document.querySelector(`[data-id="${bookingId}"]`);if(tc){document.querySelectorAll(".highlighted").forEach(el=>el.classList.remove("highlighted"));tc.classList.add("highlighted");tc.scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>tc.classList.remove("highlighted"),6000);}},500);}
+function closeConflictModal(){document.getElementById('conflictModal').style.display='none';}
+
+// ========== TOAST ==========
+function showToast(message,success=true){const toast=document.getElementById("toast");toast.innerText=message;toast.style.backgroundColor=success?"#2d7a3e":"var(--wine)";toast.style.visibility="visible";toast.style.opacity="1";toast.style.bottom="50px";setTimeout(()=>{toast.style.opacity="0";toast.style.bottom="30px";setTimeout(()=>{toast.style.visibility="hidden";},500);},3000);}
+
+// ========== AUTH GUARD ==========
+const ADMIN_UID="FGdKiGMHBHRUegBwcNSpufB7PXz2";
+let _dashboardInitDone=false;
+firebase.auth().onAuthStateChanged(user=>{
+  const overlay=document.getElementById('accessOverlay'),status=document.getElementById('accessStatus'),content=document.getElementById('dashboardContent');
+  if(!user){status.textContent='Access Denied — Redirecting...';status.style.color='var(--wine)';setTimeout(()=>{window.location.href='index.html';},1200);return;}
+  if(user.uid!==ADMIN_UID){status.textContent='Unauthorised — Signing Out...';status.style.color='var(--wine)';firebase.auth().signOut().then(()=>{setTimeout(()=>{window.location.href='index.html';},1200);});return;}
+  status.textContent='Access Granted ✦';status.style.color='#2d7a3e';
+  setTimeout(()=>{overlay.style.transition='opacity 0.4s';overlay.style.opacity='0';setTimeout(()=>{overlay.style.display='none';content.style.display='block';},400);},600);
+  if(_dashboardInitDone) return;_dashboardInitDone=true;
+  loadGallery();showSection('revenueSection');loadReservations();loadUnavailableDates();loadRevenue('month');
+});
+</script>
+</div>
 </body>
 </html>
-
