@@ -48,40 +48,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --noir: #0D0D0D;
-  --noir-soft: #161616;
-  --noir-card: #1C1C1C;
-  --noir-line: #2A2A2A;
-  --gold: #C9A96E;
-  --gold-soft: #D4B896;
-  --gold-dim: rgba(201,169,110,0.12);
-  --cream: #FBF8F3;
-  --cream-soft: #F0EDE6;
-  --wine: #722F37;
-  --wine-deep: #5A1E28;
-  --rose: #C48B9F;
-  --text-light: #E8E4DD;
+  --noir: #080808;
+  --noir-soft: #111111;
+  --noir-card: #181818;
+  --noir-line: #252525;
+  --gold: #D4AF6E;
+  --gold-soft: #E2C98A;
+  --gold-dim: rgba(212,175,110,0.12);
+  --pink: #E8519A;
+  --pink-deep: #C4357D;
+  --pink-soft: #F0A0C8;
+  --pink-dim: rgba(232,81,154,0.1);
+  --white: #FFFFFF;
+  --white-soft: #F7F5F0;
+  --text-light: #F0EDE8;
   --text-dim: #8A8580;
-  --text-dark: #1A1A1A;
+  --text-dark: #0E0E0E;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{
   font-family:'Inter',sans-serif;
-  background:#0D0D0D;
+  background:#080808;
   color:var(--text-light);
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
   padding-bottom:72px;
 }
-::selection{background:var(--gold);color:var(--noir);}
+::selection{background:var(--pink);color:var(--white);}
 
 /* ===== AMBIENT BACKGROUND ===== */
 .bg-ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .bg-ambient span{position:absolute;border-radius:50%;filter:blur(100px);}
-.bg-glow-1{width:700px;height:500px;top:-10%;left:-5%;background:radial-gradient(ellipse,rgba(201,169,110,0.08) 0%,transparent 70%);animation:drift1 18s ease-in-out infinite;}
-.bg-glow-2{width:500px;height:400px;bottom:10%;right:-5%;background:radial-gradient(ellipse,rgba(196,139,159,0.06) 0%,transparent 70%);animation:drift2 22s ease-in-out infinite;}
-.bg-glow-3{width:400px;height:350px;top:40%;left:50%;background:radial-gradient(ellipse,rgba(201,169,110,0.05) 0%,transparent 70%);animation:drift3 15s ease-in-out infinite;}
+.bg-glow-1{width:700px;height:500px;top:-10%;left:-5%;background:radial-gradient(ellipse,rgba(232,81,154,0.12) 0%,transparent 70%);animation:drift1 18s ease-in-out infinite;}
+.bg-glow-2{width:500px;height:400px;bottom:10%;right:-5%;background:radial-gradient(ellipse,rgba(212,175,110,0.08) 0%,transparent 70%);animation:drift2 22s ease-in-out infinite;}
+.bg-glow-3{width:400px;height:350px;top:40%;left:50%;background:radial-gradient(ellipse,rgba(232,81,154,0.07) 0%,transparent 70%);animation:drift3 15s ease-in-out infinite;}
 @keyframes drift1{0%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,-30px) scale(1.1);}100%{transform:translate(0,0) scale(1);}}
 @keyframes drift2{0%{transform:translate(0,0);}50%{transform:translate(-50px,40px);}100%{transform:translate(0,0);}}
 @keyframes drift3{0%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,50px) scale(0.9);}100%{transform:translate(0,0) scale(1);}}
@@ -89,25 +90,25 @@ body{
 /* ===== HEADER ===== */
 .header-bar{
   position:fixed;top:0;left:0;right:0;height:64px;
-  background:rgba(13,13,13,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   display:flex;align-items:center;justify-content:center;
-  z-index:1000;border-bottom:1px solid rgba(201,169,110,0.1);
+  z-index:1000;border-bottom:1px solid rgba(232,81,154,0.15);
 }
 .header-title{
   font-family:'Playfair Display',serif;font-weight:700;font-style:italic;
-  font-size:20px;letter-spacing:3px;color:var(--cream);text-transform:uppercase;
+  font-size:20px;letter-spacing:3px;color:var(--white);text-transform:uppercase;
 }
 .menu-button{
   position:absolute;left:16px;top:50%;transform:translateY(-50%);
-  background:transparent;color:var(--cream);border:1px solid rgba(201,169,110,0.25);
+  background:transparent;color:var(--white);border:1px solid rgba(232,81,154,0.3);
   border-radius:50%;cursor:pointer;height:38px;width:38px;
   display:flex;align-items:center;justify-content:center;font-size:15px;
   transition:all 0.3s;
 }
-.menu-button:hover{border-color:var(--gold);color:var(--gold);}
+.menu-button:hover{border-color:var(--pink);color:var(--pink);}
 .location-button{
   position:absolute;right:16px;top:50%;transform:translateY(-50%);
-  background:transparent;color:var(--gold);border:1px solid rgba(201,169,110,0.3);
+  background:transparent;color:var(--gold);border:1px solid rgba(212,175,110,0.35);
   border-radius:50%;height:38px;width:38px;
   display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
   transition:all 0.3s;
@@ -119,40 +120,40 @@ body{
 .menu-scrim.show{display:block;}
 .menu{
   position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;
-  background:var(--noir-soft);color:var(--cream);padding:80px 28px 40px;
+  background:var(--noir-soft);color:var(--white);padding:80px 28px 40px;
   transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
-  z-index:999;border-right:1px solid rgba(201,169,110,0.12);overflow-y:auto;
+  z-index:999;border-right:1px solid rgba(232,81,154,0.12);overflow-y:auto;
 }
 .menu.show{transform:translateX(0);}
 .drawer-close{
-  position:absolute;top:18px;right:18px;background:transparent;border:1px solid rgba(201,169,110,0.2);
-  color:var(--cream);width:32px;height:32px;border-radius:50%;cursor:pointer;
+  position:absolute;top:18px;right:18px;background:transparent;border:1px solid rgba(232,81,154,0.25);
+  color:var(--white);width:32px;height:32px;border-radius:50%;cursor:pointer;
   display:flex;align-items:center;justify-content:center;font-size:13px;
 }
 .drawer-brand{
   font-family:'Playfair Display',serif;font-weight:700;font-style:italic;
-  font-size:22px;color:var(--cream);margin-bottom:28px;letter-spacing:1px;
+  font-size:22px;color:var(--white);margin-bottom:28px;letter-spacing:1px;
 }
 .menu a{
-  display:block;color:var(--cream);margin-bottom:4px;text-decoration:none;
+  display:block;color:var(--white);margin-bottom:4px;text-decoration:none;
   font-weight:500;font-size:12px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;
-  padding:14px 0;border-bottom:1px solid rgba(201,169,110,0.08);transition:color 0.2s;
+  padding:14px 0;border-bottom:1px solid rgba(232,81,154,0.08);transition:color 0.2s;
 }
-.menu a:hover{color:var(--gold);}
-.opening-hours{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid rgba(201,169,110,0.1);}
-.opening-hours h3{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.menu a:hover{color:var(--pink);}
+.opening-hours{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid rgba(232,81,154,0.1);}
+.opening-hours h3{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--pink);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
 .opening-hours p{font-size:13px;color:var(--text-dim);margin:4px 0;line-height:1.6;}
 .menu-action-btn{
   display:block;text-align:center;padding:12px 0 !important;margin:6px 0;
-  border:1px solid var(--gold) !important;border-bottom:1px solid var(--gold) !important;
-  color:var(--gold) !important;font-size:11px !important;letter-spacing:3px !important;
+  border:1px solid var(--pink) !important;border-bottom:1px solid var(--pink) !important;
+  color:var(--pink) !important;font-size:11px !important;letter-spacing:3px !important;
   transition:all 0.3s !important;
 }
-.menu-action-btn:hover{background:var(--gold) !important;color:var(--noir) !important;}
+.menu-action-btn:hover{background:var(--pink) !important;color:var(--white) !important;}
 .admin-button{color:var(--text-dim) !important;font-size:10px !important;letter-spacing:3px !important;}
 .social-row{display:flex;gap:16px;padding:16px 0;justify-content:center;}
 .social-row a{border:none !important;padding:0 !important;margin:0 !important;display:inline-flex !important;}
-.separator-line{height:1px;background:rgba(201,169,110,0.1);margin:8px 0;}
+.separator-line{height:1px;background:rgba(232,81,154,0.1);margin:8px 0;}
 .location-info h3{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
 .location-info p{font-size:13px;color:var(--text-dim);line-height:1.6;}
 
@@ -164,35 +165,38 @@ body{
 }
 .hero-bg{
   position:absolute;inset:0;z-index:0;
-  background:url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1400&q=80') center/cover no-repeat;
+  background:url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1400&q=85') center 30%/cover no-repeat;
 }
 .hero-bg::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(13,13,13,0.7) 0%,rgba(13,13,13,0.85) 50%,#0D0D0D 100%);
+  background:linear-gradient(180deg,rgba(8,8,8,0.45) 0%,rgba(8,8,8,0.6) 60%,#080808 100%);
 }
 .hero-content{position:relative;z-index:1;max-width:680px;}
 .hero-kicker{
   font-family:'Playfair Display',serif;font-style:italic;font-size:13px;
-  color:var(--gold);letter-spacing:5px;text-transform:uppercase;margin-bottom:16px;
+  color:var(--pink-soft);letter-spacing:5px;text-transform:uppercase;margin-bottom:16px;
+  text-shadow:0 1px 12px rgba(0,0,0,0.5);
 }
 .hero h1{
   font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(36px,8vw,64px);
-  color:var(--cream);line-height:1.1;letter-spacing:-1px;margin-bottom:20px;
+  color:var(--white);line-height:1.1;letter-spacing:-1px;margin-bottom:20px;
+  text-shadow:0 2px 20px rgba(0,0,0,0.4);
 }
 .hero-sub{
-  font-size:15px;color:var(--text-dim);line-height:1.7;max-width:460px;margin:0 auto 32px;
+  font-size:15px;color:rgba(255,255,255,0.75);line-height:1.7;max-width:460px;margin:0 auto 32px;
+  text-shadow:0 1px 8px rgba(0,0,0,0.5);
 }
 .hero-cta{
-  display:inline-block;padding:16px 48px;background:var(--gold);color:var(--noir);
-  font-family:'Inter',sans-serif;font-weight:600;font-size:11px;letter-spacing:4px;
+  display:inline-block;padding:16px 48px;background:var(--pink);color:var(--white);
+  font-family:'Inter',sans-serif;font-weight:700;font-size:11px;letter-spacing:4px;
   text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;
-  transition:all 0.3s;
+  transition:all 0.3s;box-shadow:0 8px 32px rgba(232,81,154,0.4);
 }
-.hero-cta:hover{background:var(--cream);letter-spacing:5px;}
+.hero-cta:hover{background:var(--pink-deep);letter-spacing:5px;box-shadow:0 12px 40px rgba(232,81,154,0.5);}
 .hero-discount{
   margin-top:28px;padding:14px 28px;
-  background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.2);
-  display:inline-block;
+  background:rgba(212,175,110,0.1);border:1px solid rgba(212,175,110,0.3);
+  display:inline-block;backdrop-filter:blur(8px);
 }
 .hero-discount span{
   font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--gold);
@@ -201,8 +205,8 @@ body{
 /* ===== BOTTOM NAV ===== */
 .bottom-nav{
   position:fixed;left:0;right:0;bottom:0;height:56px;
-  background:rgba(13,13,13,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid rgba(201,169,110,0.1);
+  background:rgba(8,8,8,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid rgba(232,81,154,0.15);
   display:flex;justify-content:space-around;align-items:stretch;z-index:99999;
 }
 .nav-item{
@@ -212,12 +216,12 @@ body{
   text-transform:uppercase;text-decoration:none;transition:color 0.3s;position:relative;
 }
 .nav-item .nav-icon{font-size:18px;line-height:1;}
-.nav-item.active{color:var(--gold);}
+.nav-item.active{color:var(--pink);}
 .nav-item.active::after{
   content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:24px;height:2px;background:var(--gold);
+  width:24px;height:2px;background:var(--pink);
 }
-.nav-item:hover{color:var(--cream);}
+.nav-item:hover{color:var(--white);}
 @media(max-width:380px){.nav-item{font-size:8px;letter-spacing:1px;}.nav-item .nav-icon{font-size:16px;}}
 
 /* ===== CONTENT SECTIONS ===== */
@@ -225,28 +229,29 @@ body{
 .content-section.active{display:block;}
 .section-kicker{
   text-align:center;font-family:'Playfair Display',serif;font-style:italic;
-  font-size:13px;color:var(--gold);letter-spacing:4px;text-transform:uppercase;margin-top:40px;
+  font-size:13px;color:var(--pink);letter-spacing:4px;text-transform:uppercase;margin-top:40px;
 }
 h1{
   text-align:center;font-family:'Playfair Display',serif;font-weight:700;
-  color:var(--cream);margin:12px 0 8px;font-size:clamp(32px,7vw,48px);letter-spacing:-0.5px;
+  color:var(--white);margin:12px 0 8px;font-size:clamp(32px,7vw,48px);letter-spacing:-0.5px;
 }
 h1::after{
-  content:'';display:block;width:48px;height:1px;
-  background:linear-gradient(90deg,var(--gold),var(--rose));margin:18px auto 0;
+  content:'';display:block;width:48px;height:2px;
+  background:linear-gradient(90deg,var(--pink),var(--gold));margin:18px auto 0;
 }
 
 /* ===== GALLERY ===== */
 .gallery-category{margin:40px 0 50px;}
 .gallery-category h3{
   text-align:center;font-family:'Playfair Display',serif;font-weight:700;font-size:24px;
-  color:var(--cream);letter-spacing:0.5px;margin-bottom:20px;position:relative;
+  color:var(--white);letter-spacing:0.5px;margin-bottom:20px;position:relative;
 }
 .gallery-category h3::before{
-  content:'✦';display:block;color:var(--gold);font-size:16px;margin-bottom:4px;font-weight:400;
+  content:'✦';display:block;color:var(--pink);font-size:16px;margin-bottom:4px;font-weight:400;
 }
 .gallery-category h3::after{
-  content:'';display:block;width:32px;height:1px;background:var(--gold);margin:10px auto 0;
+  content:'';display:block;width:32px;height:2px;
+  background:linear-gradient(90deg,var(--pink),var(--gold));margin:10px auto 0;
 }
 .gallery-wrapper{max-width:800px;margin:0 auto;padding:0 12px;}
 .gallery-grid{
@@ -260,113 +265,114 @@ h1::after{
 .category-book-wrap{text-align:center;margin:24px 0;}
 .book-now-btn{
   display:inline-block;padding:14px 40px;background:transparent;
-  color:var(--gold);border:1px solid var(--gold);font-family:'Inter',sans-serif;
+  color:var(--pink);border:1px solid var(--pink);font-family:'Inter',sans-serif;
   font-weight:600;font-size:10px;letter-spacing:4px;text-transform:uppercase;
   text-decoration:none;cursor:pointer;transition:all 0.3s;
 }
-.book-now-btn:hover{background:var(--gold);color:var(--noir);}
+.book-now-btn:hover{background:var(--pink);color:var(--white);}
 
 /* ===== FORMS ===== */
 form{
-  max-width:520px;margin:28px auto 40px;background:var(--cream);color:var(--text-dark);
-  padding:40px 32px;box-shadow:0 30px 80px rgba(0,0,0,0.5);
-  border:1px solid rgba(201,169,110,0.2);position:relative;
+  max-width:520px;margin:28px auto 40px;background:var(--white);color:var(--text-dark);
+  padding:40px 32px;box-shadow:0 30px 80px rgba(0,0,0,0.6);
+  border:1px solid rgba(232,81,154,0.15);position:relative;
 }
 form::before{
   content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--gold),var(--rose),var(--gold));
+  background:linear-gradient(90deg,var(--pink),var(--gold),var(--pink));
 }
 form label{
   font-family:'Inter',sans-serif;font-weight:600;font-size:10px;text-transform:uppercase;
-  letter-spacing:2.5px;display:block;margin-bottom:6px;margin-top:16px;color:var(--wine);
+  letter-spacing:2.5px;display:block;margin-bottom:6px;margin-top:16px;color:var(--pink-deep);
 }
 form input,form select,form textarea{
-  width:100%;padding:13px 14px;border:none;border-bottom:1px solid rgba(26,26,30,0.15);
+  width:100%;padding:13px 14px;border:none;border-bottom:1px solid rgba(26,26,30,0.12);
   border-radius:0;font-family:'Inter',sans-serif;font-size:14px;background:transparent;
   color:var(--text-dark);transition:border-color 0.3s;
 }
-form input:focus,form select:focus,form textarea:focus{outline:none;border-bottom-color:var(--gold);box-shadow:0 1px 0 var(--gold);}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-bottom-color:var(--pink);box-shadow:0 1px 0 var(--pink);}
 form select{
   appearance:none;-webkit-appearance:none;cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23722F37' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23E8519A' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 10px center;padding-right:34px;
 }
 form button[type="submit"]{
-  width:100%;padding:16px;margin-top:20px;background:var(--noir);color:var(--cream);
-  border:1px solid var(--noir);font-family:'Inter',sans-serif;font-weight:600;
+  width:100%;padding:16px;margin-top:20px;background:var(--pink);color:var(--white);
+  border:none;font-family:'Inter',sans-serif;font-weight:700;
   font-size:11px;letter-spacing:4px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;
+  box-shadow:0 4px 20px rgba(232,81,154,0.35);
 }
-form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine);letter-spacing:5px;}
+form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;box-shadow:0 6px 28px rgba(232,81,154,0.45);}
 
 /* ===== DISCOUNT CODE FIELD ===== */
 .discount-field{
-  margin-top:14px;padding:14px;background:rgba(201,169,110,0.06);
-  border:1px dashed rgba(201,169,110,0.3);
+  margin-top:14px;padding:14px;background:rgba(212,175,110,0.05);
+  border:1px dashed rgba(212,175,110,0.35);
 }
 .discount-field label{margin-top:0 !important;color:var(--gold) !important;}
 .discount-applied{color:#2d7a3e;font-weight:600;font-size:12px;margin-top:6px;}
 
 /* ===== UPSELL CARDS ===== */
 .upsell-card{
-  margin-top:14px;padding:16px;background:rgba(201,169,110,0.05);
-  border:1px solid rgba(201,169,110,0.2);display:flex;align-items:center;gap:12px;
+  margin-top:14px;padding:16px;background:rgba(232,81,154,0.04);
+  border:1px solid rgba(232,81,154,0.18);display:flex;align-items:center;gap:12px;
   cursor:pointer;transition:background 0.2s;
 }
-.upsell-card:hover{background:rgba(201,169,110,0.1);}
-.upsell-card.selected{background:rgba(114,47,55,0.08);border-color:var(--wine);}
-.upsell-check{width:20px;height:20px;border:2px solid var(--gold);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);}
-.upsell-card.selected .upsell-check{background:var(--gold);color:var(--noir);}
+.upsell-card:hover{background:rgba(232,81,154,0.08);}
+.upsell-card.selected{background:rgba(232,81,154,0.1);border-color:var(--pink);}
+.upsell-check{width:20px;height:20px;border:2px solid var(--pink);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--pink);}
+.upsell-card.selected .upsell-check{background:var(--pink);color:var(--white);}
 
 /* ===== EMERGENCY SQUEEZE-IN ===== */
 .squeeze-in-btn{
   display:block;width:100%;margin-top:12px;padding:14px;
-  background:linear-gradient(135deg,var(--wine),var(--wine-deep));
-  color:var(--cream);border:none;font-family:'Inter',sans-serif;
-  font-weight:600;font-size:11px;letter-spacing:2px;text-transform:uppercase;
-  cursor:pointer;transition:all 0.3s;
+  background:linear-gradient(135deg,var(--pink),var(--pink-deep));
+  color:var(--white);border:none;font-family:'Inter',sans-serif;
+  font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(232,81,154,0.3);
 }
-.squeeze-in-btn:hover{filter:brightness(1.15);}
+.squeeze-in-btn:hover{filter:brightness(1.1);box-shadow:0 6px 24px rgba(232,81,154,0.45);}
 
 /* ===== WEDNESDAY PERK ===== */
 .wednesday-perk{
-  margin-top:12px;padding:14px 16px;background:rgba(201,169,110,0.06);
-  border:1px solid rgba(201,169,110,0.2);text-align:center;display:none;
+  margin-top:12px;padding:14px 16px;background:rgba(212,175,110,0.06);
+  border:1px solid rgba(212,175,110,0.25);text-align:center;display:none;
 }
 .wednesday-perk p{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--gold);margin:0;}
 
 /* ===== PRICING CARDS (booking) ===== */
 .cut-item,.addon-item{
-  padding:8px 10px;border-bottom:1px solid rgba(114,47,55,0.1);
+  padding:8px 10px;border-bottom:1px solid rgba(232,81,154,0.08);
   display:flex;justify-content:space-between;align-items:center;
   cursor:pointer;border-radius:4px;transition:background 0.15s;user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
-.cut-item:hover,.addon-item:hover{background:rgba(114,47,55,0.06);}
-.cut-item.selected{background:rgba(114,47,55,0.12);border-left:3px solid var(--wine);}
-.addon-item.selected{background:rgba(201,169,110,0.1);border-left:3px solid var(--gold);}
+.cut-item:hover,.addon-item:hover{background:rgba(232,81,154,0.05);}
+.cut-item.selected{background:rgba(232,81,154,0.1);border-left:3px solid var(--pink);}
+.addon-item.selected{background:rgba(212,175,110,0.08);border-left:3px solid var(--gold);}
 .item-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.item-label{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;font-family:'Inter',sans-serif;}
-.item-price{font-size:12px;color:var(--wine);font-weight:700;white-space:nowrap;margin-left:8px;}
-.item-check{font-size:14px;margin-left:6px;color:var(--wine);}
-.card-section-title{margin:10px 0 4px;color:var(--wine);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:0 2px;}
+.item-label{display:flex;align-items:center;gap:8px;font-size:13px;color:#444;font-family:'Inter',sans-serif;}
+.item-price{font-size:12px;color:var(--pink-deep);font-weight:700;white-space:nowrap;margin-left:8px;}
+.item-check{font-size:14px;margin-left:6px;color:var(--pink);}
+.card-section-title{margin:10px 0 4px;color:var(--pink-deep);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:0 2px;}
 .tap-hint{font-size:11px;color:#888;text-align:center;padding:6px 0 2px;font-style:italic;}
-#selectionSummary{margin-top:8px;padding:10px 12px;background:var(--noir);border:1px solid var(--gold);border-radius:0;display:none;}
-#selectionSummaryTitle{font-family:'Inter',sans-serif;font-weight:700;letter-spacing:2px;font-size:11px;color:var(--gold);margin-bottom:5px;text-transform:uppercase;}
+#selectionSummary{margin-top:8px;padding:10px 12px;background:var(--noir);border:1px solid var(--pink);border-radius:0;display:none;}
+#selectionSummaryTitle{font-family:'Inter',sans-serif;font-weight:700;letter-spacing:2px;font-size:11px;color:var(--pink);margin-bottom:5px;text-transform:uppercase;}
 
 /* ===== PRICE LIST ===== */
-.price-style-card{margin-bottom:8px;overflow:hidden;border:1px solid rgba(201,169,110,0.12);background:var(--noir-card);}
+.price-style-card{margin-bottom:8px;overflow:hidden;border:1px solid rgba(232,81,154,0.12);background:var(--noir-card);}
 .price-style-head{
   display:flex;justify-content:space-between;align-items:center;
   padding:12px 16px;cursor:pointer;user-select:none;
-  background:rgba(201,169,110,0.04);transition:background 0.2s;
+  background:rgba(232,81,154,0.04);transition:background 0.2s;
 }
-.price-style-head:hover{background:rgba(201,169,110,0.08);}
-.price-style-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--cream);letter-spacing:0.3px;}
+.price-style-head:hover{background:rgba(232,81,154,0.08);}
+.price-style-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--white);letter-spacing:0.3px;}
 .price-style-name small{display:block;font-size:11px;font-weight:400;color:var(--text-dim);font-style:italic;margin-top:2px;}
 .price-style-from{font-size:12px;color:var(--gold);font-weight:700;white-space:nowrap;font-family:'Inter',sans-serif;}
-.price-style-toggle{font-size:14px;color:var(--gold);margin-left:8px;transition:transform 0.25s;}
+.price-style-toggle{font-size:14px;color:var(--pink);margin-left:8px;transition:transform 0.25s;}
 .price-style-card.open .price-style-toggle{transform:rotate(180deg);}
-.price-style-body{display:none;padding:8px 16px 14px;border-top:1px solid rgba(201,169,110,0.08);}
+.price-style-body{display:none;padding:8px 16px 14px;border-top:1px solid rgba(232,81,154,0.08);}
 .price-style-card.open .price-style-body{display:block;}
 .price-size-title{margin-top:10px;margin-bottom:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gold);}
 .price-size-title:first-child{margin-top:0;}
@@ -376,10 +382,10 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
 .price-row .amt{font-size:13px;color:var(--gold);font-weight:700;white-space:nowrap;}
 .price-group-divider{
   margin:16px 0 8px;padding:8px 12px;
-  background:linear-gradient(90deg,rgba(201,169,110,0.1),rgba(201,169,110,0.03));
-  border-left:3px solid var(--gold);
+  background:linear-gradient(90deg,rgba(232,81,154,0.12),rgba(232,81,154,0.02));
+  border-left:3px solid var(--pink);
   font-family:'Playfair Display',serif;font-style:italic;font-size:14px;font-weight:600;
-  letter-spacing:1px;text-transform:uppercase;color:var(--cream);
+  letter-spacing:1px;text-transform:uppercase;color:var(--white);
 }
 .price-group-divider:first-child{margin-top:4px;}
 
@@ -399,23 +405,23 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
   justify-content:center;align-items:center;z-index:10000;backdrop-filter:blur(6px);
 }
 .modal-box{
-  background:var(--cream);padding:40px 28px 28px;max-width:460px;width:90%;
+  background:var(--white);padding:40px 28px 28px;max-width:460px;width:90%;
   max-height:85vh;overflow-y:auto;position:relative;
 }
 .modal-box::before{
   content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--gold),var(--rose),var(--gold));
+  background:linear-gradient(90deg,var(--pink),var(--gold),var(--pink));
 }
 .modal-close{
   position:absolute;top:14px;right:14px;background:transparent;
-  border:1px solid rgba(26,26,30,0.15);width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(26,26,30,0.12);width:32px;height:32px;border-radius:50%;
   font-size:13px;cursor:pointer;color:var(--text-dark);display:flex;align-items:center;
   justify-content:center;transition:all 0.2s;
 }
-.modal-close:hover{border-color:var(--gold);color:var(--gold);}
+.modal-close:hover{border-color:var(--pink);color:var(--pink);}
 .modal-kicker{
   font-family:'Playfair Display',serif;font-style:italic;font-size:12px;
-  color:var(--wine);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:6px;
+  color:var(--pink);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:6px;
 }
 .modal-title{
   margin:0 0 18px;color:var(--text-dark);text-align:center;font-family:'Playfair Display',serif;
@@ -425,10 +431,10 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
 /* ===== WEBV TEC FOOTER ===== */
 .webv-footer{
   position:fixed;bottom:56px;left:0;right:0;background:var(--noir);
-  border-top:1px solid rgba(201,169,110,0.08);text-align:center;padding:4px 12px;
-  font-size:9px;letter-spacing:2px;color:rgba(201,169,110,0.3);z-index:999;text-transform:uppercase;
+  border-top:1px solid rgba(232,81,154,0.08);text-align:center;padding:4px 12px;
+  font-size:9px;letter-spacing:2px;color:rgba(232,81,154,0.3);z-index:999;text-transform:uppercase;
 }
-.webv-footer a{color:rgba(201,169,110,0.3);text-decoration:none;}
+.webv-footer a{color:rgba(232,81,154,0.3);text-decoration:none;}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:480px){
@@ -502,7 +508,7 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
       <p class="hero-sub">Premium braids, locs, twists, weaves and styling — crafted with precision at ATM Beauty Styles.</p>
       <a class="hero-cta" onclick="showSection('bookingSection')" href="javascript:void(0);">Book Your Appointment</a>
       <div class="hero-discount">
-        <span>Use code <strong style="color:var(--cream);">WEBVTEC10</strong> at checkout for 10% off your booking</span>
+        <span>Use code <strong style="color:var(--white);">WEBVTEC10</strong> at checkout for 10% off your booking</span>
       </div>
     </div>
   </div>
@@ -521,8 +527,8 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
   <h1>Book Now</h1>
 
   <!-- House Rules -->
-  <div style="max-width:520px;margin:18px auto 24px;background:var(--noir-card);border:1px solid rgba(201,169,110,0.15);padding:20px 22px;font-size:13px;color:var(--text-light);line-height:1.8;">
-    <div style="font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:14px;letter-spacing:3px;margin-bottom:14px;text-transform:uppercase;">The House Rules</div>
+  <div style="max-width:520px;margin:18px auto 24px;background:var(--noir-card);border:1px solid rgba(232,81,154,0.12);padding:20px 22px;font-size:13px;color:var(--text-light);line-height:1.8;">
+    <div style="font-family:'Playfair Display',serif;font-style:italic;color:var(--pink);font-size:14px;letter-spacing:3px;margin-bottom:14px;text-transform:uppercase;">The House Rules</div>
     <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted rgba(201,169,110,0.1);"><span style="color:var(--text-dim);">Working Days</span><span>Monday – Saturday</span></div>
     <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted rgba(201,169,110,0.1);"><span style="color:var(--text-dim);">Hours</span><span>8:00 AM – 5:00 PM</span></div>
     <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted rgba(201,169,110,0.1);"><span style="color:var(--text-dim);">Sunday</span><span>Closed</span></div>
@@ -530,17 +536,17 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
     <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted rgba(201,169,110,0.1);"><span style="color:var(--text-dim);">Hair Length</span><span>4 inches &amp; over only</span></div>
     <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted rgba(201,169,110,0.1);"><span style="color:var(--text-dim);">Guests</span><span>No extra company</span></div>
     <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted rgba(201,169,110,0.1);"><span style="color:var(--text-dim);">Hair Condition</span><span>Must be clean</span></div>
-    <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted rgba(201,169,110,0.1);"><span style="color:var(--text-dim);">Deposit</span><span style="color:var(--wine);font-weight:600;">$2,000 required</span></div>
+    <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted rgba(232,81,154,0.1);"><span style="color:var(--text-dim);">Deposit</span><span style="color:var(--pink);font-weight:600;">$2,000 required</span></div>
 
-    <div style="margin-top:14px;padding:12px;background:rgba(114,47,55,0.06);border:1px solid rgba(114,47,55,0.15);">
+    <div style="margin-top:14px;padding:12px;background:rgba(232,81,154,0.06);border:1px solid rgba(232,81,154,0.15);">
       <div style="font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">⌛ Lateness Policy</div>
       <div style="display:flex;justify-content:space-between;padding:4px 0;">
         <span style="color:var(--text-dim);font-size:12px;">15 min late</span>
-        <span style="color:var(--wine);font-weight:700;font-size:12px;letter-spacing:1px;">CANCELLED</span>
+        <span style="color:var(--pink);font-weight:700;font-size:12px;letter-spacing:1px;">CANCELLED</span>
       </div>
     </div>
 
-    <div style="margin-top:10px;padding:12px;background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.12);display:flex;align-items:flex-start;gap:10px;">
+    <div style="margin-top:10px;padding:12px;background:rgba(212,175,110,0.04);border:1px solid rgba(212,175,110,0.12);display:flex;align-items:flex-start;gap:10px;">
       <span style="font-size:15px;flex-shrink:0;margin-top:1px;">🏦</span>
       <div style="font-size:12px;line-height:1.6;color:var(--text-dim);">
         Send deposit to <strong style="color:var(--text-light);">Scotiabank · Anita Mcfarlane · Acc# 1031697</strong> (Savings, JMD).<br>
@@ -661,7 +667,7 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
 <div class="content-section" id="reviewsSection">
   <div class="section-kicker">What Clients Are Saying</div>
   <h1>Client Reviews</h1>
-  <div id="reviewPrompt" style="display:none;max-width:520px;margin:22px auto;background:var(--cream);color:var(--text-dark);border:1px solid var(--gold);padding:18px;text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:15px;">
+  <div id="reviewPrompt" style="display:none;max-width:520px;margin:22px auto;background:var(--white);color:var(--text-dark);border:1px solid var(--gold);padding:18px;text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:15px;">
     How was your experience? We'd love to hear from you.
   </div>
   <form id="reviewForm">
@@ -687,17 +693,17 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
     Mon – Sat · 8:00 AM – 5:00 PM · After 5 PM: Late Night Fee $2,500 · Deposit required
   </div>
   <div style="max-width:420px;margin:0 auto;padding:0 16px 80px;">
-    <div style="background:rgba(114,47,55,0.06);overflow:hidden;margin-bottom:16px;border:1px solid rgba(114,47,55,0.15);">
-      <div style="background:linear-gradient(135deg,var(--wine),var(--wine-deep));padding:10px 16px;">
-        <span style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--cream);">⌛ Lateness Policy</span>
+    <div style="background:rgba(232,81,154,0.05);overflow:hidden;margin-bottom:16px;border:1px solid rgba(232,81,154,0.15);">
+      <div style="background:linear-gradient(135deg,var(--pink),var(--pink-deep));padding:10px 16px;">
+        <span style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--white);">⌛ Lateness Policy</span>
       </div>
       <div style="padding:12px 16px;">
-        <div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:14px;color:var(--text-light);">15 min late</span><span style="font-size:14px;color:var(--wine);font-weight:700;">CANCELLED</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:14px;color:var(--text-light);">15 min late</span><span style="font-size:14px;color:var(--pink);font-weight:700;">CANCELLED</span></div>
       </div>
     </div>
-    <div style="background:var(--noir-card);overflow:hidden;margin-bottom:16px;border:1px solid rgba(201,169,110,0.12);">
-      <div style="background:linear-gradient(135deg,var(--wine),var(--wine-deep));padding:10px 16px;">
-        <span style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--cream);">🌸 Hair Services</span>
+    <div style="background:var(--noir-card);overflow:hidden;margin-bottom:16px;border:1px solid rgba(232,81,154,0.12);">
+      <div style="background:linear-gradient(135deg,var(--pink),var(--pink-deep));padding:10px 16px;">
+        <span style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--white);">🌸 Hair Services</span>
       </div>
       <div style="padding:8px 14px 14px;">
         <div id="hairPriceList"></div>
@@ -715,7 +721,7 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
         <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-size:14px;color:var(--text-light);">Late Night Fee (after 5 PM)</span><span style="font-size:14px;color:var(--gold);font-weight:700;">$2,500</span></div>
         <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-size:14px;color:var(--text-light);">Emergency Squeeze-In</span><span style="font-size:14px;color:var(--gold);font-weight:700;">$5,000</span></div>
         <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="font-size:14px;color:var(--text-light);">Private VIP Station</span><span style="font-size:14px;color:var(--gold);font-weight:700;">$2,500</span></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:14px;color:var(--text-light);">Deposit</span><span style="font-size:14px;color:var(--wine);font-weight:700;">REQUIRED</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:14px;color:var(--text-light);">Deposit</span><span style="font-size:14px;color:var(--pink);font-weight:700;">REQUIRED</span></div>
       </div>
     </div>
   </div>
@@ -765,7 +771,7 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
       <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:14px;"><span style="color:#888;">Account #</span><span style="font-weight:600;color:var(--text-dark);">1031697</span></div>
       <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:14px;"><span style="color:#888;">Account Type</span><span style="font-weight:600;color:var(--text-dark);">Savings</span></div>
       <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:14px;"><span style="color:#888;">Currency</span><span style="font-weight:600;color:var(--text-dark);">JMD</span></div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px;"><span style="color:#888;">Deposit Amount</span><span style="font-weight:700;color:var(--wine);">$2,000</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px;"><span style="color:#888;">Deposit Amount</span><span style="font-weight:700;color:var(--pink);">$2,000</span></div>
     </div>
     <p style="font-size:12px;color:#888;text-align:center;margin-top:12px;font-style:italic;">Use your booking reference number as the transfer note.</p>
   </div>
@@ -782,7 +788,7 @@ form button[type="submit"]:hover{background:var(--wine);border-color:var(--wine)
       <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign in with Google
     </button>
-    <p id="adminLoginMsg" style="color:var(--wine);font-size:12px;margin:0;display:none;font-style:italic;"></p>
+    <p id="adminLoginMsg" style="color:var(--pink);font-size:12px;margin:0;display:none;font-style:italic;"></p>
     <button onclick="closeAdminModal()" style="background:none;border:none;color:#999;font-size:11px;cursor:pointer;margin-top:12px;padding:0;letter-spacing:2px;text-transform:uppercase;">Cancel</button>
   </div>
 </div>
@@ -937,7 +943,7 @@ function handleAuthButtonClick() { firebase.auth().currentUser ? logoutUser() : 
 function updateAuthButton(user) {
   const btn = document.getElementById('authMenuBtn');
   if (!btn) return;
-  if (user) { btn.textContent = 'LOGOUT'; btn.style.backgroundColor = 'var(--wine)'; btn.style.color = 'var(--cream)'; btn.style.border = '1px solid var(--wine)'; }
+  if (user) { btn.textContent = 'LOGOUT'; btn.style.backgroundColor = 'var(--pink)'; btn.style.color = 'var(--white)'; btn.style.border = '1px solid var(--pink)'; }
   else { btn.textContent = 'LOG IN'; btn.style.backgroundColor = ''; btn.style.color = ''; btn.style.border = ''; }
 }
 
@@ -1068,8 +1074,8 @@ function updateSelectionSummary() {
   const dur = getSelectedServiceDuration();
   const durH = Math.floor(dur/60), durM = dur%60;
   const durLabel = durH > 0 ? (durM > 0 ? `${durH}h ${durM}m` : `${durH}h`) : `${durM}m`;
-  const totalStr = total > 0 ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(201,169,110,0.3);font-weight:700;letter-spacing:1px;font-size:14px;color:var(--gold);">💰 ESTIMATED TOTAL: $${total.toLocaleString()}${discountApplied ? ' <span style="font-size:11px;color:#4CAF50;">(10% OFF applied)</span>' : ''} · ⏱ ${durLabel}</div>` : '';
-  summaryText.innerHTML = parts.map(p => `<span style="display:inline-block;background:var(--noir-card);border:1px solid var(--gold);padding:3px 8px;margin:3px 3px 3px 0;font-size:12px;color:var(--gold);font-weight:600;">${p}</span>`).join('') + totalStr;
+  const totalStr = total > 0 ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(232,81,154,0.3);font-weight:700;letter-spacing:1px;font-size:14px;color:var(--pink);">💰 ESTIMATED TOTAL: $${total.toLocaleString()}${discountApplied ? ' <span style="font-size:11px;color:#4CAF50;">(10% OFF applied)</span>' : ''} · ⏱ ${durLabel}</div>` : '';
+  summaryText.innerHTML = parts.map(p => `<span style="display:inline-block;background:var(--noir-card);border:1px solid var(--pink);padding:3px 8px;margin:3px 3px 3px 0;font-size:12px;color:var(--pink);font-weight:600;">${p}</span>`).join('') + totalStr;
 }
 function clearSelections() {
   selectedCutItem = null; selectedCutPrice = null; selectedAddons.clear(); vipSelected = false; squeezeInActive = false;
@@ -1124,7 +1130,7 @@ document.addEventListener('click', function(e) {
 
 function buildCutRow(name, price, isAddon, durationMins) {
   const cls = isAddon ? 'addon-item' : 'cut-item';
-  const dotColor = isAddon ? 'var(--gold)' : 'var(--wine)';
+  const dotColor = isAddon ? 'var(--gold)' : 'var(--pink)';
   const fn = isAddon ? `toggleAddon(this,'${name.replace(/'/g,"\\'")}')` : `toggleCut(this,'${name.replace(/'/g,"\\'")}')`;
   const priceStr = price && price !== '$' ? `<span class="item-price">${price}</span>` : '';
   let durStr = '';
@@ -1135,10 +1141,10 @@ function buildCutRow(name, price, isAddon, durationMins) {
 function buildPricingCard(headerHTML, sections, basePrice) {
   const hasCutSections = sections.some(s => (s.items||[]).some(it => !it.isAddon));
   let priceTag;
-  if(basePrice) priceTag = `<div style="margin:10px 0 6px;text-align:center;"><span style="display:inline-block;background:var(--wine);color:var(--cream);font-weight:700;font-size:18px;letter-spacing:2px;padding:6px 22px;">PRICE: $${Number(basePrice).toLocaleString()}</span></div>`;
-  else if(hasCutSections) priceTag = '<div style="margin:6px 0 4px;text-align:center;font-weight:600;font-size:12px;letter-spacing:1px;color:var(--gold);">👇 Tap a size & length below to set your price</div>';
+  if(basePrice) priceTag = `<div style="margin:10px 0 6px;text-align:center;"><span style="display:inline-block;background:var(--pink);color:var(--white);font-weight:700;font-size:18px;letter-spacing:2px;padding:6px 22px;">PRICE: $${Number(basePrice).toLocaleString()}</span></div>`;
+  else if(hasCutSections) priceTag = '<div style="margin:6px 0 4px;text-align:center;font-weight:600;font-size:12px;letter-spacing:1px;color:var(--pink);">👇 Tap a size & length below to set your price</div>';
   else priceTag = '<div style="margin:6px 0 4px;text-align:center;font-size:12px;letter-spacing:1px;color:#aaa;">Choose your add-ons below</div>';
-  let html = `<div style="background:var(--wine);padding:10px 14px;"><span style="font-family:'Playfair Display',serif;font-style:italic;letter-spacing:1px;font-size:13px;color:var(--cream);">${headerHTML}</span></div><div style="padding:8px 12px 10px;">${priceTag}<div class="tap-hint">${hasCutSections ? '👆 Tap a size + length, plus any add-ons' : '👆 Tap add-ons below'}</div>`;
+  let html = `<div style="background:linear-gradient(135deg,var(--pink),var(--pink-deep));padding:10px 14px;"><span style="font-family:'Playfair Display',serif;font-style:italic;letter-spacing:1px;font-size:13px;color:var(--white);">${headerHTML}</span></div><div style="padding:8px 12px 10px;">${priceTag}<div class="tap-hint">${hasCutSections ? '👆 Tap a size + length, plus any add-ons' : '👆 Tap add-ons below'}</div>`;
   sections.forEach(sec => { if(sec.title) html += `<div class="card-section-title">${sec.title}</div>`; sec.items.forEach(it => { html += buildCutRow(it.name,it.price,it.isAddon,it.durationMins); }); });
   return html + '</div>';
 }
@@ -1351,14 +1357,14 @@ function submitBooking(event) {
           <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted rgba(26,26,30,0.1);font-size:13px;"><span style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:11px;">Time</span><span>${time}</span></div>
           <div style="padding:8px 0 2px;font-size:13px;"><div style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:11px;margin-bottom:4px;">Service</div><div>${services}</div></div>
         </div>
-        ${total>0?`<div style="background:var(--noir);color:var(--cream);padding:12px 16px;margin-bottom:16px;font-family:'Playfair Display',serif;font-size:18px;"><span style="font-style:italic;color:var(--gold);font-size:12px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:2px;">Total</span>$${total.toLocaleString()}${discountApplied?' <span style="font-size:12px;color:#4CAF50;">(10% off)</span>':''}</div>`:''}
+        ${total>0?`<div style="background:var(--noir);color:var(--white);padding:12px 16px;margin-bottom:16px;font-family:'Playfair Display',serif;font-size:18px;"><span style="font-style:italic;color:var(--gold);font-size:12px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:2px;">Total</span>$${total.toLocaleString()}${discountApplied?' <span style="font-size:12px;color:#4CAF50;">(10% off)</span>':''}</div>`:''}
         <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;margin:14px 0;color:var(--text-dark);">"Thank you for booking with ATM Beauty Styles. A confirmation email has been sent to ${email}."</p>
-        <div style="background:#fff5f5;border:2px solid var(--wine);padding:13px 15px;margin:10px 0;text-align:left;">
-          <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--wine);margin-bottom:5px;">⚠️ Deposit Required</div>
+        <div style="background:#fff0f7;border:2px solid var(--pink);padding:13px 15px;margin:10px 0;text-align:left;">
+          <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--pink);margin-bottom:5px;">⚠️ Deposit Required</div>
           <div style="font-size:13px;color:#1a1a1a;line-height:1.65;"><strong>Bookings without a deposit will be cancelled.</strong> Please send your $2,000 deposit now to secure your spot.</div>
         </div>
         <p style="font-size:12px;color:#666;margin:10px 0 0;text-align:left;line-height:1.6;padding:12px;border:1px dashed rgba(26,26,30,0.15);">For online payment, open the menu and view <b>Payment Info</b>. Use your booking reference number.</p>
-        <button onclick="closeBookingModal()" style="margin-top:18px;padding:14px 34px;background:var(--noir);color:var(--cream);border:1px solid var(--noir);font-size:11px;cursor:pointer;font-weight:600;letter-spacing:4px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.background='var(--wine)';this.style.borderColor='var(--wine)'" onmouseout="this.style.background='var(--noir)';this.style.borderColor='var(--noir)'">Close</button>
+        <button onclick="closeBookingModal()" style="margin-top:18px;padding:14px 34px;background:var(--noir);color:var(--white);border:1px solid var(--noir);font-size:11px;cursor:pointer;font-weight:600;letter-spacing:4px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.background='var(--pink)';this.style.borderColor='var(--pink)'" onmouseout="this.style.background='var(--noir)';this.style.borderColor='var(--noir)'">Close</button>
       </div>`;
     document.getElementById('bookingModal').style.display = 'flex';
   }).catch(err => {
@@ -1381,7 +1387,7 @@ let selectedRating = 0;
 document.querySelectorAll('#starRating span').forEach(star => {
   star.addEventListener('click', () => {
     selectedRating = parseInt(star.getAttribute('data-value'));
-    document.querySelectorAll('#starRating span').forEach(s => { s.style.color = parseInt(s.getAttribute('data-value')) <= selectedRating ? '#C9A96E' : '#ccc'; });
+    document.querySelectorAll('#starRating span').forEach(s => { s.style.color = parseInt(s.getAttribute('data-value')) <= selectedRating ? '#E8519A' : '#ccc'; });
   });
 });
 document.getElementById('reviewForm').addEventListener('submit', async e => {
@@ -1389,13 +1395,13 @@ document.getElementById('reviewForm').addEventListener('submit', async e => {
   const user = firebase.auth().currentUser;
   if(!user) { googleSignIn(); return; }
   const name=document.getElementById('reviewName').value.trim(), comment=document.getElementById('reviewComment').value.trim(), msg=document.getElementById('reviewSubmitMsg');
-  if(!name||!comment||selectedRating===0) { msg.style.color="var(--wine)"; msg.textContent="Please fill all fields and select a star rating."; return; }
+  if(!name||!comment||selectedRating===0) { msg.style.color="var(--pink)"; msg.textContent="Please fill all fields and select a star rating."; return; }
   try {
     await db.collection('reviews').add({name,comment,rating:selectedRating,timestamp:firebase.firestore.FieldValue.serverTimestamp(),uid:user.uid});
     msg.style.color="var(--gold)"; msg.textContent="Thank you for your review!";
     document.getElementById('reviewForm').reset(); selectedRating=0;
     document.querySelectorAll('#starRating span').forEach(s => s.style.color='#ccc');
-  } catch(e) { msg.style.color="var(--wine)"; msg.textContent="Error submitting review."; }
+  } catch(e) { msg.style.color="var(--pink)"; msg.textContent="Error submitting review."; }
 });
 
 function formatReviewTime(timestamp) {
@@ -1415,8 +1421,8 @@ function loadReviews(user) {
     container.innerHTML = '';
     snapshot.forEach(doc => {
       const d=doc.data(), isOwner=user&&d.uid===user.uid, dateString=formatReviewTime(d.timestamp);
-      let stars=''; for(let i=1;i<=5;i++) stars+=`<span style="color:${i<=d.rating?'var(--gold)':'rgba(201,169,110,0.2)'};">★</span>`;
-      container.innerHTML += `<div class="review-card"><div class="quote-mark">"</div><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;"><strong style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:var(--cream);">${d.name}</strong><small style="color:var(--text-dim);font-style:italic;font-size:11px;letter-spacing:1px;text-transform:uppercase;">${dateString}</small></div><div style="margin:4px 0 10px;font-size:15px;letter-spacing:3px;">${stars}</div><div style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--text-light);line-height:1.7;">${d.comment}</div>${isOwner?`<button onclick="deleteReview('${doc.id}')" style="color:var(--wine);cursor:pointer;background:none;border:none;font-size:10px;padding:0;margin-top:10px;letter-spacing:2px;text-transform:uppercase;">Delete</button>`:''}</div>`;
+      let stars=''; for(let i=1;i<=5;i++) stars+=`<span style="color:${i<=d.rating?'var(--pink)':'rgba(232,81,154,0.2)'};">★</span>`;
+      container.innerHTML += `<div class="review-card"><div class="quote-mark">"</div><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;"><strong style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:var(--white);">${d.name}</strong><small style="color:var(--text-dim);font-style:italic;font-size:11px;letter-spacing:1px;text-transform:uppercase;">${dateString}</small></div><div style="margin:4px 0 10px;font-size:15px;letter-spacing:3px;">${stars}</div><div style="font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--text-light);line-height:1.7;">${d.comment}</div>${isOwner?`<button onclick="deleteReview('${doc.id}')" style="color:var(--pink);cursor:pointer;background:none;border:none;font-size:10px;padding:0;margin-top:10px;letter-spacing:2px;text-transform:uppercase;">Delete</button>`:''}</div>`;
     });
   });
 }
@@ -1446,17 +1452,17 @@ function showUserBookings() {
         try { if(typeof b.date==="string") { const [y,m,d]=b.date.split("-").map(Number); if(y&&m&&d) bookingDate=new Date(y,m-1,d).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}); } } catch(e){}
         const depositStatus=b.deposit==="Made"||b.deposit==="Yes";
         const isCancelled=b.status==='Cancelled';
-        html+=`<div style="border:1px solid #ddd;padding:14px;margin-bottom:14px;background:${isCancelled?'#fff5f5':'white'};box-shadow:0 2px 5px rgba(0,0,0,0.08);border-left:4px solid ${isCancelled?'var(--wine)':'var(--gold)'};color:#000;">
+        html+=`<div style="border:1px solid #eee;padding:14px;margin-bottom:14px;background:${isCancelled?'#fff0f7':'white'};box-shadow:0 2px 5px rgba(0,0,0,0.08);border-left:4px solid ${isCancelled?'var(--pink)':'var(--pink)'};color:#000;">
           <h3 style="margin-top:0;color:#000;font-size:16px;font-family:'Playfair Display',serif;">Booking #: ${b.bookingNumber||"N/A"}</h3>
           <p style="margin:4px 0;font-size:14px;"><strong>👤</strong> ${b.name||"N/A"}</p>
           <p style="margin:4px 0;font-size:14px;"><strong>📞</strong> ${b.phone||"N/A"}</p>
           <p style="margin:4px 0;font-size:14px;"><strong>📅</strong> ${bookingDate}</p>
           <p style="margin:4px 0;font-size:14px;"><strong>⏰</strong> ${b.time||"N/A"}</p>
           ${b.service?`<p style="margin:4px 0;font-size:14px;"><strong>✂</strong> ${b.service}</p>`:''}
-          <p style="margin:4px 0;font-size:14px;"><strong>💵</strong> <span style="color:${depositStatus?'green':'var(--wine)'};font-weight:bold;">${depositStatus?'Confirmed':'Pending'}</span></p>
+          <p style="margin:4px 0;font-size:14px;"><strong>💵</strong> <span style="color:${depositStatus?'green':'var(--pink)'};font-weight:bold;">${depositStatus?'Confirmed':'Pending'}</span></p>
           ${b.total?`<p style="margin:4px 0;font-size:14px;"><strong>💰</strong> $${Number(b.total).toLocaleString()}</p>`:''}
-          <p style="margin:4px 0;font-size:14px;"><strong>📌</strong> <span style="color:${isCancelled?'var(--wine)':'#2e7d32'};font-weight:bold;">${isCancelled?'❌ Cancelled':'✅ Active'}</span></p>
-          ${!isCancelled?`<button onclick="cancelUserBooking('${b.id}','${b.bookingNumber||'N/A'}')" style="margin-top:10px;width:100%;padding:10px;background:var(--wine);color:white;border:none;cursor:pointer;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;">✕ CANCEL BOOKING</button>`:`<p style="margin-top:10px;text-align:center;font-size:13px;color:var(--wine);font-style:italic;">This booking has been cancelled.</p>`}
+          <p style="margin:4px 0;font-size:14px;"><strong>📌</strong> <span style="color:${isCancelled?'var(--pink)':'#2e7d32'};font-weight:bold;">${isCancelled?'❌ Cancelled':'✅ Active'}</span></p>
+          ${!isCancelled?`<button onclick="cancelUserBooking('${b.id}','${b.bookingNumber||'N/A'}')" style="margin-top:10px;width:100%;padding:10px;background:var(--pink);color:white;border:none;cursor:pointer;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;">✕ CANCEL BOOKING</button>`:`<p style="margin-top:10px;text-align:center;font-size:13px;color:var(--pink);font-style:italic;">This booking has been cancelled.</p>`}
         </div>`;
       });
     }
@@ -1468,12 +1474,12 @@ function closeMyBookings() { document.getElementById('myBookingsModal').style.di
 
 function cancelUserBooking(bookingId, bookingNumber) {
   const user=firebase.auth().currentUser; if(!user){googleSignIn();return;}
-  Swal.fire({ title:'Cancel Booking?', html:`<p style="color:#555;font-size:15px;">Are you sure you want to cancel <strong>Booking #${bookingNumber}</strong>?<br><br>This cannot be undone.</p>`, icon:'warning', showCancelButton:true, confirmButtonColor:'var(--wine)', cancelButtonColor:'#888', confirmButtonText:'Yes, Cancel It', cancelButtonText:'Keep Booking', reverseButtons:true }).then(result => {
+  Swal.fire({ title:'Cancel Booking?', html:`<p style="color:#555;font-size:15px;">Are you sure you want to cancel <strong>Booking #${bookingNumber}</strong>?<br><br>This cannot be undone.</p>`, icon:'warning', showCancelButton:true, confirmButtonColor:'var(--pink)', cancelButtonColor:'#888', confirmButtonText:'Yes, Cancel It', cancelButtonText:'Keep Booking', reverseButtons:true }).then(result => {
     if(!result.isConfirmed) return;
     db.collection('bookings').doc(bookingId).get().then(doc => {
       if(!doc.exists){Swal.fire('Not Found','Booking could not be found.','error');return;}
       if(doc.data().uid!==user.uid){Swal.fire('Denied','You can only cancel your own bookings.','error');return;}
-      db.collection('bookings').doc(bookingId).update({status:'Cancelled',cancelledBy:'client'}).then(()=>{Swal.fire({title:'Booking Cancelled',text:'Booking #'+bookingNumber+' has been cancelled.',icon:'success',confirmButtonColor:'var(--wine)'});}).catch(err=>Swal.fire('Error','Failed to cancel: '+err.message,'error'));
+      db.collection('bookings').doc(bookingId).update({status:'Cancelled',cancelledBy:'client'}).then(()=>{Swal.fire({title:'Booking Cancelled',text:'Booking #'+bookingNumber+' has been cancelled.',icon:'success',confirmButtonColor:'var(--pink)'});}).catch(err=>Swal.fire('Error','Failed to cancel: '+err.message,'error'));
     });
   });
 }
