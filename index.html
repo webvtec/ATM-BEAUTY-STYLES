@@ -979,63 +979,30 @@ body::after {
   border: 1px solid rgba(196,149,106,0.16);
   box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(244,114,182,0.04);
   transition: border-color 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 .gallery-grid img:hover {
   border-color: var(--gold);
   box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 44px rgba(196,149,106,0.28);
 }
 
-/* Tilted floating-card reveal for gallery items */
+/* Scroll-driven 3D spin: cards rotate from facing-away (back) to
+   facing-front as they travel through the viewport. Transform is set
+   continuously from JS (see updateGalleryTilt), this is just the base. */
 .gallery-item-wrap {
   position: relative;
   z-index: 1;
-  opacity: 0;
   transform-style: preserve-3d;
-  transform: perspective(1200px)
-    rotateX(var(--tilt-x, 10deg))
-    rotateY(var(--tilt-y, -14deg))
-    rotateZ(var(--tilt-z, -6deg))
-    translateY(90px) translateZ(-120px) scale(0.78);
-  filter: blur(4px);
-  transition:
-    opacity 1s var(--ease-lux),
-    transform 1s var(--ease-lux),
-    filter 1s var(--ease-lux);
   will-change: transform, opacity;
-}
-.gallery-item-wrap.spiral-in {
-  opacity: 1;
-  transform: perspective(1200px)
-    rotateX(var(--tilt-x-rest, 4deg))
-    rotateY(var(--tilt-y-rest, -6deg))
-    rotateZ(var(--tilt-z-rest, -3deg))
-    translateY(0) translateZ(0) scale(1);
-  filter: blur(0);
-  animation: galleryCardFloat 6.5s ease-in-out infinite;
-  animation-delay: var(--float-delay, 1.2s);
-}
-@keyframes galleryCardFloat {
-  0%, 100% {
-    transform: perspective(1200px)
-      rotateX(var(--tilt-x-rest, 4deg))
-      rotateY(var(--tilt-y-rest, -6deg))
-      rotateZ(var(--tilt-z-rest, -3deg))
-      translateY(0);
-  }
-  50% {
-    transform: perspective(1200px)
-      rotateX(var(--tilt-x-rest, 4deg))
-      rotateY(var(--tilt-y-rest, -6deg))
-      rotateZ(var(--tilt-z-rest, -3deg))
-      translateY(-10px);
-  }
+  transition: transform 0.05s linear, opacity 0.05s linear;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .gallery-item-wrap, .gallery-item-wrap.spiral-in {
-    transition: opacity 0.6s ease;
-    animation: none;
-    transform: none;
+  .gallery-item-wrap {
+    transition: none;
+    transform: none !important;
+    opacity: 1 !important;
     filter: none;
   }
   #galleryParticleCanvas { display: none; }
@@ -2113,7 +2080,7 @@ function showSection(sectionId) {
   const navId = navMap[sectionId];
   if (navId) { const navEl = document.getElementById(navId); if (navEl) navEl.classList.add('active'); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (sectionId === 'gallerySection') loadGallery('galleryDisplay');
+  if (sectionId === 'gallerySection') { loadGallery('galleryDisplay'); if (window.updateGalleryTilt) setTimeout(window.updateGalleryTilt, 50); }
   else if (sectionId === 'reviewsSection') loadReviews(currentUser);
 }
 
@@ -2148,37 +2115,19 @@ function loadGallery(containerId) {
       categories[category].forEach((imageUrl, idx) => {
         const wrap = document.createElement('div');
         wrap.className = 'gallery-item-wrap';
-        const introDelay = (idx % 4) * 0.09;
-        wrap.style.transitionDelay = introDelay + 's';
-        // Randomized 3D tilt per card so photos float in at varied angles/depths
+        // Slight fixed per-card variance so the spin doesn't look uniform/robotic
         const sign = idx % 2 === 0 ? 1 : -1;
-        const tiltX = (sign * (6 + Math.random() * 10)).toFixed(2);
-        const tiltY = (-sign * (8 + Math.random() * 14)).toFixed(2);
-        const tiltZ = (-sign * (3 + Math.random() * 7)).toFixed(2);
-        wrap.style.setProperty('--tilt-x', tiltX + 'deg');
-        wrap.style.setProperty('--tilt-y', tiltY + 'deg');
-        wrap.style.setProperty('--tilt-z', tiltZ + 'deg');
-        wrap.style.setProperty('--tilt-x-rest', (tiltX * 0.35).toFixed(2) + 'deg');
-        wrap.style.setProperty('--tilt-y-rest', (tiltY * 0.35).toFixed(2) + 'deg');
-        wrap.style.setProperty('--tilt-z-rest', (tiltZ * 0.4).toFixed(2) + 'deg');
-        wrap.style.setProperty('--float-delay', (introDelay + 1.1 + Math.random() * 0.7).toFixed(2) + 's');
+        wrap.dataset.tiltZ = (sign * (2 + Math.random() * 5)).toFixed(2);
+        wrap.dataset.rotBias = (0.85 + Math.random() * 0.3).toFixed(2);
+        wrap.dataset.depthBias = (0.85 + Math.random() * 0.3).toFixed(2);
         // Slight vertical stagger so cards feel like they're floating at different depths
         wrap.style.marginTop = (idx % 2 === 0 ? '0px' : (16 + Math.random() * 28).toFixed(0) + 'px');
         wrap.innerHTML = '<img src="' + imageUrl + '" alt="Style" loading="lazy" decoding="async">';
         categoryContainer.appendChild(wrap);
       });
     }
-    // Spiral IntersectionObserver
-    setTimeout(() => {
-      const spiralObs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('spiral-in');
-          }
-        });
-      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-      document.querySelectorAll('.gallery-item-wrap').forEach(el => spiralObs.observe(el));
-    }, 80);
+    // Position cards immediately based on current scroll, then let scroll drive them
+    setTimeout(() => { if (window.updateGalleryTilt) window.updateGalleryTilt(); }, 60);
   });
 }
 
@@ -2623,6 +2572,57 @@ document.addEventListener("DOMContentLoaded",function(){
   const dateInput=document.getElementById("date");
   if(dateInput){const today=new Date().toISOString().split("T")[0];dateInput.setAttribute("min",today);}
 });
+</script>
+<script>
+// ===== Scroll-driven 3D card spin for the gallery =====
+(function () {
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function updateGalleryTilt() {
+    if (prefersReduced) return;
+    const gallerySection = document.getElementById('gallerySection');
+    if (!gallerySection || !gallerySection.classList.contains('active')) return;
+    const wraps = gallerySection.querySelectorAll('.gallery-item-wrap');
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+
+    wraps.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const centerY = rect.top + rect.height / 2;
+      // progress: -1 = entering from below (back), 0 = centered (front), +1 = exiting above (back again)
+      let progress = (centerY - vh / 2) / (vh / 2);
+      progress = Math.max(-1.6, Math.min(1.6, progress));
+
+      const rotBias = parseFloat(el.dataset.rotBias || '1');
+      const depthBias = parseFloat(el.dataset.depthBias || '1');
+      const tiltZ = parseFloat(el.dataset.tiltZ || '0');
+
+      const rotY = progress * -130 * rotBias;      // the big "spin from back to front"
+      const rotX = progress * 12;                  // slight vertical roll for depth
+      const tz = -Math.abs(progress) * 340 * depthBias;
+      const scale = Math.max(0.5, 1 - Math.abs(progress) * 0.42);
+      const opacity = Math.max(0, 1 - Math.abs(progress) * 0.85);
+
+      el.style.opacity = opacity;
+      el.style.transform =
+        'rotateY(' + rotY.toFixed(2) + 'deg) ' +
+        'rotateX(' + rotX.toFixed(2) + 'deg) ' +
+        'rotateZ(' + tiltZ + 'deg) ' +
+        'translateZ(' + tz.toFixed(1) + 'px) ' +
+        'scale(' + scale.toFixed(3) + ')';
+    });
+  }
+  window.updateGalleryTilt = updateGalleryTilt;
+
+  let ticking = false;
+  function onScrollOrResize() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { updateGalleryTilt(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScrollOrResize, { passive: true });
+  window.addEventListener('resize', onScrollOrResize);
+  document.addEventListener('DOMContentLoaded', () => setTimeout(updateGalleryTilt, 100));
+})();
 </script>
 <script>
 // ===== Gallery particle stream (Three.js) =====
