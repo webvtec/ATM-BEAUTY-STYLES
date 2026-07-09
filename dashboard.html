@@ -610,7 +610,7 @@ function closeConflictModal(){document.getElementById('conflictModal').style.dis
 function showToast(message,success=true){const toast=document.getElementById("toast");toast.innerText=message;toast.style.backgroundColor=success?"#2d7a3e":"var(--wine)";toast.style.visibility="visible";toast.style.opacity="1";toast.style.bottom="50px";setTimeout(()=>{toast.style.opacity="0";toast.style.bottom="30px";setTimeout(()=>{toast.style.visibility="hidden";},500);},3000);}
 
 // ========== AUTH GUARD ==========
-const ADMIN_UID="FGdKiGMHBHRUegBwcNSpufB7PXz2";
+const ADMIN_UID="2EWm9mnIEpTyLiW5vfZwlPNX1Dr2";
 let _dashboardInitDone=false;
 firebase.auth().onAuthStateChanged(user=>{
   const overlay=document.getElementById('accessOverlay'),status=document.getElementById('accessStatus'),content=document.getElementById('dashboardContent');
