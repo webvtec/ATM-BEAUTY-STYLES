@@ -243,7 +243,7 @@ body::after {
 /* Hero and gallery images must sit above watermark and starfield */
 .hero { z-index: 1; position: relative; }
 .hero-bg, .hero-overlay, .hero-content, .hero-scroll-hint { z-index: 2; }
-.gallery-card img { position: relative; z-index: 2; }
+.barrel-card img { position: relative; z-index: 2; }
 .content-section { position: relative; z-index: 1; }
 
 /* ========== SCROLL REVEAL ========== */
@@ -913,125 +913,98 @@ body::after {
 .content-section { display: none; }
 .content-section.active { display: block; }
 
-/* ========== GALLERY — WALKWAY CAROUSEL ========== */
-.gallery-category {
-  margin-bottom: 56px;
+/* ========== GALLERY — BARREL RINGS ========== */
+.gallery-barrel {
+  padding: 20px 0 40px;
 }
 
-/* Category heading */
-.gallery-category-header {
+/* One ring = one category */
+.barrel-ring {
+  margin-bottom: 0;
+  position: relative;
+}
+
+/* Divider between rings — the barrel edge */
+.barrel-ring + .barrel-ring {
+  border-top: 1px solid rgba(138,80,200,0.25);
+}
+
+/* Category label row — · NATURAL STYLES · */
+.barrel-ring-label {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 0 20px;
-  margin-bottom: 18px;
+  gap: 10px;
+  padding: 18px 20px 14px;
 }
-.gallery-category-header h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: 22px;
-  color: var(--text-light);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.gallery-category-header-line {
+.barrel-ring-label-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, rgba(196,149,106,0.35), transparent);
+  background: rgba(138,80,200,0.3);
+}
+.barrel-ring-label span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(220,210,240,0.75);
+  white-space: nowrap;
+}
+.barrel-ring-label-dot {
+  font-size: 9px;
+  color: rgba(138,80,200,0.6);
+  flex-shrink: 0;
 }
 
-/* Horizontal scroll track */
-.gallery-track {
+/* The scrollable row of cards */
+.barrel-track {
   display: flex;
-  gap: 14px;
+  gap: 10px;
   overflow-x: auto;
-  overflow-y: visible;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 10px 20px 20px;
+  padding: 0 20px 18px;
   scrollbar-width: none;
+  cursor: grab;
 }
-.gallery-track::-webkit-scrollbar { display: none; }
+.barrel-track:active { cursor: grabbing; }
+.barrel-track::-webkit-scrollbar { display: none; }
 
-/* Each card */
-.gallery-card {
-  flex: 0 0 220px;
-  scroll-snap-align: start;
-  border-radius: 16px;
+/* Each photo card — clean, no text */
+.barrel-card {
+  flex: 0 0 140px;
+  scroll-snap-align: center;
+  border-radius: 12px;
   overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: #111;
-  /* entry state */
+  border: 1px solid rgba(138,80,200,0.22);
+  background: #1a0f2e;
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+  transform: translateY(20px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
-.gallery-card.card-visible {
+.barrel-card.card-in {
   opacity: 1;
   transform: translateY(0);
 }
-.gallery-card img {
+.barrel-card img {
   width: 100%;
-  height: 300px;
+  height: 180px;
   object-fit: cover;
   display: block;
 }
 
-/* Label overlay at bottom of card */
-.gallery-card-label {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 40px 14px 14px;
-  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
-}
-.gallery-card-label-name {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: #fff;
-  display: block;
-  line-height: 1.2;
-}
-.gallery-card-label-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  color: rgba(196,149,106,0.85);
-  text-transform: uppercase;
-  display: block;
-  margin-top: 3px;
+/* Bottom glow edge on barrel to fake cylinder depth */
+.barrel-ring-bottom-edge {
+  height: 6px;
+  background: linear-gradient(to bottom, rgba(138,80,200,0.18), transparent);
+  margin: 0 10px;
+  border-radius: 0 0 50% 50%;
 }
 
-/* Book (+) button on card */
-.gallery-card-plus {
-  position: absolute;
-  bottom: 14px; right: 14px;
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.55);
-  background: rgba(0,0,0,0.35);
-  color: #fff;
-  font-size: 18px;
-  line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s, border-color 0.2s;
-}
-.gallery-card-plus:hover {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--noir);
-}
-
-/* Book CTA below track */
+/* Book CTA */
 .category-book-wrap {
   text-align: center;
-  margin: 8px 0 0;
+  margin: 24px 0 8px;
 }
 
 .category-book-wrap {
@@ -2109,7 +2082,7 @@ function showSection(sectionId) {
   else if (sectionId === 'reviewsSection') loadReviews(currentUser);
 }
 
-// Gallery — walkway carousel
+// Gallery — barrel rings
 function loadGallery(containerId) {
   const galleryContainer = document.getElementById(containerId);
   galleryContainer.innerHTML = '';
@@ -2124,57 +2097,77 @@ function loadGallery(containerId) {
       return 0;
     });
     const categories = {};
+    const catOrder = [];
     docs.forEach(item => {
-      const category = item.category || 'Uncategorized';
-      if (!categories[category]) categories[category] = [];
-      categories[category].push({ url: item.url, style: item.style || item.name || '' });
+      const cat = item.category || 'Uncategorized';
+      if (!categories[cat]) { categories[cat] = []; catOrder.push(cat); }
+      categories[cat].push(item.url);
     });
-    if (Object.keys(categories).length === 0) {
+    if (catOrder.length === 0) {
       galleryContainer.innerHTML = '<p style="text-align:center;margin:60px 20px;color:var(--text-dim);font-family:Cormorant Garamond,serif;font-style:italic;font-size:16px;">No styles in the gallery yet — check back soon.</p>';
       return;
     }
-    for (const category in categories) {
-      const catBlock = document.createElement('div');
-      catBlock.className = 'gallery-category';
 
-      // Header with label + line
-      catBlock.innerHTML =
-        '<div class="gallery-category-header">' +
-          '<h3>' + category + '</h3>' +
-          '<div class="gallery-category-header-line"></div>' +
+    const barrel = document.createElement('div');
+    barrel.className = 'gallery-barrel';
+
+    catOrder.forEach(category => {
+      const ring = document.createElement('div');
+      ring.className = 'barrel-ring';
+      ring.innerHTML =
+        '<div class="barrel-ring-label">' +
+          '<div class="barrel-ring-label-line"></div>' +
+          '<span class="barrel-ring-label-dot">·</span>' +
+          '<span>' + category + '</span>' +
+          '<span class="barrel-ring-label-dot">·</span>' +
+          '<div class="barrel-ring-label-line"></div>' +
         '</div>' +
-        '<div class="gallery-track" id="track-' + category.replace(/\s+/g,'') + '"></div>' +
-        '<div class="category-book-wrap"><a onclick="showSection(\'bookingSection\')" class="book-btn-primary" href="javascript:void(0);">Book an Appointment</a></div>';
+        '<div class="barrel-track"></div>' +
+        '<div class="barrel-ring-bottom-edge"></div>';
+      barrel.appendChild(ring);
 
-      galleryContainer.appendChild(catBlock);
-      const track = catBlock.querySelector('.gallery-track');
-
-      categories[category].forEach((item, idx) => {
+      const track = ring.querySelector('.barrel-track');
+      categories[category].forEach((url, idx) => {
         const card = document.createElement('div');
-        card.className = 'gallery-card';
-        card.style.transitionDelay = (idx * 0.06) + 's';
-        card.innerHTML =
-          '<img src="' + item.url + '" alt="' + category + '" loading="lazy" decoding="async">' +
-          '<div class="gallery-card-label">' +
-            '<span class="gallery-card-label-name">' + (item.style || category) + '</span>' +
-            '<span class="gallery-card-label-sub">' + category + '</span>' +
-          '</div>' +
-          '<a class="gallery-card-plus" onclick="showSection(\'bookingSection\')" href="javascript:void(0);" title="Book this style">+</a>';
+        card.className = 'barrel-card';
+        card.style.transitionDelay = (idx * 0.05) + 's';
+        card.innerHTML = '<img src="' + url + '" alt="' + category + '" loading="lazy" decoding="async">';
         track.appendChild(card);
       });
-    }
 
-    // Lightweight IntersectionObserver — reveal cards as they enter viewport
+      // Touch/mouse drag to scroll
+      let isDragging = false, startX = 0, scrollLeft = 0;
+      track.addEventListener('mousedown', e => { isDragging = true; startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; });
+      track.addEventListener('mouseleave', () => isDragging = false);
+      track.addEventListener('mouseup', () => isDragging = false);
+      track.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        e.preventDefault();
+        track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX);
+      });
+    });
+
+    // Book CTA at bottom
+    const cta = document.createElement('div');
+    cta.className = 'category-book-wrap';
+    cta.innerHTML = '<a onclick="showSection(\'bookingSection\')" class="book-btn-primary" href="javascript:void(0);">Book an Appointment</a>';
+    barrel.appendChild(cta);
+
+    galleryContainer.appendChild(barrel);
+
+    // Reveal cards as rings scroll into view
     setTimeout(() => {
-      const cardObs = new IntersectionObserver((entries) => {
+      const obs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('card-visible');
-            cardObs.unobserve(entry.target);
+            entry.target.querySelectorAll('.barrel-card').forEach((c, i) => {
+              setTimeout(() => c.classList.add('card-in'), i * 50);
+            });
+            obs.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.gallery-card').forEach(el => cardObs.observe(el));
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.barrel-ring').forEach(r => obs.observe(r));
     }, 60);
   });
 }
