@@ -54,6 +54,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
 <meta name="google-signin-client_id" content="345703317013.apps.googleusercontent.com">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -749,11 +750,8 @@ body::after {
 }
 
 .hero-scroll-hint {
-  position: absolute;
-  bottom: 90px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
+  position: relative;
+  margin: 28px auto 0;
   width: fit-content;
   z-index: 2;
   display: flex;
@@ -935,16 +933,41 @@ body::after {
   margin: 16px auto 24px;
 }
 
+/* Fixed-in-viewport particle backdrop, scoped to the gallery section only */
+.gallery-particle-section { position: relative; }
+.gallery-particle-stage {
+  position: sticky;
+  top: 0;
+  height: 0;
+  overflow: visible;
+  z-index: 0;
+  pointer-events: none;
+}
+#galleryParticleCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: block;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-lux);
+}
+#galleryParticleCanvas.active { opacity: 0.9; }
+
+.gallery-category { position: relative; z-index: 1; }
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 30px 16px;
   max-width: 900px;
   margin: 0 auto;
   padding: 0 16px;
+  perspective: 1400px;
 }
 @media (min-width: 768px) {
-  .gallery-grid { gap: 16px; }
+  .gallery-grid { gap: 46px 26px; }
 }
 
 .gallery-grid img {
@@ -952,36 +975,71 @@ body::after {
   height: 280px;
   object-fit: cover;
   display: block;
-  border: 1px solid rgba(196,149,106,0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(196,149,106,0.16);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(244,114,182,0.04);
   transition: border-color 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
 }
 .gallery-grid img:hover {
   border-color: var(--gold);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 44px rgba(196,149,106,0.28);
 }
 
-/* Spiral scroll reveal for gallery items */
+/* Tilted floating-card reveal for gallery items */
 .gallery-item-wrap {
+  position: relative;
+  z-index: 1;
   opacity: 0;
-  transform: rotate(var(--spiral-rot, 0deg)) scale(0.72) translateY(60px);
-  filter: blur(3px);
+  transform-style: preserve-3d;
+  transform: perspective(1200px)
+    rotateX(var(--tilt-x, 10deg))
+    rotateY(var(--tilt-y, -14deg))
+    rotateZ(var(--tilt-z, -6deg))
+    translateY(90px) translateZ(-120px) scale(0.78);
+  filter: blur(4px);
   transition:
-    opacity 0.85s var(--ease-lux),
-    transform 0.85s var(--ease-lux),
-    filter 0.85s var(--ease-lux);
+    opacity 1s var(--ease-lux),
+    transform 1s var(--ease-lux),
+    filter 1s var(--ease-lux);
   will-change: transform, opacity;
 }
 .gallery-item-wrap.spiral-in {
   opacity: 1;
-  transform: rotate(0deg) scale(1) translateY(0);
+  transform: perspective(1200px)
+    rotateX(var(--tilt-x-rest, 4deg))
+    rotateY(var(--tilt-y-rest, -6deg))
+    rotateZ(var(--tilt-z-rest, -3deg))
+    translateY(0) translateZ(0) scale(1);
   filter: blur(0);
+  animation: galleryCardFloat 6.5s ease-in-out infinite;
+  animation-delay: var(--float-delay, 1.2s);
+}
+@keyframes galleryCardFloat {
+  0%, 100% {
+    transform: perspective(1200px)
+      rotateX(var(--tilt-x-rest, 4deg))
+      rotateY(var(--tilt-y-rest, -6deg))
+      rotateZ(var(--tilt-z-rest, -3deg))
+      translateY(0);
+  }
+  50% {
+    transform: perspective(1200px)
+      rotateX(var(--tilt-x-rest, 4deg))
+      rotateY(var(--tilt-y-rest, -6deg))
+      rotateZ(var(--tilt-z-rest, -3deg))
+      translateY(-10px);
+  }
 }
 
-/* Alternating spiral directions per item */
-.gallery-item-wrap:nth-child(4n+1) { --spiral-rot: -18deg; }
-.gallery-item-wrap:nth-child(4n+2) { --spiral-rot: 18deg; }
-.gallery-item-wrap:nth-child(4n+3) { --spiral-rot: -14deg; }
-.gallery-item-wrap:nth-child(4n+4) { --spiral-rot: 14deg; }
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item-wrap, .gallery-item-wrap.spiral-in {
+    transition: opacity 0.6s ease;
+    animation: none;
+    transform: none;
+    filter: none;
+  }
+  #galleryParticleCanvas { display: none; }
+}
 
 .category-book-wrap {
   text-align: center;
@@ -1597,21 +1655,22 @@ form button:hover,
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-kicker">Kingston, Jamaica</div>
-
     <p class="hero-sub hero-finest">Kingston's Finest</p>
     <a class="hero-cta" onclick="showSection('bookingSection');" href="javascript:void(0);">Book Your Appointment</a>
-  </div>
-  <div class="hero-scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-    <span class="hero-location-label">Kingston, Jamaica</span>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+      <span class="hero-location-label">Kingston, Jamaica</span>
+    </div>
   </div>
 </section>
 
 <!-- ========== GALLERY SECTION ========== -->
 <div class="content-section active" id="gallerySection">
-  <section class="section section--dark" style="padding-top:40px;">
+  <section class="section section--dark gallery-particle-section" style="padding-top:40px;">
+    <div class="gallery-particle-stage" id="galleryParticleStage">
+      <canvas id="galleryParticleCanvas"></canvas>
+    </div>
     <div class="section-inner">
       <div id="galleryDisplay"></div>
     </div>
@@ -2089,7 +2148,22 @@ function loadGallery(containerId) {
       categories[category].forEach((imageUrl, idx) => {
         const wrap = document.createElement('div');
         wrap.className = 'gallery-item-wrap';
-        wrap.style.transitionDelay = (idx % 4) * 0.09 + 's';
+        const introDelay = (idx % 4) * 0.09;
+        wrap.style.transitionDelay = introDelay + 's';
+        // Randomized 3D tilt per card so photos float in at varied angles/depths
+        const sign = idx % 2 === 0 ? 1 : -1;
+        const tiltX = (sign * (6 + Math.random() * 10)).toFixed(2);
+        const tiltY = (-sign * (8 + Math.random() * 14)).toFixed(2);
+        const tiltZ = (-sign * (3 + Math.random() * 7)).toFixed(2);
+        wrap.style.setProperty('--tilt-x', tiltX + 'deg');
+        wrap.style.setProperty('--tilt-y', tiltY + 'deg');
+        wrap.style.setProperty('--tilt-z', tiltZ + 'deg');
+        wrap.style.setProperty('--tilt-x-rest', (tiltX * 0.35).toFixed(2) + 'deg');
+        wrap.style.setProperty('--tilt-y-rest', (tiltY * 0.35).toFixed(2) + 'deg');
+        wrap.style.setProperty('--tilt-z-rest', (tiltZ * 0.4).toFixed(2) + 'deg');
+        wrap.style.setProperty('--float-delay', (introDelay + 1.1 + Math.random() * 0.7).toFixed(2) + 's');
+        // Slight vertical stagger so cards feel like they're floating at different depths
+        wrap.style.marginTop = (idx % 2 === 0 ? '0px' : (16 + Math.random() * 28).toFixed(0) + 'px');
         wrap.innerHTML = '<img src="' + imageUrl + '" alt="Style" loading="lazy" decoding="async">';
         categoryContainer.appendChild(wrap);
       });
@@ -2549,6 +2623,128 @@ document.addEventListener("DOMContentLoaded",function(){
   const dateInput=document.getElementById("date");
   if(dateInput){const today=new Date().toISOString().split("T")[0];dateInput.setAttribute("min",today);}
 });
+</script>
+<script>
+// ===== Gallery particle stream (Three.js) =====
+(function () {
+  const stage = document.getElementById('galleryParticleStage');
+  const canvasEl = document.getElementById('galleryParticleCanvas');
+  if (!stage || !canvasEl || typeof THREE === 'undefined') return;
+
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  const PALETTE = ['#F472B6', '#C4956A', '#D4A882', '#C9B8A8', '#B98CD9', '#FFFFFF'];
+  let renderer, scene, camera, points, raf, particleState;
+  const isSmall = window.innerWidth < 768;
+  const COUNT = isSmall ? 450 : 1100;
+
+  function initScene() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 9);
+
+    renderer = new THREE.WebGLRenderer({ canvas: canvasEl, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+
+    const colors = PALETTE.map(c => new THREE.Color(c));
+    const positions = new Float32Array(COUNT * 3);
+    const colorAttr = new Float32Array(COUNT * 3);
+    const speeds = new Float32Array(COUNT);
+    const phase = new Float32Array(COUNT);
+    const drift = new Float32Array(COUNT);
+
+    for (let i = 0; i < COUNT; i++) {
+      const radius = Math.pow(Math.random(), 0.5) * 2.8;
+      const angle = Math.random() * Math.PI * 2;
+      positions[i * 3] = Math.cos(angle) * radius;
+      positions[i * 3 + 1] = (Math.random() * 16) - 8;
+      positions[i * 3 + 2] = Math.sin(angle) * radius - 2.2;
+
+      const c = colors[Math.floor(Math.random() * colors.length)];
+      colorAttr[i * 3] = c.r;
+      colorAttr[i * 3 + 1] = c.g;
+      colorAttr[i * 3 + 2] = c.b;
+
+      speeds[i] = 0.004 + Math.random() * 0.012;
+      phase[i] = Math.random() * Math.PI * 2;
+      drift[i] = 0.15 + Math.random() * 0.35;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colorAttr, 3));
+
+    const mat = new THREE.PointsMaterial({
+      size: isSmall ? 0.05 : 0.065,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      sizeAttenuation: true
+    });
+
+    points = new THREE.Points(geo, mat);
+    scene.add(points);
+    particleState = { speeds, phase, drift, posAttr: geo.attributes.position };
+  }
+
+  function animate(t) {
+    raf = requestAnimationFrame(animate);
+    const { speeds, phase, drift, posAttr } = particleState;
+    const arr = posAttr.array;
+    for (let i = 0; i < COUNT; i++) {
+      const iy = i * 3 + 1;
+      const ix = i * 3;
+      arr[iy] += speeds[i];
+      if (arr[iy] > 8) arr[iy] = -8;
+      arr[ix] += Math.sin(t * 0.0006 + phase[i]) * 0.0018 * drift[i];
+    }
+    posAttr.needsUpdate = true;
+    points.rotation.y = Math.sin(t * 0.00012) * 0.18;
+    renderer.render(scene, camera);
+  }
+
+  function start() {
+    if (!renderer) initScene();
+    canvasEl.classList.add('active');
+    if (!raf) raf = requestAnimationFrame(animate);
+  }
+  function stop() {
+    canvasEl.classList.remove('active');
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+  }
+
+  function onResize() {
+    if (!renderer) return;
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', onResize);
+
+  const sectionEl = document.querySelector('.gallery-particle-section');
+  if (sectionEl) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const isGalleryTab = document.getElementById('gallerySection').classList.contains('active');
+        if (entry.isIntersecting && isGalleryTab) start();
+        else stop();
+      });
+    }, { threshold: 0.01 });
+    io.observe(sectionEl);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else {
+      const isGalleryTab = document.getElementById('gallerySection').classList.contains('active');
+      if (isGalleryTab) start();
+    }
+  });
+})();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(r=>{r.forEach(reg=>reg.unregister());});}</script>
 </body>
