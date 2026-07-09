@@ -1094,47 +1094,28 @@ function adminGoogleSignIn() {
   msg.style.display = 'none';
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-
-  firebase.auth().signInWithPopup(provider).then(result => {
-    const uid = result.user.uid;
-    console.log('Signed in UID:', uid);
-    if (uid !== ADMIN_UID) {
-      firebase.auth().signOut();
-      msg.style.color = 'var(--pink)';
-      msg.textContent = "Access denied. UID: " + uid;
-      msg.style.display = "block";
-      return;
-    }
-    closeAdminModal();
-    window.location.href = 'dashboard.html';
-  }).catch(error => {
-    console.error('Auth error:', error.code, error.message);
-    // Popup blocked — fall back to redirect
-    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
-      sessionStorage.setItem('admin_login_intent', '1');
-      firebase.auth().signInWithRedirect(provider);
-      return;
-    }
-    msg.style.color = 'var(--pink)';
-    msg.textContent = error.code + ": " + error.message;
-    msg.style.display = "block";
-  });
+  sessionStorage.setItem('admin_login_intent', '1');
+  firebase.auth().signInWithRedirect(provider);
 }
 
-// Handle redirect result (popup-blocked fallback)
+// Handle redirect result on page load
 firebase.auth().getRedirectResult().then(result => {
   if (!result || !result.user) return;
   const wasAdminIntent = sessionStorage.getItem('admin_login_intent');
   sessionStorage.removeItem('admin_login_intent');
-  if (wasAdminIntent) {
-    if (result.user.uid !== ADMIN_UID) {
-      firebase.auth().signOut();
-      alert("Access denied. UID: " + result.user.uid);
-    } else {
-      window.location.href = 'dashboard.html';
-    }
+  if (!wasAdminIntent) return;
+  const uid = result.user.uid;
+  console.log('Admin login UID:', uid);
+  if (uid !== ADMIN_UID) {
+    firebase.auth().signOut();
+    alert("Access denied. UID: " + uid);
+  } else {
+    window.location.href = 'dashboard.html';
   }
-}).catch(err => { console.error('Redirect result error:', err); });
+}).catch(err => {
+  console.error('Redirect error:', err.code, err.message);
+  alert("Sign-in error: " + err.code);
+});
 
 function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }
 function googleSignIn() {
