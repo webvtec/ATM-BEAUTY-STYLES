@@ -54,9 +54,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
 <meta name="google-signin-client_id" content="345703317013.apps.googleusercontent.com">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -246,7 +243,7 @@ body::after {
 /* Hero and gallery images must sit above watermark and starfield */
 .hero { z-index: 1; position: relative; }
 .hero-bg, .hero-overlay, .hero-content, .hero-scroll-hint { z-index: 2; }
-.gallery-grid img { position: relative; z-index: 2; }
+.gallery-card img { position: relative; z-index: 2; }
 .content-section { position: relative; z-index: 1; }
 
 /* ========== SCROLL REVEAL ========== */
@@ -752,8 +749,11 @@ body::after {
 }
 
 .hero-scroll-hint {
-  position: relative;
-  margin: 28px auto 0;
+  position: absolute;
+  bottom: 90px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   width: fit-content;
   z-index: 2;
   display: flex;
@@ -913,70 +913,125 @@ body::after {
 .content-section { display: none; }
 .content-section.active { display: block; }
 
-/* ========== 3D IMMERSIVE GALLERY ========== */
-#gallery3dWrap {
-  position: relative;
-  width: 100%;
-  background: var(--noir);
+/* ========== GALLERY — WALKWAY CAROUSEL ========== */
+.gallery-category {
+  margin-bottom: 56px;
 }
-#gallery3dSticky {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
+
+/* Category heading */
+.gallery-category-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+  margin-bottom: 18px;
 }
-#gallery3dCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.gallery3d-overlay {
-  position: absolute;
-  bottom: 40px;
-  left: 0; right: 0;
-  text-align: center;
-  z-index: 10;
-  pointer-events: none;
-}
-.gallery3d-category-label {
+.gallery-category-header h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(18px, 4vw, 32px);
-  color: rgba(196,149,106,0.85);
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  text-shadow: 0 2px 30px rgba(0,0,0,0.7);
-  opacity: 0;
-  transition: opacity 0.6s var(--ease-lux);
-}
-.gallery3d-category-label.visible { opacity: 1; }
-.gallery3d-book-btn {
-  position: absolute;
-  bottom: 20px;
-  right: 24px;
-  z-index: 11;
-  padding: 10px 28px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 9px;
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--text-light);
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--noir);
-  background: var(--gold);
-  border: none;
+  white-space: nowrap;
+}
+.gallery-category-header-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(196,149,106,0.35), transparent);
+}
+
+/* Horizontal scroll track */
+.gallery-track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 20px 20px;
+  scrollbar-width: none;
+}
+.gallery-track::-webkit-scrollbar { display: none; }
+
+/* Each card */
+.gallery-card {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #111;
+  /* entry state */
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+}
+.gallery-card.card-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.gallery-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Label overlay at bottom of card */
+.gallery-card-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 40px 14px 14px;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
+}
+.gallery-card-label-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #fff;
+  display: block;
+  line-height: 1.2;
+}
+.gallery-card-label-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: rgba(196,149,106,0.85);
+  text-transform: uppercase;
+  display: block;
+  margin-top: 3px;
+}
+
+/* Book (+) button on card */
+.gallery-card-plus {
+  position: absolute;
+  bottom: 14px; right: 14px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.55);
+  background: rgba(0,0,0,0.35);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s var(--ease-lux);
-  opacity: 0.85;
+  transition: background 0.2s, border-color 0.2s;
 }
-.gallery3d-book-btn:hover {
-  background: var(--gold-light);
-  transform: translateY(-2px);
-  opacity: 1;
+.gallery-card-plus:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--noir);
+}
+
+/* Book CTA below track */
+.category-book-wrap {
+  text-align: center;
+  margin: 8px 0 0;
 }
 
 .category-book-wrap {
@@ -1365,6 +1420,7 @@ form button:hover,
 /* ========== RESPONSIVE ========== */
 @media (min-width: 768px) {
   .nav-logo { font-size: 20px; letter-spacing: 8px; }
+
   .section { padding: 120px 40px; }
   form { padding: 56px 48px; }
 }
@@ -1592,29 +1648,25 @@ form button:hover,
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
+    <div class="hero-kicker">Kingston, Jamaica</div>
+
     <p class="hero-sub hero-finest">Kingston's Finest</p>
     <a class="hero-cta" onclick="showSection('bookingSection');" href="javascript:void(0);">Book Your Appointment</a>
-    <div class="hero-scroll-hint">
-      <span class="hero-location-label">Kingston, Jamaica</span>
-      <div class="scroll-line"></div>
-      <span>Scroll</span>
-    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+    <span class="hero-location-label">Kingston, Jamaica</span>
   </div>
 </section>
 
 <!-- ========== GALLERY SECTION ========== -->
 <div class="content-section active" id="gallerySection">
-  <div id="gallery3dWrap">
-    <div id="gallery3dSticky">
-      <canvas id="gallery3dCanvas"></canvas>
-      <div class="gallery3d-overlay">
-        <div class="gallery3d-category-label" id="gallery3dCatLabel"></div>
-      </div>
-      <a class="gallery3d-book-btn" onclick="showSection('bookingSection');" href="javascript:void(0);">Book an Appointment</a>
+  <section class="section section--dark" style="padding-top:40px;">
+    <div class="section-inner">
+      <div id="galleryDisplay"></div>
     </div>
-  </div>
-  <!-- hidden container for Firestore data (not displayed) -->
-  <div id="galleryDisplay" style="display:none;"></div>
+  </section>
 </div>
 
 <!-- ========== BOOKING SECTION ========== -->
@@ -2053,37 +2105,77 @@ function showSection(sectionId) {
   const navId = navMap[sectionId];
   if (navId) { const navEl = document.getElementById(navId); if (navEl) navEl.classList.add('active'); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (sectionId === 'gallerySection') { loadGallery('galleryDisplay'); }
+  if (sectionId === 'gallerySection') loadGallery('galleryDisplay');
   else if (sectionId === 'reviewsSection') loadReviews(currentUser);
 }
 
-// Gallery — 3D Immersive
-var gallery3d = null;
+// Gallery — walkway carousel
 function loadGallery(containerId) {
-  db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot(function(querySnapshot) {
-    var docs = [];
-    querySnapshot.forEach(function(doc) { docs.push({ id: doc.id, ...doc.data() }); });
-    docs.sort(function(a, b) {
+  const galleryContainer = document.getElementById(containerId);
+  galleryContainer.innerHTML = '';
+  db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot(querySnapshot => {
+    galleryContainer.innerHTML = '';
+    let docs = [];
+    querySnapshot.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
+    docs.sort((a, b) => {
       if (a.sortOrder !== undefined && b.sortOrder !== undefined) return a.sortOrder - b.sortOrder;
       if (a.sortOrder !== undefined) return -1;
       if (b.sortOrder !== undefined) return 1;
       return 0;
     });
-    var categories = {};
-    docs.forEach(function(item) {
-      var cat = item.category || 'Uncategorized';
-      if (!categories[cat]) categories[cat] = [];
-      categories[cat].push(item.url);
+    const categories = {};
+    docs.forEach(item => {
+      const category = item.category || 'Uncategorized';
+      if (!categories[category]) categories[category] = [];
+      categories[category].push({ url: item.url, style: item.style || item.name || '' });
     });
-    if (Object.keys(categories).length === 0) return;
-    // Flatten into array of { url, category }
-    var allImages = [];
-    for (var cat in categories) {
-      categories[cat].forEach(function(url) {
-        allImages.push({ url: url, category: cat });
+    if (Object.keys(categories).length === 0) {
+      galleryContainer.innerHTML = '<p style="text-align:center;margin:60px 20px;color:var(--text-dim);font-family:Cormorant Garamond,serif;font-style:italic;font-size:16px;">No styles in the gallery yet — check back soon.</p>';
+      return;
+    }
+    for (const category in categories) {
+      const catBlock = document.createElement('div');
+      catBlock.className = 'gallery-category';
+
+      // Header with label + line
+      catBlock.innerHTML =
+        '<div class="gallery-category-header">' +
+          '<h3>' + category + '</h3>' +
+          '<div class="gallery-category-header-line"></div>' +
+        '</div>' +
+        '<div class="gallery-track" id="track-' + category.replace(/\s+/g,'') + '"></div>' +
+        '<div class="category-book-wrap"><a onclick="showSection(\'bookingSection\')" class="book-btn-primary" href="javascript:void(0);">Book an Appointment</a></div>';
+
+      galleryContainer.appendChild(catBlock);
+      const track = catBlock.querySelector('.gallery-track');
+
+      categories[category].forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        card.style.transitionDelay = (idx * 0.06) + 's';
+        card.innerHTML =
+          '<img src="' + item.url + '" alt="' + category + '" loading="lazy" decoding="async">' +
+          '<div class="gallery-card-label">' +
+            '<span class="gallery-card-label-name">' + (item.style || category) + '</span>' +
+            '<span class="gallery-card-label-sub">' + category + '</span>' +
+          '</div>' +
+          '<a class="gallery-card-plus" onclick="showSection(\'bookingSection\')" href="javascript:void(0);" title="Book this style">+</a>';
+        track.appendChild(card);
       });
     }
-    initGallery3D(allImages);
+
+    // Lightweight IntersectionObserver — reveal cards as they enter viewport
+    setTimeout(() => {
+      const cardObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('card-visible');
+            cardObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.gallery-card').forEach(el => cardObs.observe(el));
+    }, 60);
   });
 }
 
@@ -2528,279 +2620,6 @@ document.addEventListener("DOMContentLoaded",function(){
   const dateInput=document.getElementById("date");
   if(dateInput){const today=new Date().toISOString().split("T")[0];dateInput.setAttribute("min",today);}
 });
-</script>
-<script>
-// ===== 3D Immersive Gallery Engine =====
-function initGallery3D(imageData) {
-  if (typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
-
-  // Cleanup previous instance
-  if (gallery3d && gallery3d.renderer) {
-    gallery3d.renderer.dispose();
-    cancelAnimationFrame(gallery3d.raf);
-    if (gallery3d.trigger) gallery3d.trigger.kill();
-  }
-
-  var canvasEl = document.getElementById('gallery3dCanvas');
-  var wrapEl = document.getElementById('gallery3dWrap');
-  var catLabel = document.getElementById('gallery3dCatLabel');
-  if (!canvasEl || !wrapEl) return;
-
-  var scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0A0A0A, 0.035);
-
-  var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
-  camera.position.set(0, 0.5, 2);
-
-  var renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight, false);
-  renderer.setClearColor(0x0A0A0A, 1);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.1;
-
-  // Lighting — warm gallery spots
-  var ambientLight = new THREE.AmbientLight(0xC9B8A8, 0.25);
-  scene.add(ambientLight);
-  var spotColors = [0xC4956A, 0xF472B6, 0xD4A882];
-  spotColors.forEach(function(col, i) {
-    var sl = new THREE.SpotLight(col, 0.6, 60, Math.PI / 5, 0.5, 1.5);
-    sl.position.set(-6 + i * 6, 6, -10 - i * 12);
-    sl.target.position.set(0, 0, -20 - i * 12);
-    scene.add(sl);
-    scene.add(sl.target);
-  });
-
-  // Particle dust field
-  var PCOUNT = window.innerWidth < 768 ? 300 : 700;
-  var pGeo = new THREE.BufferGeometry();
-  var pPos = new Float32Array(PCOUNT * 3);
-  var totalDepth = imageData.length * 6 + 20;
-  for (var i = 0; i < PCOUNT; i++) {
-    pPos[i * 3]     = (Math.random() - 0.5) * 20;
-    pPos[i * 3 + 1] = (Math.random() - 0.5) * 10;
-    pPos[i * 3 + 2] = -Math.random() * totalDepth;
-  }
-  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-  var pMat = new THREE.PointsMaterial({
-    size: 0.04,
-    color: 0xC4956A,
-    transparent: true,
-    opacity: 0.5,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    sizeAttenuation: true
-  });
-  var particles = new THREE.Points(pGeo, pMat);
-  scene.add(particles);
-
-  // Load images as textured floating panels
-  var textureLoader = new THREE.TextureLoader();
-  textureLoader.crossOrigin = 'anonymous';
-  var panels = [];
-  var panelMeta = []; // stores { category, zPos }
-
-  // Layout: arrange images in a winding path through Z-space
-  // Each image gets a unique position in a spiral/scattered arrangement
-  var imgCount = imageData.length;
-  imageData.forEach(function(imgObj, idx) {
-    var col = idx % 3; // 3 columns: left, center, right
-    var xBase;
-    if (col === 0) xBase = -3.2 + (Math.random() - 0.5) * 1.2;
-    else if (col === 1) xBase = 0 + (Math.random() - 0.5) * 1.6;
-    else xBase = 3.2 + (Math.random() - 0.5) * 1.2;
-
-    var yBase = (Math.random() - 0.5) * 2.4;
-    var zBase = -(idx * 5.5 + 4 + Math.random() * 2);
-
-    // Slight rotation — as if placed by hand in a gallery
-    var rotY = (Math.random() - 0.5) * 0.4;
-    var rotX = (Math.random() - 0.5) * 0.12;
-    var rotZ = (Math.random() - 0.5) * 0.06;
-
-    var panelW = 2.6 + Math.random() * 0.6;
-    var panelH = panelW * (3 / 4); // approx portrait-ish
-
-    var geo = new THREE.PlaneGeometry(panelW, panelH);
-    var mat = new THREE.MeshStandardMaterial({
-      color: 0x222222,
-      roughness: 0.3,
-      metalness: 0.05,
-      transparent: true,
-      opacity: 0,
-      side: THREE.DoubleSide
-    });
-    var mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(xBase, yBase, zBase);
-    mesh.rotation.set(rotX, rotY, rotZ);
-
-    // Store original pos for floating animation
-    mesh.userData = {
-      baseY: yBase,
-      baseRotZ: rotZ,
-      phase: Math.random() * Math.PI * 2,
-      floatSpeed: 0.3 + Math.random() * 0.3,
-      floatAmp: 0.06 + Math.random() * 0.06,
-      category: imgObj.category,
-      loaded: false
-    };
-
-    scene.add(mesh);
-    panels.push(mesh);
-    panelMeta.push({ category: imgObj.category, z: zBase });
-
-    // Load texture
-    textureLoader.load(imgObj.url, function(tex) {
-      tex.encoding = THREE.sRGBEncoding;
-      tex.minFilter = THREE.LinearFilter;
-      tex.magFilter = THREE.LinearFilter;
-      mat.map = tex;
-      mat.color.set(0xffffff);
-      mat.needsUpdate = true;
-      mesh.userData.loaded = true;
-
-      // Add subtle frame border via a slightly larger plane behind
-      var frameMat = new THREE.MeshStandardMaterial({
-        color: 0x1a1510,
-        roughness: 0.8,
-        metalness: 0.1,
-        transparent: true,
-        opacity: 0.9,
-        side: THREE.DoubleSide
-      });
-      var frameGeo = new THREE.PlaneGeometry(panelW + 0.12, panelH + 0.12);
-      var frameMesh = new THREE.Mesh(frameGeo, frameMat);
-      frameMesh.position.copy(mesh.position);
-      frameMesh.position.z += 0.01; // just behind
-      frameMesh.rotation.copy(mesh.rotation);
-      scene.add(frameMesh);
-      panels.push(frameMesh);
-      frameMesh.userData = { isFrame: true, phase: 0, floatSpeed: 0, floatAmp: 0, baseY: frameMesh.position.y, baseRotZ: frameMesh.rotation.z };
-
-      // Add subtle glow plane
-      var glowMat = new THREE.MeshBasicMaterial({
-        color: 0xC4956A,
-        transparent: true,
-        opacity: 0.04,
-        blending: THREE.AdditiveBlending,
-        side: THREE.DoubleSide
-      });
-      var glowGeo = new THREE.PlaneGeometry(panelW + 0.8, panelH + 0.8);
-      var glowMesh = new THREE.Mesh(glowGeo, glowMat);
-      glowMesh.position.copy(mesh.position);
-      glowMesh.position.z += 0.02;
-      glowMesh.rotation.copy(mesh.rotation);
-      scene.add(glowMesh);
-      panels.push(glowMesh);
-      glowMesh.userData = { isGlow: true, phase: 0, floatSpeed: 0, floatAmp: 0, baseY: glowMesh.position.y, baseRotZ: glowMesh.rotation.z };
-    });
-  });
-
-  // Camera path: start position to final panel
-  var camStart = 2;
-  var camEnd = panelMeta.length > 0 ? panelMeta[panelMeta.length - 1].z - 4 : -40;
-  var scrollProxy = { z: camStart, orbitAngle: 0 };
-
-  // Set scroll height to create enough scroll distance
-  var scrollHeight = Math.max(imgCount * 900, 4000);
-  wrapEl.style.height = scrollHeight + 'px';
-
-  // GSAP ScrollTrigger
-  gsap.registerPlugin(ScrollTrigger);
-
-  var trigger = ScrollTrigger.create({
-    trigger: wrapEl,
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: 1.2,
-    onUpdate: function(self) {
-      var p = self.progress;
-      scrollProxy.z = camStart + (camEnd - camStart) * p;
-      scrollProxy.orbitAngle = p * Math.PI * 0.6;
-
-      // Update category label
-      if (catLabel && panelMeta.length > 0) {
-        var closestCat = '';
-        var closestDist = Infinity;
-        panelMeta.forEach(function(pm) {
-          var d = Math.abs(scrollProxy.z - pm.z);
-          if (d < closestDist) { closestDist = d; closestCat = pm.category; }
-        });
-        if (closestDist < 8) {
-          catLabel.textContent = closestCat;
-          catLabel.classList.add('visible');
-        } else {
-          catLabel.classList.remove('visible');
-        }
-      }
-    }
-  });
-
-  // Render loop
-  var clock = new THREE.Clock();
-  var raf;
-  function animate() {
-    raf = requestAnimationFrame(animate);
-    var t = clock.getElapsedTime();
-
-    // Camera — move forward + gentle orbit
-    var orbitRadius = 0.7;
-    camera.position.x = Math.sin(scrollProxy.orbitAngle) * orbitRadius;
-    camera.position.y = 0.5 + Math.sin(t * 0.15) * 0.15;
-    camera.position.z = scrollProxy.z + Math.cos(scrollProxy.orbitAngle) * orbitRadius * 0.3;
-    camera.lookAt(camera.position.x * 0.3, camera.position.y * 0.5, scrollProxy.z - 8);
-
-    // Float panels gently
-    panels.forEach(function(mesh) {
-      var ud = mesh.userData;
-      if (ud.isFrame || ud.isGlow) return;
-      mesh.position.y = ud.baseY + Math.sin(t * ud.floatSpeed + ud.phase) * ud.floatAmp;
-      mesh.rotation.z = ud.baseRotZ + Math.sin(t * ud.floatSpeed * 0.7 + ud.phase) * 0.015;
-
-      // Fade in/out based on distance to camera
-      var dist = Math.abs(camera.position.z - mesh.position.z);
-      var opacity = 1;
-      if (dist > 18) opacity = Math.max(0, 1 - (dist - 18) / 10);
-      if (dist < 1.5) opacity = Math.max(0.1, dist / 1.5);
-      mesh.material.opacity = opacity;
-    });
-
-    // Sync frames and glows to their parent panels
-    panels.forEach(function(mesh) {
-      var ud = mesh.userData;
-      if (!ud.isFrame && !ud.isGlow) return;
-      mesh.position.y = ud.baseY; // static for frames
-      var dist = Math.abs(camera.position.z - mesh.position.z);
-      var opacity;
-      if (ud.isFrame) {
-        opacity = 0.9;
-        if (dist > 18) opacity = Math.max(0, 0.9 * (1 - (dist - 18) / 10));
-        if (dist < 1.5) opacity = Math.max(0.05, (dist / 1.5) * 0.9);
-      } else {
-        opacity = 0.04;
-        if (dist > 18) opacity = 0;
-        if (dist < 3) opacity = Math.max(0, (dist / 3) * 0.04);
-      }
-      mesh.material.opacity = opacity;
-    });
-
-    // Animate particles slightly
-    particles.rotation.y = t * 0.01;
-
-    renderer.render(scene, camera);
-  }
-
-  function onResize() {
-    renderer.setSize(window.innerWidth, window.innerHeight, false);
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-  }
-  window.addEventListener('resize', onResize);
-
-  animate();
-
-  gallery3d = { renderer: renderer, raf: raf, trigger: trigger };
-}
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(r=>{r.forEach(reg=>reg.unregister());});}</script>
 </body>
