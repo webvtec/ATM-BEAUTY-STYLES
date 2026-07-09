@@ -55,6 +55,8 @@
 <meta name="google-signin-client_id" content="345703317013.apps.googleusercontent.com">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -911,101 +913,70 @@ body::after {
 .content-section { display: none; }
 .content-section.active { display: block; }
 
-/* ========== GALLERY ========== */
-.gallery-category {
-  margin-bottom: 60px;
+/* ========== 3D IMMERSIVE GALLERY ========== */
+#gallery3dWrap {
+  position: relative;
+  width: 100%;
+  background: var(--noir);
 }
-.gallery-category h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  font-size: 28px;
-  color: var(--text-light);
-  text-align: center;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
-}
-.gallery-category h3::after {
-  content: '';
-  display: block;
-  width: 32px;
-  height: 1px;
-  background: var(--gold);
-  margin: 16px auto 24px;
-}
-
-/* Fixed-in-viewport particle backdrop, scoped to the gallery section only */
-.gallery-particle-section { position: relative; }
-.gallery-particle-stage {
+#gallery3dSticky {
   position: sticky;
   top: 0;
-  height: 0;
-  overflow: visible;
-  z-index: 0;
-  pointer-events: none;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
-#galleryParticleCanvas {
+#gallery3dCanvas {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: block;
+}
+.gallery3d-overlay {
+  position: absolute;
+  bottom: 40px;
+  left: 0; right: 0;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+.gallery3d-category-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(18px, 4vw, 32px);
+  color: rgba(196,149,106,0.85);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 30px rgba(0,0,0,0.7);
   opacity: 0;
-  transition: opacity 1.4s var(--ease-lux);
+  transition: opacity 0.6s var(--ease-lux);
 }
-#galleryParticleCanvas.active { opacity: 0.9; }
-
-.gallery-category { position: relative; z-index: 1; }
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px 16px;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 16px;
-  perspective: 1400px;
+.gallery3d-category-label.visible { opacity: 1; }
+.gallery3d-book-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  z-index: 11;
+  padding: 10px 28px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--noir);
+  background: var(--gold);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s var(--ease-lux);
+  opacity: 0.85;
 }
-@media (min-width: 768px) {
-  .gallery-grid { gap: 46px 26px; }
-}
-
-.gallery-grid img {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  display: block;
-  border-radius: 8px;
-  border: 1px solid rgba(196,149,106,0.16);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(244,114,182,0.04);
-  transition: border-color 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-.gallery-grid img:hover {
-  border-color: var(--gold);
-  box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 44px rgba(196,149,106,0.28);
-}
-
-/* Scroll-driven 3D spin: cards rotate from facing-away (back) to
-   facing-front as they travel through the viewport. Transform is set
-   continuously from JS (see updateGalleryTilt), this is just the base. */
-.gallery-item-wrap {
-  position: relative;
-  z-index: 1;
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
-  transition: transform 0.05s linear, opacity 0.05s linear;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gallery-item-wrap {
-    transition: none;
-    transform: none !important;
-    opacity: 1 !important;
-    filter: none;
-  }
-  #galleryParticleCanvas { display: none; }
+.gallery3d-book-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  opacity: 1;
 }
 
 .category-book-wrap {
@@ -1394,7 +1365,6 @@ form button:hover,
 /* ========== RESPONSIVE ========== */
 @media (min-width: 768px) {
   .nav-logo { font-size: 20px; letter-spacing: 8px; }
-  .gallery-grid img { height: 340px; }
   .section { padding: 120px 40px; }
   form { padding: 56px 48px; }
 }
@@ -1625,23 +1595,26 @@ form button:hover,
     <p class="hero-sub hero-finest">Kingston's Finest</p>
     <a class="hero-cta" onclick="showSection('bookingSection');" href="javascript:void(0);">Book Your Appointment</a>
     <div class="hero-scroll-hint">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
       <span class="hero-location-label">Kingston, Jamaica</span>
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
     </div>
   </div>
 </section>
 
 <!-- ========== GALLERY SECTION ========== -->
 <div class="content-section active" id="gallerySection">
-  <section class="section section--dark gallery-particle-section" style="padding-top:40px;">
-    <div class="gallery-particle-stage" id="galleryParticleStage">
-      <canvas id="galleryParticleCanvas"></canvas>
+  <div id="gallery3dWrap">
+    <div id="gallery3dSticky">
+      <canvas id="gallery3dCanvas"></canvas>
+      <div class="gallery3d-overlay">
+        <div class="gallery3d-category-label" id="gallery3dCatLabel"></div>
+      </div>
+      <a class="gallery3d-book-btn" onclick="showSection('bookingSection');" href="javascript:void(0);">Book an Appointment</a>
     </div>
-    <div class="section-inner">
-      <div id="galleryDisplay"></div>
-    </div>
-  </section>
+  </div>
+  <!-- hidden container for Firestore data (not displayed) -->
+  <div id="galleryDisplay" style="display:none;"></div>
 </div>
 
 <!-- ========== BOOKING SECTION ========== -->
@@ -2080,54 +2053,37 @@ function showSection(sectionId) {
   const navId = navMap[sectionId];
   if (navId) { const navEl = document.getElementById(navId); if (navEl) navEl.classList.add('active'); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (sectionId === 'gallerySection') { loadGallery('galleryDisplay'); if (window.updateGalleryTilt) setTimeout(window.updateGalleryTilt, 50); }
+  if (sectionId === 'gallerySection') { loadGallery('galleryDisplay'); }
   else if (sectionId === 'reviewsSection') loadReviews(currentUser);
 }
 
-// Gallery
+// Gallery — 3D Immersive
+var gallery3d = null;
 function loadGallery(containerId) {
-  const galleryContainer = document.getElementById(containerId);
-  galleryContainer.innerHTML = '';
-  db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot(querySnapshot => {
-    galleryContainer.innerHTML = '';
-    let docs = [];
-    querySnapshot.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
-    docs.sort((a, b) => {
+  db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot(function(querySnapshot) {
+    var docs = [];
+    querySnapshot.forEach(function(doc) { docs.push({ id: doc.id, ...doc.data() }); });
+    docs.sort(function(a, b) {
       if (a.sortOrder !== undefined && b.sortOrder !== undefined) return a.sortOrder - b.sortOrder;
       if (a.sortOrder !== undefined) return -1;
       if (b.sortOrder !== undefined) return 1;
       return 0;
     });
-    const categories = {};
-    docs.forEach(item => {
-      const category = item.category || 'Uncategorized';
-      if (!categories[category]) categories[category] = [];
-      categories[category].push(item.url);
+    var categories = {};
+    docs.forEach(function(item) {
+      var cat = item.category || 'Uncategorized';
+      if (!categories[cat]) categories[cat] = [];
+      categories[cat].push(item.url);
     });
-    if (Object.keys(categories).length === 0) {
-      galleryContainer.innerHTML = '<p style="text-align:center;margin:60px 20px;color:var(--text-dim);font-family:Cormorant Garamond,serif;font-style:italic;font-size:16px;">No styles in the gallery yet — check back soon.</p>';
-      return;
-    }
-    for (const category in categories) {
-      const catId = 'gallery-' + category.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '');
-      galleryContainer.innerHTML += '<div class="gallery-category"><h3>' + category + '</h3><div style="max-width:900px;margin:0 auto;padding:0 16px 20px;"><div class="gallery-grid" id="' + catId + '"></div></div><div class="category-book-wrap"><a onclick="showSection(\'bookingSection\')" class="book-btn-primary" href="javascript:void(0);">Book an Appointment</a></div></div>';
-      const categoryContainer = document.getElementById(catId);
-      categories[category].forEach((imageUrl, idx) => {
-        const wrap = document.createElement('div');
-        wrap.className = 'gallery-item-wrap';
-        // Slight fixed per-card variance so the spin doesn't look uniform/robotic
-        const sign = idx % 2 === 0 ? 1 : -1;
-        wrap.dataset.tiltZ = (sign * (2 + Math.random() * 5)).toFixed(2);
-        wrap.dataset.rotBias = (0.85 + Math.random() * 0.3).toFixed(2);
-        wrap.dataset.depthBias = (0.85 + Math.random() * 0.3).toFixed(2);
-        // Slight vertical stagger so cards feel like they're floating at different depths
-        wrap.style.marginTop = (idx % 2 === 0 ? '0px' : (16 + Math.random() * 28).toFixed(0) + 'px');
-        wrap.innerHTML = '<img src="' + imageUrl + '" alt="Style" loading="lazy" decoding="async">';
-        categoryContainer.appendChild(wrap);
+    if (Object.keys(categories).length === 0) return;
+    // Flatten into array of { url, category }
+    var allImages = [];
+    for (var cat in categories) {
+      categories[cat].forEach(function(url) {
+        allImages.push({ url: url, category: cat });
       });
     }
-    // Position cards immediately based on current scroll, then let scroll drive them
-    setTimeout(() => { if (window.updateGalleryTilt) window.updateGalleryTilt(); }, 60);
+    initGallery3D(allImages);
   });
 }
 
@@ -2574,177 +2530,277 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 </script>
 <script>
-// ===== Scroll-driven 3D card spin for the gallery =====
-(function () {
-  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ===== 3D Immersive Gallery Engine =====
+function initGallery3D(imageData) {
+  if (typeof THREE === 'undefined' || typeof gsap === 'undefined') return;
 
-  function updateGalleryTilt() {
-    if (prefersReduced) return;
-    const gallerySection = document.getElementById('gallerySection');
-    if (!gallerySection || !gallerySection.classList.contains('active')) return;
-    const wraps = gallerySection.querySelectorAll('.gallery-item-wrap');
-    const vh = window.innerHeight || document.documentElement.clientHeight;
-
-    wraps.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      const centerY = rect.top + rect.height / 2;
-      // progress: -1 = entering from below (back), 0 = centered (front), +1 = exiting above (back again)
-      let progress = (centerY - vh / 2) / (vh / 2);
-      progress = Math.max(-1.6, Math.min(1.6, progress));
-
-      const rotBias = parseFloat(el.dataset.rotBias || '1');
-      const depthBias = parseFloat(el.dataset.depthBias || '1');
-      const tiltZ = parseFloat(el.dataset.tiltZ || '0');
-
-      const rotY = progress * -130 * rotBias;      // the big "spin from back to front"
-      const rotX = progress * 12;                  // slight vertical roll for depth
-      const tz = -Math.abs(progress) * 340 * depthBias;
-      const scale = Math.max(0.5, 1 - Math.abs(progress) * 0.42);
-      const opacity = Math.max(0, 1 - Math.abs(progress) * 0.85);
-
-      el.style.opacity = opacity;
-      el.style.transform =
-        'rotateY(' + rotY.toFixed(2) + 'deg) ' +
-        'rotateX(' + rotX.toFixed(2) + 'deg) ' +
-        'rotateZ(' + tiltZ + 'deg) ' +
-        'translateZ(' + tz.toFixed(1) + 'px) ' +
-        'scale(' + scale.toFixed(3) + ')';
-    });
+  // Cleanup previous instance
+  if (gallery3d && gallery3d.renderer) {
+    gallery3d.renderer.dispose();
+    cancelAnimationFrame(gallery3d.raf);
+    if (gallery3d.trigger) gallery3d.trigger.kill();
   }
-  window.updateGalleryTilt = updateGalleryTilt;
 
-  let ticking = false;
-  function onScrollOrResize() {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => { updateGalleryTilt(); ticking = false; });
+  var canvasEl = document.getElementById('gallery3dCanvas');
+  var wrapEl = document.getElementById('gallery3dWrap');
+  var catLabel = document.getElementById('gallery3dCatLabel');
+  if (!canvasEl || !wrapEl) return;
+
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x0A0A0A, 0.035);
+
+  var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.set(0, 0.5, 2);
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
+  renderer.setClearColor(0x0A0A0A, 1);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+
+  // Lighting — warm gallery spots
+  var ambientLight = new THREE.AmbientLight(0xC9B8A8, 0.25);
+  scene.add(ambientLight);
+  var spotColors = [0xC4956A, 0xF472B6, 0xD4A882];
+  spotColors.forEach(function(col, i) {
+    var sl = new THREE.SpotLight(col, 0.6, 60, Math.PI / 5, 0.5, 1.5);
+    sl.position.set(-6 + i * 6, 6, -10 - i * 12);
+    sl.target.position.set(0, 0, -20 - i * 12);
+    scene.add(sl);
+    scene.add(sl.target);
+  });
+
+  // Particle dust field
+  var PCOUNT = window.innerWidth < 768 ? 300 : 700;
+  var pGeo = new THREE.BufferGeometry();
+  var pPos = new Float32Array(PCOUNT * 3);
+  var totalDepth = imageData.length * 6 + 20;
+  for (var i = 0; i < PCOUNT; i++) {
+    pPos[i * 3]     = (Math.random() - 0.5) * 20;
+    pPos[i * 3 + 1] = (Math.random() - 0.5) * 10;
+    pPos[i * 3 + 2] = -Math.random() * totalDepth;
   }
-  window.addEventListener('scroll', onScrollOrResize, { passive: true });
-  window.addEventListener('resize', onScrollOrResize);
-  document.addEventListener('DOMContentLoaded', () => setTimeout(updateGalleryTilt, 100));
-})();
-</script>
-<script>
-// ===== Gallery particle stream (Three.js) =====
-(function () {
-  const stage = document.getElementById('galleryParticleStage');
-  const canvasEl = document.getElementById('galleryParticleCanvas');
-  if (!stage || !canvasEl || typeof THREE === 'undefined') return;
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  var pMat = new THREE.PointsMaterial({
+    size: 0.04,
+    color: 0xC4956A,
+    transparent: true,
+    opacity: 0.5,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    sizeAttenuation: true
+  });
+  var particles = new THREE.Points(pGeo, pMat);
+  scene.add(particles);
 
-  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) return;
+  // Load images as textured floating panels
+  var textureLoader = new THREE.TextureLoader();
+  textureLoader.crossOrigin = 'anonymous';
+  var panels = [];
+  var panelMeta = []; // stores { category, zPos }
 
-  const PALETTE = ['#F472B6', '#C4956A', '#D4A882', '#C9B8A8', '#B98CD9', '#FFFFFF'];
-  let renderer, scene, camera, points, raf, particleState;
-  const isSmall = window.innerWidth < 768;
-  const COUNT = isSmall ? 450 : 1100;
+  // Layout: arrange images in a winding path through Z-space
+  // Each image gets a unique position in a spiral/scattered arrangement
+  var imgCount = imageData.length;
+  imageData.forEach(function(imgObj, idx) {
+    var col = idx % 3; // 3 columns: left, center, right
+    var xBase;
+    if (col === 0) xBase = -3.2 + (Math.random() - 0.5) * 1.2;
+    else if (col === 1) xBase = 0 + (Math.random() - 0.5) * 1.6;
+    else xBase = 3.2 + (Math.random() - 0.5) * 1.2;
 
-  function initScene() {
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 0, 9);
+    var yBase = (Math.random() - 0.5) * 2.4;
+    var zBase = -(idx * 5.5 + 4 + Math.random() * 2);
 
-    renderer = new THREE.WebGLRenderer({ canvas: canvasEl, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight, false);
+    // Slight rotation — as if placed by hand in a gallery
+    var rotY = (Math.random() - 0.5) * 0.4;
+    var rotX = (Math.random() - 0.5) * 0.12;
+    var rotZ = (Math.random() - 0.5) * 0.06;
 
-    const colors = PALETTE.map(c => new THREE.Color(c));
-    const positions = new Float32Array(COUNT * 3);
-    const colorAttr = new Float32Array(COUNT * 3);
-    const speeds = new Float32Array(COUNT);
-    const phase = new Float32Array(COUNT);
-    const drift = new Float32Array(COUNT);
+    var panelW = 2.6 + Math.random() * 0.6;
+    var panelH = panelW * (3 / 4); // approx portrait-ish
 
-    for (let i = 0; i < COUNT; i++) {
-      const radius = Math.pow(Math.random(), 0.5) * 2.8;
-      const angle = Math.random() * Math.PI * 2;
-      positions[i * 3] = Math.cos(angle) * radius;
-      positions[i * 3 + 1] = (Math.random() * 16) - 8;
-      positions[i * 3 + 2] = Math.sin(angle) * radius - 2.2;
-
-      const c = colors[Math.floor(Math.random() * colors.length)];
-      colorAttr[i * 3] = c.r;
-      colorAttr[i * 3 + 1] = c.g;
-      colorAttr[i * 3 + 2] = c.b;
-
-      speeds[i] = 0.004 + Math.random() * 0.012;
-      phase[i] = Math.random() * Math.PI * 2;
-      drift[i] = 0.15 + Math.random() * 0.35;
-    }
-
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(colorAttr, 3));
-
-    const mat = new THREE.PointsMaterial({
-      size: isSmall ? 0.05 : 0.065,
-      vertexColors: true,
+    var geo = new THREE.PlaneGeometry(panelW, panelH);
+    var mat = new THREE.MeshStandardMaterial({
+      color: 0x222222,
+      roughness: 0.3,
+      metalness: 0.05,
       transparent: true,
-      opacity: 0.85,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      sizeAttenuation: true
+      opacity: 0,
+      side: THREE.DoubleSide
+    });
+    var mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(xBase, yBase, zBase);
+    mesh.rotation.set(rotX, rotY, rotZ);
+
+    // Store original pos for floating animation
+    mesh.userData = {
+      baseY: yBase,
+      baseRotZ: rotZ,
+      phase: Math.random() * Math.PI * 2,
+      floatSpeed: 0.3 + Math.random() * 0.3,
+      floatAmp: 0.06 + Math.random() * 0.06,
+      category: imgObj.category,
+      loaded: false
+    };
+
+    scene.add(mesh);
+    panels.push(mesh);
+    panelMeta.push({ category: imgObj.category, z: zBase });
+
+    // Load texture
+    textureLoader.load(imgObj.url, function(tex) {
+      tex.encoding = THREE.sRGBEncoding;
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      mat.map = tex;
+      mat.color.set(0xffffff);
+      mat.needsUpdate = true;
+      mesh.userData.loaded = true;
+
+      // Add subtle frame border via a slightly larger plane behind
+      var frameMat = new THREE.MeshStandardMaterial({
+        color: 0x1a1510,
+        roughness: 0.8,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.9,
+        side: THREE.DoubleSide
+      });
+      var frameGeo = new THREE.PlaneGeometry(panelW + 0.12, panelH + 0.12);
+      var frameMesh = new THREE.Mesh(frameGeo, frameMat);
+      frameMesh.position.copy(mesh.position);
+      frameMesh.position.z += 0.01; // just behind
+      frameMesh.rotation.copy(mesh.rotation);
+      scene.add(frameMesh);
+      panels.push(frameMesh);
+      frameMesh.userData = { isFrame: true, phase: 0, floatSpeed: 0, floatAmp: 0, baseY: frameMesh.position.y, baseRotZ: frameMesh.rotation.z };
+
+      // Add subtle glow plane
+      var glowMat = new THREE.MeshBasicMaterial({
+        color: 0xC4956A,
+        transparent: true,
+        opacity: 0.04,
+        blending: THREE.AdditiveBlending,
+        side: THREE.DoubleSide
+      });
+      var glowGeo = new THREE.PlaneGeometry(panelW + 0.8, panelH + 0.8);
+      var glowMesh = new THREE.Mesh(glowGeo, glowMat);
+      glowMesh.position.copy(mesh.position);
+      glowMesh.position.z += 0.02;
+      glowMesh.rotation.copy(mesh.rotation);
+      scene.add(glowMesh);
+      panels.push(glowMesh);
+      glowMesh.userData = { isGlow: true, phase: 0, floatSpeed: 0, floatAmp: 0, baseY: glowMesh.position.y, baseRotZ: glowMesh.rotation.z };
+    });
+  });
+
+  // Camera path: start position to final panel
+  var camStart = 2;
+  var camEnd = panelMeta.length > 0 ? panelMeta[panelMeta.length - 1].z - 4 : -40;
+  var scrollProxy = { z: camStart, orbitAngle: 0 };
+
+  // Set scroll height to create enough scroll distance
+  var scrollHeight = Math.max(imgCount * 900, 4000);
+  wrapEl.style.height = scrollHeight + 'px';
+
+  // GSAP ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
+
+  var trigger = ScrollTrigger.create({
+    trigger: wrapEl,
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: 1.2,
+    onUpdate: function(self) {
+      var p = self.progress;
+      scrollProxy.z = camStart + (camEnd - camStart) * p;
+      scrollProxy.orbitAngle = p * Math.PI * 0.6;
+
+      // Update category label
+      if (catLabel && panelMeta.length > 0) {
+        var closestCat = '';
+        var closestDist = Infinity;
+        panelMeta.forEach(function(pm) {
+          var d = Math.abs(scrollProxy.z - pm.z);
+          if (d < closestDist) { closestDist = d; closestCat = pm.category; }
+        });
+        if (closestDist < 8) {
+          catLabel.textContent = closestCat;
+          catLabel.classList.add('visible');
+        } else {
+          catLabel.classList.remove('visible');
+        }
+      }
+    }
+  });
+
+  // Render loop
+  var clock = new THREE.Clock();
+  var raf;
+  function animate() {
+    raf = requestAnimationFrame(animate);
+    var t = clock.getElapsedTime();
+
+    // Camera — move forward + gentle orbit
+    var orbitRadius = 0.7;
+    camera.position.x = Math.sin(scrollProxy.orbitAngle) * orbitRadius;
+    camera.position.y = 0.5 + Math.sin(t * 0.15) * 0.15;
+    camera.position.z = scrollProxy.z + Math.cos(scrollProxy.orbitAngle) * orbitRadius * 0.3;
+    camera.lookAt(camera.position.x * 0.3, camera.position.y * 0.5, scrollProxy.z - 8);
+
+    // Float panels gently
+    panels.forEach(function(mesh) {
+      var ud = mesh.userData;
+      if (ud.isFrame || ud.isGlow) return;
+      mesh.position.y = ud.baseY + Math.sin(t * ud.floatSpeed + ud.phase) * ud.floatAmp;
+      mesh.rotation.z = ud.baseRotZ + Math.sin(t * ud.floatSpeed * 0.7 + ud.phase) * 0.015;
+
+      // Fade in/out based on distance to camera
+      var dist = Math.abs(camera.position.z - mesh.position.z);
+      var opacity = 1;
+      if (dist > 18) opacity = Math.max(0, 1 - (dist - 18) / 10);
+      if (dist < 1.5) opacity = Math.max(0.1, dist / 1.5);
+      mesh.material.opacity = opacity;
     });
 
-    points = new THREE.Points(geo, mat);
-    scene.add(points);
-    particleState = { speeds, phase, drift, posAttr: geo.attributes.position };
-  }
+    // Sync frames and glows to their parent panels
+    panels.forEach(function(mesh) {
+      var ud = mesh.userData;
+      if (!ud.isFrame && !ud.isGlow) return;
+      mesh.position.y = ud.baseY; // static for frames
+      var dist = Math.abs(camera.position.z - mesh.position.z);
+      var opacity;
+      if (ud.isFrame) {
+        opacity = 0.9;
+        if (dist > 18) opacity = Math.max(0, 0.9 * (1 - (dist - 18) / 10));
+        if (dist < 1.5) opacity = Math.max(0.05, (dist / 1.5) * 0.9);
+      } else {
+        opacity = 0.04;
+        if (dist > 18) opacity = 0;
+        if (dist < 3) opacity = Math.max(0, (dist / 3) * 0.04);
+      }
+      mesh.material.opacity = opacity;
+    });
 
-  function animate(t) {
-    raf = requestAnimationFrame(animate);
-    const { speeds, phase, drift, posAttr } = particleState;
-    const arr = posAttr.array;
-    for (let i = 0; i < COUNT; i++) {
-      const iy = i * 3 + 1;
-      const ix = i * 3;
-      arr[iy] += speeds[i];
-      if (arr[iy] > 8) arr[iy] = -8;
-      arr[ix] += Math.sin(t * 0.0006 + phase[i]) * 0.0018 * drift[i];
-    }
-    posAttr.needsUpdate = true;
-    points.rotation.y = Math.sin(t * 0.00012) * 0.18;
+    // Animate particles slightly
+    particles.rotation.y = t * 0.01;
+
     renderer.render(scene, camera);
   }
 
-  function start() {
-    if (!renderer) initScene();
-    canvasEl.classList.add('active');
-    if (!raf) raf = requestAnimationFrame(animate);
-  }
-  function stop() {
-    canvasEl.classList.remove('active');
-    if (raf) { cancelAnimationFrame(raf); raf = null; }
-  }
-
   function onResize() {
-    if (!renderer) return;
     renderer.setSize(window.innerWidth, window.innerHeight, false);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
   }
   window.addEventListener('resize', onResize);
 
-  const sectionEl = document.querySelector('.gallery-particle-section');
-  if (sectionEl) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const isGalleryTab = document.getElementById('gallerySection').classList.contains('active');
-        if (entry.isIntersecting && isGalleryTab) start();
-        else stop();
-      });
-    }, { threshold: 0.01 });
-    io.observe(sectionEl);
-  }
+  animate();
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop();
-    else {
-      const isGalleryTab = document.getElementById('gallerySection').classList.contains('active');
-      if (isGalleryTab) start();
-    }
-  });
-})();
+  gallery3d = { renderer: renderer, raf: raf, trigger: trigger };
+}
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(r=>{r.forEach(reg=>reg.unregister());});}</script>
 </body>
