@@ -1070,9 +1070,7 @@ function showSection(sectionId) {
   const navMap = { heroSection:'nav-home', gallerySection:'nav-gallery', bookingSection:'nav-booking', walkInPriceSection:'nav-prices', reviewsSection:'nav-reviews' };
   const navBtn = document.getElementById(navMap[sectionId]);
   if(navBtn) navBtn.classList.add('active');
-  // Show promo ticker only on home
-  const ticker = document.getElementById('promoTickerWrap');
-  if(ticker) ticker.style.display = sectionId === 'heroSection' ? 'block' : 'none';
+  // Promo ticker always visible
   window.scrollTo(0,0);
 }
 
@@ -1716,9 +1714,9 @@ function cancelUserBooking(bookingId, bookingNumber) {
 }
 
 // ========== PROMO SLIDESHOW ==========
-(function initPromoSlider() {
+document.addEventListener('DOMContentLoaded', function initPromoSlider() {
   const TOTAL = 4;
-  const AUTO_MS = 5000; // 5 seconds per slide
+  const AUTO_MS = 5000;
   let current = 0;
   let autoTimer = null;
   let dragStartX = null;
@@ -1727,6 +1725,7 @@ function cancelUserBooking(bookingId, bookingNumber) {
 
   const track = document.getElementById('promoTrack');
   const dots = document.querySelectorAll('.promo-dot');
+  if (!track) return;
 
   function goToSlide(index, fromUser) {
     // wrap around
@@ -1795,7 +1794,7 @@ function cancelUserBooking(bookingId, bookingNumber) {
 
   // start
   resetAuto();
-})();
+});
 
 // ========== PHONE FORMAT ==========
 document.addEventListener("DOMContentLoaded", function() {

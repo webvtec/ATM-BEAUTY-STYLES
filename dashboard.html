@@ -618,9 +618,25 @@ firebase.auth().getRedirectResult().then(result => {
   // result handled by onAuthStateChanged below
 }).catch(() => {});
 
+let _authResolved = false;
 firebase.auth().onAuthStateChanged(user=>{
   const overlay=document.getElementById('accessOverlay'),status=document.getElementById('accessStatus'),content=document.getElementById('dashboardContent');
-  if(!user){status.textContent='Access Denied — Redirecting...';status.style.color='var(--pink)';setTimeout(()=>{window.location.href='index.html';},1200);return;}
+  if(!user){
+    // If this is the very first callback and user is null, Firebase may still
+    // be restoring the session from IndexedDB — wait 2s before giving up.
+    if(!_authResolved){
+      _authResolved=true;
+      setTimeout(()=>{
+        if(!firebase.auth().currentUser){
+          status.textContent='Access Denied — Redirecting...';
+          status.style.color='var(--pink)';
+          setTimeout(()=>{window.location.href='index.html';},1200);
+        }
+      },2000);
+    }
+    return;
+  }
+  _authResolved=true;
   if(user.uid!==ADMIN_UID){status.textContent='Unauthorised — Signing Out...';status.style.color='var(--pink)';firebase.auth().signOut().then(()=>{setTimeout(()=>{window.location.href='index.html';},1200);});return;}
   status.textContent='Access Granted ✦';status.style.color='#2d7a3e';
   setTimeout(()=>{overlay.style.transition='opacity 0.4s';overlay.style.opacity='0';setTimeout(()=>{overlay.style.display='none';content.style.display='block';},400);},600);
