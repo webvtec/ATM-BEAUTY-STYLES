@@ -930,6 +930,12 @@ body::after {
   padding: 0 24px 36px;
   position: relative;
 }
+.barrel-ring-title-rule {
+  display: block;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(160,100,255,0.6) 30%, rgba(200,160,255,0.9) 50%, rgba(160,100,255,0.6) 70%, transparent);
+  margin-bottom: 14px;
+}
 .barrel-ring-title h3 {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
@@ -937,8 +943,13 @@ body::after {
   letter-spacing: 8px;
   text-transform: uppercase;
   color: rgba(230,215,255,0.92);
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   line-height: 1;
+}
+.barrel-ring-title-rule-bottom {
+  display: block;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(160,100,255,0.6) 30%, rgba(200,160,255,0.9) 50%, rgba(160,100,255,0.6) 70%, transparent);
 }
 
 
@@ -1098,6 +1109,40 @@ body::after {
 .category-book-wrap {
   text-align: center;
   margin: 24px 0 8px;
+}
+
+/* Per-ring footer — line · button · line */
+.barrel-ring-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 24px 0;
+}
+.barrel-ring-footer-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(160,100,255,0.5) 50%, transparent);
+}
+.barrel-ring-book-btn {
+  display: inline-block;
+  padding: 11px 28px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--noir);
+  background: var(--gold);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.barrel-ring-book-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
 }
 
 .category-book-wrap {
@@ -2254,7 +2299,9 @@ function loadGallery(containerId) {
 
       ring.innerHTML =
         '<div class="barrel-ring-title">' +
+          '<span class="barrel-ring-title-rule"></span>' +
           '<h3>' + category + '</h3>' +
+          '<span class="barrel-ring-title-rule-bottom"></span>' +
         '</div>' +
         '<div class="barrel-scene">' +
           '<canvas class="barrel-particles" width="400" height="460"></canvas>' +
@@ -2274,6 +2321,11 @@ function loadGallery(containerId) {
           '<svg class="barrel-rim-svg bottom" width="' + rimW + '" height="' + (rimRy*2+4) + '" style="margin-bottom:-' + rimRy + 'px;">' +
             '<ellipse cx="' + (rimW/2) + '" cy="' + (rimRy+2) + '" rx="' + rimRx + '" ry="' + rimRy + '" fill="none" stroke="url(#rimGrad)" stroke-width="1.5" opacity="0.5"/>' +
           '</svg>' +
+        '</div>' +
+        '<div class="barrel-ring-footer">' +
+          '<span class="barrel-ring-footer-rule"></span>' +
+          '<a class="barrel-ring-book-btn" onclick="showSection(\'bookingSection\')" href="javascript:void(0);">Book an Appointment</a>' +
+          '<span class="barrel-ring-footer-rule"></span>' +
         '</div>';
 
       barrel.appendChild(ring);
@@ -2305,17 +2357,7 @@ function loadGallery(containerId) {
         rotor.appendChild(card);
         cards.push(card);
 
-        // Click to focus
-        card.addEventListener('click', () => {
-          if (activeRotor) closeDetail();
-          activeRotor = rotor; activeCards = cards; activeRotY = rotY;
-          cards.forEach(c => c.classList.add('card-dim'));
-          card.classList.remove('card-dim');
-          card.classList.add('card-focus');
-          document.getElementById('barrel-detail-cat').textContent = category;
-          document.getElementById('barrel-detail-book').onclick = () => showSection('bookingSection');
-          detailPanel.classList.add('open');
-        });
+
       });
 
       // ── Ambient particles ──
@@ -2386,8 +2428,8 @@ function loadGallery(containerId) {
         const now = performance.now();
         const dt  = Math.max(1, now - lastDragTime);
         const ddx = x - lastDragX;
-        vel = (ddx / dt) * 8; // px→deg, tuned for premium feel
-        setRotY(rotY + ddx * 0.18);
+        vel = (ddx / dt) * 4; // px→deg, tuned for premium feel
+        setRotY(rotY + ddx * 0.09);
         lastDragX = x; lastDragTime = now;
       }
       function endDrag() {
