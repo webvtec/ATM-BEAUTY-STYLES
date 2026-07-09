@@ -93,28 +93,154 @@ body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
   color: var(--text-light);
+  background: var(--noir);
   overflow-x: hidden;
   line-height: 1.6;
-  background-color: #0A0A0A;
-  /* Tiling starfield + watermark — repeats across entire page height */
-  background-image: url("%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27400%27%20height%3D%27400%27%3E%3Ctext%20x%3D%2720%27%20y%3D%2755%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2710%27%20letter-spacing%3D%276%27%20fill%3D%27rgba%28196%2C149%2C106%2C0.14%29%27%20transform%3D%27rotate%28-35%2C20%2C55%29%27%3EATM%20BEAUTY%3C%2Ftext%3E%3Ctext%20x%3D%27210%27%20y%3D%2755%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2710%27%20letter-spacing%3D%276%27%20fill%3D%27rgba%28196%2C149%2C106%2C0.14%29%27%20transform%3D%27rotate%28-35%2C210%2C55%29%27%3EATM%20BEAUTY%3C%2Ftext%3E%3Ctext%20x%3D%27110%27%20y%3D%27155%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2710%27%20letter-spacing%3D%276%27%20fill%3D%27rgba%28196%2C149%2C106%2C0.14%29%27%20transform%3D%27rotate%28-35%2C110%2C155%29%27%3EATM%20BEAUTY%3C%2Ftext%3E%3Ctext%20x%3D%27300%27%20y%3D%27155%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2710%27%20letter-spacing%3D%276%27%20fill%3D%27rgba%28196%2C149%2C106%2C0.14%29%27%20transform%3D%27rotate%28-35%2C300%2C155%29%27%3EATM%20BEAUTY%3C%2Ftext%3E%3Ctext%20x%3D%2710%27%20y%3D%27260%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2710%27%20letter-spacing%3D%276%27%20fill%3D%27rgba%28196%2C149%2C106%2C0.14%29%27%20transform%3D%27rotate%28-35%2C10%2C260%29%27%3EATM%20BEAUTY%3C%2Ftext%3E%3Ctext%20x%3D%27200%27%20y%3D%27260%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2710%27%20letter-spacing%3D%276%27%20fill%3D%27rgba%28196%2C149%2C106%2C0.14%29%27%20transform%3D%27rotate%28-35%2C200%2C260%29%27%3EATM%20BEAUTY%3C%2Ftext%3E%3Ctext%20x%3D%2790%27%20y%3D%27365%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2710%27%20letter-spacing%3D%276%27%20fill%3D%27rgba%28196%2C149%2C106%2C0.14%29%27%20transform%3D%27rotate%28-35%2C90%2C365%29%27%3EATM%20BEAUTY%3C%2Ftext%3E%3Ctext%20x%3D%27280%27%20y%3D%27365%27%20font-family%3D%27Georgia%2Cserif%27%20font-size%3D%2710%27%20letter-spacing%3D%276%27%20fill%3D%27rgba%28196%2C149%2C106%2C0.14%29%27%20transform%3D%27rotate%28-35%2C280%2C365%29%27%3EATM%20BEAUTY%3C%2Ftext%3E%3Ccircle%20cx%3D%27208%27%20cy%3D%27196%27%20r%3D%271.0%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.71%29%27%2F%3E%3Ccircle%20cx%3D%27129%27%20cy%3D%2770%27%20r%3D%270.8%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.91%29%27%2F%3E%3Ccircle%20cx%3D%27273%27%20cy%3D%27352%27%20r%3D%271.6%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.98%29%27%2F%3E%3Ccircle%20cx%3D%27252%27%20cy%3D%27104%27%20r%3D%271.4%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.86%29%27%2F%3E%3Ccircle%20cx%3D%27112%27%20cy%3D%27193%27%20r%3D%271.4%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.89%29%27%2F%3E%3Ccircle%20cx%3D%2779%27%20cy%3D%27238%27%20r%3D%271.0%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.85%29%27%2F%3E%3Ccircle%20cx%3D%2744%27%20cy%3D%27368%27%20r%3D%271.6%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.92%29%27%2F%3E%3Ccircle%20cx%3D%27242%27%20cy%3D%27163%27%20r%3D%271.4%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.74%29%27%2F%3E%3Ccircle%20cx%3D%275%27%20cy%3D%27219%27%20r%3D%271.0%27%20fill%3D%27rgba%2896%2C165%2C250%2C1.0%29%27%2F%3E%3Ccircle%20cx%3D%27275%27%20cy%3D%2743%27%20r%3D%271.4%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.97%29%27%2F%3E%3Ccircle%20cx%3D%27312%27%20cy%3D%27238%27%20r%3D%270.8%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.7%29%27%2F%3E%3Ccircle%20cx%3D%27368%27%20cy%3D%2784%27%20r%3D%271.4%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.97%29%27%2F%3E%3Ccircle%20cx%3D%2792%27%20cy%3D%27259%27%20r%3D%271.0%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.69%29%27%2F%3E%3Ccircle%20cx%3D%2789%27%20cy%3D%27244%27%20r%3D%271.4%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.98%29%27%2F%3E%3Ccircle%20cx%3D%27325%27%20cy%3D%2746%27%20r%3D%271.0%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.87%29%27%2F%3E%3Ccircle%20cx%3D%27197%27%20cy%3D%27170%27%20r%3D%271.0%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.79%29%27%2F%3E%3Ccircle%20cx%3D%2730%27%20cy%3D%27329%27%20r%3D%271.0%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.74%29%27%2F%3E%3Ccircle%20cx%3D%27208%27%20cy%3D%27393%27%20r%3D%271.0%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.98%29%27%2F%3E%3Ccircle%20cx%3D%27245%27%20cy%3D%2730%27%20r%3D%271.0%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.95%29%27%2F%3E%3Ccircle%20cx%3D%27309%27%20cy%3D%27384%27%20r%3D%271.0%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.98%29%27%2F%3E%3Ccircle%20cx%3D%2765%27%20cy%3D%2751%27%20r%3D%270.8%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.75%29%27%2F%3E%3Ccircle%20cx%3D%2792%27%20cy%3D%27211%27%20r%3D%271.0%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.96%29%27%2F%3E%3Ccircle%20cx%3D%27165%27%20cy%3D%27396%27%20r%3D%271.4%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.73%29%27%2F%3E%3Ccircle%20cx%3D%27133%27%20cy%3D%2762%27%20r%3D%271.2%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.89%29%27%2F%3E%3Ccircle%20cx%3D%27258%27%20cy%3D%27149%27%20r%3D%270.8%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.94%29%27%2F%3E%3Ccircle%20cx%3D%27174%27%20cy%3D%27112%27%20r%3D%271.4%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.77%29%27%2F%3E%3Ccircle%20cx%3D%27206%27%20cy%3D%27199%27%20r%3D%271.4%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.78%29%27%2F%3E%3Ccircle%20cx%3D%2749%27%20cy%3D%2794%27%20r%3D%270.8%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.9%29%27%2F%3E%3Ccircle%20cx%3D%27206%27%20cy%3D%27396%27%20r%3D%271.4%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.76%29%27%2F%3E%3Ccircle%20cx%3D%27337%27%20cy%3D%27117%27%20r%3D%271.2%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.96%29%27%2F%3E%3Ccircle%20cx%3D%27371%27%20cy%3D%27162%27%20r%3D%271.0%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.93%29%27%2F%3E%3Ccircle%20cx%3D%27347%27%20cy%3D%27366%27%20r%3D%271.0%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.75%29%27%2F%3E%3Ccircle%20cx%3D%27386%27%20cy%3D%2743%27%20r%3D%271.4%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.99%29%27%2F%3E%3Ccircle%20cx%3D%27133%27%20cy%3D%2737%27%20r%3D%271.6%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.97%29%27%2F%3E%3Ccircle%20cx%3D%27166%27%20cy%3D%27246%27%20r%3D%271.6%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.98%29%27%2F%3E%3Ccircle%20cx%3D%27133%27%20cy%3D%27222%27%20r%3D%271.2%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.99%29%27%2F%3E%3Ccircle%20cx%3D%27314%27%20cy%3D%2783%27%20r%3D%271.2%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.89%29%27%2F%3E%3Ccircle%20cx%3D%27311%27%20cy%3D%27318%27%20r%3D%271.4%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.78%29%27%2F%3E%3Ccircle%20cx%3D%27103%27%20cy%3D%27178%27%20r%3D%270.8%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.77%29%27%2F%3E%3Ccircle%20cx%3D%27153%27%20cy%3D%27100%27%20r%3D%271.0%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.87%29%27%2F%3E%3Ccircle%20cx%3D%27338%27%20cy%3D%27215%27%20r%3D%271.0%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.95%29%27%2F%3E%3Ccircle%20cx%3D%27178%27%20cy%3D%27338%27%20r%3D%271.4%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.69%29%27%2F%3E%3Ccircle%20cx%3D%27274%27%20cy%3D%27105%27%20r%3D%270.8%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.76%29%27%2F%3E%3Ccircle%20cx%3D%27346%27%20cy%3D%27384%27%20r%3D%271.0%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.92%29%27%2F%3E%3Ccircle%20cx%3D%27229%27%20cy%3D%27107%27%20r%3D%271.2%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.95%29%27%2F%3E%3Ccircle%20cx%3D%27215%27%20cy%3D%27241%27%20r%3D%271.6%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.87%29%27%2F%3E%3Ccircle%20cx%3D%27395%27%20cy%3D%27325%27%20r%3D%271.6%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.75%29%27%2F%3E%3Ccircle%20cx%3D%27380%27%20cy%3D%2712%27%20r%3D%270.8%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.76%29%27%2F%3E%3Ccircle%20cx%3D%27299%27%20cy%3D%2718%27%20r%3D%270.8%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.75%29%27%2F%3E%3Ccircle%20cx%3D%27287%27%20cy%3D%27322%27%20r%3D%271.6%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.75%29%27%2F%3E%3Ccircle%20cx%3D%27389%27%20cy%3D%2753%27%20r%3D%271.4%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.93%29%27%2F%3E%3Ccircle%20cx%3D%27137%27%20cy%3D%27237%27%20r%3D%271.2%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.96%29%27%2F%3E%3Ccircle%20cx%3D%27230%27%20cy%3D%27357%27%20r%3D%271.4%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.85%29%27%2F%3E%3Ccircle%20cx%3D%27368%27%20cy%3D%2793%27%20r%3D%271.2%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.72%29%27%2F%3E%3Ccircle%20cx%3D%27239%27%20cy%3D%27295%27%20r%3D%271.4%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.94%29%27%2F%3E%3Ccircle%20cx%3D%27247%27%20cy%3D%27295%27%20r%3D%271.4%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.71%29%27%2F%3E%3Ccircle%20cx%3D%2740%27%20cy%3D%27274%27%20r%3D%271.0%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.83%29%27%2F%3E%3Ccircle%20cx%3D%2760%27%20cy%3D%27170%27%20r%3D%271.4%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.77%29%27%2F%3E%3Ccircle%20cx%3D%27377%27%20cy%3D%274%27%20r%3D%271.6%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.84%29%27%2F%3E%3Ccircle%20cx%3D%27326%27%20cy%3D%278%27%20r%3D%271.6%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.79%29%27%2F%3E%3Ccircle%20cx%3D%2786%27%20cy%3D%2771%27%20r%3D%271.6%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.79%29%27%2F%3E%3Ccircle%20cx%3D%2726%27%20cy%3D%27177%27%20r%3D%271.6%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.84%29%27%2F%3E%3Ccircle%20cx%3D%27151%27%20cy%3D%2783%27%20r%3D%271.4%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.89%29%27%2F%3E%3Ccircle%20cx%3D%27215%27%20cy%3D%27119%27%20r%3D%271.0%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.82%29%27%2F%3E%3Ccircle%20cx%3D%27141%27%20cy%3D%27143%27%20r%3D%271.2%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.85%29%27%2F%3E%3Ccircle%20cx%3D%27103%27%20cy%3D%27288%27%20r%3D%271.0%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.77%29%27%2F%3E%3Ccircle%20cx%3D%27275%27%20cy%3D%2743%27%20r%3D%270.8%27%20fill%3D%27rgba%2845%2C212%2C191%2C0.69%29%27%2F%3E%3Ccircle%20cx%3D%2772%27%20cy%3D%2778%27%20r%3D%271.6%27%20fill%3D%27rgba%28244%2C114%2C182%2C0.66%29%27%2F%3E%3Ccircle%20cx%3D%27264%27%20cy%3D%27333%27%20r%3D%271.4%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.77%29%27%2F%3E%3Ccircle%20cx%3D%27369%27%20cy%3D%27120%27%20r%3D%271.6%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.92%29%27%2F%3E%3Ccircle%20cx%3D%27314%27%20cy%3D%2784%27%20r%3D%271.2%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.67%29%27%2F%3E%3Ccircle%20cx%3D%27177%27%20cy%3D%27322%27%20r%3D%271.4%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.76%29%27%2F%3E%3Ccircle%20cx%3D%27380%27%20cy%3D%2758%27%20r%3D%271.0%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.88%29%27%2F%3E%3Ccircle%20cx%3D%27268%27%20cy%3D%27376%27%20r%3D%270.8%27%20fill%3D%27rgba%28255%2C255%2C255%2C0.78%29%27%2F%3E%3Ccircle%20cx%3D%27351%27%20cy%3D%2751%27%20r%3D%271.0%27%20fill%3D%27rgba%28167%2C139%2C250%2C0.81%29%27%2F%3E%3Ccircle%20cx%3D%27310%27%20cy%3D%2743%27%20r%3D%271.0%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.71%29%27%2F%3E%3Ccircle%20cx%3D%27229%27%20cy%3D%27193%27%20r%3D%271.2%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.86%29%27%2F%3E%3Ccircle%20cx%3D%27301%27%20cy%3D%27205%27%20r%3D%270.8%27%20fill%3D%27rgba%2896%2C165%2C250%2C0.98%29%27%2F%3E%3Ccircle%20cx%3D%2769%27%20cy%3D%277%27%20r%3D%271.2%27%20fill%3D%27rgba%28251%2C191%2C36%2C0.84%29%27%2F%3E%3Ccircle%20cx%3D%27150%27%20cy%3D%2765%27%20r%3D%271.4%27%20fill%3D%27rgba%2852%2C211%2C153%2C0.93%29%27%2F%3E%3C%2Fsvg%3E");
-  background-repeat: repeat;
-  background-size: 400px 400px;
-  background-attachment: scroll;
 }
 
-/* Remove old pseudo approaches */
-body::before { display: none; }
-body::after { display: none; }
-
-/* Sections must be transparent to show body stars */
-.section--dark { background: transparent !important; }
-.section--charcoal { background: transparent !important; }
-
+/* ========== GLOBAL STARFIELD BACKGROUND ========== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 3% 2%, rgba(244,114,182,0.9) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 8% 5%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 14% 1%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 19% 4%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 26% 2%, rgba(244,114,182,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 33% 6%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 39% 1%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 46% 4%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 52% 2%, rgba(244,114,182,1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 58% 5%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 65% 1%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 71% 4%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 77% 2%, rgba(244,114,182,0.8) 0%, transparent 100%),
+    radial-gradient(2px 2px at 84% 6%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 1%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 96% 4%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 9%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 11% 12%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 17% 8%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 23% 11%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 9%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 37% 13%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 44% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 8%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 56% 12%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 63% 9%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 69% 13%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 8%, rgba(244,114,182,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 11%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 10%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 94% 13%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 2% 17%, rgba(244,114,182,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 9% 20%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 16% 16%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 22% 19%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 29% 17%, rgba(244,114,182,0.35) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 36% 21%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 43% 15%, rgba(244,114,182,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 49% 20%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 16%, rgba(244,114,182,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 62% 19%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 15%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 74% 21%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 81% 16%, rgba(244,114,182,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 87% 20%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 93% 17%, rgba(244,114,182,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 7% 25%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 28%, rgba(244,114,182,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 24% 24%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 32% 27%, rgba(244,114,182,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 41% 23%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 48% 28%, rgba(244,114,182,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 57% 25%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 66% 27%, rgba(244,114,182,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 73% 23%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(2px 2px at 80% 28%, rgba(244,114,182,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 89% 24%, rgba(255,255,255,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 97% 27%, rgba(244,114,182,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 4% 33%, rgba(244,114,182,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 13% 36%, rgba(255,255,255,0.12) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 21% 32%, rgba(244,114,182,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 35%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 47% 31%, rgba(244,114,182,0.22) 0%, transparent 100%),
+    radial-gradient(2px 2px at 59% 36%, rgba(255,255,255,0.12) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 33%, rgba(244,114,182,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 37%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 86% 32%, rgba(244,114,182,0.15) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 42%, rgba(244,114,182,0.12) 0%, transparent 100%),
+    radial-gradient(1px 1px at 28% 44%, rgba(255,255,255,0.08) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 41%, rgba(244,114,182,0.12) 0%, transparent 100%),
+    radial-gradient(2px 2px at 61% 45%, rgba(255,255,255,0.08) 0%, transparent 100%),
+    radial-gradient(1px 1px at 76% 42%, rgba(244,114,182,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 44%, rgba(255,255,255,0.07) 0%, transparent 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
 
 /* ========== ATM BEAUTY WATERMARK ========== */
+.watermark-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.watermark-layer::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 120px,
+    rgba(196,149,106,0.028) 120px,
+    rgba(196,149,106,0.028) 121px
+  );
+}
 
-/* Hero and gallery images must sit above starfield */
+@keyframes wmText { from {} to {} }
+
+.watermark-text-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+body::after {
+  content: 'ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ';
+  position: fixed;
+  inset: -20%;
+  width: 140%;
+  height: 140%;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 6px;
+  line-height: 5.2;
+  text-transform: uppercase;
+  color: rgba(196,149,106,0.055);
+  transform: rotate(-35deg);
+  pointer-events: none;
+  z-index: 0;
+  word-break: break-all;
+  overflow: hidden;
+  white-space: normal;
+}
+
+/* Hero and gallery images must sit above watermark and starfield */
 .hero { z-index: 1; position: relative; }
 .hero-bg, .hero-overlay, .hero-content, .hero-scroll-hint { z-index: 2; }
 .gallery-grid img { position: relative; z-index: 2; }
@@ -197,7 +323,7 @@ body::after { display: none; }
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  border: 1px solid rgba(196,149,106,0.3);
+  border: 2.5px solid rgba(196,149,106,0.65);
   border-radius: 50%;
   background: none;
   display: flex;
@@ -564,7 +690,7 @@ body::after { display: none; }
   color: #F472B6;
   margin-bottom: 20px;
   opacity: 0;
-  animation: fadeUp 1s var(--ease-lux) 0.6s forwards;
+  animation: fadeIn 1.6s var(--ease-lux) 0.4s forwards;
 }
 .hero-title {
   font-family: 'Cormorant Garamond', serif;
@@ -585,7 +711,7 @@ body::after { display: none; }
   margin-bottom: 40px;
   line-height: 1.7;
   opacity: 0;
-  animation: fadeUp 1s var(--ease-lux) 1s forwards;
+  animation: fadeIn 1.8s var(--ease-lux) 0.9s forwards;
 }
 .hero-finest {
   font-family: 'Cormorant Garamond', serif;
@@ -613,7 +739,7 @@ body::after { display: none; }
   text-decoration: none;
   transition: all 0.4s var(--ease-lux);
   opacity: 0;
-  animation: fadeUp 1s var(--ease-lux) 1.2s forwards;
+  animation: fadeIn 1.8s var(--ease-lux) 1.2s forwards;
 }
 .hero-cta:hover {
   background: var(--gold-light);
@@ -623,13 +749,19 @@ body::after { display: none; }
 }
 
 .hero-scroll-hint {
+  position: absolute;
+  bottom: 90px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  margin-top: 28px;
   opacity: 0;
-  animation: fadeUp 1s var(--ease-lux) 1.6s forwards;
+  animation: fadeIn 1.8s var(--ease-lux) 1.6s forwards;
 }
 .hero-scroll-hint span {
   font-size: 9px;
@@ -637,13 +769,16 @@ body::after { display: none; }
   text-transform: uppercase;
   color: var(--text-dim);
 }
-.hero-location {
-  font-size: 10px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: #F472B6;
+.hero-location-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: rgba(196,149,106,0.7) !important;
   margin-top: 4px;
 }
+.scroll-line {
   width: 1px;
   height: 40px;
   background: linear-gradient(to bottom, var(--gold), transparent);
@@ -655,8 +790,13 @@ body::after { display: none; }
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(28px); }
   to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(12px) scale(0.98); filter: blur(4px); }
+  60% { opacity: 0.7; filter: blur(1px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
 /* ========== SECTIONS ========== */
@@ -812,14 +952,36 @@ body::after { display: none; }
   height: 280px;
   object-fit: cover;
   display: block;
-  transition: all 0.5s var(--ease-lux);
   border: 1px solid rgba(196,149,106,0.1);
+  transition: border-color 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux);
 }
 .gallery-grid img:hover {
-  transform: scale(1.02);
   border-color: var(--gold);
   box-shadow: 0 16px 48px rgba(0,0,0,0.4);
 }
+
+/* Spiral scroll reveal for gallery items */
+.gallery-item-wrap {
+  opacity: 0;
+  transform: rotate(var(--spiral-rot, 0deg)) scale(0.72) translateY(60px);
+  filter: blur(3px);
+  transition:
+    opacity 0.85s var(--ease-lux),
+    transform 0.85s var(--ease-lux),
+    filter 0.85s var(--ease-lux);
+  will-change: transform, opacity;
+}
+.gallery-item-wrap.spiral-in {
+  opacity: 1;
+  transform: rotate(0deg) scale(1) translateY(0);
+  filter: blur(0);
+}
+
+/* Alternating spiral directions per item */
+.gallery-item-wrap:nth-child(4n+1) { --spiral-rot: -18deg; }
+.gallery-item-wrap:nth-child(4n+2) { --spiral-rot: 18deg; }
+.gallery-item-wrap:nth-child(4n+3) { --spiral-rot: -14deg; }
+.gallery-item-wrap:nth-child(4n+4) { --spiral-rot: 14deg; }
 
 .category-book-wrap {
   text-align: center;
@@ -1091,6 +1253,17 @@ form button:hover,
   padding: 28px;
   margin-bottom: 16px;
   position: relative;
+  /* Scroll-reveal initial state */
+  opacity: 0;
+  transform: translateY(48px) scale(0.97);
+  filter: blur(2px);
+  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1), filter 0.85s cubic-bezier(0.16,1,0.3,1);
+  will-change: transform, opacity;
+}
+.review-card.review-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
 }
 .review-card::before {
   content: '\201C';
@@ -1380,7 +1553,7 @@ form button:hover,
   <div class="drawer-brand-name">ATM Beauty</div>
   <div class="drawer-tagline">Kingston, Jamaica</div>
 
-  <a class="drawer-nav-link" onclick="showSection('gallerySection'); closeMenu();" href="javascript:void(0);">Gallery</a>
+  <a class="drawer-nav-link" onclick="showSection('gallerySection'); closeMenu();" href="javascript:void(0);">Home</a>
   <a class="drawer-nav-link" onclick="showSection('bookingSection'); closeMenu();" href="javascript:void(0);">Book Now</a>
   <a class="drawer-nav-link" onclick="showSection('walkInPriceSection'); closeMenu();" href="javascript:void(0);">Services & Prices</a>
   <a class="drawer-nav-link" onclick="showSection('reviewsSection'); closeMenu();" href="javascript:void(0);">Reviews</a>
@@ -1424,15 +1597,15 @@ form button:hover,
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-kicker" style="visibility:hidden;margin:0;height:0;overflow:hidden;">Kingston, Jamaica</div>
-    <h1 class="hero-title">The Art of<br>Beautiful Hair</h1>
+    <div class="hero-kicker">Kingston, Jamaica</div>
+
     <p class="hero-sub hero-finest">Kingston's Finest</p>
     <a class="hero-cta" onclick="showSection('bookingSection');" href="javascript:void(0);">Book Your Appointment</a>
-    <div class="hero-scroll-hint">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-      <span class="hero-location">Kingston, Jamaica</span>
-    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+    <span class="hero-location-label">Kingston, Jamaica</span>
   </div>
 </section>
 
@@ -1449,7 +1622,7 @@ form button:hover,
 <div class="content-section" id="bookingSection">
   <section class="section section--dark" style="padding-top:40px;">
     <div class="section-inner">
-
+      <div class="section-kicker">Reserve Your Appointment</div>
       <h2 class="section-title">Book Now</h2>
       <p class="section-subtitle">Securing your appointment is simple. Choose your service, pick your time, and we'll take care of the rest.</p>
 
@@ -1560,7 +1733,7 @@ form button:hover,
 <div class="content-section" id="reviewsSection">
   <section class="section section--dark" style="padding-top:40px;">
     <div class="section-inner">
-
+      <div class="section-kicker">What Clients Are Saying</div>
       <h2 class="section-title">Client Reviews</h2>
       <p class="section-subtitle">Real experiences from real clients.</p>
       <div id="reviewPrompt" style="display:none; max-width:520px; margin:22px auto; background:var(--porcelain); color:var(--text-dark); border:1px solid var(--gold); padding:18px; text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:15px;">
@@ -1587,7 +1760,7 @@ form button:hover,
 <div class="content-section" id="walkInPriceSection">
   <section class="section section--dark" style="padding-top:40px;">
     <div class="section-inner">
-
+      <div class="section-kicker">The Menu</div>
       <h2 class="section-title">Price List</h2>
       <div class="price-section-info">Mon – Sat · 8:00 AM – 5:00 PM · After 5 PM: Late Night Fee $2,500 · Deposit required</div>
 
@@ -1625,7 +1798,7 @@ form button:hover,
 <!-- Bottom Navigation -->
 <nav class="bottom-nav" aria-label="Primary">
   <a class="nav-item active" id="nav-gallery" onclick="showSection('gallerySection')" href="javascript:void(0);">
-    <span class="nav-icon">✂</span><span class="nav-label">Gallery</span>
+    <span class="nav-icon">✂</span><span class="nav-label">Home</span>
   </a>
   <a class="nav-item" id="nav-booking" onclick="showSection('bookingSection')" href="javascript:void(0);">
     <span class="nav-icon">📆</span><span class="nav-label">Book</span>
@@ -1913,10 +2086,25 @@ function loadGallery(containerId) {
       const catId = 'gallery-' + category.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '');
       galleryContainer.innerHTML += '<div class="gallery-category"><h3>' + category + '</h3><div style="max-width:900px;margin:0 auto;padding:0 16px 20px;"><div class="gallery-grid" id="' + catId + '"></div></div><div class="category-book-wrap"><a onclick="showSection(\'bookingSection\')" class="book-btn-primary" href="javascript:void(0);">Book an Appointment</a></div></div>';
       const categoryContainer = document.getElementById(catId);
-      categories[category].forEach(imageUrl => {
-        categoryContainer.innerHTML += '<div><img src="' + imageUrl + '" alt="Style" loading="lazy" decoding="async"></div>';
+      categories[category].forEach((imageUrl, idx) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'gallery-item-wrap';
+        wrap.style.transitionDelay = (idx % 4) * 0.09 + 's';
+        wrap.innerHTML = '<img src="' + imageUrl + '" alt="Style" loading="lazy" decoding="async">';
+        categoryContainer.appendChild(wrap);
       });
     }
+    // Spiral IntersectionObserver
+    setTimeout(() => {
+      const spiralObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('spiral-in');
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.gallery-item-wrap').forEach(el => spiralObs.observe(el));
+    }, 80);
   });
 }
 
@@ -2300,6 +2488,21 @@ function loadReviews(user){
       let stars='';for(let i=1;i<=5;i++)stars+='<span style="color:'+(i<=d.rating?'var(--gold)':'rgba(196,149,106,0.2)')+';">★</span>';
       container.innerHTML+='<div class="review-card"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;"><strong style="font-family:Cormorant Garamond,serif;font-weight:600;font-size:17px;color:var(--text-light);letter-spacing:0.3px;">'+d.name+'</strong><small style="color:var(--text-dim);font-style:italic;font-size:11px;letter-spacing:1px;text-transform:uppercase;">'+dateString+'</small></div><div style="margin:4px 0 10px;font-size:15px;letter-spacing:3px;">'+stars+'</div><div style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:15px;color:var(--text-dim);line-height:1.7;">'+d.comment+'</div>'+(isOwner?'<button onclick="deleteReview(\''+doc.id+'\')" style="color:#e55;cursor:pointer;background:none;border:none;font-size:10px;padding:0;margin-top:10px;letter-spacing:2px;text-transform:uppercase;">Delete</button>':'')+'</div>';
     });
+    // Scroll-reveal for review cards with staggered delay
+    setTimeout(() => {
+      const reviewObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('review-visible');
+            reviewObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.review-card').forEach((card, i) => {
+        card.style.transitionDelay = (i * 0.1) + 's';
+        reviewObs.observe(card);
+      });
+    }, 60);
   });
 }
 
