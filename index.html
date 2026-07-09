@@ -927,7 +927,7 @@ body::after {
 /* ── Exhibit title ── */
 .barrel-ring-title {
   text-align: center;
-  padding: 0 24px 36px;
+  padding: 0 24px 12px;
   position: relative;
 }
 .barrel-ring-title h3 {
@@ -987,18 +987,18 @@ body::after {
   border-radius: 16px;
   overflow: hidden;
   /* Glass border */
-  border: 1px solid rgba(230,150,90,0.25);
+  border: 1px solid rgba(244,114,182,0.3);
   background: rgba(18,10,6,0.6);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
   cursor: pointer;
   transition: box-shadow 0.4s ease;
-  /* Gold + pink glow */
+  /* Pink glow */
   box-shadow:
-    0 0 0 1px rgba(220,130,80,0.15),
-    0 8px 32px rgba(180,90,40,0.3),
-    0 4px 20px rgba(240,100,160,0.15),
+    0 0 0 1px rgba(244,114,182,0.2),
+    0 8px 32px rgba(244,114,182,0.3),
+    0 4px 20px rgba(244,114,182,0.2),
     inset 0 1px 0 rgba(255,255,255,0.08);
 }
 .barrel-card::after {
@@ -1020,9 +1020,9 @@ body::after {
 /* Active / focused card */
 .barrel-card.card-focus {
   box-shadow:
-    0 0 0 1px rgba(240,180,100,0.5),
-    0 0 40px rgba(230,140,80,0.6),
-    0 20px 60px rgba(160,70,30,0.5),
+    0 0 0 1px rgba(244,114,182,0.6),
+    0 0 40px rgba(244,114,182,0.7),
+    0 20px 60px rgba(244,114,182,0.4),
     inset 0 1px 0 rgba(255,255,255,0.15);
   z-index: 10;
 }
@@ -1690,7 +1690,7 @@ form button:hover,
 
 <!-- Side Drawer -->
 <div class="drawer" id="menu">
-  <button class="drawer-close" onclick="closeMenu()" aria-label="Close">✕</button>
+  <button class="drawer-close" onclick="closeMenu()" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
   <div class="drawer-brand-name">ATM Beauty</div>
   <div class="drawer-tagline">Kingston, Jamaica</div>
 
@@ -1965,7 +1965,7 @@ form button:hover,
 <!-- My Bookings Modal -->
 <div class="modal-overlay" id="myBookingsModal">
   <div class="modal-box" id="myBookingsBox">
-    <button class="modal-close" onclick="closeMyBookings()">✕</button>
+    <button class="modal-close" onclick="closeMyBookings()"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     <div class="modal-kicker">Your History</div>
     <h3 class="modal-title">My Last 5 Bookings</h3>
     <div id="myBookingsContent"></div>
@@ -1975,7 +1975,7 @@ form button:hover,
 <!-- Payment Info Modal -->
 <div class="modal-overlay" id="paymentInfoModal">
   <div class="modal-box" id="paymentInfoBox">
-    <button class="modal-close" onclick="closePaymentInfo()">✕</button>
+    <button class="modal-close" onclick="closePaymentInfo()"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     <div class="modal-kicker">Settle Up</div>
     <h3 class="modal-title">Payment Info</h3>
 
@@ -2006,7 +2006,7 @@ form button:hover,
 <!-- Admin Login Modal -->
 <div class="modal-overlay" id="adminLoginModal">
   <div class="modal-box" style="max-width:380px;text-align:center;">
-    <button class="modal-close" onclick="closeAdminModal()">✕</button>
+    <button class="modal-close" onclick="closeAdminModal()"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     <div class="modal-kicker" style="margin-top:8px;">Staff Entrance</div>
     <h3 class="modal-title">Admin Access</h3>
     <p style="font-size:13px;color:#666;margin:0 0 24px;font-family:'Cormorant Garamond',serif;font-style:italic;">Sign in with the authorised Google account.</p>
@@ -2232,7 +2232,7 @@ function loadGallery(containerId) {
       detailPanel.id = 'barrel-detail-panel';
       detailPanel.className = 'barrel-detail';
       detailPanel.innerHTML =
-        '<button class="barrel-detail-close" id="barrel-detail-close">✕</button>' +
+        '<button class="barrel-detail-close" id="barrel-detail-close"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>' +
         '<div class="barrel-detail-category" id="barrel-detail-cat"></div>' +
         '<a class="barrel-detail-book" id="barrel-detail-book" href="javascript:void(0);">Book This Style</a>';
       document.body.appendChild(detailPanel);
@@ -2414,12 +2414,6 @@ function loadGallery(containerId) {
         window.addEventListener('mouseup', onUp);
       });
     });
-
-    // Book CTA
-    const cta = document.createElement('div');
-    cta.className = 'category-book-wrap';
-    cta.innerHTML = '<a onclick="showSection(\'bookingSection\')" class="book-btn-primary" href="javascript:void(0);">Book an Appointment</a>';
-    barrel.appendChild(cta);
 
     galleryContainer.appendChild(barrel);
   });
