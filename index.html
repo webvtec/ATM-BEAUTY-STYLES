@@ -447,7 +447,7 @@ form button[type="submit"]:hover{background:var(--pink-deep);letter-spacing:5px;
 /* ===== PROMO TICKER ===== */
 .promo-ticker-wrap{
   position:fixed;
-  top:70px;
+  top:90px;
   left:50%;
   transform:translateX(-50%);
   width:min(560px,92vw);
@@ -1096,28 +1096,32 @@ function adminGoogleSignIn() {
   provider.setCustomParameters({ prompt: 'select_account' });
 
   firebase.auth().signInWithPopup(provider).then(result => {
-    if (result.user.uid !== ADMIN_UID) {
-      return firebase.auth().signOut().then(() => {
-        msg.textContent = "Access denied. This Google account is not authorised as admin.";
-        msg.style.display = "block";
-      });
+    const uid = result.user.uid;
+    console.log('Signed in UID:', uid);
+    if (uid !== ADMIN_UID) {
+      firebase.auth().signOut();
+      msg.style.color = 'var(--pink)';
+      msg.textContent = "Access denied. UID: " + uid;
+      msg.style.display = "block";
+      return;
     }
     closeAdminModal();
     window.location.href = 'dashboard.html';
   }).catch(error => {
-    // Popup blocked or not supported — fall back to redirect
-    if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
-      // Store intent so dashboard knows this was an admin login
+    console.error('Auth error:', error.code, error.message);
+    // Popup blocked — fall back to redirect
+    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
       sessionStorage.setItem('admin_login_intent', '1');
       firebase.auth().signInWithRedirect(provider);
       return;
     }
-    msg.textContent = "Sign-in failed: " + error.message;
+    msg.style.color = 'var(--pink)';
+    msg.textContent = error.code + ": " + error.message;
     msg.style.display = "block";
   });
 }
 
-// Handle redirect result on page load (for popup-blocked fallback)
+// Handle redirect result (popup-blocked fallback)
 firebase.auth().getRedirectResult().then(result => {
   if (!result || !result.user) return;
   const wasAdminIntent = sessionStorage.getItem('admin_login_intent');
@@ -1125,12 +1129,12 @@ firebase.auth().getRedirectResult().then(result => {
   if (wasAdminIntent) {
     if (result.user.uid !== ADMIN_UID) {
       firebase.auth().signOut();
-      alert("Access denied. This Google account is not authorised as admin.");
+      alert("Access denied. UID: " + result.user.uid);
     } else {
       window.location.href = 'dashboard.html';
     }
   }
-}).catch(() => {});
+}).catch(err => { console.error('Redirect result error:', err); });
 
 function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }
 function googleSignIn() {
