@@ -913,85 +913,122 @@ body::after {
 .content-section { display: none; }
 .content-section.active { display: block; }
 
-/* ========== GALLERY — 3D CYLINDER RINGS ========== */
+/* ========== GALLERY — LUXURY GLASS CYLINDER EXHIBIT ========== */
 .gallery-barrel {
-  padding: 20px 0 40px;
+  padding: 40px 0 60px;
 }
 
-/* One ring = one category */
+/* Each exhibit = one category */
 .barrel-ring {
-  margin-bottom: 48px;
+  margin-bottom: 120px;
   position: relative;
 }
 
-/* Category label — · BRAIDED STYLES · */
-.barrel-ring-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 20px 16px;
+/* ── Exhibit title ── */
+.barrel-ring-title {
+  text-align: center;
+  padding: 0 24px 36px;
+  position: relative;
 }
-.barrel-ring-label-line {
-  flex: 1;
+.barrel-ring-title-rule {
+  display: block;
   height: 1px;
-  background: rgba(138,80,200,0.35);
+  background: linear-gradient(to right, transparent, rgba(160,100,255,0.6) 30%, rgba(200,160,255,0.9) 50%, rgba(160,100,255,0.6) 70%, transparent);
+  margin-bottom: 18px;
 }
-.barrel-ring-label span {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 4px;
+.barrel-ring-title h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(22px, 5vw, 34px);
+  letter-spacing: 8px;
   text-transform: uppercase;
-  color: rgba(220,210,240,0.8);
-  white-space: nowrap;
+  color: rgba(230,215,255,0.92);
+  margin: 0 0 18px;
+  line-height: 1;
 }
-.barrel-ring-label-dot {
-  font-size: 9px;
-  color: rgba(138,80,200,0.7);
-  flex-shrink: 0;
+.barrel-ring-title-rule-bottom {
+  display: block;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(160,100,255,0.6) 30%, rgba(200,160,255,0.9) 50%, rgba(160,100,255,0.6) 70%, transparent);
+  margin-top: 18px;
 }
 
-/* The 3D scene — clips the cylinder */
+/* ── Glass cylinder scene ── */
 .barrel-scene {
   width: 100%;
-  height: 220px;
-  perspective: 900px;
-  overflow: hidden;
+  height: 460px;
+  perspective: 1100px;
+  perspective-origin: 50% 48%;
+  position: relative;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: pan-y; /* browser keeps vertical scroll; we handle horizontal */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+  touch-action: pan-y;
+  overflow: visible;
 }
 .barrel-scene:active { cursor: grabbing; }
 
-/* The rotating ring — cards live on this */
+/* Ambient particle canvas sits behind the rotor */
+.barrel-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glowing top/bottom glass rim rings */
+.barrel-rim-svg {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+.barrel-rim-svg.top { top: 22px; }
+.barrel-rim-svg.bottom { bottom: 22px; }
+
+/* The 3D rotor */
 .barrel-rotor {
   width: 100%;
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transform: rotateY(0deg);
-  /* smooth deceleration handled in JS */
+  will-change: transform;
 }
 
-/* Each card — positioned around the cylinder in JS */
+/* Each floating glass card */
 .barrel-card {
   position: absolute;
-  width: 140px;
-  height: 190px;
+  width: 180px;
+  height: 240px;
   top: 50%;
   left: 50%;
-  margin-top: -95px;
-  margin-left: -70px;
-  border-radius: 12px;
+  margin-top: -120px;
+  margin-left: -90px;
+  border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(138,80,200,0.3);
-  background: #12082a;
+  /* Glass border */
+  border: 1px solid rgba(180,130,255,0.25);
+  background: rgba(20,8,40,0.6);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
+  cursor: pointer;
+  transition: box-shadow 0.4s ease;
+  /* Soft purple glow */
+  box-shadow:
+    0 0 0 1px rgba(160,100,255,0.12),
+    0 8px 32px rgba(100,40,180,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.barrel-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 50%);
+  pointer-events: none;
 }
 .barrel-card img {
   width: 100%;
@@ -999,26 +1036,73 @@ body::after {
   object-fit: cover;
   display: block;
   pointer-events: none;
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+/* Active / focused card */
+.barrel-card.card-focus {
+  box-shadow:
+    0 0 0 1px rgba(200,160,255,0.5),
+    0 0 40px rgba(160,80,255,0.6),
+    0 20px 60px rgba(80,20,160,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  z-index: 10;
+}
+.barrel-card.card-dim img {
+  filter: brightness(0.35);
+}
+.barrel-card.card-focus img {
+  transform: scale(1.04);
 }
 
-/* Cylinder top/bottom rim lines */
-.barrel-rim {
-  height: 2px;
-  background: linear-gradient(to right, transparent, rgba(138,80,200,0.5) 20%, rgba(180,120,255,0.7) 50%, rgba(138,80,200,0.5) 80%, transparent);
-  margin: 0 30px;
+/* Detail panel that slides in on card click */
+.barrel-detail {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 8000;
+  background: linear-gradient(to top, rgba(10,4,22,0.98) 0%, rgba(14,6,28,0.95) 100%);
+  border-top: 1px solid rgba(160,100,255,0.3);
+  padding: 28px 24px 40px;
+  transform: translateY(100%);
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 -20px 60px rgba(80,20,160,0.4);
 }
-.barrel-rim-top { margin-bottom: 6px; }
-.barrel-rim-bottom { margin-top: 6px; }
-
-/* Drag hint */
-.barrel-drag-hint {
-  text-align: center;
+.barrel-detail.open { transform: translateY(0); }
+.barrel-detail-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(160,100,255,0.4);
+  background: none;
+  color: rgba(200,180,255,0.8);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.barrel-detail-category {
   font-family: 'DM Sans', sans-serif;
   font-size: 9px;
-  letter-spacing: 2.5px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(138,80,200,0.5);
-  margin-top: 8px;
+  color: rgba(160,100,255,0.8);
+  margin-bottom: 8px;
+}
+.barrel-detail-book {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 32px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--noir);
+  background: var(--gold);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 2px;
 }
 
 /* Book CTA */
@@ -2102,7 +2186,7 @@ function showSection(sectionId) {
   else if (sectionId === 'reviewsSection') loadReviews(currentUser);
 }
 
-// Gallery — barrel rings
+// Gallery — luxury glass cylinder exhibit
 function loadGallery(containerId) {
   const galleryContainer = document.getElementById(containerId);
   galleryContainer.innerHTML = '';
@@ -2128,136 +2212,222 @@ function loadGallery(containerId) {
       return;
     }
 
+    // Shared detail panel (one, reused)
+    let detailPanel = document.getElementById('barrel-detail-panel');
+    if (!detailPanel) {
+      detailPanel = document.createElement('div');
+      detailPanel.id = 'barrel-detail-panel';
+      detailPanel.className = 'barrel-detail';
+      detailPanel.innerHTML =
+        '<button class="barrel-detail-close" id="barrel-detail-close">✕</button>' +
+        '<div class="barrel-detail-category" id="barrel-detail-cat"></div>' +
+        '<a class="barrel-detail-book" id="barrel-detail-book" href="javascript:void(0);">Book This Style</a>';
+      document.body.appendChild(detailPanel);
+      document.getElementById('barrel-detail-close').addEventListener('click', closeDetail);
+    }
+
+    let activeRotor = null, activeCards = null, activeRotY = null;
+
+    function closeDetail() {
+      detailPanel.classList.remove('open');
+      if (activeCards) activeCards.forEach(c => { c.classList.remove('card-focus','card-dim'); });
+      if (activeRotor && activeRotY !== null) {
+        // resume slow auto-spin for the ring we came from
+      }
+      activeRotor = null; activeCards = null; activeRotY = null;
+    }
+
     const barrel = document.createElement('div');
     barrel.className = 'gallery-barrel';
 
     catOrder.forEach(category => {
-      const urls = categories[category];
-      const count = urls.length;
-      if (count === 0) return;
+      const rawUrls = categories[category];
+      if (rawUrls.length === 0) return;
 
-      // Card width + gap = step around the cylinder
-      const cardW = 150;
-      const gap = 20;
-      const radius = Math.round((count * (cardW + gap)) / (2 * Math.PI));
+      // Tile images so there are always ~10 slots minimum around cylinder
+      const MIN_SLOTS = 10;
+      const urls = [];
+      while (urls.length < MIN_SLOTS) urls.push(...rawUrls);
+      urls.length = Math.max(MIN_SLOTS, rawUrls.length);
+
+      const count = urls.length;
+      const CARD_W = 180, CARD_H = 240;
+      // radius so cards are nicely spaced with ~40px gap
+      const circumference = count * (CARD_W + 40);
+      const radius = Math.round(circumference / (2 * Math.PI));
 
       const ring = document.createElement('div');
       ring.className = 'barrel-ring';
+
+      // SVG rim width matches visible scene width (full vw up to ~500px)
+      const rimW = Math.min(window.innerWidth, 500);
+      const rimRx = rimW * 0.44, rimRy = 18; // ellipse
+
       ring.innerHTML =
-        '<div class="barrel-ring-label">' +
-          '<div class="barrel-ring-label-line"></div>' +
-          '<span class="barrel-ring-label-dot">·</span>' +
-          '<span>' + category + '</span>' +
-          '<span class="barrel-ring-label-dot">·</span>' +
-          '<div class="barrel-ring-label-line"></div>' +
+        '<div class="barrel-ring-title">' +
+          '<span class="barrel-ring-title-rule"></span>' +
+          '<h3>' + category + '</h3>' +
+          '<span class="barrel-ring-title-rule-bottom"></span>' +
         '</div>' +
-        '<div class="barrel-rim barrel-rim-top"></div>' +
-        '<div class="barrel-scene"><div class="barrel-rotor"></div></div>' +
-        '<div class="barrel-rim barrel-rim-bottom"></div>' +
-        '<div class="barrel-drag-hint">← swipe to rotate →</div>';
+        '<div class="barrel-scene">' +
+          '<canvas class="barrel-particles" width="400" height="460"></canvas>' +
+          // top glass rim
+          '<svg class="barrel-rim-svg top" width="' + rimW + '" height="' + (rimRy*2+4) + '" style="margin-top:-' + rimRy + 'px;">' +
+            '<ellipse cx="' + (rimW/2) + '" cy="' + (rimRy+2) + '" rx="' + rimRx + '" ry="' + rimRy + '" fill="none" stroke="url(#rimGrad)" stroke-width="1.5" opacity="0.7"/>' +
+            '<defs><linearGradient id="rimGrad" x1="0" y1="0" x2="1" y2="0">' +
+              '<stop offset="0%" stop-color="transparent"/>' +
+              '<stop offset="30%" stop-color="rgba(160,100,255,0.8)"/>' +
+              '<stop offset="50%" stop-color="rgba(210,170,255,1)"/>' +
+              '<stop offset="70%" stop-color="rgba(160,100,255,0.8)"/>' +
+              '<stop offset="100%" stop-color="transparent"/>' +
+            '</stop></linearGradient></defs>' +
+          '</svg>' +
+          '<div class="barrel-rotor"></div>' +
+          // bottom glass rim
+          '<svg class="barrel-rim-svg bottom" width="' + rimW + '" height="' + (rimRy*2+4) + '" style="margin-bottom:-' + rimRy + 'px;">' +
+            '<ellipse cx="' + (rimW/2) + '" cy="' + (rimRy+2) + '" rx="' + rimRx + '" ry="' + rimRy + '" fill="none" stroke="url(#rimGrad)" stroke-width="1.5" opacity="0.5"/>' +
+          '</svg>' +
+        '</div>';
+
       barrel.appendChild(ring);
 
       const scene  = ring.querySelector('.barrel-scene');
       const rotor  = ring.querySelector('.barrel-rotor');
+      const canvas = ring.querySelector('.barrel-particles');
+      const ctx    = canvas.getContext('2d');
       const degPer = 360 / count;
 
-      // Place each card around the cylinder
+      // Build cards
+      const cards = [];
       urls.forEach((url, i) => {
+        const angleY = i * degPer;
+        // Slight depth & tilt variation per card
+        const depthOff = (i % 3 === 0 ? 12 : i % 3 === 1 ? -8 : 0);
+        const tiltZ    = (i % 5 === 0 ? 2 : i % 5 === 2 ? -3 : i % 5 === 4 ? 1.5 : 0);
+
         const card = document.createElement('div');
         card.className = 'barrel-card';
-        card.style.transform = 'rotateY(' + (i * degPer) + 'deg) translateZ(' + radius + 'px)';
+        card.dataset.index = i;
+        card.dataset.category = category;
+        card.dataset.angle = angleY;
+        card.style.transform =
+          'rotateY(' + angleY + 'deg) ' +
+          'translateZ(' + (radius + depthOff) + 'px) ' +
+          'rotateZ(' + tiltZ + 'deg)';
         card.innerHTML = '<img src="' + url + '" alt="' + category + '" loading="lazy" decoding="async">';
         rotor.appendChild(card);
+        cards.push(card);
+
+        // Click to focus
+        card.addEventListener('click', () => {
+          if (activeRotor) closeDetail();
+          activeRotor = rotor; activeCards = cards; activeRotY = rotY;
+          cards.forEach(c => c.classList.add('card-dim'));
+          card.classList.remove('card-dim');
+          card.classList.add('card-focus');
+          document.getElementById('barrel-detail-cat').textContent = category;
+          document.getElementById('barrel-detail-book').onclick = () => showSection('bookingSection');
+          detailPanel.classList.add('open');
+        });
       });
 
-      // 3D drag rotation — passive, RAF-gated, horizontal-intent only
-      let rotY = 0, velX = 0, rafId = null;
-      let dragActive = false, startX = 0, startY = 0, intentLocked = false, isHoriz = false;
-      let pendingX = null, lastAppliedX = null;
+      // ── Ambient particles ──
+      const pts = Array.from({length: 22}, () => ({
+        x: Math.random() * 400, y: Math.random() * 460,
+        r: Math.random() * 1.4 + 0.3,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.12,
+        a: Math.random()
+      }));
+      function drawParticles() {
+        ctx.clearRect(0, 0, 400, 460);
+        pts.forEach(p => {
+          p.x += p.vx; p.y += p.vy; p.a += 0.008;
+          if (p.x < 0) p.x = 400; if (p.x > 400) p.x = 0;
+          if (p.y < 0) p.y = 460; if (p.y > 460) p.y = 0;
+          const alpha = (Math.sin(p.a) * 0.5 + 0.5) * 0.55;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(180,120,255,' + alpha + ')';
+          ctx.fill();
+        });
+        requestAnimationFrame(drawParticles);
+      }
+      drawParticles();
 
-      function applyRot(deg) {
+      // ── Rotation physics ──
+      let rotY = 0;      // current cylinder angle
+      let vel  = 0;      // degrees/frame velocity
+      let dragActive = false, startX = 0, startY = 0;
+      let intentLocked = false, isHoriz = false;
+      let lastDragX = 0, lastDragTime = 0;
+      let rafId = null;
+
+      // Auto-spin (slow, Apple-style)
+      let autoSpin = true;
+      const AUTO_VEL = 0.08;
+
+      function setRotY(deg) {
         rotY = deg;
         rotor.style.transform = 'rotateY(' + deg + 'deg)';
       }
 
-      function tick() {
-        rafId = null;
-        if (pendingX !== null && pendingX !== lastAppliedX) {
-          applyRot(pendingX);
-          lastAppliedX = pendingX;
-        }
-        if (!dragActive && Math.abs(velX) > 0.04) {
-          velX *= 0.92;
-          applyRot(rotY + velX);
-          rafId = requestAnimationFrame(tick);
-        }
+      function animate() {
+        rafId = requestAnimationFrame(animate);
+        if (dragActive) return;
+        if (autoSpin) vel += (AUTO_VEL - vel) * 0.04; // ease toward auto vel
+        vel *= 0.955;  // friction
+        if (!autoSpin && Math.abs(vel) < 0.005) vel = 0;
+        setRotY(rotY + vel);
       }
+      rafId = requestAnimationFrame(animate);
 
-      function scheduleFrame() {
-        if (!rafId) rafId = requestAnimationFrame(tick);
+      function startDrag(x, y) {
+        dragActive = true; autoSpin = false;
+        startX = x; startY = y; lastDragX = x; lastDragTime = performance.now();
+        intentLocked = false; isHoriz = false;
+        vel = 0;
       }
-
-      // Touch — fully passive, only rotate when clearly horizontal
-      scene.addEventListener('touchstart', e => {
-        const t = e.touches[0];
-        startX = t.clientX; startY = t.clientY;
-        dragActive = true; intentLocked = false; isHoriz = false;
-        velX = 0;
-        cancelAnimationFrame(rafId); rafId = null;
-      }, { passive: true });
-
-      scene.addEventListener('touchmove', e => {
+      function moveDrag(x, y) {
         if (!dragActive) return;
-        const t = e.touches[0];
-        const dx = t.clientX - startX;
-        const dy = t.clientY - startY;
-
-        // Lock intent after 6px movement
-        if (!intentLocked && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+        const dx = x - startX, dy = y - startY;
+        if (!intentLocked && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
           isHoriz = Math.abs(dx) > Math.abs(dy);
           intentLocked = true;
         }
-        if (!isHoriz) return; // let vertical scroll pass through untouched
-
-        velX = dx * 0.25;
-        pendingX = rotY + velX;
-        startX = t.clientX;
-        scheduleFrame();
-      }, { passive: true });
-
-      scene.addEventListener('touchend', () => {
+        if (!isHoriz) return;
+        const now = performance.now();
+        const dt  = Math.max(1, now - lastDragTime);
+        const ddx = x - lastDragX;
+        vel = (ddx / dt) * 8; // px→deg, tuned for premium feel
+        setRotY(rotY + ddx * 0.18);
+        lastDragX = x; lastDragTime = now;
+      }
+      function endDrag() {
+        if (!dragActive) return;
         dragActive = false;
-        intentLocked = false;
-        scheduleFrame(); // kick off momentum
-      }, { passive: true });
+        // vel already set from last move — momentum carries naturally
+        // gentle ease back to auto-spin after 3s idle
+        setTimeout(() => { if (!dragActive) autoSpin = true; }, 3000);
+      }
 
-      // Mouse (desktop)
+      // Touch (all passive)
+      scene.addEventListener('touchstart',  e => startDrag(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+      scene.addEventListener('touchmove',   e => moveDrag(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+      scene.addEventListener('touchend',    () => endDrag(), { passive: true });
+
+      // Mouse
       scene.addEventListener('mousedown', e => {
         e.preventDefault();
-        dragActive = true; velX = 0;
-        startX = e.clientX;
-        cancelAnimationFrame(rafId); rafId = null;
-
-        function onMove(e) {
-          if (!dragActive) return;
-          const dx = e.clientX - startX;
-          velX = dx * 0.25;
-          pendingX = rotY + velX;
-          startX = e.clientX;
-          scheduleFrame();
-        }
-        function onUp() {
-          dragActive = false;
-          scheduleFrame();
-          window.removeEventListener('mousemove', onMove);
-          window.removeEventListener('mouseup', onUp);
-        }
+        startDrag(e.clientX, e.clientY);
+        const onMove = e => moveDrag(e.clientX, e.clientY);
+        const onUp   = () => { endDrag(); window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
         window.addEventListener('mousemove', onMove);
         window.addEventListener('mouseup', onUp);
       });
     });
 
-    // Book CTA at bottom
+    // Book CTA
     const cta = document.createElement('div');
     cta.className = 'category-book-wrap';
     cta.innerHTML = '<a onclick="showSection(\'bookingSection\')" class="book-btn-primary" href="javascript:void(0);">Book an Appointment</a>';
