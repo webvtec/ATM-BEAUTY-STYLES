@@ -1057,7 +1057,7 @@ firebase.auth().onAuthStateChanged(user => {
   updateAuthButton(user);
 });
 
-const ADMIN_UID = "F3SR3yXXogOLUKwQC9aLGQUsWcn1";
+const ADMIN_UID = "2EWm9mnIEpTyLiW5vfZwlPNX1Dr2";
 
 // ========== CLOUD FUNCTIONS BASE URL ==========
 const FUNCTIONS_URL = 'https://us-central1-atm-style-hairdresser.cloudfunctions.net';
@@ -1084,31 +1084,47 @@ function closeMenu() {
 }
 
 // ========== AUTH ==========
+// GitHub Pages (this site's host) sends a Cross-Origin-Opener-Policy header
+// on every response and gives no way to change it (no custom headers
+// support at all). That header permanently blocks Firebase's popup-based
+// sign-in from completing. So admin sign-in uses signInWithRedirect
+// instead — a full-page redirect to Google and back, which isn't affected
+// by that header at all.
 function login() { document.getElementById('adminLoginModal').style.display = 'flex'; }
 function closeAdminModal() { document.getElementById('adminLoginModal').style.display = 'none'; document.getElementById('adminLoginMsg').style.display = 'none'; }
 
 function adminGoogleSignIn() {
   const msg = document.getElementById('adminLoginMsg');
   msg.style.display = 'none';
+  sessionStorage.setItem('adminSignInAttempt', '1');
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  firebase.auth().signInWithPopup(provider)
-    .then(result => {
-      if (result.user.uid !== ADMIN_UID) {
-        return firebase.auth().signOut().then(() => {
-          msg.textContent = "Access denied. This account is not authorised as admin.";
-          msg.style.display = "block";
-        });
-      }
-      closeAdminModal();
-      window.location.href = 'dashboard.html';
-    })
-    .catch(error => {
-      if (error.code === 'auth/popup-closed-by-user') return;
-      msg.textContent = "Sign-in failed: " + error.message;
+  firebase.auth().signInWithRedirect(provider).catch(error => {
+    sessionStorage.removeItem('adminSignInAttempt');
+    msg.textContent = "Sign-in failed: " + error.message;
+    msg.style.display = "block";
+  });
+}
+
+// Runs once, right after the redirect brings the user back to this page.
+firebase.auth().getRedirectResult().then(result => {
+  const wasAdminAttempt = sessionStorage.getItem('adminSignInAttempt') === '1';
+  if (!wasAdminAttempt || !result || !result.user) return;
+  sessionStorage.removeItem('adminSignInAttempt');
+  if (result.user.uid !== ADMIN_UID) {
+    firebase.auth().signOut().then(() => {
+      document.getElementById('adminLoginModal').style.display = 'flex';
+      const msg = document.getElementById('adminLoginMsg');
+      msg.textContent = "Access denied. This account is not authorised as admin.";
       msg.style.display = "block";
     });
-}
+  } else {
+    window.location.href = 'dashboard.html';
+  }
+}).catch(error => {
+  sessionStorage.removeItem('adminSignInAttempt');
+  console.error('Admin redirect sign-in error:', error.code, error.message);
+});
 
 function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }
 function googleSignIn() {
