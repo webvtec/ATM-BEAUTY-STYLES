@@ -1051,10 +1051,30 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const storage = firebase.storage();
 
+let adminSignInPending = false;
+
 firebase.auth().onAuthStateChanged(user => {
   currentUser = user || null;
   loadReviews(currentUser);
   updateAuthButton(user);
+
+  // Handle the admin check HERE instead of inside adminGoogleSignIn()'s
+  // .then(). Reason: the popup UX works (you can see it pick an account
+  // and close), but on this page's Firebase SDK version a strict
+  // Cross-Origin-Opener-Policy header stops signInWithPopup()'s own
+  // promise from ever resolving. onAuthStateChanged is a separate,
+  // independent listener — it still fires correctly the moment Firebase's
+  // internal auth state actually changes, regardless of that stuck
+  // promise. So this is the reliable place to react to a completed sign-in.
+  if (adminSignInPending && user) {
+    adminSignInPending = false;
+    // No UID check here — dashboard.html already has its own auth guard
+    // that checks ADMIN_UID and kicks the user straight back to index.html
+    // if they're not authorised. We just need to get to dashboard.html the
+    // moment sign-in succeeds; no need to wait on signInWithPopup's promise
+    // (which can hang on this page due to the COOP issue) to know that.
+    window.location.href = 'dashboard.html';
+  }
 });
 
 const ADMIN_UID = "2EWm9mnIEpTyLiW5vfZwlPNX1Dr2";
@@ -1085,56 +1105,28 @@ function closeMenu() {
 
 // ========== AUTH ==========
 function login() { document.getElementById('adminLoginModal').style.display = 'flex'; }
-function closeAdminModal() { document.getElementById('adminLoginModal').style.display = 'none'; document.getElementById('adminLoginMsg').style.display = 'none'; }
-
-function handleAdminAuthResult(user, msg) {
-  if (!user) return;
-  const uid = user.uid;
-  console.log('Admin login UID:', uid);
-  if (uid !== ADMIN_UID) {
-    firebase.auth().signOut();
-    if (msg) { msg.textContent = 'Access denied. This account is not authorised.'; msg.style.display = 'block'; }
-  } else {
-    window.location.href = 'dashboard.html';
-  }
-}
+function closeAdminModal() { document.getElementById('adminLoginModal').style.display = 'none'; document.getElementById('adminLoginMsg').style.display = 'none'; adminSignInPending = false; }
 
 function adminGoogleSignIn() {
   const msg = document.getElementById('adminLoginMsg');
   msg.style.display = 'none';
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  firebase.auth().signInWithPopup(provider).then(result => {
-    if (!result || !result.user) return;
-    handleAdminAuthResult(result.user, msg);
-  }).catch(err => {
-    if (err.code === 'auth/popup-closed-by-user') return;
+  adminSignInPending = true;
+  firebase.auth().signInWithPopup(provider).catch(err => {
+    if (err.code === 'auth/popup-closed-by-user') { adminSignInPending = false; return; }
+    // NOTE: on this page's Firebase SDK version, a strict COOP header
+    // usually stops this .catch() from ever firing too (the promise just
+    // hangs). The real handling happens in onAuthStateChanged above. This
+    // catch still covers genuine failures like popup-blocked before the
+    // picker even opens.
     console.error('Admin sign-in error:', err.code, err.message);
-    // Popup was blocked, or blocked silently by third-party-cookie/COOP
-    // restrictions (common on Safari/newer Chrome) — fall back to a
-    // full-page redirect flow instead of failing silently.
-    if (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request' || err.code === 'auth/operation-not-supported-in-this-environment') {
-      console.warn('Falling back to signInWithRedirect due to:', err.code);
-      firebase.auth().signInWithRedirect(provider).catch(redirectErr => {
-        console.error('Redirect sign-in error:', redirectErr.code, redirectErr.message);
-        msg.textContent = 'Sign-in failed: ' + redirectErr.message;
-        msg.style.display = 'block';
-      });
-      return;
-    }
+    adminSignInPending = false;
+    msg.style.color = 'var(--pink)';
     msg.textContent = 'Sign-in failed: ' + err.message;
     msg.style.display = 'block';
   });
 }
-
-// Catch the result if signInWithRedirect was used (page reloads after redirect)
-firebase.auth().getRedirectResult().then(result => {
-  if (result && result.user) {
-    handleAdminAuthResult(result.user, document.getElementById('adminLoginMsg'));
-  }
-}).catch(err => {
-  if (err && err.code) console.error('getRedirectResult error:', err.code, err.message);
-});
 
 function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }
 function googleSignIn() {
