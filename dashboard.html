@@ -612,10 +612,16 @@ function showToast(message,success=true){const toast=document.getElementById("to
 // ========== AUTH GUARD ==========
 const ADMIN_UID="2EWm9mnIEpTyLiW5vfZwlPNX1Dr2";
 let _dashboardInitDone=false;
+
+// Handle redirect sign-in result first (popup-blocked fallback from index.html)
+firebase.auth().getRedirectResult().then(result => {
+  // result handled by onAuthStateChanged below
+}).catch(() => {});
+
 firebase.auth().onAuthStateChanged(user=>{
   const overlay=document.getElementById('accessOverlay'),status=document.getElementById('accessStatus'),content=document.getElementById('dashboardContent');
-  if(!user){status.textContent='Access Denied — Redirecting...';status.style.color='var(--wine)';setTimeout(()=>{window.location.href='index.html';},1200);return;}
-  if(user.uid!==ADMIN_UID){status.textContent='Unauthorised — Signing Out...';status.style.color='var(--wine)';firebase.auth().signOut().then(()=>{setTimeout(()=>{window.location.href='index.html';},1200);});return;}
+  if(!user){status.textContent='Access Denied — Redirecting...';status.style.color='var(--pink)';setTimeout(()=>{window.location.href='index.html';},1200);return;}
+  if(user.uid!==ADMIN_UID){status.textContent='Unauthorised — Signing Out...';status.style.color='var(--pink)';firebase.auth().signOut().then(()=>{setTimeout(()=>{window.location.href='index.html';},1200);});return;}
   status.textContent='Access Granted ✦';status.style.color='#2d7a3e';
   setTimeout(()=>{overlay.style.transition='opacity 0.4s';overlay.style.opacity='0';setTimeout(()=>{overlay.style.display='none';content.style.display='block';},400);},600);
   if(_dashboardInitDone) return;_dashboardInitDone=true;
