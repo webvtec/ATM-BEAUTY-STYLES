@@ -998,17 +998,18 @@ body::after {
   border-radius: 16px;
   overflow: hidden;
   /* Glass border */
-  border: 1px solid rgba(180,130,255,0.25);
-  background: rgba(20,8,40,0.6);
+  border: 1px solid rgba(230,150,90,0.25);
+  background: rgba(18,10,6,0.6);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
   cursor: pointer;
   transition: box-shadow 0.4s ease;
-  /* Soft purple glow */
+  /* Gold + pink glow */
   box-shadow:
-    0 0 0 1px rgba(160,100,255,0.12),
-    0 8px 32px rgba(100,40,180,0.35),
+    0 0 0 1px rgba(220,130,80,0.15),
+    0 8px 32px rgba(180,90,40,0.3),
+    0 4px 20px rgba(240,100,160,0.15),
     inset 0 1px 0 rgba(255,255,255,0.08);
 }
 .barrel-card::after {
@@ -1030,9 +1031,9 @@ body::after {
 /* Active / focused card */
 .barrel-card.card-focus {
   box-shadow:
-    0 0 0 1px rgba(200,160,255,0.5),
-    0 0 40px rgba(160,80,255,0.6),
-    0 20px 60px rgba(80,20,160,0.5),
+    0 0 0 1px rgba(240,180,100,0.5),
+    0 0 40px rgba(230,140,80,0.6),
+    0 20px 60px rgba(160,70,30,0.5),
     inset 0 1px 0 rgba(255,255,255,0.15);
   z-index: 10;
 }
@@ -1048,12 +1049,12 @@ body::after {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   z-index: 8000;
-  background: linear-gradient(to top, rgba(10,4,22,0.98) 0%, rgba(14,6,28,0.95) 100%);
-  border-top: 1px solid rgba(160,100,255,0.3);
+  background: linear-gradient(to top, rgba(12,6,3,0.98) 0%, rgba(16,8,4,0.95) 100%);
+  border-top: 1px solid rgba(220,130,80,0.3);
   padding: 28px 24px 40px;
   transform: translateY(100%);
   transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
-  box-shadow: 0 -20px 60px rgba(80,20,160,0.4);
+  box-shadow: 0 -20px 60px rgba(160,70,30,0.4);
 }
 .barrel-detail.open { transform: translateY(0); }
 .barrel-detail-close {
@@ -1061,7 +1062,7 @@ body::after {
   top: 16px; right: 20px;
   width: 32px; height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(160,100,255,0.4);
+  border: 1px solid rgba(220,130,80,0.4);
   background: none;
   color: rgba(200,180,255,0.8);
   font-size: 18px;
@@ -1074,7 +1075,7 @@ body::after {
   font-size: 9px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(160,100,255,0.8);
+  color: rgba(220,130,80,0.8);
   margin-bottom: 8px;
 }
 .barrel-detail-book {
@@ -1110,7 +1111,7 @@ body::after {
 .barrel-ring-footer-rule {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(160,100,255,0.5) 50%, transparent);
+  background: linear-gradient(to right, transparent, rgba(220,130,80,0.5) 50%, transparent);
 }
 .barrel-ring-book-btn {
   display: inline-block;
@@ -2297,9 +2298,9 @@ function loadGallery(containerId) {
             '<ellipse cx="' + (rimW/2) + '" cy="' + (rimRy+2) + '" rx="' + rimRx + '" ry="' + rimRy + '" fill="none" stroke="url(#rimGrad)" stroke-width="1.5" opacity="0.7"/>' +
             '<defs><linearGradient id="rimGrad" x1="0" y1="0" x2="1" y2="0">' +
               '<stop offset="0%" stop-color="transparent"/>' +
-              '<stop offset="30%" stop-color="rgba(160,100,255,0.8)"/>' +
-              '<stop offset="50%" stop-color="rgba(210,170,255,1)"/>' +
-              '<stop offset="70%" stop-color="rgba(160,100,255,0.8)"/>' +
+              '<stop offset="25%" stop-color="rgba(196,149,106,0.9)"/>' +
+              '<stop offset="50%" stop-color="rgba(240,150,180,1)"/>' +
+              '<stop offset="75%" stop-color="rgba(196,149,106,0.9)"/>' +
               '<stop offset="100%" stop-color="transparent"/>' +
             '</stop></linearGradient></defs>' +
           '</svg>' +
@@ -2311,7 +2312,7 @@ function loadGallery(containerId) {
         '</div>' +
         '<div class="barrel-ring-footer">' +
           '<span class="barrel-ring-footer-rule"></span>' +
-          '<a class="barrel-ring-book-btn" onclick="showSection(\'bookingSection\')" href="javascript:void(0);">Book an Appointment</a>' +
+          '<a class="barrel-ring-book-btn" onclick="showSection(\'bookingSection\')" href="javascript:void(0);">Book Appointment</a>' +
           '<span class="barrel-ring-footer-rule"></span>' +
         '</div>';
 
@@ -2364,7 +2365,7 @@ function loadGallery(containerId) {
           const alpha = (Math.sin(p.a) * 0.5 + 0.5) * 0.55;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(180,120,255,' + alpha + ')';
+          ctx.fillStyle = 'rgba(240,150,180,' + alpha + ')';
           ctx.fill();
         });
         requestAnimationFrame(drawParticles);
