@@ -98,6 +98,154 @@ body {
   line-height: 1.6;
 }
 
+/* ========== GLOBAL STARFIELD BACKGROUND ========== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 3% 2%, rgba(244,114,182,0.9) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 8% 5%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 14% 1%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 19% 4%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 26% 2%, rgba(244,114,182,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 33% 6%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 39% 1%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 46% 4%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 52% 2%, rgba(244,114,182,1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 58% 5%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 65% 1%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 71% 4%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 77% 2%, rgba(244,114,182,0.8) 0%, transparent 100%),
+    radial-gradient(2px 2px at 84% 6%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 1%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 96% 4%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 9%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 11% 12%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 17% 8%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 23% 11%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 9%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 37% 13%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 44% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 8%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 56% 12%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 63% 9%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 69% 13%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 8%, rgba(244,114,182,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 11%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 10%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 94% 13%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 2% 17%, rgba(244,114,182,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 9% 20%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 16% 16%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 22% 19%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 29% 17%, rgba(244,114,182,0.35) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 36% 21%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 43% 15%, rgba(244,114,182,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 49% 20%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 16%, rgba(244,114,182,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 62% 19%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 15%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 74% 21%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 81% 16%, rgba(244,114,182,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 87% 20%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 93% 17%, rgba(244,114,182,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 7% 25%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 28%, rgba(244,114,182,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 24% 24%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 32% 27%, rgba(244,114,182,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 41% 23%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 48% 28%, rgba(244,114,182,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 57% 25%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 66% 27%, rgba(244,114,182,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 73% 23%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(2px 2px at 80% 28%, rgba(244,114,182,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 89% 24%, rgba(255,255,255,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 97% 27%, rgba(244,114,182,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 4% 33%, rgba(244,114,182,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 13% 36%, rgba(255,255,255,0.12) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 21% 32%, rgba(244,114,182,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 35%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 47% 31%, rgba(244,114,182,0.22) 0%, transparent 100%),
+    radial-gradient(2px 2px at 59% 36%, rgba(255,255,255,0.12) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 33%, rgba(244,114,182,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 37%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 86% 32%, rgba(244,114,182,0.15) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%, rgba(255,255,255,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 42%, rgba(244,114,182,0.12) 0%, transparent 100%),
+    radial-gradient(1px 1px at 28% 44%, rgba(255,255,255,0.08) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 41%, rgba(244,114,182,0.12) 0%, transparent 100%),
+    radial-gradient(2px 2px at 61% 45%, rgba(255,255,255,0.08) 0%, transparent 100%),
+    radial-gradient(1px 1px at 76% 42%, rgba(244,114,182,0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 44%, rgba(255,255,255,0.07) 0%, transparent 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* ========== ATM BEAUTY WATERMARK ========== */
+.watermark-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.watermark-layer::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 120px,
+    rgba(196,149,106,0.028) 120px,
+    rgba(196,149,106,0.028) 121px
+  );
+}
+
+@keyframes wmText { from {} to {} }
+
+.watermark-text-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+body::after {
+  content: 'ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ';
+  position: fixed;
+  inset: -20%;
+  width: 140%;
+  height: 140%;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 6px;
+  line-height: 5.2;
+  text-transform: uppercase;
+  color: rgba(196,149,106,0.055);
+  transform: rotate(-35deg);
+  pointer-events: none;
+  z-index: 0;
+  word-break: break-all;
+  overflow: hidden;
+  white-space: normal;
+}
+
+/* Hero and gallery images must sit above watermark and starfield */
+.hero { z-index: 1; position: relative; }
+.hero-bg, .hero-overlay, .hero-content, .hero-scroll-hint { z-index: 2; }
+.gallery-grid img { position: relative; z-index: 2; }
+.content-section { position: relative; z-index: 1; }
+
 /* ========== SCROLL REVEAL ========== */
 .reveal {
   opacity: 0;
@@ -211,15 +359,94 @@ body {
   width: 320px;
   max-width: 85vw;
   height: 100vh;
-  background: var(--noir-soft);
+  background:
+    radial-gradient(ellipse 260px 180px at 30% 8%, rgba(244,114,182,0.18) 0%, rgba(244,114,182,0.05) 50%, transparent 70%),
+    radial-gradient(ellipse 180px 160px at 78% 16%, rgba(244,114,182,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 200px 300px at 15% 40%, rgba(244,114,182,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 300px 200px at 85% 65%, rgba(244,114,182,0.05) 0%, transparent 60%),
+    linear-gradient(175deg, #0e0810 0%, #110b13 25%, #0f0b10 55%, #0d0a0d 100%);
   z-index: 9999;
   transform: translateX(-100%);
   transition: transform 0.4s var(--ease-lux);
   overflow-y: auto;
   padding: 80px 32px 40px;
-  border-right: 1px solid rgba(196,149,106,0.1);
+  border-right: 1px solid rgba(244,114,182,0.14);
+  box-shadow: 8px 0 60px rgba(0,0,0,0.7), inset -1px 0 0 rgba(244,114,182,0.08);
+  isolation: isolate;
 }
+
+/* Static dot starfield via pseudo-element — pure CSS, no animation */
+.drawer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 4%, rgba(244,114,182,0.9) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 28% 7%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 2%, rgba(244,114,182,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 63% 5%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 78% 3%, rgba(244,114,182,1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 8%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 5% 11%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 18% 14%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 9%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 52% 12%, rgba(244,114,182,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 83% 15%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 93% 6%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 8% 19%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 22%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 40% 17%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 57% 20%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 72% 18%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 22%, rgba(244,114,182,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 27%, rgba(244,114,182,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 33% 25%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 48% 29%, rgba(244,114,182,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 24%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 28%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 96% 26%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 7% 33%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 31%, rgba(244,114,182,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 42% 35%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 60% 32%, rgba(244,114,182,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 76% 36%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 91% 30%, rgba(244,114,182,0.35) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 3% 38%, rgba(244,114,182,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 42%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 39%, rgba(244,114,182,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 43%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(2px 2px at 74% 40%, rgba(244,114,182,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 87% 44%, rgba(255,255,255,0.18) 0%, transparent 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* All direct drawer children sit above pseudo elements */
+.drawer > * { position: relative; z-index: 1; }
 .drawer.show { transform: translateX(0); }
+.drawer::after {
+  content: 'ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ATM · ';
+  position: absolute;
+  inset: -20%;
+  width: 140%;
+  height: 140%;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 8px;
+  line-height: 4.5;
+  text-transform: uppercase;
+  color: rgba(196,149,106,0.04);
+  transform: rotate(-35deg);
+  pointer-events: none;
+  z-index: 0;
+  word-break: break-all;
+  overflow: hidden;
+  white-space: normal;
+}
 
 .drawer-close {
   position: absolute;
@@ -237,18 +464,21 @@ body {
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
+  z-index: 2;
 }
 .drawer-close:hover { border-color: var(--gold); color: var(--gold); }
+.drawer > *:not(::after) { position: relative; z-index: 2; }
 
 .drawer-brand-name {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: 24px;
-  letter-spacing: 4px;
+  font-size: 26px;
+  letter-spacing: 6px;
   text-transform: uppercase;
   color: var(--text-light);
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  text-shadow: 0 0 40px rgba(196,149,106,0.15);
 }
 .drawer-tagline {
   text-align: center;
@@ -258,34 +488,62 @@ body {
   color: var(--gold);
   letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgba(196,149,106,0.15);
+  position: relative;
+}
+.drawer-tagline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,149,106,0.4), transparent);
 }
 
 .drawer-nav-link {
-  display: block;
-  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  color: rgba(232,226,218,0.7);
   text-decoration: none;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 3px;
   text-transform: uppercase;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(196,149,106,0.08);
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(196,149,106,0.07);
   cursor: pointer;
-  transition: color 0.2s, padding-left 0.3s var(--ease-lux);
+  transition: color 0.25s, padding-left 0.35s var(--ease-lux), border-color 0.25s;
+  position: relative;
+}
+.drawer-nav-link::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  margin-right: 0;
+  transition: width 0.35s var(--ease-lux), margin-right 0.35s var(--ease-lux);
+  flex-shrink: 0;
 }
 .drawer-nav-link:hover {
   color: var(--gold);
-  padding-left: 8px;
+  padding-left: 4px;
+  border-bottom-color: rgba(196,149,106,0.18);
+}
+.drawer-nav-link:hover::before {
+  width: 16px;
+  margin-right: 10px;
 }
 
 .drawer-hours {
-  margin: 24px 0;
-  padding: 20px 0;
-  border-top: 1px solid rgba(196,149,106,0.12);
-  border-bottom: 1px solid rgba(196,149,106,0.12);
+  margin: 20px 0;
+  padding: 18px 16px;
+  background: rgba(196,149,106,0.04);
+  border: 1px solid rgba(196,149,106,0.12);
+  border-left: 2px solid rgba(196,149,106,0.4);
 }
 .drawer-hours-title {
   font-family: 'Cormorant Garamond', serif;
@@ -293,41 +551,55 @@ body {
   font-size: 13px;
   color: var(--gold);
   letter-spacing: 2px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .drawer-hours p {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-dim);
-  margin: 4px 0;
+  margin: 5px 0;
   letter-spacing: 0.5px;
+  line-height: 1.5;
 }
 
 .drawer-btn {
   display: block;
   text-align: center;
-  font-size: 11px;
-  margin: 10px 0;
-  padding: 14px;
-  background: none;
-  color: var(--text-light);
-  border: 1px solid rgba(196,149,106,0.25);
+  font-size: 10px;
+  margin: 8px 0;
+  padding: 13px 14px;
+  background: rgba(196,149,106,0.04);
+  color: rgba(232,226,218,0.75);
+  border: 1px solid rgba(196,149,106,0.2);
   cursor: pointer;
   text-decoration: none;
   font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  transition: all 0.3s;
+  transition: all 0.3s var(--ease-lux);
   font-family: 'DM Sans', sans-serif;
   width: 100%;
+  position: relative;
+  overflow: hidden;
 }
-.drawer-btn:hover {
+.drawer-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: var(--gold);
+  transform: translateX(-100%);
+  transition: transform 0.35s var(--ease-lux);
+  z-index: 0;
+}
+.drawer-btn span, .drawer-btn { position: relative; z-index: 1; }
+.drawer-btn:hover {
   color: var(--noir);
   border-color: var(--gold);
 }
+.drawer-btn:hover::after { transform: translateX(0); }
 .drawer-btn.admin {
   color: var(--gold);
-  border-color: var(--gold);
+  border-color: rgba(196,149,106,0.4);
+  background: rgba(196,149,106,0.06);
 }
 
 .drawer-social {
@@ -415,7 +687,7 @@ body {
   font-weight: 500;
   letter-spacing: 6px;
   text-transform: uppercase;
-  color: var(--gold);
+  color: #F472B6;
   margin-bottom: 20px;
   opacity: 0;
   animation: fadeUp 1s var(--ease-lux) 0.6s forwards;
@@ -440,6 +712,17 @@ body {
   line-height: 1.7;
   opacity: 0;
   animation: fadeUp 1s var(--ease-lux) 1s forwards;
+}
+.hero-finest {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(28px, 7vw, 52px);
+  color: #F472B6;
+  letter-spacing: 4px;
+  text-shadow: 0 0 60px rgba(244,114,182,0.35), 0 2px 20px rgba(244,114,182,0.2);
+  margin-bottom: 40px;
+  line-height: 1.2;
 }
 .hero-cta {
   display: inline-block;
@@ -467,14 +750,16 @@ body {
 
 .hero-scroll-hint {
   position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 90px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   opacity: 0;
   animation: fadeUp 1s var(--ease-lux) 1.6s forwards;
 }
@@ -1267,7 +1552,7 @@ form button:hover,
   <div class="hero-content">
     <div class="hero-kicker">Kingston, Jamaica</div>
     <h1 class="hero-title">The Art of<br>Beautiful Hair</h1>
-    <p class="hero-sub">Where every braid is a conversation between artist and canvas.<br>Welcome to ATM Beauty Styles.</p>
+    <p class="hero-sub hero-finest">Kingston's Finest</p>
     <a class="hero-cta" onclick="showSection('bookingSection');" href="javascript:void(0);">Book Your Appointment</a>
   </div>
   <div class="hero-scroll-hint">
@@ -1280,9 +1565,6 @@ form button:hover,
 <div class="content-section active" id="gallerySection">
   <section class="section section--dark" style="padding-top:40px;">
     <div class="section-inner">
-      <div class="section-kicker reveal">Our Work</div>
-      <h2 class="section-title reveal reveal-delay-1">The Gallery</h2>
-      <p class="section-subtitle reveal reveal-delay-2">Every style tells a story. Explore our artistry.</p>
       <div id="galleryDisplay"></div>
     </div>
   </section>
