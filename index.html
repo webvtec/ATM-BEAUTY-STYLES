@@ -913,33 +913,28 @@ body::after {
 .content-section { display: none; }
 .content-section.active { display: block; }
 
-/* ========== GALLERY — BARREL RINGS ========== */
+/* ========== GALLERY — 3D CYLINDER RINGS ========== */
 .gallery-barrel {
   padding: 20px 0 40px;
 }
 
 /* One ring = one category */
 .barrel-ring {
-  margin-bottom: 0;
+  margin-bottom: 48px;
   position: relative;
 }
 
-/* Divider between rings — the barrel edge */
-.barrel-ring + .barrel-ring {
-  border-top: 1px solid rgba(138,80,200,0.25);
-}
-
-/* Category label row — · NATURAL STYLES · */
+/* Category label — · BRAIDED STYLES · */
 .barrel-ring-label {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 18px 20px 14px;
+  padding: 0 20px 16px;
 }
 .barrel-ring-label-line {
   flex: 1;
   height: 1px;
-  background: rgba(138,80,200,0.3);
+  background: rgba(138,80,200,0.35);
 }
 .barrel-ring-label span {
   font-family: 'DM Sans', sans-serif;
@@ -947,58 +942,83 @@ body::after {
   font-weight: 600;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(220,210,240,0.75);
+  color: rgba(220,210,240,0.8);
   white-space: nowrap;
 }
 .barrel-ring-label-dot {
   font-size: 9px;
-  color: rgba(138,80,200,0.6);
+  color: rgba(138,80,200,0.7);
   flex-shrink: 0;
 }
 
-/* The scrollable row of cards */
-.barrel-track {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 0 20px 18px;
-  scrollbar-width: none;
+/* The 3D scene — clips the cylinder */
+.barrel-scene {
+  width: 100%;
+  height: 220px;
+  perspective: 900px;
+  overflow: hidden;
   cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y; /* browser keeps vertical scroll; we handle horizontal */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
 }
-.barrel-track:active { cursor: grabbing; }
-.barrel-track::-webkit-scrollbar { display: none; }
+.barrel-scene:active { cursor: grabbing; }
 
-/* Each photo card — clean, no text */
+/* The rotating ring — cards live on this */
+.barrel-rotor {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+  /* smooth deceleration handled in JS */
+}
+
+/* Each card — positioned around the cylinder in JS */
 .barrel-card {
-  flex: 0 0 140px;
-  scroll-snap-align: center;
+  position: absolute;
+  width: 140px;
+  height: 190px;
+  top: 50%;
+  left: 50%;
+  margin-top: -95px;
+  margin-left: -70px;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(138,80,200,0.22);
-  background: #1a0f2e;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
-}
-.barrel-card.card-in {
-  opacity: 1;
-  transform: translateY(0);
+  border: 1px solid rgba(138,80,200,0.3);
+  background: #12082a;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 .barrel-card img {
   width: 100%;
-  height: 180px;
+  height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
-/* Bottom glow edge on barrel to fake cylinder depth */
-.barrel-ring-bottom-edge {
-  height: 6px;
-  background: linear-gradient(to bottom, rgba(138,80,200,0.18), transparent);
-  margin: 0 10px;
-  border-radius: 0 0 50% 50%;
+/* Cylinder top/bottom rim lines */
+.barrel-rim {
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(138,80,200,0.5) 20%, rgba(180,120,255,0.7) 50%, rgba(138,80,200,0.5) 80%, transparent);
+  margin: 0 30px;
+}
+.barrel-rim-top { margin-bottom: 6px; }
+.barrel-rim-bottom { margin-top: 6px; }
+
+/* Drag hint */
+.barrel-drag-hint {
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(138,80,200,0.5);
+  margin-top: 8px;
 }
 
 /* Book CTA */
@@ -2112,6 +2132,15 @@ function loadGallery(containerId) {
     barrel.className = 'gallery-barrel';
 
     catOrder.forEach(category => {
+      const urls = categories[category];
+      const count = urls.length;
+      if (count === 0) return;
+
+      // Card width + gap = step around the cylinder
+      const cardW = 150;
+      const gap = 20;
+      const radius = Math.round((count * (cardW + gap)) / (2 * Math.PI));
+
       const ring = document.createElement('div');
       ring.className = 'barrel-ring';
       ring.innerHTML =
@@ -2122,28 +2151,109 @@ function loadGallery(containerId) {
           '<span class="barrel-ring-label-dot">·</span>' +
           '<div class="barrel-ring-label-line"></div>' +
         '</div>' +
-        '<div class="barrel-track"></div>' +
-        '<div class="barrel-ring-bottom-edge"></div>';
+        '<div class="barrel-rim barrel-rim-top"></div>' +
+        '<div class="barrel-scene"><div class="barrel-rotor"></div></div>' +
+        '<div class="barrel-rim barrel-rim-bottom"></div>' +
+        '<div class="barrel-drag-hint">← swipe to rotate →</div>';
       barrel.appendChild(ring);
 
-      const track = ring.querySelector('.barrel-track');
-      categories[category].forEach((url, idx) => {
+      const scene  = ring.querySelector('.barrel-scene');
+      const rotor  = ring.querySelector('.barrel-rotor');
+      const degPer = 360 / count;
+
+      // Place each card around the cylinder
+      urls.forEach((url, i) => {
         const card = document.createElement('div');
         card.className = 'barrel-card';
-        card.style.transitionDelay = (idx * 0.05) + 's';
+        card.style.transform = 'rotateY(' + (i * degPer) + 'deg) translateZ(' + radius + 'px)';
         card.innerHTML = '<img src="' + url + '" alt="' + category + '" loading="lazy" decoding="async">';
-        track.appendChild(card);
+        rotor.appendChild(card);
       });
 
-      // Touch/mouse drag to scroll
-      let isDragging = false, startX = 0, scrollLeft = 0;
-      track.addEventListener('mousedown', e => { isDragging = true; startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; });
-      track.addEventListener('mouseleave', () => isDragging = false);
-      track.addEventListener('mouseup', () => isDragging = false);
-      track.addEventListener('mousemove', e => {
-        if (!isDragging) return;
+      // 3D drag rotation — passive, RAF-gated, horizontal-intent only
+      let rotY = 0, velX = 0, rafId = null;
+      let dragActive = false, startX = 0, startY = 0, intentLocked = false, isHoriz = false;
+      let pendingX = null, lastAppliedX = null;
+
+      function applyRot(deg) {
+        rotY = deg;
+        rotor.style.transform = 'rotateY(' + deg + 'deg)';
+      }
+
+      function tick() {
+        rafId = null;
+        if (pendingX !== null && pendingX !== lastAppliedX) {
+          applyRot(pendingX);
+          lastAppliedX = pendingX;
+        }
+        if (!dragActive && Math.abs(velX) > 0.04) {
+          velX *= 0.92;
+          applyRot(rotY + velX);
+          rafId = requestAnimationFrame(tick);
+        }
+      }
+
+      function scheduleFrame() {
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      }
+
+      // Touch — fully passive, only rotate when clearly horizontal
+      scene.addEventListener('touchstart', e => {
+        const t = e.touches[0];
+        startX = t.clientX; startY = t.clientY;
+        dragActive = true; intentLocked = false; isHoriz = false;
+        velX = 0;
+        cancelAnimationFrame(rafId); rafId = null;
+      }, { passive: true });
+
+      scene.addEventListener('touchmove', e => {
+        if (!dragActive) return;
+        const t = e.touches[0];
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+
+        // Lock intent after 6px movement
+        if (!intentLocked && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+          isHoriz = Math.abs(dx) > Math.abs(dy);
+          intentLocked = true;
+        }
+        if (!isHoriz) return; // let vertical scroll pass through untouched
+
+        velX = dx * 0.25;
+        pendingX = rotY + velX;
+        startX = t.clientX;
+        scheduleFrame();
+      }, { passive: true });
+
+      scene.addEventListener('touchend', () => {
+        dragActive = false;
+        intentLocked = false;
+        scheduleFrame(); // kick off momentum
+      }, { passive: true });
+
+      // Mouse (desktop)
+      scene.addEventListener('mousedown', e => {
         e.preventDefault();
-        track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX);
+        dragActive = true; velX = 0;
+        startX = e.clientX;
+        cancelAnimationFrame(rafId); rafId = null;
+
+        function onMove(e) {
+          if (!dragActive) return;
+          const dx = e.clientX - startX;
+          velX = dx * 0.25;
+          pendingX = rotY + velX;
+          startX = e.clientX;
+          scheduleFrame();
+        }
+        function onUp() {
+          dragActive = false;
+          scheduleFrame();
+          window.removeEventListener('mousemove', onMove);
+          window.removeEventListener('mouseup', onUp);
+        }
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
       });
     });
 
@@ -2154,21 +2264,6 @@ function loadGallery(containerId) {
     barrel.appendChild(cta);
 
     galleryContainer.appendChild(barrel);
-
-    // Reveal cards as rings scroll into view
-    setTimeout(() => {
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.barrel-card').forEach((c, i) => {
-              setTimeout(() => c.classList.add('card-in'), i * 50);
-            });
-            obs.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15 });
-      document.querySelectorAll('.barrel-ring').forEach(r => obs.observe(r));
-    }, 60);
   });
 }
 
