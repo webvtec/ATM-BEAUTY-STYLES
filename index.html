@@ -930,12 +930,6 @@ body::after {
   padding: 0 24px 36px;
   position: relative;
 }
-.barrel-ring-title-rule {
-  display: block;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(160,100,255,0.6) 30%, rgba(200,160,255,0.9) 50%, rgba(160,100,255,0.6) 70%, transparent);
-  margin-bottom: 18px;
-}
 .barrel-ring-title h3 {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
@@ -946,12 +940,7 @@ body::after {
   margin: 0 0 18px;
   line-height: 1;
 }
-.barrel-ring-title-rule-bottom {
-  display: block;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(160,100,255,0.6) 30%, rgba(200,160,255,0.9) 50%, rgba(160,100,255,0.6) 70%, transparent);
-  margin-top: 18px;
-}
+
 
 /* ── Glass cylinder scene ── */
 .barrel-scene {
@@ -2265,9 +2254,7 @@ function loadGallery(containerId) {
 
       ring.innerHTML =
         '<div class="barrel-ring-title">' +
-          '<span class="barrel-ring-title-rule"></span>' +
           '<h3>' + category + '</h3>' +
-          '<span class="barrel-ring-title-rule-bottom"></span>' +
         '</div>' +
         '<div class="barrel-scene">' +
           '<canvas class="barrel-particles" width="400" height="460"></canvas>' +
@@ -2365,7 +2352,7 @@ function loadGallery(containerId) {
 
       // Auto-spin (slow, Apple-style)
       let autoSpin = true;
-      const AUTO_VEL = 0.08;
+      const AUTO_VEL = -0.08;
 
       function setRotY(deg) {
         rotY = deg;
