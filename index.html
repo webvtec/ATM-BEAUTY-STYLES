@@ -965,17 +965,6 @@ body::after {
   z-index: 0;
 }
 
-/* Glowing top/bottom glass rim rings */
-.barrel-rim-svg {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 2;
-  overflow: visible;
-}
-.barrel-rim-svg.top { top: 22px; }
-.barrel-rim-svg.bottom { bottom: 22px; }
 
 /* The 3D rotor */
 .barrel-rotor {
@@ -2283,9 +2272,6 @@ function loadGallery(containerId) {
       const ring = document.createElement('div');
       ring.className = 'barrel-ring';
 
-      // SVG rim width matches visible scene width (full vw up to ~500px)
-      const rimW = Math.min(window.innerWidth, 500);
-      const rimRx = rimW * 0.44, rimRy = 18; // ellipse
 
       ring.innerHTML =
         '<div class="barrel-ring-title">' +
@@ -2293,22 +2279,7 @@ function loadGallery(containerId) {
         '</div>' +
         '<div class="barrel-scene">' +
           '<canvas class="barrel-particles" width="400" height="460"></canvas>' +
-          // top glass rim
-          '<svg class="barrel-rim-svg top" width="' + rimW + '" height="' + (rimRy*2+4) + '" style="margin-top:-' + rimRy + 'px;">' +
-            '<ellipse cx="' + (rimW/2) + '" cy="' + (rimRy+2) + '" rx="' + rimRx + '" ry="' + rimRy + '" fill="none" stroke="url(#rimGrad)" stroke-width="1.5" opacity="0.7"/>' +
-            '<defs><linearGradient id="rimGrad" x1="0" y1="0" x2="1" y2="0">' +
-              '<stop offset="0%" stop-color="transparent"/>' +
-              '<stop offset="25%" stop-color="rgba(196,149,106,0.9)"/>' +
-              '<stop offset="50%" stop-color="rgba(240,150,180,1)"/>' +
-              '<stop offset="75%" stop-color="rgba(196,149,106,0.9)"/>' +
-              '<stop offset="100%" stop-color="transparent"/>' +
-            '</stop></linearGradient></defs>' +
-          '</svg>' +
           '<div class="barrel-rotor"></div>' +
-          // bottom glass rim
-          '<svg class="barrel-rim-svg bottom" width="' + rimW + '" height="' + (rimRy*2+4) + '" style="margin-bottom:-' + rimRy + 'px;">' +
-            '<ellipse cx="' + (rimW/2) + '" cy="' + (rimRy+2) + '" rx="' + rimRx + '" ry="' + rimRy + '" fill="none" stroke="url(#rimGrad)" stroke-width="1.5" opacity="0.5"/>' +
-          '</svg>' +
         '</div>' +
         '<div class="barrel-ring-footer">' +
           '<span class="barrel-ring-footer-rule"></span>' +
