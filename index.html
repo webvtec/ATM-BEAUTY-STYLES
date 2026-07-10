@@ -2241,7 +2241,7 @@ function showSection(sectionId) {
   const navId = navMap[sectionId];
   if (navId) { const navEl = document.getElementById(navId); if (navEl) navEl.classList.add('active'); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (sectionId === 'gallerySection' && !window._galleryLoaded) loadGallery('galleryDisplay');
+  if (sectionId === 'gallerySection') loadGallery('galleryDisplay');
   else if (sectionId === 'reviewsSection') loadReviews(currentUser);
 }
 
@@ -2256,11 +2256,9 @@ function preloadImage(url) {
 }
 
 function loadGallery(containerId) {
-  if (window._galleryLoaded) return;
   const galleryContainer = document.getElementById(containerId);
   galleryContainer.innerHTML = '';
   db.collection('gallery').orderBy('sortOrder', 'asc').onSnapshot(querySnapshot => {
-    if (window._galleryLoaded) return;
     galleryContainer.innerHTML = '';
     let docs = [];
     querySnapshot.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
@@ -2477,7 +2475,6 @@ function loadGallery(containerId) {
 
     galleryContainer.appendChild(barrel);
   });
-  window._galleryLoaded = true;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
