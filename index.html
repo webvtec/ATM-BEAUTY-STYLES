@@ -281,13 +281,16 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(10,10,10,0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 .nav-bar.scrolled {
-  background: rgba(10,10,10,0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 rgba(196,149,106,0.12);
+  background: rgba(10,10,10,0.15);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 1px 0 rgba(196,149,106,0.1);
 }
 
 .nav-logo {
@@ -2481,9 +2484,7 @@ let ticking = false;
 window.addEventListener('scroll', () => {
   if (!ticking) {
     requestAnimationFrame(() => {
-      const nav = document.getElementById('navBar');
-      if (window.scrollY > 80) nav.classList.add('scrolled');
-      else nav.classList.remove('scrolled');
+      // nav is always frosted glass - no class swap needed
       // Parallax only on capable devices
       if (!isLowEnd) {
         const heroBg = document.getElementById('heroBg');
