@@ -24,242 +24,254 @@
        Matching luxury editorial system
        ========================================================= */
     :root {
-      /* ATM BEAUTY STYLES — Admin Pink & Blue */
-      --ink:        #0B0F1E;
-      --ink-soft:   #101728;
-      --ink-line:   #1A2540;
-      --cream:      #F0ECFF;
-      --cream-soft: #DDE4FF;
-      --paper:      #F8F6FF;
-      --red:        #E8519A;
-      --red-deep:   #B52F74;
-      --rose:       #E8519A;
-      --gold:       #5B9BD5;
-      --gold-soft:  #8DC4F0;
-      --text:       #DDE4FF;
-      --text-dim:   #7A90BB;
-      --text-ink:   #0B0F1E;
-
-      --primary:  var(--ink);
-      --accent:   var(--red);
-      --accent2:  var(--red-deep);
-      --bg:       #F8F6FF;
-      --white:    #ffffff;
+      --noir:       #0A0A0A;
+      --noir-soft:  #111111;
+      --noir-card:  #151515;
+      --charcoal:   #1A1A1A;
+      --smoke:      #2C2C2C;
+      --gold:       #C4956A;
+      --gold-light: #D4A882;
+      --gold-dark:  #8B6B4A;
+      --pink:       #F472B6;
+      --cream:      #FAF8F5;
+      --text-light: #E8E2DA;
+      --text-dim:   #8A8078;
+      --linen:      #E8DFD4;
+      --ease-lux:   cubic-bezier(0.16, 1, 0.3, 1);
+      /* legacy aliases */
+      --ink:        #0A0A0A;
+      --ink-soft:   #111111;
+      --rose:       #C4956A;
+      --red:        #C4956A;
+      --text-ink:   #E8E2DA;
+      --paper:      #111111;
+      --accent:     #C4956A;
+      --primary:    #0A0A0A;
+      --text:       #E8E2DA;
+      --cream-soft: #E8DFD4;
     }
 
     * { box-sizing: border-box; }
+
+    *, *::before, *::after { box-sizing: border-box; }
 
     html, body {
       margin: 0;
       padding: 0;
       font-family: 'DM Sans', -apple-system, sans-serif;
-      background: var(--paper);
-      color: var(--text-ink);
+      background: var(--noir);
+      color: var(--text-light);
       -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
     }
 
     body {
-      background:
-        radial-gradient(ellipse 600px 400px at 20% -10%, rgba(232,81,154,0.07), transparent 60%),
-        radial-gradient(ellipse 500px 300px at 110% 110%, rgba(91,155,213,0.09), transparent 60%),
-        #F8F6FF;
+      background: var(--noir);
       background-attachment: fixed;
       min-height: 100vh;
     }
 
-    /* Paper grain */
+    /* Subtle gold grain texture overlay */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.03;
-      z-index: 1;
+      opacity: 0.018;
+      z-index: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     /* ================ HEADER ================ */
     .header-bar {
-      background: #0B0F1E;
-      padding: 28px 20px 26px;
+      background: var(--noir-soft);
+      padding: 26px 20px 24px;
       text-align: center;
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-style: italic;
-      font-size: 26px;
-      letter-spacing: 0.5px;
-      color: var(--cream);
-      border-bottom: 1px solid rgba(201,169,97,0.2);
+      font-weight: 300;
+      font-style: normal;
+      font-size: 18px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      border-bottom: 1px solid rgba(196,149,106,0.12);
       position: relative;
     }
     .header-bar::after {
       content: '';
       position: absolute;
-      bottom: -3px; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg,
-        var(--red) 0%, var(--cream) 25%,
-        var(--gold) 50%, var(--cream) 75%, var(--red) 100%);
-      opacity: 0.85;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.6;
+    }
+    .header-bar .header-admin-badge {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 3px 10px;
+      border: 1px solid rgba(196,149,106,0.3);
+      margin-left: 14px;
+      vertical-align: middle;
     }
 
     /* ================ TOP MENU (tabs) ================ */
+    .top-menu {
       display: flex;
       flex-direction: row;
       align-items: stretch;
       justify-content: center;
       gap: 0;
-      background: var(--ink-soft);
-      padding: 18px 16px;
-      border-bottom: 1px solid rgba(91,155,213,0.15);
+      background: var(--charcoal);
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(196,149,106,0.12);
       flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .top-menu button {
       background: transparent;
-      color: var(--cream);
-      border: 1px solid rgba(91,155,213,0.3);
-      padding: 14px 22px;
+      color: var(--text-dim);
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 18px 22px;
       border-radius: 0;
       cursor: pointer;
       font-weight: 600;
       width: auto;
-      flex: 1 1 180px;
-      min-width: 150px;
+      flex: 1 1 140px;
+      min-width: 120px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 3px;
       text-transform: uppercase;
       transition: all 0.25s ease;
-      margin: 2px;
+      margin: 0;
     }
     .top-menu button:hover {
-      background: linear-gradient(135deg, var(--rose), var(--red-deep));
-      color: var(--cream);
-      border-color: var(--rose);
+      color: var(--text-light);
+      border-bottom-color: rgba(196,149,106,0.4);
+    }
+    .top-menu button.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
     }
 
     /* ================ ADMIN CONTAINER ================ */
     .admin-container {
       max-width: 1100px;
-      margin: 36px auto;
-      padding: 44px 36px;
-      background: var(--cream);
-      border-radius: 2px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(201,169,97,0.3);
-      border-top: none;
+      margin: 32px auto;
+      padding: 40px 32px;
+      background: var(--noir-card);
+      border: 1px solid rgba(196,149,106,0.12);
+      border-top: 2px solid var(--gold);
       position: relative;
-    }
-    .admin-container::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
-    }
-    .admin-container::after {
-      content: '';
-      position: absolute;
-      top: 18px; left: 18px; right: 18px; bottom: 18px;
-      border: 1px solid rgba(192,78,114,0.12);
-      pointer-events: none;
-      border-radius: 1px;
     }
 
     h2 {
-      color: var(--text-ink);
+      color: var(--text-light);
       text-align: center;
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
+      font-weight: 300;
       font-style: normal;
-      letter-spacing: 0;
-      font-size: 34px;
+      letter-spacing: 3px;
+      font-size: 32px;
+      text-transform: uppercase;
       margin: 8px 0 6px;
       position: relative;
     }
     h2::after {
       content: '';
       display: block;
-      width: 50px;
+      width: 48px;
       height: 1px;
       background: var(--gold);
-      margin: 18px auto 26px;
+      margin: 16px auto 28px;
     }
     .admin-kicker {
       text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 12px;
-      color: var(--red);
-      letter-spacing: 3px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 6px;
       text-transform: uppercase;
       margin-bottom: 4px;
     }
 
     /* Form fields */
-    input[type="text"], input[type="date"], input[type="time"], select {
+    input[type="text"], input[type="date"], input[type="time"], input[type="number"], select {
       width: 100%;
-      padding: 13px 14px;
+      padding: 12px 0;
       margin-bottom: 14px;
       border: none;
-      border-bottom: 1px solid rgba(26,26,30,0.2);
+      border-bottom: 1px solid rgba(196,149,106,0.2);
       border-radius: 0;
       box-sizing: border-box;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       background: transparent;
-      color: var(--text-ink);
+      color: var(--text-light);
       transition: border-color 0.25s ease;
     }
+    input::placeholder { color: var(--text-dim); }
     input:focus, select:focus {
       outline: none;
-      border-bottom-color: var(--rose);
-      box-shadow: 0 1px 0 var(--red);
+      border-bottom-color: var(--gold);
+      box-shadow: 0 1px 0 rgba(196,149,106,0.4);
     }
     select {
       appearance: none; -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C04E72' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C4956A' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 10px center;
       padding-right: 34px;
       cursor: pointer;
     }
+    select option { background: var(--charcoal); color: var(--text-light); }
 
     button {
-      background: var(--ink);
-      color: var(--cream);
+      background: var(--smoke);
+      color: var(--text-light);
       padding: 14px 28px;
-      border: 1px solid var(--ink);
+      border: 1px solid rgba(196,149,106,0.25);
       border-radius: 0;
       cursor: pointer;
       margin-bottom: 16px;
       font-family: 'DM Sans', sans-serif;
       font-weight: 600;
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 4px;
       text-transform: uppercase;
       transition: all 0.3s ease;
     }
     button:hover {
-      background: var(--rose);
-      border-color: var(--rose);
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--noir);
       letter-spacing: 5px;
     }
 
     /* ================ UPLOAD AREA ================ */
     .upload-area {
-      border: 1px dashed var(--gold);
-      border-radius: 2px;
+      border: 1px dashed rgba(196,149,106,0.4);
+      border-radius: 0;
       padding: 40px 24px;
       text-align: center;
       margin-bottom: 18px;
       cursor: pointer;
-      background: var(--paper);
+      background: rgba(196,149,106,0.03);
       transition: all 0.3s ease;
       position: relative;
     }
     .upload-area:hover {
-      background: #fff;
-      border-color: var(--rose);
+      background: rgba(196,149,106,0.06);
+      border-color: var(--gold);
     }
     .upload-area input[type="file"] {
       position: absolute;
@@ -278,12 +290,12 @@
     .upload-area p {
       margin: 0;
       font-size: 13px;
-      color: var(--text-ink);
+      color: var(--text-dim);
       font-family: 'DM Sans', sans-serif;
       letter-spacing: 1px;
     }
     .upload-area strong {
-      color: var(--rose);
+      color: var(--gold);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -295,11 +307,11 @@
       position: relative;
       width: 90px;
       height: 90px;
-      border-radius: 2px;
+      border-radius: 0;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-      border: 1px solid rgba(201,169,97,0.3);
-      background: #1a1418;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      border: 1px solid rgba(196,149,106,0.2);
+      background: var(--charcoal);
     }
     #imagePreviewList .thumb img {
       width: 100%;
@@ -359,32 +371,32 @@
     #uploadProgress { display: none; margin-bottom: 14px; }
     #uploadProgress progress {
       width: 100%;
-      height: 4px;
+      height: 3px;
       border-radius: 0;
-      accent-color: var(--red);
+      accent-color: var(--gold);
+      background: var(--charcoal);
     }
+    #uploadProgress p { color: var(--text-dim); }
 
     /* ================ GALLERY (admin) ================ */
     .gallery-category { margin-top: 44px; }
     .gallery-category h3 {
       text-align: center;
       margin-bottom: 22px;
-      font-size: 26px;
-      color: var(--text-ink);
-      text-transform: none;
+      font-size: 22px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 5px;
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      letter-spacing: 0;
+      font-weight: 300;
       position: relative;
     }
     .gallery-category h3::before {
       content: '✦';
       display: block;
       color: var(--gold);
-      font-style: italic;
-      font-weight: 400;
-      font-size: 20px;
-      margin-bottom: 2px;
+      font-size: 14px;
+      margin-bottom: 6px;
     }
     .gallery-category h3::after {
       content: '';
@@ -400,7 +412,7 @@
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 12px;
       margin-bottom: 32px;
     }
     @media (min-width: 768px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -411,28 +423,26 @@
       width: 100%;
       height: 250px;
       object-fit: cover;
-      border-radius: 2px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-      border: 1px solid rgba(201,169,97,0.25);
+      border: 1px solid rgba(196,149,106,0.15);
       transition: all 0.35s ease;
     }
     .gallery-grid img:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+      transform: translateY(-2px);
       border-color: var(--gold);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
 
     .remove-btn {
       position: absolute;
       top: 8px;
       right: 8px;
-      background: rgba(18,8,16,0.88);
-      color: var(--cream);
-      border: 1px solid var(--rose);
+      background: rgba(0,0,0,0.85);
+      color: var(--text-light);
+      border: 1px solid rgba(196,149,106,0.4);
       padding: 6px 10px;
       border-radius: 0;
       cursor: pointer;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
       margin-bottom: 0;
       letter-spacing: 2px;
@@ -441,8 +451,9 @@
       transition: all 0.25s ease;
     }
     .remove-btn:hover {
-      background: var(--rose);
-      color: var(--cream);
+      background: rgba(196,149,106,0.9);
+      color: var(--noir);
+      border-color: var(--gold);
     }
 
     /* ================ TABLE ================ */
@@ -450,26 +461,27 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 30px;
-      background: #fff;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      background: var(--noir-soft);
+      border: 1px solid rgba(196,149,106,0.12);
     }
     th, td {
       border: none;
-      border-bottom: 1px solid rgba(26,26,30,0.08);
+      border-bottom: 1px solid rgba(196,149,106,0.08);
       padding: 14px 10px;
       text-align: center;
       font-family: 'DM Sans', sans-serif;
       font-size: 13px;
+      color: var(--text-light);
     }
     th {
-      background: var(--ink);
+      background: var(--charcoal);
       color: var(--gold);
       font-weight: 500;
       letter-spacing: 3px;
       text-transform: uppercase;
-      font-size: 11px;
+      font-size: 10px;
       padding: 16px 10px;
-      border-bottom: 1px solid var(--gold);
+      border-bottom: 1px solid rgba(196,149,106,0.2);
     }
 
     /* ================ SECTIONS ================ */
@@ -486,25 +498,26 @@
     }
     .clear-container input {
       padding: 12px 14px;
-      border: 1px solid rgba(26,26,30,0.2);
+      border: 1px solid rgba(196,149,106,0.2);
       border-radius: 0;
       font-family: 'DM Sans', sans-serif;
+      background: var(--noir-soft);
+      color: var(--text-light);
     }
 
     /* ================ RESERVATION CARDS ================ */
     .reservation-card {
-      background: #fff;
-      border-radius: 2px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      padding: 22px 24px;
-      margin: 14px 0;
-      border-left: 3px solid var(--rose);
-      border-top: 1px solid rgba(201,169,97,0.2);
+      background: var(--noir-soft);
+      border: 1px solid rgba(196,149,106,0.1);
+      border-left: 3px solid var(--gold);
+      padding: 20px 22px;
+      margin: 12px 0;
       position: relative;
-      transition: box-shadow 0.25s ease;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .reservation-card:hover {
-      box-shadow: 0 8px 26px rgba(0,0,0,0.14);
+      border-color: rgba(196,149,106,0.3);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
 
     .reservation-header {
@@ -513,59 +526,50 @@
       align-items: center;
       padding-bottom: 12px;
       margin-bottom: 12px;
-      border-bottom: 1px dotted rgba(26,26,30,0.15);
+      border-bottom: 1px solid rgba(196,149,106,0.1);
     }
     .reservation-header h3 {
       margin: 0;
-      color: var(--text-ink);
+      color: var(--text-light);
       font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      letter-spacing: 0;
+      font-weight: 400;
+      letter-spacing: 1px;
       font-size: 20px;
     }
 
     .badge {
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 0;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
-      color: #fff;
       letter-spacing: 2px;
       text-transform: uppercase;
       font-family: 'DM Sans', sans-serif;
     }
-    .badge.today    { background: var(--rose); color: var(--cream); }
-    .badge.upcoming { background: var(--gold); color: var(--ink); }
-    .badge.tomorrow { background: var(--ink); color: var(--gold); border: 1px solid var(--gold); }
-    .badge.past     { background: transparent; color: var(--text-dim); border: 1px solid rgba(26,26,30,0.2); }
+    .badge.today    { background: rgba(244,114,182,0.15); color: #F472B6; border: 1px solid rgba(244,114,182,0.3); }
+    .badge.upcoming { background: rgba(196,149,106,0.12); color: var(--gold); border: 1px solid rgba(196,149,106,0.3); }
+    .badge.tomorrow { background: rgba(196,149,106,0.06); color: var(--gold-light); border: 1px solid rgba(196,149,106,0.2); }
+    .badge.past     { background: transparent; color: var(--text-dim); border: 1px solid rgba(196,149,106,0.1); }
 
     .reservation-group {
-      margin-top: 36px;
-      margin-bottom: 14px;
-      padding: 14px 20px;
-      background: var(--ink);
-      color: var(--cream);
-      border-radius: 0;
-      font-size: 14px;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      padding: 12px 20px;
+      background: var(--charcoal);
+      color: var(--gold);
+      font-size: 10px;
       text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      letter-spacing: 2px;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 5px;
       text-transform: uppercase;
+      border-left: 3px solid var(--gold);
       position: relative;
-    }
-    .reservation-group::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
-      opacity: 0.85;
     }
 
     .highlighted {
-      border: 2px solid var(--gold) !important;
-      box-shadow: 0 0 0 4px rgba(201,169,97,0.15), 0 8px 26px rgba(0,0,0,0.15) !important;
+      border: 1px solid var(--gold) !important;
+      border-left: 3px solid var(--gold) !important;
+      box-shadow: 0 0 0 1px rgba(196,149,106,0.2), 0 8px 30px rgba(0,0,0,0.4) !important;
       transition: all 0.3s ease-in-out;
     }
 
@@ -579,60 +583,61 @@
 
     .cancel-btn, .deposit-btn, .status-btn {
       flex: 1;
-      padding: 11px 14px;
+      padding: 10px 14px;
       font-weight: 600;
       border-radius: 0;
       border: 1px solid;
       cursor: pointer;
       margin-bottom: 0;
       font-family: 'DM Sans', sans-serif;
-      font-size: 10px;
-      letter-spacing: 2.5px;
+      font-size: 9px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       transition: all 0.25s ease;
-      min-width: 90px;
+      min-width: 80px;
     }
     .cancel-btn {
       background: transparent;
-      color: var(--rose);
-      border-color: var(--rose);
+      color: #e55;
+      border-color: rgba(230,85,85,0.4);
     }
-    .cancel-btn:hover { background: var(--rose); color: var(--cream); }
+    .cancel-btn:hover { background: rgba(230,85,85,0.15); border-color: #e55; }
 
     .deposit-btn {
       background: transparent;
-      color: var(--text-ink);
-      border-color: var(--text-ink);
+      color: var(--text-dim);
+      border-color: rgba(196,149,106,0.2);
     }
-    .deposit-btn:hover { background: var(--ink); color: var(--gold); }
+    .deposit-btn:hover { background: rgba(196,149,106,0.08); color: var(--text-light); border-color: var(--gold); }
 
     .status-btn {
       background: transparent;
       color: var(--gold);
-      border-color: var(--gold);
+      border-color: rgba(196,149,106,0.3);
     }
-    .status-btn:hover { background: var(--gold); color: var(--ink); }
+    .status-btn:hover { background: var(--gold); color: var(--noir); }
 
     #unavailableDateInput, #startTimeInput, #endTimeInput {
       width: 100%;
-      padding: 13px 14px;
+      padding: 12px 0;
       margin-bottom: 14px;
       border: none;
-      border-bottom: 1px solid rgba(26,26,30,0.2);
+      border-bottom: 1px solid rgba(196,149,106,0.2);
       border-radius: 0;
       box-sizing: border-box;
       font-family: 'DM Sans', sans-serif;
       background: transparent;
+      color: var(--text-light);
     }
 
-    .status-completed { color: #2d7a3e; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 11px; }
-    .status-not { color: var(--rose); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 11px; }
+    .status-completed { color: #4ade80; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 11px; }
+    .status-not { color: #e55; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 11px; }
     .status-none { color: var(--text-dim); font-style: italic; font-size: 12px; }
 
     label {
       font-size: 10px;
       font-weight: 600;
-      color: var(--rose);
+      color: var(--gold);
       text-transform: uppercase;
       letter-spacing: 2.5px;
       display: block;
@@ -640,6 +645,233 @@
       margin-top: 14px;
       font-family: 'DM Sans', sans-serif;
     }
+
+    /* ========== PROMOTIONS ========== */
+    .promo-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 24px;
+    }
+    @media (max-width: 600px) { .promo-form-grid { grid-template-columns: 1fr; } }
+
+    .discount-type-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .discount-type-option {
+      flex: 1;
+      border: 1px solid rgba(196,149,106,0.2);
+      padding: 12px 16px;
+      cursor: pointer;
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      transition: all 0.2s;
+      background: transparent;
+    }
+    .discount-type-option.selected {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(196,149,106,0.08);
+    }
+    .promo-book-toggle {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      margin-bottom: 10px;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(196,149,106,0.15);
+      cursor: pointer;
+      transition: 0.3s;
+      border-radius: 0;
+    }
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      height: 18px; width: 18px;
+      left: 3px; top: 3px;
+      background: var(--text-dim);
+      transition: 0.3s;
+    }
+    .toggle-switch input:checked + .toggle-slider { background: rgba(196,149,106,0.4); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); background: var(--gold); }
+    .toggle-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text-light);
+    }
+    .toggle-sublabel {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    /* Service scope selector */
+    .service-scope-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 600px) { .service-scope-grid { grid-template-columns: repeat(3, 1fr); } }
+    .service-scope-chip {
+      padding: 9px 12px;
+      border: 1px solid rgba(196,149,106,0.18);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      background: transparent;
+      margin-bottom: 0;
+    }
+    .service-scope-chip.selected {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(196,149,106,0.08);
+    }
+    .service-scope-chip:hover { border-color: rgba(196,149,106,0.4); color: var(--text-light); }
+    .all-styles-chip {
+      grid-column: 1 / -1;
+      border-color: rgba(244,114,182,0.3) !important;
+      color: rgba(244,114,182,0.7);
+      letter-spacing: 3px;
+    }
+    .all-styles-chip.selected { border-color: #F472B6 !important; color: #F472B6; background: rgba(244,114,182,0.06); }
+
+    /* Promo card in dashboard list */
+    .promo-admin-card {
+      background: var(--noir-soft);
+      border: 1px solid rgba(196,149,106,0.12);
+      border-left: 3px solid var(--gold);
+      padding: 20px 22px;
+      margin: 14px 0;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .promo-admin-card:hover { border-color: rgba(196,149,106,0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .promo-admin-card.expired { border-left-color: rgba(196,149,106,0.2); opacity: 0.6; }
+    .promo-admin-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+    .promo-admin-discount {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .promo-admin-applies {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: #F472B6;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .promo-admin-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .promo-admin-dates {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+    .promo-admin-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .promo-admin-actions button {
+      flex: 1;
+      min-width: 100px;
+      padding: 9px 14px;
+      font-size: 9px;
+      letter-spacing: 2px;
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    .promo-toggle-btn { background: transparent; color: var(--gold); border-color: rgba(196,149,106,0.4) !important; }
+    .promo-toggle-btn:hover { background: rgba(196,149,106,0.12); border-color: var(--gold) !important; }
+    .promo-delete-btn { background: transparent; color: #e55; border-color: rgba(230,85,85,0.3) !important; }
+    .promo-delete-btn:hover { background: rgba(230,85,85,0.1); border-color: #e55 !important; }
+    .promo-status-badge {
+      position: absolute;
+      top: 14px; right: 14px;
+      padding: 4px 10px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .promo-status-badge.live { background: rgba(74,222,128,0.08); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+    .promo-status-badge.paused { background: rgba(196,149,106,0.08); color: var(--gold-dark); border: 1px solid rgba(196,149,106,0.2); }
+    .promo-status-badge.expired { background: transparent; color: var(--text-dim); border: 1px solid rgba(196,149,106,0.1); }
+
+    .form-section-divider {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-light);
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(196,149,106,0.12);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+    .form-section-divider span { color: var(--gold); margin-right: 8px; }
+
+    textarea {
+      width: 100%;
+      padding: 12px 0;
+      margin-bottom: 14px;
+      border: none;
+      border-bottom: 1px solid rgba(196,149,106,0.2);
+      border-radius: 0;
+      box-sizing: border-box;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      background: transparent;
+      color: var(--text-light);
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.25s ease;
+    }
+    textarea::placeholder { color: var(--text-dim); }
+    textarea:focus { outline: none; border-bottom-color: var(--gold); box-shadow: 0 1px 0 rgba(196,149,106,0.3); }
   </style>
 </head>
 
@@ -649,21 +881,21 @@
   <div id="accessOverlay" style="
     position:fixed;inset:0;z-index:99999;
     background:
-      radial-gradient(ellipse 600px 400px at 20% -10%, rgba(232,81,154,0.12), transparent 60%),
-      radial-gradient(ellipse 500px 300px at 110% 110%, rgba(91,155,213,0.10), transparent 60%),
-      #0B0F1E;
+      radial-gradient(ellipse 600px 400px at 20% -10%, rgba(196,149,106,0.07), transparent 60%),
+      radial-gradient(ellipse 500px 300px at 110% 110%, rgba(244,114,182,0.06), transparent 60%),
+      #0A0A0A;
     display:flex;flex-direction:column;
     align-items:center;justify-content:center;
     gap:28px;">
-    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:4px;color:#5B9BD5;text-transform:uppercase;">The Gate</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:4px;color:#C4956A;text-transform:uppercase;">The Gate</div>
     <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:46px;letter-spacing:0;color:#F0ECFF;text-align:center;">Checking Access</div>
-    <div style="width:60px;height:1px;background:#5B9BD5;"></div>
+    <div style="width:60px;height:1px;background:#C4956A;"></div>
     <div style="display:flex;gap:10px;">
-      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out infinite;display:inline-block;"></span>
-      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out 0.4s infinite;display:inline-block;"></span>
-      <span style="width:6px;height:6px;border-radius:50%;background:#E8519A;animation:dotpulse 1.2s ease-in-out 0.8s infinite;display:inline-block;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#C4956A;animation:dotpulse 1.2s ease-in-out infinite;display:inline-block;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#C4956A;animation:dotpulse 1.2s ease-in-out 0.4s infinite;display:inline-block;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#C4956A;animation:dotpulse 1.2s ease-in-out 0.8s infinite;display:inline-block;"></span>
     </div>
-    <div id="accessStatus" style="font-family:'DM Sans',sans-serif;font-size:11px;color:#7A90BB;letter-spacing:3px;text-transform:uppercase;">Verifying identity…</div>
+    <div id="accessStatus" style="font-family:'DM Sans',sans-serif;font-size:11px;color:#8A8078;letter-spacing:3px;text-transform:uppercase;">Verifying identity…</div>
   </div>
   <style>
     @keyframes dotpulse {
@@ -674,12 +906,13 @@
   </style>
 
   <div id="dashboardContent">
-  <div class="header-bar">ATM Beauty Styles — Admin</div>
+  <div class="header-bar">ATM Beauty Styles <span class="header-admin-badge">Admin</span></div>
 
   <div class="top-menu">
     <button onclick="showSection('gallerySection')">Gallery</button>
     <button onclick="showSection('reservationsPage')">Reservations</button>
     <button onclick="showSection('unavailableDaysSection')">Unavailable Days</button>
+    <button onclick="showSection('promotionsSection')">Promotions</button>
   </div>
 
   <!-- Gallery Management -->
@@ -757,6 +990,103 @@
       The Calendar
     </h3>
     <ul id="unavailableDatesList" style="font-family:'DM Sans',sans-serif; font-size:13px; list-style:none; padding:0;"></ul>
+  </div>
+
+  <!-- ========== PROMOTIONS SECTION ========== -->
+  <div class="admin-container content-section" id="promotionsSection">
+    <div class="admin-kicker">Marketing</div>
+    <h2>Promotions</h2>
+
+    <!-- Create Promo Form -->
+    <div style="margin-bottom:40px;">
+      <div class="form-section-divider"><span>✦</span> Create New Promotion</div>
+
+      <label>Promotion Title</label>
+      <input type="text" id="promoTitle" placeholder="e.g. BESTIE DISCOUNT" style="text-transform:uppercase;letter-spacing:2px;"/>
+
+      <label>Description</label>
+      <textarea id="promoDescription" placeholder="e.g. Bring a bestie along and you BOTH get 10% off any style. Share the link after you book."></textarea>
+
+      <label>Discount Type</label>
+      <div class="discount-type-row">
+        <div class="discount-type-option selected" id="discountTypePercent" onclick="setDiscountType('percent')">
+          % Percentage Off
+        </div>
+        <div class="discount-type-option" id="discountTypeFixed" onclick="setDiscountType('fixed')">
+          $ Fixed Amount Off
+        </div>
+      </div>
+      <input type="hidden" id="promoDiscountType" value="percent"/>
+
+      <label id="promoDiscountLabel">Discount Percentage (%)</label>
+      <input type="number" id="promoDiscountValue" placeholder="e.g. 10" min="1" max="100"/>
+
+      <label>Applies To — Select Services</label>
+      <div class="service-scope-grid" id="serviceScopeGrid">
+        <div class="service-scope-chip all-styles-chip selected" data-scope="ALL" onclick="toggleServiceScope(this)">✦ All Styles</div>
+        <div class="service-scope-chip" data-scope="Knotless Box Braids" onclick="toggleServiceScope(this)">Knotless Box Braids</div>
+        <div class="service-scope-chip" data-scope="Boho Knotless Braids" onclick="toggleServiceScope(this)">Boho Knotless Braids</div>
+        <div class="service-scope-chip" data-scope="Goddess Knotless Braids" onclick="toggleServiceScope(this)">Goddess Knotless Braids</div>
+        <div class="service-scope-chip" data-scope="Tribal Braids" onclick="toggleServiceScope(this)">Tribal Braids</div>
+        <div class="service-scope-chip" data-scope="Fulani Braids" onclick="toggleServiceScope(this)">Fulani Braids</div>
+        <div class="service-scope-chip" data-scope="Lemonade Braids" onclick="toggleServiceScope(this)">Lemonade Braids</div>
+        <div class="service-scope-chip" data-scope="Box Braids" onclick="toggleServiceScope(this)">Box Braids</div>
+        <div class="service-scope-chip" data-scope="Jumbo Braids" onclick="toggleServiceScope(this)">Jumbo Braids</div>
+        <div class="service-scope-chip" data-scope="Island Twist" onclick="toggleServiceScope(this)">Island Twist</div>
+        <div class="service-scope-chip" data-scope="Passion Twists" onclick="toggleServiceScope(this)">Passion Twists</div>
+        <div class="service-scope-chip" data-scope="Mini Twists" onclick="toggleServiceScope(this)">Mini Twists</div>
+        <div class="service-scope-chip" data-scope="Soft Locs" onclick="toggleServiceScope(this)">Soft Locs</div>
+        <div class="service-scope-chip" data-scope="Butterfly Locs" onclick="toggleServiceScope(this)">Butterfly Locs</div>
+        <div class="service-scope-chip" data-scope="Faux Locs" onclick="toggleServiceScope(this)">Faux Locs</div>
+        <div class="service-scope-chip" data-scope="Straight Back Cornrows" onclick="toggleServiceScope(this)">Straight Back Cornrows</div>
+        <div class="service-scope-chip" data-scope="Design Cornrows" onclick="toggleServiceScope(this)">Design Cornrows</div>
+        <div class="service-scope-chip" data-scope="Zig-Zag Cornrows" onclick="toggleServiceScope(this)">Zig-Zag Cornrows</div>
+        <div class="service-scope-chip" data-scope="Natural Sew-In" onclick="toggleServiceScope(this)">Natural Sew-In</div>
+        <div class="service-scope-chip" data-scope="Closure Sew-In" onclick="toggleServiceScope(this)">Closure Sew-In</div>
+        <div class="service-scope-chip" data-scope="Frontal Sew-In" onclick="toggleServiceScope(this)">Frontal Sew-In</div>
+        <div class="service-scope-chip" data-scope="Basic Quick Weave" onclick="toggleServiceScope(this)">Basic Quick Weave</div>
+        <div class="service-scope-chip" data-scope="Styled Quick Weave" onclick="toggleServiceScope(this)">Styled Quick Weave</div>
+        <div class="service-scope-chip" data-scope="Closure Quick Weave" onclick="toggleServiceScope(this)">Closure Quick Weave</div>
+        <div class="service-scope-chip" data-scope="Sleek Ponytail" onclick="toggleServiceScope(this)">Sleek Ponytail</div>
+        <div class="service-scope-chip" data-scope="Braided Ponytail" onclick="toggleServiceScope(this)">Braided Ponytail</div>
+        <div class="service-scope-chip" data-scope="Half-Up Half-Down Ponytail" onclick="toggleServiceScope(this)">Half-Up Ponytail</div>
+      </div>
+      <p id="scopeHint" style="font-size:11px;color:var(--text-dim);font-style:italic;margin-bottom:16px;margin-top:-8px;">All styles selected. Tap to choose specific ones.</p>
+
+      <div class="promo-form-grid">
+        <div>
+          <label>Start Date (optional)</label>
+          <input type="date" id="promoStartDate"/>
+        </div>
+        <div>
+          <label>End Date (optional)</label>
+          <input type="date" id="promoEndDate"/>
+        </div>
+      </div>
+
+      <label>Book Now Button</label>
+      <div class="promo-book-toggle">
+        <label class="toggle-switch">
+          <input type="checkbox" id="promoShowBookBtn" checked/>
+          <span class="toggle-slider"></span>
+        </label>
+        <div>
+          <div class="toggle-label">Show "Book Now" button on banner</div>
+          <div class="toggle-sublabel">When clients tap it, the discount is automatically applied at checkout</div>
+        </div>
+      </div>
+
+      <button onclick="createPromotion()" style="width:100%;margin-top:8px;">Post Promotion</button>
+      <p id="promoFormMsg" style="text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:14px;margin-top:8px;display:none;"></p>
+    </div>
+
+    <!-- Active Promotions List -->
+    <div>
+      <div class="form-section-divider"><span>✦</span> Your Promotions</div>
+      <div id="promoAdminList">
+        <p style="text-align:center;color:var(--text-dim);font-style:italic;font-family:'Cormorant Garamond',serif;padding:24px 0;">Loading promotions…</p>
+      </div>
+    </div>
   </div>
 
   <!-- Conflict Modal -->
@@ -837,6 +1167,14 @@ const firebaseConfig = {
     function showSection(sectionId) {
       document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
       document.getElementById(sectionId).classList.add('active');
+      // Update active tab button
+      document.querySelectorAll('.top-menu button').forEach(btn => btn.classList.remove('active'));
+      const tabMap = {
+        gallerySection: 0, reservationsPage: 1, unavailableDaysSection: 2, promotionsSection: 3
+      };
+      const idx = tabMap[sectionId];
+      const btns = document.querySelectorAll('.top-menu button');
+      if (idx !== undefined && btns[idx]) btns[idx].classList.add('active');
     }
 
     function toggleTimeInputs() {
@@ -1680,6 +2018,192 @@ const firebaseConfig = {
       }, 3000);
     }
 
+    // ========== PROMOTIONS ==========
+    function setDiscountType(type) {
+      document.getElementById('promoDiscountType').value = type;
+      const pctEl = document.getElementById('discountTypePercent');
+      const fixEl = document.getElementById('discountTypeFixed');
+      const lbl = document.getElementById('promoDiscountLabel');
+      const inp = document.getElementById('promoDiscountValue');
+      if (type === 'percent') {
+        pctEl.classList.add('selected'); fixEl.classList.remove('selected');
+        lbl.textContent = 'Discount Percentage (%)';
+        inp.max = 100; inp.placeholder = 'e.g. 10';
+      } else {
+        fixEl.classList.add('selected'); pctEl.classList.remove('selected');
+        lbl.textContent = 'Fixed Discount Amount (JMD $)';
+        inp.removeAttribute('max'); inp.placeholder = 'e.g. 500';
+      }
+    }
+
+    // Service scope selection logic
+    function toggleServiceScope(chip) {
+      const scope = chip.dataset.scope;
+      const allChip = document.querySelector('.all-styles-chip');
+      const hintEl = document.getElementById('scopeHint');
+      if (scope === 'ALL') {
+        // Select All — deselect everything else
+        document.querySelectorAll('.service-scope-chip').forEach(c => c.classList.remove('selected'));
+        allChip.classList.add('selected');
+        hintEl.textContent = 'All styles selected. Tap to choose specific ones.';
+        return;
+      }
+      // Toggling a specific service — deselect "All"
+      allChip.classList.remove('selected');
+      chip.classList.toggle('selected');
+      const selectedChips = document.querySelectorAll('.service-scope-chip.selected:not(.all-styles-chip)');
+      if (selectedChips.length === 0) {
+        // Nothing selected — revert to All
+        allChip.classList.add('selected');
+        hintEl.textContent = 'All styles selected. Tap to choose specific ones.';
+      } else {
+        const names = Array.from(selectedChips).map(c => c.dataset.scope);
+        hintEl.textContent = names.length + ' service' + (names.length > 1 ? 's' : '') + ' selected.';
+      }
+    }
+
+    function getSelectedScopes() {
+      const allChip = document.querySelector('.all-styles-chip');
+      if (allChip && allChip.classList.contains('selected')) return ['ALL'];
+      return Array.from(document.querySelectorAll('.service-scope-chip.selected:not(.all-styles-chip)')).map(c => c.dataset.scope);
+    }
+
+    function resetScopeSelector() {
+      document.querySelectorAll('.service-scope-chip').forEach(c => c.classList.remove('selected'));
+      document.querySelector('.all-styles-chip').classList.add('selected');
+      document.getElementById('scopeHint').textContent = 'All styles selected. Tap to choose specific ones.';
+    }
+
+    function createPromotion() {
+      const title = document.getElementById('promoTitle').value.trim().toUpperCase();
+      const description = document.getElementById('promoDescription').value.trim();
+      const discountType = document.getElementById('promoDiscountType').value;
+      const discountValue = parseFloat(document.getElementById('promoDiscountValue').value);
+      const startDate = document.getElementById('promoStartDate').value || null;
+      const endDate = document.getElementById('promoEndDate').value || null;
+      const showBookBtn = document.getElementById('promoShowBookBtn').checked;
+      const appliesTo = getSelectedScopes();
+      const msgEl = document.getElementById('promoFormMsg');
+
+      msgEl.style.display = 'none';
+
+      if (!title) { msgEl.textContent = 'Please enter a promotion title.'; msgEl.style.color = '#e55'; msgEl.style.display = 'block'; return; }
+      if (!description) { msgEl.textContent = 'Please enter a description.'; msgEl.style.color = '#e55'; msgEl.style.display = 'block'; return; }
+      if (!discountValue || discountValue <= 0) { msgEl.textContent = 'Please enter a valid discount value.'; msgEl.style.color = '#e55'; msgEl.style.display = 'block'; return; }
+      if (endDate && startDate && endDate < startDate) { msgEl.textContent = 'End date must be after start date.'; msgEl.style.color = '#e55'; msgEl.style.display = 'block'; return; }
+      if (!appliesTo.length) { msgEl.textContent = 'Please select at least one service or choose All Styles.'; msgEl.style.color = '#e55'; msgEl.style.display = 'block'; return; }
+
+      db.collection('promotions').add({
+        title,
+        description,
+        discountType,
+        discountValue,
+        appliesTo,
+        startDate,
+        endDate,
+        showBookBtn,
+        active: true,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        // Reset form
+        document.getElementById('promoTitle').value = '';
+        document.getElementById('promoDescription').value = '';
+        document.getElementById('promoDiscountValue').value = '';
+        document.getElementById('promoStartDate').value = '';
+        document.getElementById('promoEndDate').value = '';
+        document.getElementById('promoShowBookBtn').checked = true;
+        setDiscountType('percent');
+        resetScopeSelector();
+        msgEl.textContent = '✅ Promotion posted and live on the site.';
+        msgEl.style.color = '#4ade80';
+        msgEl.style.display = 'block';
+        setTimeout(() => { msgEl.style.display = 'none'; }, 4000);
+        showToast('✅ Promotion is now live.');
+      }).catch(err => {
+        msgEl.textContent = 'Failed to create promotion: ' + err.message;
+        msgEl.style.color = '#e55';
+        msgEl.style.display = 'block';
+      });
+    }
+
+    function loadPromotionsAdmin() {
+      const container = document.getElementById('promoAdminList');
+      if (!container) return;
+      db.collection('promotions').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+        if (snapshot.empty) {
+          container.innerHTML = '<p style="text-align:center;color:var(--text-dim);font-style:italic;font-family:\'Cormorant Garamond\',serif;padding:32px 0;">No promotions yet. Create your first one above.</p>';
+          return;
+        }
+        const today = new Date().toISOString().split('T')[0];
+        container.innerHTML = '';
+        snapshot.forEach(doc => {
+          const p = doc.data();
+          const id = doc.id;
+          const discountLabel = p.discountType === 'percent'
+            ? p.discountValue + '% OFF'
+            : '$' + Number(p.discountValue).toLocaleString() + ' OFF';
+          const isExpired = p.endDate && p.endDate < today;
+          const isUpcoming = p.startDate && p.startDate > today;
+          let statusLabel, statusClass;
+          if (isExpired) { statusLabel = 'Expired'; statusClass = 'expired'; }
+          else if (!p.active) { statusLabel = 'Paused'; statusClass = 'paused'; }
+          else if (isUpcoming) { statusLabel = 'Scheduled'; statusClass = 'paused'; }
+          else { statusLabel = 'Live ✦'; statusClass = 'live'; }
+
+          let datesHtml = '';
+          if (p.startDate || p.endDate) {
+            datesHtml = '📅 ';
+            if (p.startDate) datesHtml += 'From ' + formatAdminDate(p.startDate);
+            if (p.endDate) datesHtml += (p.startDate ? ' → ' : 'Until ') + formatAdminDate(p.endDate);
+          }
+
+          // Applies-to label
+          const appliesToArr = p.appliesTo || ['ALL'];
+          let appliesHtml;
+          if (appliesToArr.includes('ALL')) {
+            appliesHtml = '✦ Applies to all styles';
+          } else {
+            appliesHtml = '✦ ' + appliesToArr.join(' · ');
+          }
+
+          const card = document.createElement('div');
+          card.className = 'promo-admin-card' + (isExpired ? ' expired' : '');
+          card.innerHTML = `
+            <span class="promo-status-badge ${statusClass}">${statusLabel}</span>
+            <div class="promo-admin-title">${p.title}</div>
+            <div class="promo-admin-discount">${discountLabel} · ${p.showBookBtn ? 'Book Now: ON' : 'Book Now: OFF'}</div>
+            <div class="promo-admin-applies">${appliesHtml}</div>
+            <div class="promo-admin-desc">${p.description}</div>
+            ${datesHtml ? `<div class="promo-admin-dates">${datesHtml}</div>` : ''}
+            <div class="promo-admin-actions">
+              <button class="promo-toggle-btn" onclick="togglePromoActive('${id}', ${p.active})">${p.active ? 'Pause' : 'Activate'}</button>
+              <button class="promo-delete-btn" onclick="deletePromotion('${id}')">Delete</button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      });
+    }
+
+    function formatAdminDate(dateStr) {
+      if (!dateStr) return '';
+      const [y, m, d] = dateStr.split('-');
+      return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function togglePromoActive(id, currentlyActive) {
+      db.collection('promotions').doc(id).update({ active: !currentlyActive })
+        .then(() => showToast(currentlyActive ? '⏸ Promotion paused.' : '▶ Promotion activated.'))
+        .catch(err => showToast('❌ Failed: ' + err.message, false));
+    }
+
+    function deletePromotion(id) {
+      if (!confirm('Delete this promotion? This cannot be undone.')) return;
+      db.collection('promotions').doc(id).delete()
+        .then(() => showToast('🗑 Promotion deleted.'))
+        .catch(err => showToast('❌ Failed to delete: ' + err.message, false));
+    }
+
     // ========== ADMIN UID GUARD ==========
     const ADMIN_UID = "2EWm9mnIEpTyLiW5vfZwlPNX1Dr2";
 
@@ -1731,6 +2255,7 @@ const firebaseConfig = {
       showSection('reservationsPage');
       loadReservations();
       loadUnavailableDates();
+      loadPromotionsAdmin();
     });
   </script>
   <!-- Admin Cancel Booking Modal -->

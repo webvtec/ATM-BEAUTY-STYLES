@@ -1616,6 +1616,262 @@ form button:hover,
 }
 .admin-google-btn:hover { border-color: var(--gold); }
 
+/* ========== USER AUTH MODAL ========== */
+.user-auth-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  z-index: 9500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.user-auth-modal.open { display: flex; }
+.user-auth-box {
+  background: var(--noir-card);
+  border: 1px solid rgba(196,149,106,0.2);
+  max-width: 400px;
+  width: 100%;
+  padding: 36px 28px 28px;
+  position: relative;
+}
+.user-auth-box .modal-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: none; border: none;
+  color: var(--text-dim); cursor: pointer;
+  padding: 6px;
+}
+.user-auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(196,149,106,0.15);
+}
+.user-auth-tab {
+  flex: 1;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: -1px;
+  transition: all 0.25s;
+}
+.user-auth-tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+.auth-tab-panel { display: none; }
+.auth-tab-panel.active { display: block; }
+.auth-input {
+  width: 100%;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(196,149,106,0.2);
+  color: var(--text-light);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 16px;
+  transition: border-color 0.25s;
+}
+.auth-input::placeholder { color: var(--text-dim); }
+.auth-input:focus { border-bottom-color: var(--gold); }
+.auth-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--gold);
+  color: var(--noir);
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  transition: all 0.3s;
+}
+.auth-submit-btn:hover { background: var(--gold-light); letter-spacing: 4px; }
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 16px;
+  color: var(--text-dim);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.auth-divider::before, .auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(196,149,106,0.15);
+}
+.auth-google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px;
+  background: #fff;
+  color: #333;
+  border: 1px solid rgba(196,149,106,0.2);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 0;
+  transition: border-color 0.25s;
+}
+.auth-google-btn:hover { border-color: var(--gold); }
+.auth-error-msg {
+  color: #e55;
+  font-size: 12px;
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 10px;
+  display: none;
+}
+.auth-success-msg {
+  color: var(--gold);
+  font-size: 12px;
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 10px;
+  display: none;
+}
+
+/* ========== PROMOTIONS BANNER ========== */
+#promoBannerSection {
+  width: 100%;
+  padding: 0;
+  position: relative;
+  z-index: 5;
+  display: none;
+}
+.promo-banner-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+.promo-banner-card {
+  position: relative;
+  padding: 18px 20px 18px 24px;
+  background: linear-gradient(135deg, rgba(244,114,182,0.12) 0%, rgba(196,149,106,0.08) 100%);
+  border-bottom: 1px solid rgba(244,114,182,0.2);
+  border-left: 3px solid #F472B6;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: promoBannerIn 0.5s var(--ease-lux) both;
+}
+@keyframes promoBannerIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.promo-banner-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.promo-banner-text {
+  flex: 1;
+  min-width: 0;
+}
+.promo-banner-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #F472B6;
+  margin-bottom: 3px;
+}
+.promo-banner-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+.promo-book-btn {
+  flex-shrink: 0;
+  padding: 9px 18px;
+  background: #F472B6;
+  color: var(--noir);
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: all 0.25s;
+}
+.promo-book-btn:hover { background: #fff; letter-spacing: 3px; }
+.promo-dismiss-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: none;
+  border: none;
+  color: rgba(244,114,182,0.5);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  line-height: 1;
+}
+.promo-dismiss-btn:hover { color: #F472B6; }
+
+/* Active promo discount bar shown on booking form */
+#activePromoBar {
+  display: none;
+  background: rgba(244,114,182,0.08);
+  border: 1px solid rgba(244,114,182,0.3);
+  border-left: 3px solid #F472B6;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  position: relative;
+}
+#activePromoBar .promo-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #F472B6;
+  margin-bottom: 3px;
+  font-family: 'DM Sans', sans-serif;
+}
+#activePromoBar .promo-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-light);
+}
+#activePromoBar .promo-remove {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: none;
+  border: none;
+  color: rgba(244,114,182,0.5);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px;
+}
+
 /* Footer banner */
 .footer-banner {
   position: fixed;
@@ -1780,6 +2036,11 @@ form button:hover,
   </div>
 </div>
 
+<!-- ========== PROMOTIONS BANNER ========== -->
+<div id="promoBannerSection">
+  <div class="promo-banner-scroll" id="promoBannerList"></div>
+</div>
+
 <!-- ========== HERO ========== -->
 <section class="hero" id="heroSection">
   <div class="hero-bg" id="heroBg"></div>
@@ -1908,6 +2169,13 @@ form button:hover,
           <div id="selectionSummaryText"></div>
         </div>
         <p id="estimateTimeMessage" style="display:none;"></p>
+        <!-- Active Promotion Discount Bar -->
+        <div id="activePromoBar">
+          <button class="promo-remove" onclick="clearActivePromo()" title="Remove promo">✕</button>
+          <div class="promo-label">🎉 Promo Applied</div>
+          <div class="promo-value" id="activePromoDesc">—</div>
+        </div>
+
         <button type="submit">Book Now</button>
       </form>
       <p id="bookingMessage"></p>
@@ -2044,6 +2312,51 @@ form button:hover,
         Transfer your <strong>$2,000 deposit</strong> to confirm your booking.<br>
         <span style="font-size:12px;color:#888;font-style:normal;font-family:'DM Sans',sans-serif;letter-spacing:1px;">Use your booking reference number as the transfer note.</span>
       </p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== USER AUTH MODAL ========== -->
+<div class="user-auth-modal" id="userAuthModal">
+  <div class="user-auth-box">
+    <button class="modal-close" onclick="closeUserAuthModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-kicker" style="margin-bottom:4px;text-align:center;">Welcome</div>
+    <h3 class="modal-title" style="text-align:center;margin-bottom:20px;">Your Account</h3>
+
+    <div class="user-auth-tabs">
+      <button class="user-auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">Log In</button>
+      <button class="user-auth-tab" id="authTabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Login Panel -->
+    <div class="auth-tab-panel active" id="authPanelLogin">
+      <p id="authLoginError" class="auth-error-msg"></p>
+      <input class="auth-input" id="loginEmail" type="email" placeholder="Email address" autocomplete="email"/>
+      <input class="auth-input" id="loginPassword" type="password" placeholder="Password" autocomplete="current-password"/>
+      <button class="auth-submit-btn" onclick="emailPasswordLogin()">Log In</button>
+      <button onclick="forgotPassword()" style="display:block;width:100%;background:none;border:none;color:var(--text-dim);font-size:11px;cursor:pointer;text-align:center;letter-spacing:1px;margin-bottom:16px;padding:0;">Forgot password?</button>
+      <div class="auth-divider">or</div>
+      <button class="auth-google-btn" onclick="googleSignIn()">
+        <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+
+    <!-- Sign Up Panel -->
+    <div class="auth-tab-panel" id="authPanelSignup">
+      <p id="authSignupError" class="auth-error-msg"></p>
+      <p id="authSignupSuccess" class="auth-success-msg"></p>
+      <input class="auth-input" id="signupEmail" type="email" placeholder="Email address" autocomplete="email"/>
+      <input class="auth-input" id="signupPassword" type="password" placeholder="Password (min. 6 chars)" autocomplete="new-password"/>
+      <input class="auth-input" id="signupPasswordConfirm" type="password" placeholder="Confirm password" autocomplete="new-password"/>
+      <button class="auth-submit-btn" onclick="emailPasswordSignup()">Create Account</button>
+      <div class="auth-divider">or</div>
+      <button class="auth-google-btn" onclick="googleSignIn()">
+        <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continue with Google
+      </button>
     </div>
   </div>
 </div>
@@ -2202,14 +2515,182 @@ function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout faile
 function googleSignIn() {
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  firebase.auth().signInWithPopup(provider).catch(e => { if (e.code !== 'auth/popup-closed-by-user') alert('Sign-in failed: ' + e.message); });
+  firebase.auth().signInWithPopup(provider).then(() => { closeUserAuthModal(); }).catch(e => { if (e.code !== 'auth/popup-closed-by-user') alert('Sign-in failed: ' + e.message); });
 }
-function handleAuthButtonClick() { firebase.auth().currentUser ? logoutUser() : googleSignIn(); }
+function handleAuthButtonClick() { firebase.auth().currentUser ? logoutUser() : openUserAuthModal(); }
 function updateAuthButton(user) {
   const btn = document.getElementById('authMenuBtn');
   if (!btn) return;
   if (user) { btn.textContent = 'LOGOUT'; btn.style.background = 'rgba(200,50,50,0.15)'; btn.style.color = '#e55'; btn.style.borderColor = 'rgba(200,50,50,0.3)'; }
   else { btn.textContent = 'LOG IN'; btn.style.background = 'none'; btn.style.color = 'var(--text-light)'; btn.style.borderColor = 'rgba(196,149,106,0.25)'; }
+}
+
+// ========== USER AUTH MODAL ==========
+function openUserAuthModal() {
+  document.getElementById('userAuthModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeUserAuthModal() {
+  document.getElementById('userAuthModal').classList.remove('open');
+  document.body.style.overflow = '';
+  // Clear inputs
+  ['loginEmail','loginPassword','signupEmail','signupPassword','signupPasswordConfirm'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  ['authLoginError','authSignupError','authSignupSuccess'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.style.display = 'none';
+  });
+}
+function switchAuthTab(tab) {
+  document.querySelectorAll('.user-auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('authTab' + (tab === 'login' ? 'Login' : 'Signup')).classList.add('active');
+  document.getElementById('authPanel' + (tab === 'login' ? 'Login' : 'Signup')).classList.add('active');
+}
+function emailPasswordLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('authLoginError');
+  errEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(() => { closeUserAuthModal(); })
+    .catch(e => {
+      errEl.textContent = e.code === 'auth/wrong-password' ? 'Incorrect password.' : e.code === 'auth/user-not-found' ? 'No account found with that email.' : 'Sign-in failed: ' + e.message;
+      errEl.style.display = 'block';
+    });
+}
+function emailPasswordSignup() {
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  const confirm = document.getElementById('signupPasswordConfirm').value;
+  const errEl = document.getElementById('authSignupError');
+  const sucEl = document.getElementById('authSignupSuccess');
+  errEl.style.display = 'none'; sucEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = 'Please enter your email and a password.'; errEl.style.display = 'block'; return; }
+  if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
+  if (password !== confirm) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return; }
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(() => { closeUserAuthModal(); })
+    .catch(e => {
+      errEl.textContent = e.code === 'auth/email-already-in-use' ? 'An account with that email already exists.' : 'Sign-up failed: ' + e.message;
+      errEl.style.display = 'block';
+    });
+}
+function forgotPassword() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const errEl = document.getElementById('authLoginError');
+  if (!email) { errEl.textContent = 'Enter your email above first.'; errEl.style.display = 'block'; return; }
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(() => { errEl.style.display = 'none'; Swal.fire({ title: 'Reset Email Sent', text: 'Check your inbox for a password reset link.', icon: 'success', confirmButtonColor: 'var(--gold)' }); })
+    .catch(e => { errEl.textContent = 'Could not send reset email: ' + e.message; errEl.style.display = 'block'; });
+}
+// Close user auth modal on backdrop click
+document.getElementById('userAuthModal').addEventListener('click', function(e) {
+  if (e.target === this) closeUserAuthModal();
+});
+
+// ========== PROMOTIONS LOGIC ==========
+let activePromo = null; // { title, description, discountType, discountValue }
+
+function loadPromotions() {
+  const now = new Date();
+  const nowStr = now.toISOString().split('T')[0];
+  db.collection('promotions').onSnapshot(snapshot => {
+    const bannerList = document.getElementById('promoBannerList');
+    const bannerSection = document.getElementById('promoBannerSection');
+    bannerList.innerHTML = '';
+    let visibleCount = 0;
+    const dismissedIds = JSON.parse(sessionStorage.getItem('dismissedPromos') || '[]');
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      const id = doc.id;
+      // Filter: active, within date range
+      if (!p.active) return;
+      if (p.startDate && p.startDate > nowStr) return;
+      if (p.endDate && p.endDate < nowStr) return;
+      if (dismissedIds.includes(id)) return;
+      visibleCount++;
+      const discountLabel = p.discountType === 'percent' ? p.discountValue + '% OFF' : '$' + Number(p.discountValue).toLocaleString() + ' OFF';
+      const card = document.createElement('div');
+      card.className = 'promo-banner-card';
+      card.innerHTML = `
+        <span class="promo-banner-icon">🎉</span>
+        <div class="promo-banner-text">
+          <div class="promo-banner-title">${p.title} — ${discountLabel}</div>
+          <div class="promo-banner-desc">${p.description}</div>
+        </div>
+        ${p.showBookBtn ? `<button class="promo-book-btn" onclick="applyPromoAndBook('${id}', ${JSON.stringify(p).replace(/'/g,"&#39;")})">Book Now</button>` : ''}
+        <button class="promo-dismiss-btn" onclick="dismissPromo('${id}', this)" title="Dismiss">✕</button>
+      `;
+      bannerList.appendChild(card);
+    });
+    bannerSection.style.display = visibleCount > 0 ? 'block' : 'none';
+  });
+}
+
+function dismissPromo(id, btn) {
+  const card = btn.closest('.promo-banner-card');
+  card.style.animation = 'none';
+  card.style.opacity = '0';
+  card.style.transition = 'opacity 0.3s';
+  setTimeout(() => {
+    card.remove();
+    const dismissed = JSON.parse(sessionStorage.getItem('dismissedPromos') || '[]');
+    dismissed.push(id);
+    sessionStorage.setItem('dismissedPromos', JSON.stringify(dismissed));
+    if (document.getElementById('promoBannerList').children.length === 0) {
+      document.getElementById('promoBannerSection').style.display = 'none';
+    }
+  }, 300);
+}
+
+function applyPromoAndBook(id, promoData) {
+  activePromo = promoData;
+  // Update the active promo bar in booking form
+  const bar = document.getElementById('activePromoBar');
+  const desc = document.getElementById('activePromoDesc');
+  const discountLabel = promoData.discountType === 'percent'
+    ? promoData.discountValue + '% off'
+    : '$' + Number(promoData.discountValue).toLocaleString() + ' off';
+  const scopeNote = promoData.appliesTo && !promoData.appliesTo.includes('ALL')
+    ? ' · Applies to: ' + promoData.appliesTo.join(', ')
+    : '';
+  desc.textContent = promoData.title + ' — ' + discountLabel + scopeNote;
+  bar.style.display = 'block';
+  // Navigate to booking
+  showSection('bookingSection');
+  // Recalculate summary
+  updateSelectionSummary();
+}
+
+function clearActivePromo() {
+  activePromo = null;
+  document.getElementById('activePromoBar').style.display = 'none';
+  updateSelectionSummary();
+}
+
+function getPromoDiscount(baseTotal) {
+  if (!activePromo || baseTotal <= 0) return 0;
+  // Check if promo applies to the currently selected service
+  if (activePromo.appliesTo && !activePromo.appliesTo.includes('ALL')) {
+    const selectedService = document.getElementById('adultService')?.value || 'NONE';
+    const styleName = selectedService.replace(/^hair-/, '');
+    if (!activePromo.appliesTo.includes(styleName)) return 0;
+  }
+  if (activePromo.discountType === 'percent') {
+    return Math.round(baseTotal * (activePromo.discountValue / 100));
+  } else {
+    return Math.min(Number(activePromo.discountValue), baseTotal);
+  }
+}
+
+function isPromoValidForService() {
+  if (!activePromo) return false;
+  if (!activePromo.appliesTo || activePromo.appliesTo.includes('ALL')) return true;
+  const selectedService = document.getElementById('adultService')?.value || 'NONE';
+  const styleName = selectedService.replace(/^hair-/, '');
+  return activePromo.appliesTo.includes(styleName);
 }
 
 // Menu
@@ -2229,8 +2710,15 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu();
 function showSection(sectionId) {
   // Hide hero when navigating away
   const hero = document.getElementById('heroSection');
-  if (sectionId !== 'gallerySection') { hero.style.display = 'none'; }
-  else { hero.style.display = ''; }
+  const promoBanner = document.getElementById('promoBannerSection');
+  if (sectionId !== 'gallerySection') {
+    hero.style.display = 'none';
+    if (promoBanner) promoBanner.style.display = 'none';
+  } else {
+    hero.style.display = '';
+    // Re-check if there are visible promos
+    if (promoBanner && promoBanner.querySelector('.promo-banner-card')) promoBanner.style.display = 'block';
+  }
 
   document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(sectionId);
@@ -2479,6 +2967,7 @@ function loadGallery(containerId) {
 document.addEventListener('DOMContentLoaded', function() {
   showSection('gallerySection');
   loadGallery('galleryDisplay');
+  loadPromotions();
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
@@ -2573,6 +3062,20 @@ function getSelectedTotal() {
   const def = pricingCardDefs[haircut];
   let total = selectedCutPrice !== null ? selectedCutPrice : (def?.basePrice || 0);
   selectedAddons.forEach(a => { if (addonPrices[a]) total += addonPrices[a]; });
+  // Apply active promo discount
+  if (activePromo && total > 0) {
+    const discount = getPromoDiscount(total);
+    total = Math.max(0, total - discount);
+  }
+  return total;
+}
+
+function getBaseTotal() {
+  const haircut = document.getElementById('adultService')?.value || 'NONE';
+  if (!haircut || haircut === 'NONE') return 0;
+  const def = pricingCardDefs[haircut];
+  let total = selectedCutPrice !== null ? selectedCutPrice : (def?.basePrice || 0);
+  selectedAddons.forEach(a => { if (addonPrices[a]) total += addonPrices[a]; });
   return total;
 }
 
@@ -2600,11 +3103,23 @@ function updateSelectionSummary() {
   if (parts.length === 0) { summaryBox.style.display = 'none'; summaryText.innerHTML = ''; }
   else {
     summaryBox.style.display = 'block';
-    const total = getSelectedTotal(), dur = getSelectedServiceDuration();
+    const baseTotal = getBaseTotal(), total = getSelectedTotal(), dur = getSelectedServiceDuration();
     const durHrs = Math.floor(dur / 60), durMins = dur % 60;
     const durLabel = durHrs > 0 ? (durMins > 0 ? durHrs+'h '+durMins+'m' : durHrs+'h') : durMins+'m';
-    const totalStr = total > 0 ? '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(196,149,106,0.2);font-weight:600;letter-spacing:1px;font-size:13px;color:var(--gold);">ESTIMATED TOTAL: $'+total.toLocaleString()+' · '+durLabel+'</div>' : '<div style="margin-top:6px;font-size:12px;color:var(--gold);font-style:italic;">⏱ Est. '+durLabel+'</div>';
-    summaryText.innerHTML = parts.map(p => '<span style="display:inline-block;background:var(--noir);border:1px solid rgba(196,149,106,0.2);padding:4px 10px;margin:3px 3px 3px 0;font-size:12px;color:var(--gold);font-weight:600;">'+p+'</span>').join('') + totalStr;
+    const discount = baseTotal - total;
+    const promoValid = activePromo && isPromoValidForService();
+    let promoNote = '';
+    if (activePromo && !promoValid) {
+      promoNote = '<div style="margin-top:6px;padding:6px 10px;background:rgba(244,114,182,0.05);border:1px solid rgba(244,114,182,0.2);font-size:11px;color:rgba(244,114,182,0.7);font-style:italic;">⚠ Promo not valid for this style — select a qualifying service to apply</div>';
+    } else if (promoValid && discount > 0) {
+      promoNote = '<div style="margin-top:6px;font-size:11px;color:#F472B6;letter-spacing:1px;">🎉 '+activePromo.title+' saves you $'+discount.toLocaleString()+'</div>';
+    }
+    const totalStr = total > 0
+      ? '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(196,149,106,0.2);font-weight:600;letter-spacing:1px;font-size:13px;color:var(--gold);">'
+        + (discount > 0 ? '<span style="text-decoration:line-through;color:var(--text-dim);font-size:11px;font-weight:400;margin-right:6px;">$'+baseTotal.toLocaleString()+'</span>' : '')
+        + 'TOTAL: $'+total.toLocaleString()+' · '+durLabel+'</div>'
+      : '<div style="margin-top:6px;font-size:12px;color:var(--gold);font-style:italic;">⏱ Est. '+durLabel+'</div>';
+    summaryText.innerHTML = parts.map(p => '<span style="display:inline-block;background:var(--noir);border:1px solid rgba(196,149,106,0.2);padding:4px 10px;margin:3px 3px 3px 0;font-size:12px;color:var(--gold);font-weight:600;">'+p+'</span>').join('') + totalStr + promoNote;
   }
 }
 function clearSelections() {
@@ -2795,21 +3310,25 @@ function submitBooking(event) {
   const haircutVal=document.getElementById('adultService')?.value||'NONE';
   const isOtherCut=haircutVal.endsWith('-Other');
   if(isOtherCut&&selectedAddons.size===0){alert('Please select at least one add-on for the Other option before booking.');return;}
-  const bookingNumber=generateBookingNumber(name),duration=getSelectedServiceDuration(),total=getSelectedTotal();
+  const bookingNumber=generateBookingNumber(name),duration=getSelectedServiceDuration();
+  const baseTotal=getBaseTotal(),discount=getPromoDiscount(baseTotal),total=Math.max(0,baseTotal-discount);
+  const promoApplied=activePromo?{title:activePromo.title,discountType:activePromo.discountType,discountValue:activePromo.discountValue,discountAmount:discount}:null;
   const newStart=convertToMinutes(time),newEnd=newStart+duration;
   db.collection('bookings').where('date','==',date).get().then(snapshot=>{
     const conflict=snapshot.docs.some(doc=>{const d=doc.data();if(d.status==='Cancelled')return false;const bStart=convertToMinutes(normalizeTimeStr(d.time)),bDur=(typeof d.duration==='number'&&d.duration>30)?d.duration:240,bEnd=bStart+bDur;return newStart<bEnd&&bStart<newEnd;});
     if(conflict){alert('This time slot was just taken. Please choose another time.');loadAvailableSlots();return Promise.reject('Time slot not available');}
-    return db.collection('bookings').add({uid:user?user.uid:'guest',email:user?(user.email||''):'guest',bookingNumber,name,phone,date,time,service:services,duration,total,deposit:"No",timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+    const bookingData={uid:user?user.uid:'guest',email:user?(user.email||''):'guest',bookingNumber,name,phone,date,time,service:services,duration,baseTotal,total,deposit:"No",timestamp:firebase.firestore.FieldValue.serverTimestamp()};
+    if(promoApplied)bookingData.promo=promoApplied;
+    return db.collection('bookings').add(bookingData);
   }).then(docRef=>{
     if(!docRef) return;
     const[year,month,day]=date.split("-");
     const formattedDate=new Date(year,month-1,day).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
-    const totalStr=total>0?'\n💰 Total: $'+total.toLocaleString():'';
+    const totalStr=total>0?'\n💰 Total: $'+total.toLocaleString()+(promoApplied?' (incl. '+promoApplied.title+' saving: $'+promoApplied.discountAmount.toLocaleString()+')':''):'';
     const message='🌸 NEW BOOKING — ATM BEAUTY STYLES\n\n🔢 Booking #: '+bookingNumber+'\n👤 Name: '+name+'\n📞 Phone: '+phone+'\n📍 Date: '+formattedDate+'\n⏰ Time: '+time+'\n✨ Service: '+services+totalStr;
     const telegramBotToken="8682971831:AAFqC5ENgd-mqD0IjHFQkH5yIrjH7l7XJ78",telegramChatId="-1003999284170";
     fetch('https://api.telegram.org/bot'+telegramBotToken+'/sendMessage',{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:telegramChatId,text:message,parse_mode:"HTML"})}).catch(()=>{});
-    document.querySelector("#bookingSection form").reset();clearSelections();
+    document.querySelector("#bookingSection form").reset();clearSelections();clearActivePromo();
     document.getElementById('serviceIncludesCard').style.display='none';document.getElementById('serviceIncludesCard').innerHTML='';
     document.getElementById("estimateTimeMessage").innerHTML="";document.getElementById("selectedTime").innerHTML="<option value=''>Pick date & service first</option>";
     document.querySelector("#bookingModal h3").style.display="none";
