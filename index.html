@@ -2660,6 +2660,7 @@ document.getElementById('userAuthModal').addEventListener('click', function(e) {
 
 // ========== PROMOTIONS LOGIC ==========
 let activePromo = null; // { title, description, discountType, discountValue }
+let promoDataById = {}; // lookup so we never have to inline raw JSON into onclick attributes
 
 function loadPromotions() {
   const now = new Date();
@@ -2668,6 +2669,7 @@ function loadPromotions() {
     const bannerList = document.getElementById('promoBannerList');
     const bannerSection = document.getElementById('promoBannerSection');
     bannerList.innerHTML = '';
+    promoDataById = {};
     const PROMO_COLOR_COUNT = 6; // matches .promo-color-0 .. .promo-color-5
 
     // First pass: collect only the valid/visible promos so we know the total count
@@ -2684,6 +2686,7 @@ function loadPromotions() {
     const hasMoreThanOne = visiblePromos.length > 1;
 
     visiblePromos.forEach(({ id, p }, i) => {
+      promoDataById[id] = p;
       const colorClass = 'promo-color-' + (i % PROMO_COLOR_COUNT);
       const discountLabel = p.discountType === 'percent' ? p.discountValue + '% OFF' : '$' + Number(p.discountValue).toLocaleString() + ' OFF';
       const card = document.createElement('div');
@@ -2695,7 +2698,7 @@ function loadPromotions() {
             <div class="promo-banner-title">${p.title} — ${discountLabel}</div>
             <div class="promo-banner-desc">${p.description}</div>
           </div>
-          ${p.showBookBtn ? `<button class="promo-book-btn" onclick="applyPromoAndBook('${id}', ${JSON.stringify(p).replace(/'/g,"&#39;")})">Book Now</button>` : ''}
+          ${p.showBookBtn ? `<button class="promo-book-btn" onclick="applyPromoAndBook('${id}')">Book Now</button>` : ''}
         </div>
         ${hasMoreThanOne ? `<div class="promo-swipe-strip">Swipe for more discounts <span class="promo-swipe-arrow">→</span></div>` : ''}
       `;
@@ -2706,7 +2709,9 @@ function loadPromotions() {
 }
 
 
-function applyPromoAndBook(id, promoData) {
+function applyPromoAndBook(id) {
+  const promoData = promoDataById[id];
+  if (!promoData) return;
   activePromo = promoData;
   // Update the active promo bar in booking form
   const bar = document.getElementById('activePromoBar');
