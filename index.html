@@ -1759,6 +1759,14 @@ form button:hover,
   align-items: center;
   gap: 14px;
 }
+@media (max-width: 1024px) {
+  .promo-banner-top { padding: 10px 16px 10px 18px; gap: 10px; }
+  .promo-banner-icon { font-size: 18px; }
+  .promo-banner-title { font-size: 9px; margin-bottom: 1px; }
+  .promo-banner-desc { font-size: 12px; line-height: 1.25; }
+  .promo-book-btn { padding: 7px 14px; font-size: 8px; }
+  .promo-swipe-strip { padding: 4px 18px; font-size: 8px; }
+}
 .promo-swipe-strip {
   width: 100%;
   padding: 7px 24px;
@@ -1837,9 +1845,9 @@ form button:hover,
 /* Active promo discount bar shown on booking form */
 #activePromoBar {
   display: none;
-  background: rgba(244,114,182,0.08);
-  border: 1px solid rgba(244,114,182,0.3);
-  border-left: 3px solid #F472B6;
+  background: #D4478A;
+  border: 1px solid #9B1D5E;
+  border-left: 3px solid #9B1D5E;
   padding: 12px 16px;
   margin-bottom: 16px;
   position: relative;
@@ -1857,14 +1865,14 @@ form button:hover,
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-size: 14px;
-  color: var(--text-light);
+  color: #FFFFFF;
 }
 #activePromoBar .promo-remove {
   position: absolute;
   top: 8px; right: 8px;
   background: none;
   border: none;
-  color: rgba(244,114,182,0.5);
+  color: rgba(255,255,255,0.7);
   cursor: pointer;
   font-size: 13px;
   padding: 2px;
