@@ -2292,16 +2292,17 @@ const firebaseConfig = {
         <span class="rev-card-value" id="revGross">$0</span>
       </div>
       <div class="rev-card">
-        <span class="rev-card-label">Discounts Given</span>
-        <span class="rev-card-value" id="revDiscounts" style="color:#e55;">-$0</span>
-      </div>
-      <div class="rev-card">
         <span class="rev-card-label">Net Revenue</span>
         <span class="rev-card-value" id="revNet" style="color:#4a4;">$0</span>
       </div>
       <div class="rev-card">
         <span class="rev-card-label">Total Bookings</span>
         <span class="rev-card-value" id="revCount">0</span>
+      </div>
+      <div class="rev-card rev-card-boost">
+        <span class="rev-card-label" id="revBoostLabel">vs Last Period</span>
+        <span class="rev-card-value" id="revBoost" style="font-size:22px;">—</span>
+        <span class="rev-boost-detail" id="revBoostDetail"></span>
       </div>
     </div>
     <h3 style="font-family:'Cormorant Garamond',serif; font-weight:700; color:var(--text-ink); font-size:20px; margin-top:32px; margin-bottom:14px; text-align:center;">
@@ -2356,6 +2357,12 @@ const firebaseConfig = {
     .rev-card { background:var(--noir); border:1px solid rgba(212,71,138,0.15); padding:18px 16px; text-align:center; }
     .rev-card-label { display:block; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; }
     .rev-card-value { display:block; font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--text-light); }
+    .rev-card-boost { position:relative; overflow:hidden; }
+    .rev-card-boost.up { border-color:rgba(74,170,74,0.3); }
+    .rev-card-boost.down { border-color:rgba(229,85,85,0.3); }
+    .rev-card-boost.up .rev-card-value { color:#4a4; }
+    .rev-card-boost.down .rev-card-value { color:#e55; }
+    .rev-boost-detail { display:block; font-size:10px; color:var(--text-dim); margin-top:4px; letter-spacing:0.5px; line-height:1.4; }
     .rev-log-item { padding:12px; border-bottom:1px solid rgba(212,71,138,0.08); display:grid; grid-template-columns:1fr auto; gap:4px; }
     .rev-log-item:last-child { border-bottom:none; }
     .rev-log-name { font-weight:600; color:var(--text-light); }
@@ -2571,6 +2578,13 @@ const firebaseConfig = {
 
     function renderRevenue() {
       const filterDate = getFilterDate(currentRevenueFilter);
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+
+      // Calculate the previous period of equal length for comparison
+      const periodMs = now.getTime() - filterDate.getTime();
+      const prevStart = new Date(filterDate.getTime() - periodMs);
+
       const filtered = allRevenueData.filter(r => {
         if (!r.date) return false;
         const [y, m, d] = r.date.split('-').map(Number);
@@ -2578,20 +2592,64 @@ const firebaseConfig = {
         return rDate >= filterDate;
       });
 
-      let gross = 0, discounts = 0, net = 0;
+      const prevFiltered = allRevenueData.filter(r => {
+        if (!r.date) return false;
+        const [y, m, d] = r.date.split('-').map(Number);
+        const rDate = new Date(y, m - 1, d);
+        return rDate >= prevStart && rDate < filterDate;
+      });
+
+      let gross = 0, net = 0;
       filtered.forEach(r => {
         const base = Number(r.baseTotal) || Number(r.total) || 0;
-        const disc = Number(r.discountAmount) || 0;
         const actual = Number(r.total) || 0;
         gross += base;
-        discounts += disc;
         net += actual;
       });
 
+      let prevNet = 0;
+      prevFiltered.forEach(r => { prevNet += Number(r.total) || 0; });
+
       document.getElementById('revGross').textContent = '$' + gross.toLocaleString();
-      document.getElementById('revDiscounts').textContent = '-$' + discounts.toLocaleString();
       document.getElementById('revNet').textContent = '$' + net.toLocaleString();
       document.getElementById('revCount').textContent = filtered.length;
+
+      // Sales boost comparison
+      const boostEl = document.getElementById('revBoost');
+      const boostLabelEl = document.getElementById('revBoostLabel');
+      const boostDetailEl = document.getElementById('revBoostDetail');
+      const boostCard = boostEl.closest('.rev-card-boost');
+
+      const periodLabels = {
+        daily: 'vs Yesterday', weekly: 'vs Last Week', monthly: 'vs Last Month',
+        '3months': 'vs Prior 3 Months', '6months': 'vs Prior 6 Months',
+        yearly: 'vs Last Year', all: 'All Time'
+      };
+      boostLabelEl.textContent = periodLabels[currentRevenueFilter] || 'vs Last Period';
+
+      boostCard.classList.remove('up', 'down');
+
+      if (currentRevenueFilter === 'all' || prevNet === 0 && net === 0) {
+        boostEl.textContent = '—';
+        boostDetailEl.textContent = filtered.length + ' total bookings';
+      } else if (prevNet === 0 && net > 0) {
+        boostEl.innerHTML = '🚀 New!';
+        boostCard.classList.add('up');
+        boostDetailEl.textContent = '$' + net.toLocaleString() + ' with no prior data';
+      } else {
+        const change = ((net - prevNet) / prevNet) * 100;
+        const absChange = Math.abs(change).toFixed(1);
+        const diff = Math.abs(net - prevNet);
+        if (change >= 0) {
+          boostEl.innerHTML = '↑ ' + absChange + '%';
+          boostCard.classList.add('up');
+          boostDetailEl.textContent = '+$' + diff.toLocaleString() + ' more than last period (' + prevFiltered.length + ' → ' + filtered.length + ' bookings)';
+        } else {
+          boostEl.innerHTML = '↓ ' + absChange + '%';
+          boostCard.classList.add('down');
+          boostDetailEl.textContent = '-$' + diff.toLocaleString() + ' less than last period (' + prevFiltered.length + ' → ' + filtered.length + ' bookings)';
+        }
+      }
 
       const logEl = document.getElementById('revenueLog');
       if (filtered.length === 0) {
@@ -2610,7 +2668,7 @@ const firebaseConfig = {
         return `<div class="rev-log-item">
           <div>
             <div class="rev-log-name">${r.name || 'Unknown'}</div>
-            <div class="rev-log-service">${r.service || '—'}${disc > 0 ? ' <span style="color:#e55;">(-$' + disc.toLocaleString() + ' discount)</span>' : ''}</div>
+            <div class="rev-log-service">${r.service || '—'}${disc > 0 ? ' <span style="color:#e55;">(-$' + disc.toLocaleString() + ' promo)</span>' : ''}</div>
           </div>
           <div>
             <div class="rev-log-amount">$${(Number(r.total) || 0).toLocaleString()}</div>
