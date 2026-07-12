@@ -1720,12 +1720,9 @@ form button:hover,
 /* ========== PROMOTIONS BANNER ========== */
 #promoBannerSection {
   width: 100%;
-  padding: 0;
-  position: fixed;
-  top: 162px; /* 72px header height + 90px gap, fixed = stays put no matter the view */
-  left: 0;
-  right: 0;
-  z-index: 8500;
+  padding-top: 162px; /* 72px header height + 90px gap — padding avoids margin-collapse with body */
+  position: relative;
+  z-index: 5;
   display: none;
 }
 .promo-banner-scroll {
@@ -1737,14 +1734,21 @@ form button:hover,
 .promo-banner-card {
   position: relative;
   padding: 18px 20px 18px 24px;
-  background: linear-gradient(135deg, rgba(244,114,182,0.12) 0%, rgba(212,71,138,0.08) 100%);
-  border-bottom: 1px solid rgba(244,114,182,0.2);
-  border-left: 3px solid #F472B6;
+  background: #D4478A; /* fallback, overridden by .promo-color-N */
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  border-left: 3px solid rgba(0,0,0,0.2);
   display: flex;
   align-items: center;
   gap: 14px;
   animation: promoBannerIn 0.5s var(--ease-lux) both;
 }
+/* Preset solid colors — cycle through these no matter how many promos are active */
+.promo-color-0 { background: #D4478A; border-left-color: #9B1D5E; }
+.promo-color-1 { background: #7C3AED; border-left-color: #5B21B6; }
+.promo-color-2 { background: #2563EB; border-left-color: #1D4ED8; }
+.promo-color-3 { background: #059669; border-left-color: #047857; }
+.promo-color-4 { background: #EA580C; border-left-color: #C2410C; }
+.promo-color-5 { background: #DC2626; border-left-color: #B91C1C; }
 @keyframes promoBannerIn {
   from { opacity: 0; transform: translateX(-12px); }
   to { opacity: 1; transform: translateX(0); }
@@ -1776,7 +1780,7 @@ form button:hover,
 .promo-book-btn {
   flex-shrink: 0;
   padding: 9px 18px;
-  background: #F472B6;
+  background: #FFFFFF;
   color: var(--noir);
   border: none;
   cursor: pointer;
@@ -1788,19 +1792,7 @@ form button:hover,
   white-space: nowrap;
   transition: all 0.25s;
 }
-.promo-book-btn:hover { background: #fff; letter-spacing: 3px; }
-.promo-dismiss-btn {
-  position: absolute;
-  top: 8px; right: 8px;
-  background: none;
-  border: none;
-  color: rgba(244,114,182,0.5);
-  cursor: pointer;
-  font-size: 14px;
-  padding: 4px;
-  line-height: 1;
-}
-.promo-dismiss-btn:hover { color: #FFFFFF; }
+.promo-book-btn:hover { letter-spacing: 3px; opacity: 0.9; }
 
 /* Active promo discount bar shown on booking form */
 #activePromoBar {
@@ -2637,7 +2629,7 @@ function loadPromotions() {
     const bannerSection = document.getElementById('promoBannerSection');
     bannerList.innerHTML = '';
     let visibleCount = 0;
-    const dismissedIds = JSON.parse(sessionStorage.getItem('dismissedPromos') || '[]');
+    const PROMO_COLOR_COUNT = 6; // matches .promo-color-0 .. .promo-color-5
     snapshot.forEach(doc => {
       const p = doc.data();
       const id = doc.id;
@@ -2645,11 +2637,11 @@ function loadPromotions() {
       if (!p.active) return;
       if (p.startDate && p.startDate > nowStr) return;
       if (p.endDate && p.endDate < nowStr) return;
-      if (dismissedIds.includes(id)) return;
+      const colorClass = 'promo-color-' + (visibleCount % PROMO_COLOR_COUNT);
       visibleCount++;
       const discountLabel = p.discountType === 'percent' ? p.discountValue + '% OFF' : '$' + Number(p.discountValue).toLocaleString() + ' OFF';
       const card = document.createElement('div');
-      card.className = 'promo-banner-card';
+      card.className = 'promo-banner-card ' + colorClass;
       card.innerHTML = `
         <span class="promo-banner-icon">🎉</span>
         <div class="promo-banner-text">
@@ -2657,28 +2649,11 @@ function loadPromotions() {
           <div class="promo-banner-desc">${p.description}</div>
         </div>
         ${p.showBookBtn ? `<button class="promo-book-btn" onclick="applyPromoAndBook('${id}', ${JSON.stringify(p).replace(/'/g,"&#39;")})">Book Now</button>` : ''}
-        <button class="promo-dismiss-btn" onclick="dismissPromo('${id}', this)" title="Dismiss">✕</button>
       `;
       bannerList.appendChild(card);
     });
     bannerSection.style.display = visibleCount > 0 ? 'block' : 'none';
   });
-}
-
-function dismissPromo(id, btn) {
-  const card = btn.closest('.promo-banner-card');
-  card.style.animation = 'none';
-  card.style.opacity = '0';
-  card.style.transition = 'opacity 0.3s';
-  setTimeout(() => {
-    card.remove();
-    const dismissed = JSON.parse(sessionStorage.getItem('dismissedPromos') || '[]');
-    dismissed.push(id);
-    sessionStorage.setItem('dismissedPromos', JSON.stringify(dismissed));
-    if (document.getElementById('promoBannerList').children.length === 0) {
-      document.getElementById('promoBannerSection').style.display = 'none';
-    }
-  }, 300);
 }
 
 function applyPromoAndBook(id, promoData) {
