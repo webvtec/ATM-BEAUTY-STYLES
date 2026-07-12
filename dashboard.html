@@ -911,6 +911,7 @@
     <button onclick="showSection('reservationsPage')">Reservations</button>
     <button onclick="showSection('unavailableDaysSection')">Unavailable Days</button>
     <button onclick="showSection('promotionsSection')">Promotions</button>
+    <button onclick="showSection('revenueSection')">Revenue</button>
   </div>
 
   <!-- Gallery Management -->
@@ -958,6 +959,7 @@
   <div class="admin-container content-section" id="reservationsPage">
     <div class="admin-kicker">Appointments</div>
     <h2>Reservations</h2>
+    <button onclick="openAdminBookingModal()" style="width:100%; background:var(--gold); color:var(--noir); border:none; padding:14px; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:700; font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:18px; transition:all 0.3s;">✦ Book for Client</button>
     <div style="display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
       <input id="reservationSearch" placeholder="Search reservations…" type="text" style="flex:1; min-width:180px;"/>
       <button onclick="searchReservations()" style="margin-bottom:0;">Search</button>
@@ -1168,7 +1170,7 @@ const firebaseConfig = {
       // Update active tab button
       document.querySelectorAll('.top-menu button').forEach(btn => btn.classList.remove('active'));
       const tabMap = {
-        gallerySection: 0, reservationsPage: 1, unavailableDaysSection: 2, promotionsSection: 3
+        gallerySection: 0, reservationsPage: 1, unavailableDaysSection: 2, promotionsSection: 3, revenueSection: 4
       };
       const idx = tabMap[sectionId];
       const btns = document.querySelectorAll('.top-menu button');
@@ -2254,6 +2256,7 @@ const firebaseConfig = {
       loadReservations();
       loadUnavailableDates();
       loadPromotionsAdmin();
+      loadRevenue();
     });
   </script>
   <!-- Admin Cancel Booking Modal -->
@@ -2269,6 +2272,419 @@ const firebaseConfig = {
       </div>
     </div>
   </div>
+
+  <!-- ========== REVENUE SECTION ========== -->
+  <div class="admin-container content-section" id="revenueSection">
+    <div class="admin-kicker">Analytics</div>
+    <h2>Revenue Tracking</h2>
+    <div class="revenue-filters">
+      <button class="rev-filter active" data-filter="daily" onclick="setRevenueFilter('daily',this)">Today</button>
+      <button class="rev-filter" data-filter="weekly" onclick="setRevenueFilter('weekly',this)">This Week</button>
+      <button class="rev-filter" data-filter="monthly" onclick="setRevenueFilter('monthly',this)">This Month</button>
+      <button class="rev-filter" data-filter="3months" onclick="setRevenueFilter('3months',this)">3 Months</button>
+      <button class="rev-filter" data-filter="6months" onclick="setRevenueFilter('6months',this)">6 Months</button>
+      <button class="rev-filter" data-filter="yearly" onclick="setRevenueFilter('yearly',this)">This Year</button>
+      <button class="rev-filter" data-filter="all" onclick="setRevenueFilter('all',this)">All Time</button>
+    </div>
+    <div class="revenue-cards">
+      <div class="rev-card">
+        <span class="rev-card-label">Gross Revenue</span>
+        <span class="rev-card-value" id="revGross">$0</span>
+      </div>
+      <div class="rev-card">
+        <span class="rev-card-label">Discounts Given</span>
+        <span class="rev-card-value" id="revDiscounts" style="color:#e55;">-$0</span>
+      </div>
+      <div class="rev-card">
+        <span class="rev-card-label">Net Revenue</span>
+        <span class="rev-card-value" id="revNet" style="color:#4a4;">$0</span>
+      </div>
+      <div class="rev-card">
+        <span class="rev-card-label">Total Bookings</span>
+        <span class="rev-card-value" id="revCount">0</span>
+      </div>
+    </div>
+    <h3 style="font-family:'Cormorant Garamond',serif; font-weight:700; color:var(--text-ink); font-size:20px; margin-top:32px; margin-bottom:14px; text-align:center;">
+      <span style="display:block; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:11px; color:var(--gold); letter-spacing:3px; text-transform:uppercase; font-weight:400; margin-bottom:2px;">Details</span>
+      Revenue Log
+    </h3>
+    <div id="revenueLog" style="font-size:13px;"></div>
+  </div>
+
+  <!-- ========== ADMIN BOOKING MODAL ========== -->
+  <div id="adminBookingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:flex-start; z-index:2000; overflow-y:auto; padding:30px 0;">
+    <div style="background:var(--noir-card); border:1px solid rgba(212,71,138,0.2); padding:28px 22px; max-width:420px; width:92%; margin:auto;">
+      <div style="text-align:center; margin-bottom:20px;">
+        <div class="admin-kicker">Admin</div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; color:var(--text-light); margin:6px 0 0;">Book for Client</h2>
+      </div>
+      <label style="color:var(--text-dim);">Client Name *</label>
+      <input type="text" id="abName" placeholder="Full name"/>
+      <label style="color:var(--text-dim);">Phone Number *</label>
+      <input type="tel" id="abPhone" placeholder="e.g. 876-555-1234"/>
+      <label style="color:var(--text-dim);">Email (optional)</label>
+      <input type="email" id="abEmail" placeholder="client@email.com"/>
+      <label style="color:var(--text-dim);">Service *</label>
+      <select id="abService" onchange="onAdminServiceChange()" style="background:var(--noir); color:var(--text-light); border:1px solid rgba(212,71,138,0.2); padding:10px; width:100%; font-size:14px;">
+        <option value="">Select a service</option>
+      </select>
+      <div id="abServiceDetail" style="display:none; margin-top:10px;">
+        <label style="color:var(--text-dim);">Size / Option *</label>
+        <select id="abSize" onchange="onAdminSizeChange()" style="background:var(--noir); color:var(--text-light); border:1px solid rgba(212,71,138,0.2); padding:10px; width:100%; font-size:14px;"></select>
+        <label style="color:var(--text-dim); margin-top:8px; display:block;">Length / Cut *</label>
+        <select id="abLength" onchange="onAdminLengthChange()" style="background:var(--noir); color:var(--text-light); border:1px solid rgba(212,71,138,0.2); padding:10px; width:100%; font-size:14px;"></select>
+      </div>
+      <div id="abPriceDisplay" style="display:none; margin-top:10px; padding:12px; background:var(--noir); border:1px solid rgba(212,71,138,0.2); text-align:center; font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--gold);"></div>
+      <label style="color:var(--text-dim);">Date *</label>
+      <input type="date" id="abDate" style="background:var(--noir); color:var(--text-light); border:1px solid rgba(212,71,138,0.2); padding:10px; width:100%;"/>
+      <label style="color:var(--text-dim);">Time *</label>
+      <input type="time" id="abTime" style="background:var(--noir); color:var(--text-light); border:1px solid rgba(212,71,138,0.2); padding:10px; width:100%;"/>
+      <label style="color:var(--text-dim);">Custom Total (optional — overrides calculated price)</label>
+      <input type="number" id="abCustomTotal" placeholder="Leave blank to use service price" style="background:var(--noir); color:var(--text-light); border:1px solid rgba(212,71,138,0.2); padding:10px; width:100%;"/>
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button onclick="closeAdminBookingModal()" style="flex:1; background:var(--smoke); color:var(--text-light); border:none; padding:14px; cursor:pointer; font-weight:700; font-size:12px; letter-spacing:1px; text-transform:uppercase;">Cancel</button>
+        <button onclick="submitAdminBooking()" style="flex:1; background:var(--gold); color:var(--noir); border:none; padding:14px; cursor:pointer; font-weight:700; font-size:12px; letter-spacing:1px; text-transform:uppercase;">Book</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .revenue-filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+    .rev-filter { background:var(--smoke); color:var(--text-dim); border:1px solid rgba(212,71,138,0.1); padding:8px 14px; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; font-weight:600; transition:all 0.3s; margin-bottom:0; }
+    .rev-filter.active, .rev-filter:hover { background:var(--gold); color:var(--noir); border-color:var(--gold); }
+    .revenue-cards { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .rev-card { background:var(--noir); border:1px solid rgba(212,71,138,0.15); padding:18px 16px; text-align:center; }
+    .rev-card-label { display:block; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; }
+    .rev-card-value { display:block; font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--text-light); }
+    .rev-log-item { padding:12px; border-bottom:1px solid rgba(212,71,138,0.08); display:grid; grid-template-columns:1fr auto; gap:4px; }
+    .rev-log-item:last-child { border-bottom:none; }
+    .rev-log-name { font-weight:600; color:var(--text-light); }
+    .rev-log-service { font-size:12px; color:var(--text-dim); }
+    .rev-log-amount { font-family:'Cormorant Garamond',serif; font-weight:700; font-size:18px; color:var(--gold); text-align:right; }
+    .rev-log-date { font-size:11px; color:var(--text-dim); text-align:right; }
+    @media(max-width:480px) { .revenue-cards { grid-template-columns:1fr; } .revenue-filters { gap:6px; } .rev-filter { padding:6px 10px; font-size:10px; } }
+  </style>
+
+  <script>
+    // ========== ADMIN BOOKING ==========
+    // Hair service data for admin booking (mirrors index.html)
+    const adminHairStyles = {
+      'Knotless Box Braids': { sizes: { 'Large': [['Bra-strap length',8000],['Mid-back length',9000],['Waist length',10000],['Hip length',11000],['Tailbone length',12000],['Classic length',14000],['Mid-thigh length',18000]], 'Medium': [['Armpit length',8000],['Bra-strap length',9000],['Mid-back length',10000],['Waist length',11000],['Hip length',12000],['Tailbone length',13000],['Classic length',16000],['Mid-thigh length',20000]], 'Small': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',12000],['Hip length',13000],['Tailbone length',15000],['Classic length',17000],['Mid-thigh length',22000]] }},
+      'Boho Knotless Braids': { sizes: { 'Large': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000],['Tailbone length',17000],['Classic length',20000],['Mid-thigh length',23000]], 'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',22000],['Mid-thigh length',24000]], 'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',17000],['Hip length',19000],['Tailbone length',21000],['Classic length',24000],['Mid-thigh length',26000]] }},
+      'Goddess Knotless Braids': { sizes: { 'Large': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',20500],['Mid-thigh length',23500]], 'Medium': [['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',22500],['Mid-thigh length',25500]], 'Small': [['Armpit length',13000],['Bra-strap length',14000],['Mid-back length',15000],['Waist length',17500],['Hip length',19500],['Tailbone length',21500],['Classic length',24500],['Mid-thigh length',27500]] }},
+      'Tribal Braids': { sizes: { 'Large': [['Armpit length',8000],['Bra-strap length',9000],['Mid-back length',10000],['Waist length',12000],['Hip length',14000],['Tailbone length',16000],['Classic length',18000],['Mid-thigh length',21000]], 'Medium': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000],['Tailbone length',17000],['Classic length',19000],['Mid-thigh length',22000]], 'Small': [['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',21000],['Mid-thigh length',24000]] }},
+      'Fulani Braids': { sizes: { 'Large': [['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]], 'Medium': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',19500],['Mid-thigh length',22500]], 'Small': [['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',21500],['Mid-thigh length',24500]] }},
+      'Lemonade Braids': { sizes: { 'Medium': [['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]], 'Small': [['Bra-strap length',11500],['Mid-back length',12500],['Waist length',14500],['Hip length',16500],['Tailbone length',18500],['Classic length',20500],['Mid-thigh length',23500]] }},
+      'Box Braids': { sizes: { 'Large': [['Bra-strap length',7500],['Mid-back length',8500],['Waist length',9500],['Hip length',10500],['Tailbone length',11500],['Classic length',13500],['Mid-thigh length',17000]], 'Medium': [['Bra-strap length',8500],['Mid-back length',9500],['Waist length',10500],['Hip length',11500],['Tailbone length',12500],['Classic length',15000],['Mid-thigh length',19000]], 'Small': [['Bra-strap length',9500],['Mid-back length',10500],['Waist length',11500],['Hip length',12500],['Tailbone length',14000],['Classic length',16000],['Mid-thigh length',21000]] }},
+      'Jumbo Braids': { sizes: { 'Large': [['Mid-back length',8000],['Waist length',9000],['Hip length',10000],['Tailbone length',11000],['Classic length',13000],['Mid-thigh length',16000]] }},
+      'Island Twist': { sizes: { 'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',22000],['Mid-thigh length',24000]], 'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',17000],['Hip length',19000],['Tailbone length',21000],['Classic length',24000],['Mid-thigh length',26000]] }},
+      'Passion Twists': { sizes: { 'Large': [['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500]], 'Medium': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500]], 'Small': [['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500]] }},
+      'Mini Twists': { sizes: { 'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000]], 'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000]] }},
+      'Soft Locs': { sizes: { 'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000]], 'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000]] }},
+      'Butterfly Locs': { sizes: { 'Medium': [['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',22500],['Mid-thigh length',25500]], 'Small': [['Armpit length',13000],['Bra-strap length',14000],['Mid-back length',15000],['Waist length',17500],['Hip length',19500],['Tailbone length',21500],['Classic length',24500],['Mid-thigh length',27500]] }},
+      'Faux Locs': { sizes: { 'Medium': [['Armpit length',9000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000]], 'Small': [['Armpit length',9000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000]] }},
+      'Straight Back Cornrows': { sizes: { 'Options': [['2–4 Cornrows',5000],['5–6 Cornrows',5500],['7–8 Cornrows',6000],['9–10 Cornrows',6500],['11–12 Cornrows',7000]] }},
+      'Design Cornrows': { sizes: { 'Options': [['Simple Design',5000],['Medium Design',6000],['Detailed Design',7000],['Complex / Custom Design',9000]] }},
+      'Zig-Zag Cornrows': { sizes: { 'Options': [['Basic Zig-Zag',5000],['Medium Pattern',6000],['Detailed Pattern',7000],['Complex Pattern',9000]] }},
+      'Natural Sew-In': { sizes: { 'Options': [['Basic Install',8000]] }},
+      'Closure Sew-In': { sizes: { 'Options': [['Basic Install',10000]] }},
+      'Frontal Sew-In': { sizes: { 'Options': [['Basic Install',12000]] }},
+      'Basic Quick Weave': { sizes: { 'Options': [['Basic Install',5000],['With Styling',6000]] }},
+      'Styled Quick Weave': { sizes: { 'Options': [['Basic Install',6000],['With Styling',7000]] }},
+      'Closure Quick Weave': { sizes: { 'Options': [['Basic Install',7000],['With Styling',8000]] }},
+      'Sleek Ponytail': { sizes: { 'Options': [['Basic Style',4500]] }},
+      'Braided Ponytail': { sizes: { 'Options': [['Basic Style',5000]] }},
+      'Half-Up Half-Down Ponytail': { sizes: { 'Options': [['Basic Style',7000]] }}
+    };
+
+    let adminSelectedPrice = 0;
+
+    function populateAdminServices() {
+      const sel = document.getElementById('abService');
+      sel.innerHTML = '<option value="">Select a service</option>';
+      Object.keys(adminHairStyles).forEach(name => {
+        sel.innerHTML += `<option value="${name}">${name}</option>`;
+      });
+    }
+
+    function onAdminServiceChange() {
+      const name = document.getElementById('abService').value;
+      const detail = document.getElementById('abServiceDetail');
+      const priceDisp = document.getElementById('abPriceDisplay');
+      adminSelectedPrice = 0;
+      priceDisp.style.display = 'none';
+      if (!name || !adminHairStyles[name]) { detail.style.display = 'none'; return; }
+      detail.style.display = 'block';
+      const sizes = Object.keys(adminHairStyles[name].sizes);
+      const sizeSel = document.getElementById('abSize');
+      sizeSel.innerHTML = '<option value="">Select</option>';
+      sizes.forEach(s => { sizeSel.innerHTML += `<option value="${s}">${s}</option>`; });
+      document.getElementById('abLength').innerHTML = '<option value="">Select size first</option>';
+    }
+
+    function onAdminSizeChange() {
+      const name = document.getElementById('abService').value;
+      const size = document.getElementById('abSize').value;
+      const priceDisp = document.getElementById('abPriceDisplay');
+      adminSelectedPrice = 0;
+      priceDisp.style.display = 'none';
+      if (!name || !size) return;
+      const lengths = adminHairStyles[name].sizes[size];
+      const lenSel = document.getElementById('abLength');
+      lenSel.innerHTML = '<option value="">Select</option>';
+      lengths.forEach(([lName, price]) => { lenSel.innerHTML += `<option value="${price}" data-label="${lName}">${lName} — $${price.toLocaleString()}</option>`; });
+    }
+
+    function onAdminLengthChange() {
+      const val = document.getElementById('abLength').value;
+      const priceDisp = document.getElementById('abPriceDisplay');
+      if (val) {
+        adminSelectedPrice = parseInt(val);
+        priceDisp.textContent = 'Price: $' + adminSelectedPrice.toLocaleString();
+        priceDisp.style.display = 'block';
+      } else {
+        adminSelectedPrice = 0;
+        priceDisp.style.display = 'none';
+      }
+    }
+
+    function openAdminBookingModal() {
+      populateAdminServices();
+      document.getElementById('abName').value = '';
+      document.getElementById('abPhone').value = '';
+      document.getElementById('abEmail').value = '';
+      document.getElementById('abService').value = '';
+      document.getElementById('abServiceDetail').style.display = 'none';
+      document.getElementById('abPriceDisplay').style.display = 'none';
+      document.getElementById('abDate').value = '';
+      document.getElementById('abTime').value = '';
+      document.getElementById('abCustomTotal').value = '';
+      adminSelectedPrice = 0;
+      document.getElementById('adminBookingModal').style.display = 'flex';
+    }
+
+    function closeAdminBookingModal() {
+      document.getElementById('adminBookingModal').style.display = 'none';
+    }
+
+    function submitAdminBooking() {
+      const name = document.getElementById('abName').value.trim();
+      const phone = document.getElementById('abPhone').value.trim();
+      const email = document.getElementById('abEmail').value.trim();
+      const serviceName = document.getElementById('abService').value;
+      const date = document.getElementById('abDate').value;
+      const timeVal = document.getElementById('abTime').value;
+      const customTotal = document.getElementById('abCustomTotal').value.trim();
+
+      if (!name) { alert('Please enter client name.'); return; }
+      if (!phone) { alert('Please enter phone number.'); return; }
+      if (!serviceName) { alert('Please select a service.'); return; }
+      if (!date) { alert('Please select a date.'); return; }
+      if (!timeVal) { alert('Please select a time.'); return; }
+
+      // Build service label
+      const sizeSel = document.getElementById('abSize');
+      const lenSel = document.getElementById('abLength');
+      let serviceLabel = serviceName;
+      if (sizeSel.value) serviceLabel += ' — ' + sizeSel.value;
+      if (lenSel.selectedOptions[0] && lenSel.selectedOptions[0].dataset.label) serviceLabel += ' — ' + lenSel.selectedOptions[0].dataset.label;
+
+      const total = customTotal ? parseInt(customTotal) : adminSelectedPrice;
+
+      // Convert 24h time to 12h format
+      const [hh, mm] = timeVal.split(':').map(Number);
+      const ampm = hh >= 12 ? 'PM' : 'AM';
+      const h12 = hh % 12 || 12;
+      const timeFormatted = h12 + ':' + String(mm).padStart(2, '0') + ' ' + ampm;
+
+      const bookingNumber = 'ADM-' + Date.now().toString(36).toUpperCase();
+
+      const bookingData = {
+        uid: 'admin-manual',
+        email: email || '',
+        bookingNumber: bookingNumber,
+        name: name,
+        phone: phone,
+        date: date,
+        time: timeFormatted,
+        service: 'Hair — ' + serviceLabel,
+        total: total,
+        deposit: 'No',
+        bookedBy: 'admin',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      db.collection('bookings').add(bookingData).then(docRef => {
+        // Also add to revenue collection
+        const revenueData = { ...bookingData, bookingId: docRef.id, baseTotal: total, discountAmount: 0 };
+        db.collection('revenue').add(revenueData);
+        closeAdminBookingModal();
+        showToast('✅ Booking created for ' + name);
+      }).catch(err => {
+        alert('Failed to create booking: ' + err.message);
+      });
+    }
+
+    // ========== REVENUE TRACKING ==========
+    let allRevenueData = [];
+    let currentRevenueFilter = 'daily';
+
+    function loadRevenue() {
+      db.collection('revenue').orderBy('date', 'desc').onSnapshot(snapshot => {
+        allRevenueData = [];
+        snapshot.forEach(doc => {
+          allRevenueData.push({ id: doc.id, ...doc.data() });
+        });
+        renderRevenue();
+      });
+    }
+
+    function setRevenueFilter(filter, btn) {
+      currentRevenueFilter = filter;
+      document.querySelectorAll('.rev-filter').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderRevenue();
+    }
+
+    function getFilterDate(filter) {
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      switch (filter) {
+        case 'daily': return now;
+        case 'weekly':
+          const weekStart = new Date(now);
+          weekStart.setDate(now.getDate() - now.getDay());
+          return weekStart;
+        case 'monthly':
+          return new Date(now.getFullYear(), now.getMonth(), 1);
+        case '3months':
+          return new Date(now.getFullYear(), now.getMonth() - 3, 1);
+        case '6months':
+          return new Date(now.getFullYear(), now.getMonth() - 6, 1);
+        case 'yearly':
+          return new Date(now.getFullYear(), 0, 1);
+        case 'all':
+          return new Date(2000, 0, 1);
+        default: return now;
+      }
+    }
+
+    function renderRevenue() {
+      const filterDate = getFilterDate(currentRevenueFilter);
+      const filtered = allRevenueData.filter(r => {
+        if (!r.date) return false;
+        const [y, m, d] = r.date.split('-').map(Number);
+        const rDate = new Date(y, m - 1, d);
+        return rDate >= filterDate;
+      });
+
+      let gross = 0, discounts = 0, net = 0;
+      filtered.forEach(r => {
+        const base = Number(r.baseTotal) || Number(r.total) || 0;
+        const disc = Number(r.discountAmount) || 0;
+        const actual = Number(r.total) || 0;
+        gross += base;
+        discounts += disc;
+        net += actual;
+      });
+
+      document.getElementById('revGross').textContent = '$' + gross.toLocaleString();
+      document.getElementById('revDiscounts').textContent = '-$' + discounts.toLocaleString();
+      document.getElementById('revNet').textContent = '$' + net.toLocaleString();
+      document.getElementById('revCount').textContent = filtered.length;
+
+      const logEl = document.getElementById('revenueLog');
+      if (filtered.length === 0) {
+        logEl.innerHTML = '<p style="color:var(--text-dim); text-align:center; padding:20px;">No revenue data for this period.</p>';
+        return;
+      }
+
+      logEl.innerHTML = filtered.map(r => {
+        const dateStr = r.date || '—';
+        let formattedDate = dateStr;
+        try {
+          const [y, m, d] = dateStr.split('-').map(Number);
+          formattedDate = new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        } catch(e) {}
+        const disc = Number(r.discountAmount) || 0;
+        return `<div class="rev-log-item">
+          <div>
+            <div class="rev-log-name">${r.name || 'Unknown'}</div>
+            <div class="rev-log-service">${r.service || '—'}${disc > 0 ? ' <span style="color:#e55;">(-$' + disc.toLocaleString() + ' discount)</span>' : ''}</div>
+          </div>
+          <div>
+            <div class="rev-log-amount">$${(Number(r.total) || 0).toLocaleString()}</div>
+            <div class="rev-log-date">${formattedDate}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ========== PATCH: Archive to revenue before clearing ==========
+    const _origClearReservations = clearReservations;
+    clearReservations = async function() {
+      const confirmInput = document.getElementById('clearInput').value.trim();
+      if (confirmInput !== 'CONFIRM') { alert('TYPE "CONFIRM" TO CLEAR PAST RESERVATIONS.'); return; }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      try {
+        const snapshot = await db.collection('bookings').get();
+        const batch = db.batch();
+        const archivePromises = [];
+
+        snapshot.forEach(doc => {
+          const booking = doc.data();
+          if (booking.date && typeof booking.date === 'string') {
+            const [year, month, day] = booking.date.split('-').map(Number);
+            const bookingDate = new Date(year, month - 1, day);
+            bookingDate.setHours(0, 0, 0, 0);
+            if (bookingDate < today) {
+              // Only archive non-cancelled bookings to revenue
+              if (booking.status !== 'Cancelled') {
+                const baseTotal = Number(booking.baseTotal) || Number(booking.total) || 0;
+                const actualTotal = Number(booking.total) || 0;
+                const discountAmount = baseTotal > actualTotal ? baseTotal - actualTotal : 0;
+                archivePromises.push(db.collection('revenue').add({
+                  ...booking,
+                  bookingId: doc.id,
+                  baseTotal: baseTotal,
+                  total: actualTotal,
+                  discountAmount: discountAmount,
+                  archivedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }));
+              }
+              batch.delete(doc.ref);
+            }
+          }
+        });
+
+        await Promise.all(archivePromises);
+        await batch.commit();
+        showToast('✅ Past reservations archived & cleared.');
+        document.getElementById('clearInput').value = '';
+      } catch(err) {
+        console.error(err);
+        alert('Failed to clear past reservations.');
+      }
+    };
+
+    // ========== PATCH: Remove from revenue on cancel ==========
+    const _origConfirmAdminCancel = confirmAdminCancel;
+    confirmAdminCancel = function() {
+      const orderId = document.getElementById('adminCancelBookingId').value;
+      if (!orderId) return;
+      // Remove any matching revenue entry
+      db.collection('revenue').where('bookingId', '==', orderId).get().then(snap => {
+        snap.forEach(d => d.ref.delete());
+      }).catch(() => {});
+      // Proceed with original cancel
+      db.collection("bookings").doc(orderId).update({ status: 'Cancelled', cancelledBy: 'admin' })
+        .then(() => { closeAdminCancelModal(); showToast('🗑 Booking cancelled.'); })
+        .catch(err => { closeAdminCancelModal(); alert("Failed to cancel: " + err.message); });
+    };
+  </script>
 
   </div><!-- end #dashboardContent -->
 </body>

@@ -480,7 +480,7 @@ body::after {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-size: 12px;
-  color: var(--gold);
+  color: #FFFFFF;
   letter-spacing: 3px;
   text-transform: uppercase;
   margin-bottom: 28px;
@@ -758,7 +758,7 @@ body::after {
   font-size: 13px !important;
   letter-spacing: 3px !important;
   text-transform: uppercase !important;
-  color: rgba(212,71,138,0.7) !important;
+  color: #FFFFFF !important;
   margin-top: 4px;
 }
 .scroll-line {
@@ -1839,19 +1839,51 @@ form button:hover,
 .footer-banner {
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  background: var(--noir);
-  border-top: 1px solid rgba(212,71,138,0.1);
+  background: #4169E1;
+  border-top: 1px solid rgba(65,105,225,0.3);
   text-align: center;
   padding: 5px 12px;
   font-size: 10px;
   letter-spacing: 1.5px;
-  color: rgba(232,226,218,0.25);
+  color: rgba(255,255,255,0.85);
   z-index: 1000;
   text-transform: uppercase;
+  overflow: hidden;
+}
+.footer-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 5% 30%, #D4A520 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 12% 70%, #D4A520 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 20%, #D4A520 0%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 28% 55%, #DAA520 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 80%, #D4A520 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 42% 35%, #D4A520 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 15%, #DAA520 0%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 55% 65%, #D4A520 0%, transparent 100%),
+    radial-gradient(1px 1px at 62% 45%, #D4A520 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 70% 25%, #DAA520 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 75%, #D4A520 0%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 82% 50%, #D4A520 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 20%, #DAA520 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 93% 60%, #D4A520 0%, transparent 100%),
+    radial-gradient(1px 1px at 97% 40%, #D4A520 0%, transparent 100%);
+  opacity: 0.7;
+  animation: glitterShimmer 3s ease-in-out infinite alternate;
+}
+@keyframes glitterShimmer {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.55; }
 }
 .footer-banner a {
-  color: rgba(232,226,218,0.25);
+  color: rgba(255,255,255,0.85);
   text-decoration: none;
+  position: relative;
+  z-index: 1;
 }
 
 /* Star rating */
@@ -1958,7 +1990,7 @@ form button:hover,
 <div class="drawer" id="menu">
   <button class="drawer-close" onclick="closeMenu()" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
   <div class="drawer-brand-name">ATM Beauty</div>
-  <div class="drawer-tagline">Kingston, Jamaica</div>
+  <div class="drawer-tagline">Clock Tower Plaza's Shop 7</div>
 
   <a class="drawer-nav-link" onclick="showSection('gallerySection'); closeMenu();" href="javascript:void(0);">Home</a>
   <a class="drawer-nav-link" onclick="showSection('bookingSection'); closeMenu();" href="javascript:void(0);">Book Now</a>
@@ -2012,7 +2044,7 @@ form button:hover,
     <p class="hero-sub hero-finest">Kingston's Finest</p>
     <a class="hero-cta" onclick="showSection('bookingSection');" href="javascript:void(0);">Book Your Appointment</a>
     <div class="hero-scroll-hint">
-      <span class="hero-location-label">Kingston, Jamaica</span>
+      <span class="hero-location-label">Clock Tower Plaza's Shop 7</span>
       <span>Scroll</span>
       <div class="scroll-line"></div>
     </div>
@@ -3282,6 +3314,8 @@ function submitBooking(event) {
     return db.collection('bookings').add(bookingData);
   }).then(docRef=>{
     if(!docRef) return;
+    // Archive to revenue collection
+    try{db.collection('revenue').add({bookingId:docRef.id,uid:user?user.uid:'guest',email:user?(user.email||''):'guest',bookingNumber,name,phone,date,time,service:services,duration,baseTotal,total,discountAmount:baseTotal-total,deposit:'No',promo:promoApplied||null,timestamp:firebase.firestore.FieldValue.serverTimestamp()});}catch(e){console.error('Revenue write error:',e);}
     const[year,month,day]=date.split("-");
     const formattedDate=new Date(year,month-1,day).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
     const totalStr=total>0?'\n💰 Total: $'+total.toLocaleString()+(promoApplied?' (incl. '+promoApplied.title+' saving: $'+promoApplied.discountAmount.toLocaleString()+')':''):'';
@@ -3395,7 +3429,7 @@ function cancelUserBooking(bookingId,bookingNumber){
   Swal.fire({title:'Cancel Booking?',html:'<p style="color:#888;font-size:14px;">Are you sure you want to cancel <strong>Booking #'+bookingNumber+'</strong>?<br><br>This cannot be undone.</p>',icon:'warning',showCancelButton:true,confirmButtonColor:'#e55',cancelButtonColor:'#888',confirmButtonText:'Yes, Cancel It',cancelButtonText:'Keep Booking',reverseButtons:true}).then(result=>{
     if(!result.isConfirmed) return;
     db.collection('bookings').doc(bookingId).get().then(doc=>{if(!doc.exists){Swal.fire('Not Found','Booking could not be found.','error');return;}if(doc.data().uid!==user.uid){Swal.fire('Denied','You can only cancel your own bookings.','error');return;}
-    db.collection('bookings').doc(bookingId).update({status:'Cancelled',cancelledBy:'client'}).then(()=>{Swal.fire({title:'Booking Cancelled',text:'Booking #'+bookingNumber+' has been cancelled.',icon:'success',confirmButtonColor:'var(--gold)'});}).catch(err=>Swal.fire('Error','Failed to cancel booking: '+err.message,'error'));}).catch(err=>Swal.fire('Error',err.message,'error'));
+    db.collection('bookings').doc(bookingId).update({status:'Cancelled',cancelledBy:'client'}).then(()=>{try{db.collection('revenue').where('bookingId','==',bookingId).get().then(snap=>{snap.forEach(d=>d.ref.delete());});}catch(e){}Swal.fire({title:'Booking Cancelled',text:'Booking #'+bookingNumber+' has been cancelled.',icon:'success',confirmButtonColor:'var(--gold)'});}).catch(err=>Swal.fire('Error','Failed to cancel booking: '+err.message,'error'));}).catch(err=>Swal.fire('Error',err.message,'error'));
   });
 }
 
