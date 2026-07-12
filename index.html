@@ -1722,7 +1722,7 @@ form button:hover,
   width: 100%;
   padding: 0;
   position: absolute; /* overlays the hero instead of pushing it down; still scrolls with the page (not fixed) */
-  top: 162px; /* 72px header height + 90px gap */
+  top: 92px; /* 72px header height + 20px gap */
   left: 0;
   right: 0;
   z-index: 5;
@@ -1730,10 +1730,16 @@ form button:hover,
 }
 .promo-banner-scroll {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0;
   width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.promo-banner-scroll::-webkit-scrollbar { display: none; }
 .promo-banner-card {
   position: relative;
   padding: 18px 20px 18px 24px;
@@ -1743,6 +1749,9 @@ form button:hover,
   display: flex;
   align-items: center;
   gap: 14px;
+  flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: start;
   animation: promoBannerIn 0.5s var(--ease-lux) both;
 }
 /* Preset solid colors — cycle through these no matter how many promos are active */
