@@ -1742,17 +1742,45 @@ form button:hover,
 .promo-banner-scroll::-webkit-scrollbar { display: none; }
 .promo-banner-card {
   position: relative;
-  padding: 18px 20px 18px 24px;
+  padding: 0;
   background: #D4478A; /* fallback, overridden by .promo-color-N */
   border-bottom: 1px solid rgba(0,0,0,0.15);
   border-left: 3px solid rgba(0,0,0,0.2);
   display: flex;
-  align-items: center;
-  gap: 14px;
+  flex-direction: column;
   flex: 0 0 100%;
   width: 100%;
   scroll-snap-align: start;
   animation: promoBannerIn 0.5s var(--ease-lux) both;
+}
+.promo-banner-top {
+  padding: 18px 20px 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.promo-swipe-strip {
+  width: 100%;
+  padding: 7px 24px;
+  background: rgba(0,0,0,0.18);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.promo-swipe-arrow {
+  display: inline-block;
+  animation: promoSwipeNudge 1.4s ease-in-out infinite;
+}
+@keyframes promoSwipeNudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
 }
 /* Preset solid colors — cycle through these no matter how many promos are active */
 .promo-color-0 { background: #D4478A; border-left-color: #9B1D5E; }
@@ -2640,33 +2668,43 @@ function loadPromotions() {
     const bannerList = document.getElementById('promoBannerList');
     const bannerSection = document.getElementById('promoBannerSection');
     bannerList.innerHTML = '';
-    let visibleCount = 0;
     const PROMO_COLOR_COUNT = 6; // matches .promo-color-0 .. .promo-color-5
+
+    // First pass: collect only the valid/visible promos so we know the total count
+    const visiblePromos = [];
     snapshot.forEach(doc => {
       const p = doc.data();
       const id = doc.id;
-      // Filter: active, within date range
       if (!p.active) return;
       if (p.startDate && p.startDate > nowStr) return;
       if (p.endDate && p.endDate < nowStr) return;
-      const colorClass = 'promo-color-' + (visibleCount % PROMO_COLOR_COUNT);
-      visibleCount++;
+      visiblePromos.push({ id, p });
+    });
+
+    const hasMoreThanOne = visiblePromos.length > 1;
+
+    visiblePromos.forEach(({ id, p }, i) => {
+      const colorClass = 'promo-color-' + (i % PROMO_COLOR_COUNT);
       const discountLabel = p.discountType === 'percent' ? p.discountValue + '% OFF' : '$' + Number(p.discountValue).toLocaleString() + ' OFF';
       const card = document.createElement('div');
       card.className = 'promo-banner-card ' + colorClass;
       card.innerHTML = `
-        <span class="promo-banner-icon">🎉</span>
-        <div class="promo-banner-text">
-          <div class="promo-banner-title">${p.title} — ${discountLabel}</div>
-          <div class="promo-banner-desc">${p.description}</div>
+        <div class="promo-banner-top">
+          <span class="promo-banner-icon">🎉</span>
+          <div class="promo-banner-text">
+            <div class="promo-banner-title">${p.title} — ${discountLabel}</div>
+            <div class="promo-banner-desc">${p.description}</div>
+          </div>
+          ${p.showBookBtn ? `<button class="promo-book-btn" onclick="applyPromoAndBook('${id}', ${JSON.stringify(p).replace(/'/g,"&#39;")})">Book Now</button>` : ''}
         </div>
-        ${p.showBookBtn ? `<button class="promo-book-btn" onclick="applyPromoAndBook('${id}', ${JSON.stringify(p).replace(/'/g,"&#39;")})">Book Now</button>` : ''}
+        ${hasMoreThanOne ? `<div class="promo-swipe-strip">Swipe for more discounts <span class="promo-swipe-arrow">→</span></div>` : ''}
       `;
       bannerList.appendChild(card);
     });
-    bannerSection.style.display = visibleCount > 0 ? 'block' : 'none';
+    bannerSection.style.display = visiblePromos.length > 0 ? 'block' : 'none';
   });
 }
+
 
 function applyPromoAndBook(id, promoData) {
   activePromo = promoData;
