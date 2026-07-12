@@ -1720,8 +1720,11 @@ form button:hover,
 /* ========== PROMOTIONS BANNER ========== */
 #promoBannerSection {
   width: 100%;
-  padding-top: 162px; /* 72px header height + 90px gap — padding avoids margin-collapse with body */
-  position: relative;
+  padding: 0;
+  position: absolute; /* overlays the hero instead of pushing it down; still scrolls with the page (not fixed) */
+  top: 162px; /* 72px header height + 90px gap */
+  left: 0;
+  right: 0;
   z-index: 5;
   display: none;
 }
