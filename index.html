@@ -71,9 +71,9 @@
   --porcelain:  #F7F3EF;
   --linen:      #E8DFD4;
   --sandstone:  #C9B8A8;
-  --gold:       #C4956A;
-  --gold-light: #D4A882;
-  --gold-dark:  #8B6B4A;
+  --gold:       #D4478A;
+  --gold-light: #E06AAF;
+  --gold-dark:  #9B1D5E;
   --cream:      #FAF8F5;
   --text-light: #E8E2DA;
   --text-dim:   #8A8078;
@@ -82,8 +82,6 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-*, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
@@ -212,22 +210,12 @@ body::before {
     -45deg,
     transparent,
     transparent 120px,
-    rgba(196,149,106,0.028) 120px,
-    rgba(196,149,106,0.028) 121px
+    rgba(212,71,138,0.028) 120px,
+    rgba(212,71,138,0.028) 121px
   );
 }
 
-@keyframes wmText { from {} to {} }
 
-.watermark-text-wrap {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
 
 body::after {
   content: 'ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ATM BEAUTY · ';
@@ -241,7 +229,7 @@ body::after {
   letter-spacing: 6px;
   line-height: 5.2;
   text-transform: uppercase;
-  color: rgba(196,149,106,0.055);
+  color: rgba(212,71,138,0.055);
   transform: rotate(-35deg);
   pointer-events: none;
   z-index: 0;
@@ -285,11 +273,7 @@ body::after {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
-.nav-bar.scrolled {
-  background: rgba(255,255,255,0.01);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
+
 
 .nav-logo {
   font-family: 'Cormorant Garamond', serif;
@@ -334,7 +318,7 @@ body::after {
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  border: 2.5px solid rgba(196,149,106,0.65);
+  border: 2.5px solid rgba(212,71,138,0.65);
   border-radius: 50%;
   background: none;
   display: flex;
@@ -450,7 +434,7 @@ body::after {
   letter-spacing: 8px;
   line-height: 4.5;
   text-transform: uppercase;
-  color: rgba(196,149,106,0.04);
+  color: rgba(212,71,138,0.04);
   transform: rotate(-35deg);
   pointer-events: none;
   z-index: 0;
@@ -465,7 +449,7 @@ body::after {
   right: 24px;
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(196,149,106,0.25);
+  border: 1px solid rgba(212,71,138,0.25);
   border-radius: 50%;
   background: none;
   color: var(--text-light);
@@ -489,7 +473,7 @@ body::after {
   color: var(--text-light);
   text-align: center;
   margin-bottom: 6px;
-  text-shadow: 0 0 40px rgba(196,149,106,0.15);
+  text-shadow: 0 0 40px rgba(212,71,138,0.15);
 }
 .drawer-tagline {
   text-align: center;
@@ -511,7 +495,7 @@ body::after {
   transform: translateX(-50%);
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(196,149,106,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(212,71,138,0.4), transparent);
 }
 
 .drawer-nav-link {
@@ -524,7 +508,7 @@ body::after {
   letter-spacing: 3px;
   text-transform: uppercase;
   padding: 15px 0;
-  border-bottom: 1px solid rgba(196,149,106,0.07);
+  border-bottom: 1px solid rgba(212,71,138,0.07);
   cursor: pointer;
   transition: color 0.25s, padding-left 0.35s var(--ease-lux), border-color 0.25s;
   position: relative;
@@ -542,7 +526,7 @@ body::after {
 .drawer-nav-link:hover {
   color: var(--gold);
   padding-left: 4px;
-  border-bottom-color: rgba(196,149,106,0.18);
+  border-bottom-color: rgba(212,71,138,0.18);
 }
 .drawer-nav-link:hover::before {
   width: 16px;
@@ -552,9 +536,9 @@ body::after {
 .drawer-hours {
   margin: 20px 0;
   padding: 18px 16px;
-  background: rgba(196,149,106,0.04);
-  border: 1px solid rgba(196,149,106,0.12);
-  border-left: 2px solid rgba(196,149,106,0.4);
+  background: rgba(212,71,138,0.04);
+  border: 1px solid rgba(212,71,138,0.12);
+  border-left: 2px solid rgba(212,71,138,0.4);
 }
 .drawer-hours-title {
   font-family: 'Cormorant Garamond', serif;
@@ -578,9 +562,9 @@ body::after {
   font-size: 10px;
   margin: 8px 0;
   padding: 13px 14px;
-  background: rgba(196,149,106,0.04);
+  background: rgba(212,71,138,0.04);
   color: rgba(232,226,218,0.75);
-  border: 1px solid rgba(196,149,106,0.2);
+  border: 1px solid rgba(212,71,138,0.2);
   cursor: pointer;
   text-decoration: none;
   font-weight: 600;
@@ -609,8 +593,8 @@ body::after {
 .drawer-btn:hover::after { transform: translateX(0); }
 .drawer-btn.admin {
   color: var(--gold);
-  border-color: rgba(196,149,106,0.4);
-  background: rgba(196,149,106,0.06);
+  border-color: rgba(212,71,138,0.4);
+  background: rgba(212,71,138,0.06);
 }
 
 .drawer-social {
@@ -622,7 +606,7 @@ body::after {
 .drawer-social a {
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(196,149,106,0.2);
+  border: 1px solid rgba(212,71,138,0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -632,14 +616,14 @@ body::after {
 }
 .drawer-social a:hover {
   border-color: var(--gold);
-  background: rgba(196,149,106,0.08);
+  background: rgba(212,71,138,0.08);
   transform: translateY(-2px);
 }
 
 .drawer-location {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid rgba(196,149,106,0.1);
+  border-top: 1px solid rgba(212,71,138,0.1);
 }
 .drawer-location-title {
   font-family: 'Cormorant Garamond', serif;
@@ -703,28 +687,8 @@ body::after {
   flex-direction: column;
   align-items: center;
 }
-.hero-kicker {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: #F472B6;
-  margin-bottom: 20px;
-  opacity: 0;
-  animation: fadeIn 1.6s var(--ease-lux) 0.4s forwards;
-}
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(42px, 10vw, 80px);
-  line-height: 1.05;
-  letter-spacing: -1px;
-  color: #fff;
-  margin-bottom: 24px;
-  opacity: 0;
-  animation: fadeUp 1s var(--ease-lux) 0.8s forwards;
-}
+
+
 .hero-sub {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
@@ -740,9 +704,9 @@ body::after {
   font-style: italic;
   font-weight: 300;
   font-size: clamp(28px, 7vw, 52px);
-  color: #F472B6;
+  color: #FFFFFF;
   letter-spacing: 4px;
-  text-shadow: 0 0 60px rgba(244,114,182,0.35), 0 2px 20px rgba(244,114,182,0.2);
+  text-shadow: 0 0 60px rgba(255,255,255,0.2), 0 2px 20px rgba(255,255,255,0.15);
   margin-bottom: 40px;
   line-height: 1.2;
 }
@@ -767,7 +731,7 @@ body::after {
   background: var(--gold-light);
   letter-spacing: 5px;
   transform: translateY(-2px);
-  box-shadow: 0 20px 40px rgba(196,149,106,0.2);
+  box-shadow: 0 20px 40px rgba(212,71,138,0.2);
 }
 
 .hero-scroll-hint {
@@ -794,7 +758,7 @@ body::after {
   font-size: 13px !important;
   letter-spacing: 3px !important;
   text-transform: uppercase !important;
-  color: rgba(196,149,106,0.7) !important;
+  color: rgba(212,71,138,0.7) !important;
   margin-top: 4px;
 }
 .scroll-line {
@@ -880,7 +844,7 @@ body::after {
   background: rgba(10,10,10,0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(196,149,106,0.12);
+  border-top: 1px solid rgba(212,71,138,0.12);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -1165,7 +1129,7 @@ body::after {
 .book-btn-primary:hover {
   background: var(--gold-light);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(196,149,106,0.2);
+  box-shadow: 0 8px 24px rgba(212,71,138,0.2);
 }
 
 /* ========== BOOKING FORM ========== */
@@ -1173,7 +1137,7 @@ body::after {
   max-width: 520px;
   margin: 0 auto 24px;
   background: rgba(21,21,21,0.8);
-  border: 1px solid rgba(196,149,106,0.15);
+  border: 1px solid rgba(212,71,138,0.15);
   padding: 24px;
   backdrop-filter: blur(8px);
 }
@@ -1190,7 +1154,7 @@ body::after {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(196,149,106,0.08);
+  border-bottom: 1px solid rgba(212,71,138,0.08);
   font-size: 13px;
 }
 .booking-rule-row .label { color: var(--text-dim); }
@@ -1253,7 +1217,7 @@ form textarea:focus {
 }
 form select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238B6B4A' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23D4478A' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 4px center;
   padding-right: 30px;
@@ -1305,7 +1269,7 @@ form button:hover,
   font-size: 14px;
   color: var(--text-dim);
   line-height: 1.6;
-  border: 1px solid rgba(196,149,106,0.15);
+  border: 1px solid rgba(212,71,138,0.15);
   background: rgba(21,21,21,0.6);
 }
 
@@ -1316,8 +1280,8 @@ form button:hover,
 }
 
 .price-policy-card {
-  background: rgba(196,149,106,0.06);
-  border: 1px solid rgba(196,149,106,0.2);
+  background: rgba(212,71,138,0.06);
+  border: 1px solid rgba(212,71,138,0.2);
   overflow: hidden;
   margin-bottom: 20px;
 }
@@ -1337,7 +1301,7 @@ form button:hover,
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(196,149,106,0.08);
+  border-bottom: 1px solid rgba(212,71,138,0.08);
   font-size: 14px;
 }
 .price-policy-row:last-child { border-bottom: none; }
@@ -1346,7 +1310,7 @@ form button:hover,
 
 .price-service-card {
   background: rgba(21,21,21,0.7);
-  border: 1px solid rgba(196,149,106,0.12);
+  border: 1px solid rgba(212,71,138,0.12);
   overflow: hidden;
   margin-bottom: 16px;
 }
@@ -1360,14 +1324,14 @@ form button:hover,
   font-weight: 600;
 }
 
-.price-style-card { margin-bottom: 8px; border: 1px solid rgba(196,149,106,0.1); background: rgba(21,21,21,0.5); overflow: hidden; }
+.price-style-card { margin-bottom: 8px; border: 1px solid rgba(212,71,138,0.1); background: rgba(21,21,21,0.5); overflow: hidden; }
 .price-style-head {
   display: flex; justify-content: space-between; align-items: center;
   padding: 12px 16px; cursor: pointer; user-select: none;
-  background: rgba(196,149,106,0.04);
+  background: rgba(212,71,138,0.04);
   transition: background 0.2s;
 }
-.price-style-head:hover { background: rgba(196,149,106,0.1); }
+.price-style-head:hover { background: rgba(212,71,138,0.1); }
 .price-style-name {
   font-family: 'Cormorant Garamond', serif;
   font-size: 15px; font-weight: 600;
@@ -1380,7 +1344,7 @@ form button:hover,
 .price-style-from { font-size: 12px; color: var(--gold); font-weight: 700; white-space: nowrap; }
 .price-style-toggle { font-size: 14px; color: var(--gold); margin-left: 8px; transition: transform 0.3s var(--ease-lux); }
 .price-style-card.open .price-style-toggle { transform: rotate(180deg); }
-.price-style-body { display: none; padding: 8px 16px 12px; border-top: 1px solid rgba(196,149,106,0.08); }
+.price-style-body { display: none; padding: 8px 16px 12px; border-top: 1px solid rgba(212,71,138,0.08); }
 .price-style-card.open .price-style-body { display: block; }
 .price-size-title {
   margin-top: 10px; margin-bottom: 4px;
@@ -1397,7 +1361,7 @@ form button:hover,
 .price-row .amt { font-size: 13px; color: var(--gold); font-weight: 600; white-space: nowrap; }
 .price-group-divider {
   margin: 16px 0 8px; padding: 8px 14px;
-  background: rgba(196,149,106,0.08);
+  background: rgba(212,71,138,0.08);
   border-left: 2px solid var(--gold);
   font-family: 'Cormorant Garamond', serif; font-style: italic;
   font-size: 14px; font-weight: 600; letter-spacing: 1.5px;
@@ -1409,7 +1373,7 @@ form button:hover,
 .review-card {
   background: rgba(21,21,21,0.6);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(196,149,106,0.12);
+  border: 1px solid rgba(212,71,138,0.12);
   padding: 28px;
   margin-bottom: 16px;
   position: relative;
@@ -1507,7 +1471,7 @@ form button:hover,
 /* ========== SERVICE CARD (booking) ========== */
 .cut-item, .addon-item {
   padding: 10px 12px;
-  border-bottom: 1px solid rgba(196,149,106,0.08);
+  border-bottom: 1px solid rgba(212,71,138,0.08);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1516,9 +1480,9 @@ form button:hover,
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-.cut-item:hover, .addon-item:hover { background: rgba(196,149,106,0.06); }
-.cut-item.selected { background: rgba(196,149,106,0.12); border-left: 3px solid var(--gold); }
-.addon-item.selected { background: rgba(196,149,106,0.1); border-left: 3px solid var(--gold-light); }
+.cut-item:hover, .addon-item:hover { background: rgba(212,71,138,0.06); }
+.cut-item.selected { background: rgba(212,71,138,0.12); border-left: 3px solid var(--gold); }
+.addon-item.selected { background: rgba(212,71,138,0.1); border-left: 3px solid var(--gold-light); }
 .item-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 .item-label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-light); }
 .item-price { font-size: 12px; color: var(--gold); font-weight: 600; white-space: nowrap; margin-left: 8px; }
@@ -1560,7 +1524,6 @@ form button:hover,
 }
 @media (max-width: 380px) {
   .nav-logo { font-size: 14px; letter-spacing: 4px; }
-  .hero-title { font-size: 36px; }
   .hero-finest { font-size: 24px; margin-bottom: 24px; }
   .hero-cta { padding: 14px 32px; font-size: 10px; }
   .nav-item { font-size: 8px; letter-spacing: 1px; }
@@ -1583,7 +1546,7 @@ form button:hover,
   padding: 12px 18px;
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
-.payment-detail-row:nth-child(even) { background: rgba(196,149,106,0.03); }
+.payment-detail-row:nth-child(even) { background: rgba(212,71,138,0.03); }
 .payment-detail-label {
   font-size: 10px;
   letter-spacing: 2px;
@@ -1631,7 +1594,7 @@ form button:hover,
 .user-auth-modal.open { display: flex; }
 .user-auth-box {
   background: var(--noir-card);
-  border: 1px solid rgba(196,149,106,0.2);
+  border: 1px solid rgba(212,71,138,0.2);
   max-width: 400px;
   width: 100%;
   padding: 36px 28px 28px;
@@ -1648,7 +1611,7 @@ form button:hover,
   display: flex;
   gap: 0;
   margin-bottom: 24px;
-  border-bottom: 1px solid rgba(196,149,106,0.15);
+  border-bottom: 1px solid rgba(212,71,138,0.15);
 }
 .user-auth-tab {
   flex: 1;
@@ -1677,7 +1640,7 @@ form button:hover,
   padding: 12px 0;
   background: none;
   border: none;
-  border-bottom: 1px solid rgba(196,149,106,0.2);
+  border-bottom: 1px solid rgba(212,71,138,0.2);
   color: var(--text-light);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
@@ -1717,7 +1680,7 @@ form button:hover,
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(196,149,106,0.15);
+  background: rgba(212,71,138,0.15);
 }
 .auth-google-btn {
   width: 100%;
@@ -1728,7 +1691,7 @@ form button:hover,
   padding: 13px;
   background: #fff;
   color: #333;
-  border: 1px solid rgba(196,149,106,0.2);
+  border: 1px solid rgba(212,71,138,0.2);
   cursor: pointer;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
@@ -1771,7 +1734,7 @@ form button:hover,
 .promo-banner-card {
   position: relative;
   padding: 18px 20px 18px 24px;
-  background: linear-gradient(135deg, rgba(244,114,182,0.12) 0%, rgba(196,149,106,0.08) 100%);
+  background: linear-gradient(135deg, rgba(244,114,182,0.12) 0%, rgba(212,71,138,0.08) 100%);
   border-bottom: 1px solid rgba(244,114,182,0.2);
   border-left: 3px solid #F472B6;
   display: flex;
@@ -1797,7 +1760,7 @@ form button:hover,
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #F472B6;
+  color: #FFFFFF;
   margin-bottom: 3px;
 }
 .promo-banner-desc {
@@ -1834,7 +1797,7 @@ form button:hover,
   padding: 4px;
   line-height: 1;
 }
-.promo-dismiss-btn:hover { color: #F472B6; }
+.promo-dismiss-btn:hover { color: #FFFFFF; }
 
 /* Active promo discount bar shown on booking form */
 #activePromoBar {
@@ -1851,7 +1814,7 @@ form button:hover,
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #F472B6;
+  color: #FFFFFF;
   margin-bottom: 3px;
   font-family: 'DM Sans', sans-serif;
 }
@@ -1877,7 +1840,7 @@ form button:hover,
   position: fixed;
   bottom: 0; left: 0; right: 0;
   background: var(--noir);
-  border-top: 1px solid rgba(196,149,106,0.1);
+  border-top: 1px solid rgba(212,71,138,0.1);
   text-align: center;
   padding: 5px 12px;
   font-size: 10px;
@@ -1903,7 +1866,7 @@ form button:hover,
   margin-top: 8px;
   padding: 12px 14px;
   background: var(--noir-card);
-  border: 1px solid rgba(196,149,106,0.2);
+  border: 1px solid rgba(212,71,138,0.2);
   display: none;
 }
 #selectionSummaryTitle {
@@ -1920,14 +1883,14 @@ form button:hover,
 #serviceIncludesCard {
   margin-bottom: 8px;
   overflow: hidden;
-  border: 1px solid rgba(196,149,106,0.15);
+  border: 1px solid rgba(212,71,138,0.15);
   background: var(--noir-card);
 }
 
 /* ========== DEPOSIT NOTICE ========== */
 .deposit-notice {
-  background: rgba(196,149,106,0.06);
-  border: 1px solid rgba(196,149,106,0.2);
+  background: rgba(212,71,138,0.06);
+  border: 1px solid rgba(212,71,138,0.2);
   padding: 14px 18px;
   margin-top: 12px;
 }
@@ -1957,8 +1920,8 @@ form button:hover,
 .lateness-card {
   margin-top: 12px;
   padding: 12px 16px;
-  background: rgba(196,149,106,0.04);
-  border: 1px solid rgba(196,149,106,0.15);
+  background: rgba(212,71,138,0.04);
+  border: 1px solid rgba(212,71,138,0.15);
 }
 .lateness-title {
   font-size: 10px;
@@ -2016,12 +1979,12 @@ form button:hover,
   <div class="drawer-social">
     <a href="https://www.instagram.com/atmbeautystyles?igsh=MTlycXFxb2xoc3A2NQ==" target="_blank" aria-label="Instagram">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-        <path fill="#C4956A" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        <path fill="#D4478A" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
       </svg>
     </a>
     <a href="https://www.tiktok.com/@atmbeautystyles?_r=1&_t=ZS-95sLV8QBgiv" target="_blank" aria-label="TikTok">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 448 512">
-        <path fill="#C4956A" d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25v178.72A162.55 162.55 0 1 1 185 188.31v89.89a74.62 74.62 0 1 0 52.23 71.18V0h88a121.18 121.18 0 0 0 1.86 22.17A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14z"/>
+        <path fill="#D4478A" d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25v178.72A162.55 162.55 0 1 1 185 188.31v89.89a74.62 74.62 0 1 0 52.23 71.18V0h88a121.18 121.18 0 0 0 1.86 22.17A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14z"/>
       </svg>
     </a>
   </div>
@@ -2031,7 +1994,7 @@ form button:hover,
     <p>1B Friendship Park Road, Kingston, Jamaica</p>
   </div>
 
-  <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(196,149,106,0.1);">
+  <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(212,71,138,0.1);">
     <a id="authMenuBtn" class="drawer-btn" onclick="handleAuthButtonClick(); closeMenu();" href="javascript:void(0);">Log In</a>
   </div>
 </div>
@@ -2190,16 +2153,13 @@ form button:hover,
       <div class="section-kicker">What Clients Are Saying</div>
       <h2 class="section-title">Client Reviews</h2>
       <p class="section-subtitle">Real experiences from real clients.</p>
-      <div id="reviewPrompt" style="display:none; max-width:520px; margin:22px auto; background:var(--porcelain); color:var(--text-dark); border:1px solid var(--gold); padding:18px; text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:15px;">
-        How was your experience? We'd love to hear from you.
-      </div>
       <form id="reviewForm">
         <label for="reviewName">Your Name</label>
         <input id="reviewName" placeholder="" required type="text"/>
         <label for="reviewComment">Review</label>
         <textarea id="reviewComment" placeholder="Share the experience…" required style="min-height:100px; resize:vertical;"></textarea>
         <label>Rating</label>
-        <div id="starRating" style="font-size:28px; margin:8px 0 18px; cursor:pointer; color:rgba(196,149,106,0.3); letter-spacing:6px; text-align:left;">
+        <div id="starRating" style="font-size:28px; margin:8px 0 18px; cursor:pointer; color:rgba(212,71,138,0.3); letter-spacing:6px; text-align:left;">
           <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
         </div>
         <button type="submit">Submit Review</button>
@@ -2230,7 +2190,7 @@ form button:hover,
           <div class="price-service-header">Hair Services</div>
           <div style="padding:8px 14px 14px;">
             <div id="hairPriceList"></div>
-            <div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(196,149,106,0.1);">
+            <div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(212,71,138,0.1);">
               <div style="margin-bottom:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gold);">Optional Extra</div>
               <div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:14px;color:var(--text-light);">Custom Design / Accessories</span><span style="font-size:14px;color:var(--gold);font-weight:700;">$500+</span></div>
             </div>
@@ -2298,7 +2258,7 @@ form button:hover,
       <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.7);letter-spacing:2px;text-transform:uppercase;">Jamaica</span>
     </div>
 
-    <div style="border:1px solid rgba(196,149,106,0.15);border-top:none;margin-bottom:16px;">
+    <div style="border:1px solid rgba(212,71,138,0.15);border-top:none;margin-bottom:16px;">
       <div class="payment-detail-row"><span class="payment-detail-label">Account Name</span><span class="payment-detail-value" style="font-family:'Cormorant Garamond',serif;">Anita Mcfarlane</span></div>
       <div class="payment-detail-row"><span class="payment-detail-label">Account Number</span><span class="payment-detail-value" style="letter-spacing:2px;">1031697</span></div>
       <div class="payment-detail-row"><span class="payment-detail-label">Account Type</span><span class="payment-detail-value">Savings</span></div>
@@ -2307,7 +2267,7 @@ form button:hover,
       <div class="payment-detail-row"><span class="payment-detail-label">Currency</span><span class="payment-detail-value">JMD — Jamaican Dollar</span></div>
     </div>
 
-    <div style="background:rgba(196,149,106,0.06);border:1px solid rgba(196,149,106,0.2);padding:14px 18px;text-align:center;">
+    <div style="background:rgba(212,71,138,0.06);border:1px solid rgba(212,71,138,0.2);padding:14px 18px;text-align:center;">
       <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--gold);line-height:1.5;">
         Transfer your <strong>$2,000 deposit</strong> to confirm your booking.<br>
         <span style="font-size:12px;color:#888;font-style:normal;font-family:'DM Sans',sans-serif;letter-spacing:1px;">Use your booking reference number as the transfer note.</span>
@@ -2522,7 +2482,7 @@ function updateAuthButton(user) {
   const btn = document.getElementById('authMenuBtn');
   if (!btn) return;
   if (user) { btn.textContent = 'LOGOUT'; btn.style.background = 'rgba(200,50,50,0.15)'; btn.style.color = '#e55'; btn.style.borderColor = 'rgba(200,50,50,0.3)'; }
-  else { btn.textContent = 'LOG IN'; btn.style.background = 'none'; btn.style.color = 'var(--text-light)'; btn.style.borderColor = 'rgba(196,149,106,0.25)'; }
+  else { btn.textContent = 'LOG IN'; btn.style.background = 'none'; btn.style.color = 'var(--text-light)'; btn.style.borderColor = 'rgba(212,71,138,0.25)'; }
 }
 
 // ========== USER AUTH MODAL ==========
@@ -3115,11 +3075,11 @@ function updateSelectionSummary() {
       promoNote = '<div style="margin-top:6px;font-size:11px;color:#F472B6;letter-spacing:1px;">🎉 '+activePromo.title+' saves you $'+discount.toLocaleString()+'</div>';
     }
     const totalStr = total > 0
-      ? '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(196,149,106,0.2);font-weight:600;letter-spacing:1px;font-size:13px;color:var(--gold);">'
+      ? '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(212,71,138,0.2);font-weight:600;letter-spacing:1px;font-size:13px;color:var(--gold);">'
         + (discount > 0 ? '<span style="text-decoration:line-through;color:var(--text-dim);font-size:11px;font-weight:400;margin-right:6px;">$'+baseTotal.toLocaleString()+'</span>' : '')
         + 'TOTAL: $'+total.toLocaleString()+' · '+durLabel+'</div>'
       : '<div style="margin-top:6px;font-size:12px;color:var(--gold);font-style:italic;">⏱ Est. '+durLabel+'</div>';
-    summaryText.innerHTML = parts.map(p => '<span style="display:inline-block;background:var(--noir);border:1px solid rgba(196,149,106,0.2);padding:4px 10px;margin:3px 3px 3px 0;font-size:12px;color:var(--gold);font-weight:600;">'+p+'</span>').join('') + totalStr + promoNote;
+    summaryText.innerHTML = parts.map(p => '<span style="display:inline-block;background:var(--noir);border:1px solid rgba(212,71,138,0.2);padding:4px 10px;margin:3px 3px 3px 0;font-size:12px;color:var(--gold);font-weight:600;">'+p+'</span>').join('') + totalStr + promoNote;
   }
 }
 function clearSelections() {
@@ -3332,7 +3292,7 @@ function submitBooking(event) {
     document.getElementById('serviceIncludesCard').style.display='none';document.getElementById('serviceIncludesCard').innerHTML='';
     document.getElementById("estimateTimeMessage").innerHTML="";document.getElementById("selectedTime").innerHTML="<option value=''>Pick date & service first</option>";
     document.querySelector("#bookingModal h3").style.display="none";
-    document.querySelector("#bookingModal p").innerHTML='<div style="text-align:center;color:var(--text-dark);"><div style="width:56px;height:56px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:4px auto 20px;border-radius:50%;"><span style="font-size:22px;color:var(--gold);">✓</span></div><div class="modal-kicker">Confirmed</div><h2 style="margin:0 0 16px;font-size:28px;font-family:Cormorant Garamond,serif;font-weight:600;color:var(--text-dark);">Booking Secured</h2><div style="background:#fff;border:1px solid rgba(196,149,106,0.3);padding:18px;margin:0 0 16px;text-align:left;"><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted rgba(0,0,0,0.1);font-size:13px;"><span style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:10px;">Ref #</span><span style="font-weight:600;font-family:Cormorant Garamond,serif;">'+bookingNumber+'</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted rgba(0,0,0,0.1);font-size:13px;"><span style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:10px;">Date</span><span>'+formattedDate+'</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted rgba(0,0,0,0.1);font-size:13px;"><span style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:10px;">Time</span><span>'+time+'</span></div><div style="padding:8px 0 2px;font-size:13px;"><div style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:10px;margin-bottom:4px;">Service</div><div>'+services+'</div></div></div>'+(total>0?'<div style="background:var(--noir);color:var(--text-light);padding:14px 18px;margin-bottom:16px;font-family:Cormorant Garamond,serif;font-size:18px;"><span style="font-style:italic;color:var(--gold);font-size:12px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:2px;">Total</span>$'+total.toLocaleString()+'</div>':'')+'<p style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:15px;margin:14px 0;color:var(--text-dark);">Thank you for booking with ATM Beauty Styles.</p><div style="background:rgba(196,149,106,0.06);border:2px solid var(--gold);padding:14px 16px;margin:10px 0;text-align:left;"><div style="font-weight:700;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:5px;">⚠ Deposit Required</div><div style="font-size:13px;color:var(--text-dark);line-height:1.65;"><strong>Bookings without a deposit will be cancelled.</strong> Please send your $2,000 deposit now.</div></div><p style="font-size:12px;color:#666;margin:10px 0 0;text-align:left;line-height:1.6;padding:12px;border:1px dashed rgba(0,0,0,0.15);">For online payment, open the menu and view <b>Payment Info</b>. Use your booking reference number.</p><button onclick="closeBookingModal()" style="margin-top:20px;padding:14px 40px;background:var(--noir);color:var(--text-light);border:none;font-size:11px;cursor:pointer;font-weight:600;letter-spacing:4px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.background=\'var(--gold)\';this.style.color=\'var(--noir)\'" onmouseout="this.style.background=\'var(--noir)\';this.style.color=\'var(--text-light)\'">Close</button></div>';
+    document.querySelector("#bookingModal p").innerHTML='<div style="text-align:center;color:var(--text-dark);"><div style="width:56px;height:56px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:4px auto 20px;border-radius:50%;"><span style="font-size:22px;color:var(--gold);">✓</span></div><div class="modal-kicker">Confirmed</div><h2 style="margin:0 0 16px;font-size:28px;font-family:Cormorant Garamond,serif;font-weight:600;color:var(--text-dark);">Booking Secured</h2><div style="background:#fff;border:1px solid rgba(212,71,138,0.3);padding:18px;margin:0 0 16px;text-align:left;"><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted rgba(0,0,0,0.1);font-size:13px;"><span style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:10px;">Ref #</span><span style="font-weight:600;font-family:Cormorant Garamond,serif;">'+bookingNumber+'</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted rgba(0,0,0,0.1);font-size:13px;"><span style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:10px;">Date</span><span>'+formattedDate+'</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted rgba(0,0,0,0.1);font-size:13px;"><span style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:10px;">Time</span><span>'+time+'</span></div><div style="padding:8px 0 2px;font-size:13px;"><div style="color:#888;letter-spacing:1px;text-transform:uppercase;font-size:10px;margin-bottom:4px;">Service</div><div>'+services+'</div></div></div>'+(total>0?'<div style="background:var(--noir);color:var(--text-light);padding:14px 18px;margin-bottom:16px;font-family:Cormorant Garamond,serif;font-size:18px;"><span style="font-style:italic;color:var(--gold);font-size:12px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:2px;">Total</span>$'+total.toLocaleString()+'</div>':'')+'<p style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:15px;margin:14px 0;color:var(--text-dark);">Thank you for booking with ATM Beauty Styles.</p><div style="background:rgba(212,71,138,0.06);border:2px solid var(--gold);padding:14px 16px;margin:10px 0;text-align:left;"><div style="font-weight:700;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:5px;">⚠ Deposit Required</div><div style="font-size:13px;color:var(--text-dark);line-height:1.65;"><strong>Bookings without a deposit will be cancelled.</strong> Please send your $2,000 deposit now.</div></div><p style="font-size:12px;color:#666;margin:10px 0 0;text-align:left;line-height:1.6;padding:12px;border:1px dashed rgba(0,0,0,0.15);">For online payment, open the menu and view <b>Payment Info</b>. Use your booking reference number.</p><button onclick="closeBookingModal()" style="margin-top:20px;padding:14px 40px;background:var(--noir);color:var(--text-light);border:none;font-size:11px;cursor:pointer;font-weight:600;letter-spacing:4px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.background=\'var(--gold)\';this.style.color=\'var(--noir)\'" onmouseout="this.style.background=\'var(--noir)\';this.style.color=\'var(--text-light)\'">Close</button></div>';
     document.getElementById('bookingModal').style.display='flex';
   }).catch(err=>{
     if(err==='Time slot not available') return;
@@ -3353,7 +3313,7 @@ let selectedRating = 0;
 document.querySelectorAll('#starRating span').forEach(star=>{
   star.addEventListener('click',()=>{
     selectedRating=parseInt(star.getAttribute('data-value'));
-    document.querySelectorAll('#starRating span').forEach(s=>{s.style.color=parseInt(s.getAttribute('data-value'))<=selectedRating?'var(--gold)':'rgba(196,149,106,0.3)';});
+    document.querySelectorAll('#starRating span').forEach(s=>{s.style.color=parseInt(s.getAttribute('data-value'))<=selectedRating?'var(--gold)':'rgba(212,71,138,0.3)';});
   });
 });
 
@@ -3365,7 +3325,7 @@ document.getElementById('reviewForm').addEventListener('submit', async e=>{
   if(!name||!comment||selectedRating===0){msg.style.color="#e55";msg.textContent="Please fill all fields and select a star rating.";return;}
   try{
     await db.collection('reviews').add({name,comment,rating:selectedRating,timestamp:firebase.firestore.FieldValue.serverTimestamp(),uid:user.uid});
-    msg.style.color="var(--gold)";msg.textContent="Thank you for your review!";document.getElementById('reviewForm').reset();selectedRating=0;document.querySelectorAll('#starRating span').forEach(s=>s.style.color='rgba(196,149,106,0.3)');
+    msg.style.color="var(--gold)";msg.textContent="Thank you for your review!";document.getElementById('reviewForm').reset();selectedRating=0;document.querySelectorAll('#starRating span').forEach(s=>s.style.color='rgba(212,71,138,0.3)');
   }catch(error){console.error("Error submitting review:",error);msg.style.color="#e55";msg.textContent="Error submitting review.";}
 });
 
@@ -3382,7 +3342,7 @@ function loadReviews(user){
     container.innerHTML='';
     snapshot.forEach(doc=>{
       const d=doc.data(),isOwner=user&&d.uid===user.uid,dateString=formatReviewTime(d.timestamp);
-      let stars='';for(let i=1;i<=5;i++)stars+='<span style="color:'+(i<=d.rating?'var(--gold)':'rgba(196,149,106,0.2)')+';">★</span>';
+      let stars='';for(let i=1;i<=5;i++)stars+='<span style="color:'+(i<=d.rating?'var(--gold)':'rgba(212,71,138,0.2)')+';">★</span>';
       container.innerHTML+='<div class="review-card"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;"><strong style="font-family:Cormorant Garamond,serif;font-weight:600;font-size:17px;color:var(--text-light);letter-spacing:0.3px;">'+d.name+'</strong><small style="color:var(--text-dim);font-style:italic;font-size:11px;letter-spacing:1px;text-transform:uppercase;">'+dateString+'</small></div><div style="margin:4px 0 10px;font-size:15px;letter-spacing:3px;">'+stars+'</div><div style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:15px;color:var(--text-dim);line-height:1.7;">'+d.comment+'</div>'+(isOwner?'<button onclick="deleteReview(\''+doc.id+'\')" style="color:#e55;cursor:pointer;background:none;border:none;font-size:10px;padding:0;margin-top:10px;letter-spacing:2px;text-transform:uppercase;">Delete</button>':'')+'</div>';
     });
     // Scroll-reveal for review cards with staggered delay
@@ -3421,7 +3381,7 @@ function showUserBookings(){
     else{bookings.forEach(b=>{
       let bookingDate="Unknown Date";try{if(typeof b.date==="string"){const[y,m,d]=b.date.split("-").map(Number);if(y&&m&&d)bookingDate=new Date(y,m-1,d).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});}}catch(err){}
       const depositStatus=b.deposit==="Made"||b.deposit==="Yes",isCancelled=b.status==='Cancelled';
-      bookingsHTML+='<div style="border:1px solid '+(isCancelled?'rgba(200,50,50,0.2)':'rgba(196,149,106,0.15)')+';padding:16px;margin-bottom:14px;background:'+(isCancelled?'rgba(200,50,50,0.03)':'rgba(21,21,21,0.5)')+';border-left:3px solid '+(isCancelled?'#e55':'var(--gold)')+';color:var(--text-light);"><h3 style="margin-top:0;color:var(--text-light);font-size:14px;font-weight:600;letter-spacing:1px;">Booking #: '+(b.bookingNumber||"N/A")+'</h3><p style="margin:4px 0;font-size:13px;color:var(--text-dim);">👤 '+(b.name||"N/A")+'</p><p style="margin:4px 0;font-size:13px;color:var(--text-dim);">📞 '+(b.phone||"N/A")+'</p><p style="margin:4px 0;font-size:13px;color:var(--text-dim);">📅 '+bookingDate+'</p><p style="margin:4px 0;font-size:13px;color:var(--text-dim);">⏰ '+(b.time||"N/A")+'</p>'+(b.service?'<p style="margin:4px 0;font-size:13px;color:var(--text-dim);">✂ '+b.service+'</p>':'')+'<p style="margin:4px 0;font-size:13px;">💵 <span style="color:'+(depositStatus?'#4a4':'#e55')+';font-weight:600;">'+(depositStatus?'Confirmed':'Pending')+'</span></p>'+(b.total?'<p style="margin:4px 0;font-size:13px;color:var(--text-light);font-weight:600;">💰 $'+Number(b.total).toLocaleString()+'</p>':'')+'<p style="margin:4px 0;font-size:13px;">📌 <span style="color:'+(isCancelled?'#e55':'var(--gold)')+';font-weight:600;">'+(isCancelled?'❌ Cancelled — BY '+(b.cancelledBy==='client'?'CLIENT':'ADMIN'):'✅ Active')+'</span></p>'+((!isCancelled)?'<button onclick="cancelUserBooking(\''+b.id+"','"+( b.bookingNumber||'N/A')+"')\" style=\"margin-top:10px;width:100%;padding:12px;background:rgba(200,50,50,0.1);color:#e55;border:1px solid rgba(200,50,50,0.3);cursor:pointer;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;\" onmouseover=\"this.style.background='#e55';this.style.color='#fff'\" onmouseout=\"this.style.background='rgba(200,50,50,0.1)';this.style.color='#e55'\">Cancel Booking</button>":'<p style="margin-top:10px;text-align:center;font-size:12px;color:#e55;font-style:italic;">This booking has been cancelled.</p>')+'</div>';
+      bookingsHTML+='<div style="border:1px solid '+(isCancelled?'rgba(200,50,50,0.2)':'rgba(212,71,138,0.15)')+';padding:16px;margin-bottom:14px;background:'+(isCancelled?'rgba(200,50,50,0.03)':'rgba(21,21,21,0.5)')+';border-left:3px solid '+(isCancelled?'#e55':'var(--gold)')+';color:var(--text-light);"><h3 style="margin-top:0;color:var(--text-light);font-size:14px;font-weight:600;letter-spacing:1px;">Booking #: '+(b.bookingNumber||"N/A")+'</h3><p style="margin:4px 0;font-size:13px;color:var(--text-dim);">👤 '+(b.name||"N/A")+'</p><p style="margin:4px 0;font-size:13px;color:var(--text-dim);">📞 '+(b.phone||"N/A")+'</p><p style="margin:4px 0;font-size:13px;color:var(--text-dim);">📅 '+bookingDate+'</p><p style="margin:4px 0;font-size:13px;color:var(--text-dim);">⏰ '+(b.time||"N/A")+'</p>'+(b.service?'<p style="margin:4px 0;font-size:13px;color:var(--text-dim);">✂ '+b.service+'</p>':'')+'<p style="margin:4px 0;font-size:13px;">💵 <span style="color:'+(depositStatus?'#4a4':'#e55')+';font-weight:600;">'+(depositStatus?'Confirmed':'Pending')+'</span></p>'+(b.total?'<p style="margin:4px 0;font-size:13px;color:var(--text-light);font-weight:600;">💰 $'+Number(b.total).toLocaleString()+'</p>':'')+'<p style="margin:4px 0;font-size:13px;">📌 <span style="color:'+(isCancelled?'#e55':'var(--gold)')+';font-weight:600;">'+(isCancelled?'❌ Cancelled — BY '+(b.cancelledBy==='client'?'CLIENT':'ADMIN'):'✅ Active')+'</span></p>'+((!isCancelled)?'<button onclick="cancelUserBooking(\''+b.id+"','"+( b.bookingNumber||'N/A')+"')\" style=\"margin-top:10px;width:100%;padding:12px;background:rgba(200,50,50,0.1);color:#e55;border:1px solid rgba(200,50,50,0.3);cursor:pointer;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;\" onmouseover=\"this.style.background='#e55';this.style.color='#fff'\" onmouseout=\"this.style.background='rgba(200,50,50,0.1)';this.style.color='#e55'\">Cancel Booking</button>":'<p style="margin-top:10px;text-align:center;font-size:12px;color:#e55;font-style:italic;">This booking has been cancelled.</p>')+'</div>';
     });}
     document.getElementById('myBookingsContent').innerHTML=bookingsHTML;
   },error=>{document.getElementById('myBookingsContent').innerHTML='<div style="text-align:center;padding:20px;"><p style="color:#e55;">Error loading bookings.</p><button onclick="closeMyBookings();" style="background:var(--smoke);color:var(--text-light);padding:8px 16px;border:none;cursor:pointer;">Close</button></div>';});
