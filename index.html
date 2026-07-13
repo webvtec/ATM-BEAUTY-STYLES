@@ -2159,6 +2159,11 @@ form button:hover,
 <div class="drawer" id="menu">
   <button class="drawer-close" onclick="closeMenu()" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
 
+  <!-- Login Button (shows when NOT logged in) -->
+  <div id="drawerLoginSection" style="text-align:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(212,71,138,0.12);">
+    <button onclick="openUserAuthModal(); closeMenu();" style="width:100%;padding:13px;background:var(--gold);color:var(--noir);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">Sign In</button>
+  </div>
+
   <!-- User Profile Avatar (shows when logged in) -->
   <div id="drawerProfile" style="display:none;text-align:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(212,71,138,0.12);">
     <div id="drawerAvatar" onclick="openProfileModal(); closeMenu();" style="width:64px;height:64px;border-radius:50%;border:2px solid rgba(212,71,138,0.4);margin:0 auto 10px;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(212,71,138,0.1);font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold);transition:border-color 0.3s,transform 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='scale(1.05)'" onmouseout="this.style.borderColor='rgba(212,71,138,0.4)';this.style.transform='scale(1)'">
@@ -2282,7 +2287,7 @@ form button:hover,
         <label for="phone">Phone Number</label>
         <input id="phone" type="tel" inputmode="numeric" maxlength="14" placeholder="(876) 123-4567" required/>
 
-        <label for="bookingEmail">Email <span style="font-weight:400;font-style:italic;color:var(--text-dim);font-size:11px;">(optional for guests)</span></label>
+        <label for="bookingEmail">Email <span id="emailOptionalLabel" style="font-weight:400;font-style:italic;color:var(--text-dim);font-size:11px;">(optional for guests)</span></label>
         <input id="bookingEmail" type="email" placeholder="your@email.com"/>
         <p id="guestEmailNote" style="display:none;font-size:11px;color:var(--text-dim);font-style:italic;margin-top:4px;line-height:1.5;">
           Without an email you won't receive: booking confirmations, appointment reminders, review requests, birthday offers, or promotional deals.
@@ -2625,6 +2630,7 @@ form button:hover,
 
     <button class="profile-save-btn" onclick="saveUserProfile()">Save Profile</button>
     <p id="profileSaveMsg" style="text-align:center;font-size:13px;font-style:italic;font-family:'Cormorant Garamond',serif;margin-top:10px;display:none;"></p>
+    <button onclick="logOutUser()" style="display:block;width:100%;padding:12px;background:transparent;color:var(--text-dim);border:1px solid rgba(255,255,255,0.08);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-top:12px;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(212,71,138,0.3)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.color='var(--text-dim)'">Sign Out</button>
   </div>
 </div>
 
@@ -2767,15 +2773,22 @@ firebase.auth().onAuthStateChanged(async user => {
   } else {
     userProfile = null;
     document.getElementById('drawerProfile').style.display = 'none';
+    document.getElementById('drawerLoginSection').style.display = 'block';
   }
 });
 
 // ========== PROFILE FUNCTIONS ==========
 function updateDrawerProfile(user) {
   const profileSection = document.getElementById('drawerProfile');
-  if (!user) { profileSection.style.display = 'none'; return; }
+  const loginSection = document.getElementById('drawerLoginSection');
+  if (!user) {
+    profileSection.style.display = 'none';
+    loginSection.style.display = 'block';
+    return;
+  }
 
   profileSection.style.display = 'block';
+  loginSection.style.display = 'none';
   const name = (userProfile && userProfile.displayName) || user.displayName || '';
   const photo = (userProfile && userProfile.photoURL) || user.photoURL || '';
   const initials = name ? name.split(' ').map(w => w[0]).join('').toUpperCase().substring(0,2) : (user.email ? user.email[0].toUpperCase() : '?');
@@ -2837,6 +2850,22 @@ function closeProfileModal() {
   document.body.style.overflow = '';
 }
 
+async function logOutUser() {
+  closeProfileModal();
+  try {
+    await firebase.auth().signOut();
+    userProfile = null;
+    // Clear auto-filled form fields
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('bookingEmail');
+    if (nameInput) nameInput.value = '';
+    if (phoneInput) phoneInput.value = '';
+    if (emailInput) emailInput.value = '';
+    updateEmailFieldLabel();
+  } catch (e) { console.error('Sign out error:', e); }
+}
+
 async function saveUserProfile() {
   const user = firebase.auth().currentUser;
   if (!user) return;
@@ -2883,7 +2912,6 @@ function autoFillBookingForm() {
   const phoneInput = document.getElementById('phone');
   const emailInput = document.getElementById('bookingEmail');
   const reviewNameInput = document.getElementById('reviewName');
-  const guestNote = document.getElementById('guestEmailNote');
 
   if (nameInput && !nameInput.value && userProfile.displayName) {
     nameInput.value = userProfile.displayName;
@@ -2897,9 +2925,18 @@ function autoFillBookingForm() {
   if (reviewNameInput && !reviewNameInput.value && userProfile.displayName) {
     reviewNameInput.value = userProfile.displayName;
   }
-  // Hide guest note when logged in
-  if (guestNote && firebase.auth().currentUser) {
-    guestNote.style.display = 'none';
+  updateEmailFieldLabel();
+}
+
+function updateEmailFieldLabel() {
+  const user = firebase.auth().currentUser;
+  const optionalLabel = document.getElementById('emailOptionalLabel');
+  const guestNote = document.getElementById('guestEmailNote');
+  if (user) {
+    if (optionalLabel) optionalLabel.style.display = 'none';
+    if (guestNote) guestNote.style.display = 'none';
+  } else {
+    if (optionalLabel) optionalLabel.style.display = 'inline';
   }
 }
 
@@ -3735,13 +3772,12 @@ function handleBookingClick() {
   if (!validateBookingForm()) return;
   const user = firebase.auth().currentUser;
   if (user) {
-    // Already logged in — book directly
+    // Already logged in — book directly, no modal needed
     submitBooking();
   } else {
-    // Show the 3-option modal
+    // Not logged in — show the 3-option modal
     document.getElementById('bookingAuthModal').classList.add('open');
     document.body.style.overflow = 'hidden';
-    // Show email note for guests
     document.getElementById('guestEmailNote').style.display = 'block';
   }
 }
@@ -3755,6 +3791,7 @@ async function bookingAuthGoogle() {
   closeBookingAuthModal();
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     await firebase.auth().signInWithPopup(provider);
     // Now logged in — auto-fill email and submit
     const user = firebase.auth().currentUser;
