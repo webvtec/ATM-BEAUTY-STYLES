@@ -2047,6 +2047,91 @@ form button:hover,
   color: var(--gold);
   margin-bottom: 8px;
 }
+
+/* ========== USER PROFILE MODAL ========== */
+.profile-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 10001;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.profile-modal-overlay.open { display: flex; }
+.profile-modal {
+  background: var(--noir-card);
+  border: 1px solid rgba(212,71,138,0.2);
+  max-width: 420px;
+  width: 100%;
+  padding: 32px 28px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.profile-modal .modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: none; border: 1px solid rgba(212,71,138,0.25);
+  border-radius: 50%; width: 32px; height: 32px;
+  color: var(--text-light); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+}
+.profile-modal .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+.profile-modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400; font-size: 24px;
+  color: var(--text-light); text-align: center;
+  margin: 0 0 4px; letter-spacing: 1px;
+}
+.profile-modal .profile-subtitle {
+  text-align: center; font-size: 12px; color: var(--text-dim);
+  font-style: italic; margin-bottom: 24px; letter-spacing: 1px;
+}
+.profile-modal label {
+  display: block; font-size: 10px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 6px; margin-top: 16px;
+}
+.profile-modal input {
+  width: 100%; padding: 12px 14px;
+  background: rgba(212,71,138,0.04);
+  border: 1px solid rgba(212,71,138,0.15);
+  color: var(--text-light); font-family: 'DM Sans', sans-serif;
+  font-size: 14px; outline: none; transition: border-color 0.3s;
+}
+.profile-modal input:focus { border-color: var(--gold); }
+.profile-modal .profile-avatar-section {
+  text-align: center; margin-bottom: 16px;
+}
+.profile-modal .profile-avatar-lg {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 2px solid rgba(212,71,138,0.4);
+  margin: 0 auto 8px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(212,71,138,0.08);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px; font-weight: 600; color: var(--gold);
+}
+.profile-modal .profile-avatar-lg img {
+  width: 100%; height: 100%; object-fit: cover; display: none;
+}
+.profile-modal .profile-save-btn {
+  display: block; width: 100%; padding: 14px;
+  background: var(--gold); color: var(--noir);
+  border: none; cursor: pointer; margin-top: 24px;
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  transition: all 0.3s;
+}
+.profile-modal .profile-save-btn:hover { background: var(--gold-light); }
+.profile-modal .profile-email-display {
+  text-align: center; font-size: 12px; color: var(--text-dim);
+  margin-top: -12px; margin-bottom: 16px; letter-spacing: 0.5px;
+}
 </style>
 </head>
 <body>
@@ -2073,6 +2158,17 @@ form button:hover,
 <!-- Side Drawer -->
 <div class="drawer" id="menu">
   <button class="drawer-close" onclick="closeMenu()" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+
+  <!-- User Profile Avatar (shows when logged in) -->
+  <div id="drawerProfile" style="display:none;text-align:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(212,71,138,0.12);">
+    <div id="drawerAvatar" onclick="openProfileModal(); closeMenu();" style="width:64px;height:64px;border-radius:50%;border:2px solid rgba(212,71,138,0.4);margin:0 auto 10px;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(212,71,138,0.1);font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--gold);transition:border-color 0.3s,transform 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='scale(1.05)'" onmouseout="this.style.borderColor='rgba(212,71,138,0.4)';this.style.transform='scale(1)'">
+      <img id="drawerAvatarImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none;"/>
+      <span id="drawerAvatarInitials">?</span>
+    </div>
+    <div id="drawerProfileName" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:500;color:var(--text-light);letter-spacing:1px;cursor:pointer;" onclick="openProfileModal(); closeMenu();">Set Up Profile</div>
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:4px;cursor:pointer;" onclick="openProfileModal(); closeMenu();">Tap to edit profile</div>
+  </div>
+
   <div class="drawer-brand-name">ATM Beauty Styles</div>
   <div class="drawer-tagline">Shop 7 Clock Tower Plaza, Kingston, JA</div>
 
@@ -2453,6 +2549,35 @@ form button:hover,
   </div>
 </div>
 
+<!-- User Profile Modal -->
+<div class="profile-modal-overlay" id="profileModal" onclick="if(event.target===this)closeProfileModal();">
+  <div class="profile-modal">
+    <button class="modal-close" onclick="closeProfileModal()"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+    <div class="profile-avatar-section">
+      <div class="profile-avatar-lg" id="profileAvatarLg">
+        <img id="profileAvatarLgImg" src="" alt=""/>
+        <span id="profileAvatarLgInitials">?</span>
+      </div>
+    </div>
+    <h3>Your Profile</h3>
+    <p class="profile-subtitle">Your info auto-fills when you book</p>
+    <p class="profile-email-display" id="profileEmailDisplay"></p>
+
+    <label for="profileName">Display Name</label>
+    <input type="text" id="profileName" placeholder="Your full name"/>
+
+    <label for="profilePhone">Phone Number</label>
+    <input type="tel" id="profilePhone" inputmode="numeric" maxlength="14" placeholder="(876) 123-4567"/>
+
+    <label for="profileBirthday">Birthday</label>
+    <input type="date" id="profileBirthday"/>
+    <p style="font-size:11px;color:var(--text-dim);font-style:italic;margin-top:4px;">We'll send you a special birthday offer during your birthday month! 🎂</p>
+
+    <button class="profile-save-btn" onclick="saveUserProfile()">Save Profile</button>
+    <p id="profileSaveMsg" style="text-align:center;font-size:13px;font-style:italic;font-family:'Cormorant Garamond',serif;margin-top:10px;display:none;"></p>
+  </div>
+</div>
+
 <!-- Footer Banner -->
 <div class="footer-banner"><a href="https://webvtec.com" target="_blank">Click to request your own website · webvtec.com</a></div>
 
@@ -2557,11 +2682,167 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-firebase.auth().onAuthStateChanged(user => {
+let userProfile = null; // loaded from Firestore userProfiles collection
+
+firebase.auth().onAuthStateChanged(async user => {
   currentUser = user || null;
   loadReviews(currentUser);
   updateAuthButton(user);
+  updateDrawerProfile(user);
+
+  if (user) {
+    // Load or create user profile
+    try {
+      const profileDoc = await db.collection('userProfiles').doc(user.uid).get();
+      if (profileDoc.exists) {
+        userProfile = profileDoc.data();
+      } else {
+        // Auto-create profile from auth data
+        userProfile = {
+          uid: user.uid,
+          email: user.email || '',
+          displayName: user.displayName || '',
+          photoURL: user.photoURL || '',
+          phone: '',
+          birthday: '',
+          birthdayMonth: '',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        };
+        await db.collection('userProfiles').doc(user.uid).set(userProfile);
+      }
+      updateDrawerProfile(user);
+      autoFillBookingForm();
+    } catch (e) { console.error('Profile load error:', e); }
+  } else {
+    userProfile = null;
+    document.getElementById('drawerProfile').style.display = 'none';
+  }
 });
+
+// ========== PROFILE FUNCTIONS ==========
+function updateDrawerProfile(user) {
+  const profileSection = document.getElementById('drawerProfile');
+  if (!user) { profileSection.style.display = 'none'; return; }
+
+  profileSection.style.display = 'block';
+  const name = (userProfile && userProfile.displayName) || user.displayName || '';
+  const photo = (userProfile && userProfile.photoURL) || user.photoURL || '';
+  const initials = name ? name.split(' ').map(w => w[0]).join('').toUpperCase().substring(0,2) : (user.email ? user.email[0].toUpperCase() : '?');
+
+  // Drawer avatar
+  const avatarImg = document.getElementById('drawerAvatarImg');
+  const avatarInitials = document.getElementById('drawerAvatarInitials');
+  if (photo) { avatarImg.src = photo; avatarImg.style.display = 'block'; avatarInitials.style.display = 'none'; }
+  else { avatarImg.style.display = 'none'; avatarInitials.style.display = 'block'; avatarInitials.textContent = initials; }
+
+  // Drawer name
+  document.getElementById('drawerProfileName').textContent = name || 'Set Up Profile';
+}
+
+function openProfileModal() {
+  const user = firebase.auth().currentUser;
+  if (!user) { openUserAuthModal(); return; }
+
+  const modal = document.getElementById('profileModal');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Fill modal fields from profile
+  const name = (userProfile && userProfile.displayName) || user.displayName || '';
+  const phone = (userProfile && userProfile.phone) || '';
+  const birthday = (userProfile && userProfile.birthday) || '';
+  const photo = (userProfile && userProfile.photoURL) || user.photoURL || '';
+  const email = user.email || '';
+
+  document.getElementById('profileName').value = name;
+  document.getElementById('profilePhone').value = phone;
+  document.getElementById('profileBirthday').value = birthday;
+  document.getElementById('profileEmailDisplay').textContent = email;
+
+  // Avatar in modal
+  const initials = name ? name.split(' ').map(w => w[0]).join('').toUpperCase().substring(0,2) : '?';
+  const lgImg = document.getElementById('profileAvatarLgImg');
+  const lgInitials = document.getElementById('profileAvatarLgInitials');
+  if (photo) { lgImg.src = photo; lgImg.style.display = 'block'; lgInitials.style.display = 'none'; }
+  else { lgImg.style.display = 'none'; lgInitials.style.display = 'block'; lgInitials.textContent = initials; }
+
+  // Format phone in profile modal
+  const phoneInput = document.getElementById('profilePhone');
+  phoneInput.addEventListener('input', function(e) {
+    let input = e.target.value.replace(/\D/g, '');
+    if (input.length > 10) input = input.substring(0,10);
+    let formatted = input;
+    if (input.length > 6) formatted = '(' + input.substring(0,3) + ') ' + input.substring(3,6) + '-' + input.substring(6);
+    else if (input.length > 3) formatted = '(' + input.substring(0,3) + ') ' + input.substring(3);
+    else if (input.length > 0) formatted = '(' + input;
+    e.target.value = formatted;
+  });
+
+  document.getElementById('profileSaveMsg').style.display = 'none';
+}
+
+function closeProfileModal() {
+  document.getElementById('profileModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function saveUserProfile() {
+  const user = firebase.auth().currentUser;
+  if (!user) return;
+
+  const name = document.getElementById('profileName').value.trim();
+  const phone = document.getElementById('profilePhone').value.trim();
+  const birthday = document.getElementById('profileBirthday').value;
+  const birthdayMonth = birthday ? birthday.split('-')[1] : '';
+  const msgEl = document.getElementById('profileSaveMsg');
+
+  if (!name) { msgEl.textContent = 'Please enter your name.'; msgEl.style.color = '#e55'; msgEl.style.display = 'block'; return; }
+
+  try {
+    const profileData = {
+      displayName: name,
+      phone: phone,
+      birthday: birthday,
+      birthdayMonth: birthdayMonth,
+      email: user.email || '',
+      photoURL: user.photoURL || '',
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+
+    await db.collection('userProfiles').doc(user.uid).set(profileData, { merge: true });
+
+    userProfile = { ...userProfile, ...profileData };
+    updateDrawerProfile(user);
+    autoFillBookingForm();
+
+    msgEl.textContent = 'Profile saved! ✨';
+    msgEl.style.color = 'var(--gold)';
+    msgEl.style.display = 'block';
+    setTimeout(() => closeProfileModal(), 1200);
+  } catch (e) {
+    msgEl.textContent = 'Failed to save: ' + e.message;
+    msgEl.style.color = '#e55';
+    msgEl.style.display = 'block';
+  }
+}
+
+function autoFillBookingForm() {
+  if (!userProfile) return;
+  const nameInput = document.getElementById('name');
+  const phoneInput = document.getElementById('phone');
+  const reviewNameInput = document.getElementById('reviewName');
+
+  if (nameInput && !nameInput.value && userProfile.displayName) {
+    nameInput.value = userProfile.displayName;
+  }
+  if (phoneInput && !phoneInput.value && userProfile.phone) {
+    phoneInput.value = userProfile.phone;
+  }
+  if (reviewNameInput && !reviewNameInput.value && userProfile.displayName) {
+    reviewNameInput.value = userProfile.displayName;
+  }
+}
 
 const ADMIN_UID = "2EWm9mnIEpTyLiW5vfZwlPNX1Dr2";
 
@@ -2804,6 +3085,7 @@ function showSection(sectionId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (sectionId === 'gallerySection') loadGallery('galleryDisplay');
   else if (sectionId === 'reviewsSection') loadReviews(currentUser);
+  else if (sectionId === 'bookingSection') autoFillBookingForm();
 }
 
 // Gallery — luxury glass cylinder exhibit

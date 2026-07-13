@@ -1080,6 +1080,53 @@
       <p id="promoFormMsg" style="text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:14px;margin-top:8px;display:none;"></p>
     </div>
 
+    <!-- Birthday Promo Section -->
+    <div style="margin-bottom:40px;">
+      <div class="form-section-divider"><span>🎂</span> Birthday Promo</div>
+      <p style="font-size:13px;color:var(--text-dim);font-style:italic;font-family:'Cormorant Garamond',serif;margin-bottom:16px;line-height:1.6;">
+        Clients with a birthday this month automatically receive an email with this offer. They must bring <strong style="color:var(--gold);">valid ID upon arrival</strong> to redeem.
+      </p>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <label class="toggle-switch" style="flex-shrink:0;">
+          <input type="checkbox" id="bdayPromoActive" onchange="saveBirthdayPromo()"/>
+          <span class="toggle-slider"></span>
+        </label>
+        <div>
+          <div style="font-size:12px;font-weight:600;letter-spacing:1px;color:var(--text-light);">Enable Birthday Promo</div>
+          <div style="font-size:11px;color:var(--text-dim);font-style:italic;">Emails go out automatically during client's birthday month</div>
+        </div>
+      </div>
+
+      <label>Discount Type</label>
+      <div class="discount-type-row">
+        <div class="discount-type-option selected" id="bdayDiscountTypePercent" onclick="setBdayDiscountType('percent')">
+          % Percentage Off
+        </div>
+        <div class="discount-type-option" id="bdayDiscountTypeFixed" onclick="setBdayDiscountType('fixed')">
+          $ Fixed Amount Off
+        </div>
+      </div>
+      <input type="hidden" id="bdayDiscountType" value="percent"/>
+
+      <label id="bdayDiscountLabel">Discount Percentage (%)</label>
+      <input type="number" id="bdayDiscountValue" placeholder="e.g. 500 or 10" min="1"/>
+
+      <label>Birthday Message (optional)</label>
+      <input type="text" id="bdayMessage" placeholder="e.g. Happy Birthday Queen! 🎂 Enjoy a special treat on us."/>
+
+      <div style="background:rgba(212,71,138,0.06);border:1px solid rgba(212,71,138,0.2);border-left:3px solid var(--gold);padding:12px 16px;margin:16px 0;font-size:12px;color:var(--text-dim);line-height:1.6;">
+        <strong style="color:var(--gold);">📋 How it works:</strong><br/>
+        &bull; Client adds their birthday in their profile on the website<br/>
+        &bull; During their birthday month, they automatically get an email with your discount offer<br/>
+        &bull; <strong style="color:#FFFFFF;">Valid ID is required upon arrival</strong> — this is stated in the email<br/>
+        &bull; One birthday email per client per year
+      </div>
+
+      <button onclick="saveBirthdayPromo()" style="width:100%;margin-top:8px;">Save Birthday Promo</button>
+      <p id="bdayPromoMsg" style="text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:14px;margin-top:8px;display:none;"></p>
+    </div>
+
     <!-- Active Promotions List -->
     <div>
       <div class="form-section-divider"><span>✦</span> Your Promotions</div>
@@ -2019,6 +2066,72 @@ const firebaseConfig = {
     }
 
     // ========== PROMOTIONS ==========
+    // ========== BIRTHDAY PROMO FUNCTIONS ==========
+    function setBdayDiscountType(type) {
+      document.getElementById('bdayDiscountType').value = type;
+      const pctEl = document.getElementById('bdayDiscountTypePercent');
+      const fixEl = document.getElementById('bdayDiscountTypeFixed');
+      const lbl = document.getElementById('bdayDiscountLabel');
+      if (type === 'percent') {
+        pctEl.classList.add('selected'); fixEl.classList.remove('selected');
+        lbl.textContent = 'Discount Percentage (%)';
+      } else {
+        fixEl.classList.add('selected'); pctEl.classList.remove('selected');
+        lbl.textContent = 'Discount Amount ($)';
+      }
+    }
+
+    function loadBirthdayPromo() {
+      db.collection('birthdayPromo').doc('config').get().then(doc => {
+        if (!doc.exists) return;
+        const d = doc.data();
+        document.getElementById('bdayPromoActive').checked = d.active || false;
+        document.getElementById('bdayDiscountType').value = d.discountType || 'percent';
+        document.getElementById('bdayDiscountValue').value = d.discountValue || '';
+        document.getElementById('bdayMessage').value = d.message || '';
+        if (d.discountType === 'fixed') setBdayDiscountType('fixed');
+        else setBdayDiscountType('percent');
+      }).catch(e => console.error('Birthday promo load error:', e));
+    }
+
+    async function saveBirthdayPromo() {
+      const active = document.getElementById('bdayPromoActive').checked;
+      const discountType = document.getElementById('bdayDiscountType').value;
+      const discountValue = parseFloat(document.getElementById('bdayDiscountValue').value);
+      const message = document.getElementById('bdayMessage').value.trim();
+      const msgEl = document.getElementById('bdayPromoMsg');
+
+      if (active && (!discountValue || discountValue <= 0)) {
+        msgEl.textContent = 'Please enter a valid discount value.';
+        msgEl.style.color = '#e55';
+        msgEl.style.display = 'block';
+        return;
+      }
+
+      try {
+        await db.collection('birthdayPromo').doc('config').set({
+          active,
+          discountType,
+          discountValue: discountValue || 0,
+          message: message || 'Happy Birthday! 🎂 We\'re celebrating YOU this month!',
+          requiresID: true,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        }, { merge: true });
+
+        msgEl.textContent = active ? 'Birthday promo saved & active! 🎂' : 'Birthday promo saved (currently inactive).';
+        msgEl.style.color = 'var(--gold)';
+        msgEl.style.display = 'block';
+        setTimeout(() => msgEl.style.display = 'none', 3000);
+      } catch (e) {
+        msgEl.textContent = 'Failed to save: ' + e.message;
+        msgEl.style.color = '#e55';
+        msgEl.style.display = 'block';
+      }
+    }
+
+    // Load birthday promo on page load
+    loadBirthdayPromo();
+
     function setDiscountType(type) {
       document.getElementById('promoDiscountType').value = type;
       const pctEl = document.getElementById('discountTypePercent');
