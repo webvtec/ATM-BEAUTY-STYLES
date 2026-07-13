@@ -2282,6 +2282,12 @@ form button:hover,
         <label for="phone">Phone Number</label>
         <input id="phone" type="tel" inputmode="numeric" maxlength="14" placeholder="(876) 123-4567" required/>
 
+        <label for="bookingEmail">Email <span style="font-weight:400;font-style:italic;color:var(--text-dim);font-size:11px;">(optional for guests)</span></label>
+        <input id="bookingEmail" type="email" placeholder="your@email.com"/>
+        <p id="guestEmailNote" style="display:none;font-size:11px;color:var(--text-dim);font-style:italic;margin-top:4px;line-height:1.5;">
+          Without an email you won't receive: booking confirmations, appointment reminders, review requests, birthday offers, or promotional deals.
+        </p>
+
         <label for="date">Preferred Date</label>
         <input id="date" min="" onchange="loadAvailableSlots()" required type="date"/>
 
@@ -2351,7 +2357,7 @@ form button:hover,
           <div class="promo-value" id="activePromoDesc">—</div>
         </div>
 
-        <button type="submit">Book Now</button>
+        <button type="button" onclick="handleBookingClick()">Book Now</button>
       </form>
       <p id="bookingMessage"></p>
     </div>
@@ -2546,6 +2552,50 @@ form button:hover,
     </button>
     <p id="adminLoginMsg" style="color:#e55;font-size:12px;margin:0;display:none;font-style:italic;"></p>
     <button onclick="closeAdminModal()" style="background:none;border:none;color:#999;font-size:11px;cursor:pointer;margin-top:12px;letter-spacing:2px;text-transform:uppercase;">Cancel</button>
+  </div>
+</div>
+
+<!-- Booking Auth Modal — 3 options: Google, Email/Password, Guest -->
+<div class="profile-modal-overlay" id="bookingAuthModal" onclick="if(event.target===this)closeBookingAuthModal();">
+  <div class="profile-modal" style="max-width:400px;text-align:center;">
+    <button class="modal-close" onclick="closeBookingAuthModal()"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+
+    <h3 style="margin-bottom:4px;">How Would You Like to Book?</h3>
+    <p class="profile-subtitle" style="margin-bottom:20px;">Choose how to confirm your appointment</p>
+
+    <!-- Google Sign In -->
+    <button onclick="bookingAuthGoogle()" style="width:100%;padding:14px;background:#FFFFFF;color:#333;border:1px solid rgba(212,71,138,0.2);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;transition:all 0.3s;">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+      Continue with Google
+    </button>
+
+    <!-- Email & Password -->
+    <button onclick="bookingAuthEmail()" style="width:100%;padding:14px;background:rgba(212,71,138,0.08);color:var(--text-light);border:1px solid rgba(212,71,138,0.25);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;margin-bottom:10px;transition:all 0.3s;">
+      ✉️ &nbsp; Sign In with Email & Password
+    </button>
+
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:12px;margin:16px 0;">
+      <div style="flex:1;height:1px;background:rgba(212,71,138,0.15);"></div>
+      <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);">or</span>
+      <div style="flex:1;height:1px;background:rgba(212,71,138,0.15);"></div>
+    </div>
+
+    <!-- Guest -->
+    <button onclick="bookingAuthGuest()" style="width:100%;padding:14px;background:transparent;color:var(--text-dim);border:1px solid rgba(255,255,255,0.08);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:1px;margin-bottom:16px;transition:all 0.3s;">
+      Continue as Guest
+    </button>
+
+    <!-- What guests miss -->
+    <div style="background:rgba(212,71,138,0.04);border:1px solid rgba(212,71,138,0.15);padding:14px 16px;text-align:left;font-size:12px;color:var(--text-dim);line-height:1.7;">
+      <strong style="color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;">What you get with an account:</strong><br/>
+      ✓ Booking confirmation email<br/>
+      ✓ Appointment reminders (24hr + 3hr before)<br/>
+      ✓ Birthday month discount offers 🎂<br/>
+      ✓ Exclusive promo & campaign deals<br/>
+      ✓ Auto-filled forms (name, phone, email)<br/>
+      <span style="color:rgba(212,71,138,0.6);font-style:italic;margin-top:6px;display:block;">Guests without email won't receive any of the above.</span>
+    </div>
   </div>
 </div>
 
@@ -2831,7 +2881,9 @@ function autoFillBookingForm() {
   if (!userProfile) return;
   const nameInput = document.getElementById('name');
   const phoneInput = document.getElementById('phone');
+  const emailInput = document.getElementById('bookingEmail');
   const reviewNameInput = document.getElementById('reviewName');
+  const guestNote = document.getElementById('guestEmailNote');
 
   if (nameInput && !nameInput.value && userProfile.displayName) {
     nameInput.value = userProfile.displayName;
@@ -2839,8 +2891,15 @@ function autoFillBookingForm() {
   if (phoneInput && !phoneInput.value && userProfile.phone) {
     phoneInput.value = userProfile.phone;
   }
+  if (emailInput && !emailInput.value && userProfile.email) {
+    emailInput.value = userProfile.email;
+  }
   if (reviewNameInput && !reviewNameInput.value && userProfile.displayName) {
     reviewNameInput.value = userProfile.displayName;
+  }
+  // Hide guest note when logged in
+  if (guestNote && firebase.auth().currentUser) {
+    guestNote.style.display = 'none';
   }
 }
 
@@ -3657,8 +3716,72 @@ async function loadAvailableSlots() {
 // Booking submission
 function generateBookingNumber(name) { return name.trim().substring(0,2).toUpperCase()+Math.floor(1000+Math.random()*9000); }
 
+// ========== BOOKING AUTH MODAL FUNCTIONS ==========
+
+function validateBookingForm() {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('selectedTime').value;
+  const services = getSelectedServices();
+  if (!name || !phone || !date || !time) { alert('Please fill in all required fields.'); return false; }
+  if (services === 'No services selected') { alert('Please select at least one service before booking.'); return false; }
+  const haircutVal = document.getElementById('adultService')?.value || 'NONE';
+  if (haircutVal.endsWith('-Other') && selectedAddons.size === 0) { alert('Please select at least one add-on for the Other option.'); return false; }
+  return true;
+}
+
+function handleBookingClick() {
+  if (!validateBookingForm()) return;
+  const user = firebase.auth().currentUser;
+  if (user) {
+    // Already logged in — book directly
+    submitBooking();
+  } else {
+    // Show the 3-option modal
+    document.getElementById('bookingAuthModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Show email note for guests
+    document.getElementById('guestEmailNote').style.display = 'block';
+  }
+}
+
+function closeBookingAuthModal() {
+  document.getElementById('bookingAuthModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function bookingAuthGoogle() {
+  closeBookingAuthModal();
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await firebase.auth().signInWithPopup(provider);
+    // Now logged in — auto-fill email and submit
+    const user = firebase.auth().currentUser;
+    if (user && user.email) {
+      document.getElementById('bookingEmail').value = user.email;
+    }
+    submitBooking();
+  } catch (e) {
+    if (e.code !== 'auth/popup-closed-by-user') alert('Sign in failed: ' + e.message);
+  }
+}
+
+function bookingAuthEmail() {
+  closeBookingAuthModal();
+  // Open the existing auth modal for email/password sign in
+  openUserAuthModal();
+  // After they sign in, they can tap Book Now again
+}
+
+function bookingAuthGuest() {
+  closeBookingAuthModal();
+  // Guest booking — use email from form if provided
+  submitBooking();
+}
+
 function submitBooking(event) {
-  event.preventDefault();
+  if (event) event.preventDefault();
   const user = firebase.auth().currentUser;
   const name=document.getElementById('name').value.trim(),phone=document.getElementById('phone').value.trim(),date=document.getElementById('date').value,time=document.getElementById('selectedTime').value,services=getSelectedServices();
   if(!name||!phone||!date||!time){alert('Please fill in all required fields.');return;}
@@ -3670,10 +3793,15 @@ function submitBooking(event) {
   const baseTotal=getBaseTotal(),discount=getPromoDiscount(baseTotal),total=Math.max(0,baseTotal-discount);
   const promoApplied=activePromo?{title:activePromo.title,discountType:activePromo.discountType,discountValue:activePromo.discountValue,discountAmount:discount}:null;
   const newStart=convertToMinutes(time),newEnd=newStart+duration;
+
+  // Get email: from logged-in user OR from the form field
+  const formEmail = document.getElementById('bookingEmail').value.trim();
+  const bookingEmail = user ? (user.email || formEmail || '') : (formEmail || 'guest');
+
   db.collection('bookings').where('date','==',date).get().then(snapshot=>{
     const conflict=snapshot.docs.some(doc=>{const d=doc.data();if(d.status==='Cancelled')return false;const bStart=convertToMinutes(normalizeTimeStr(d.time)),bDur=(typeof d.duration==='number'&&d.duration>30)?d.duration:240,bEnd=bStart+bDur;return newStart<bEnd&&bStart<newEnd;});
     if(conflict){alert('This time slot was just taken. Please choose another time.');loadAvailableSlots();return Promise.reject('Time slot not available');}
-    const bookingData={uid:user?user.uid:'guest',email:user?(user.email||''):'guest',bookingNumber,name,phone,date,time,service:services,duration,baseTotal,total,deposit:"No",timestamp:firebase.firestore.FieldValue.serverTimestamp()};
+    const bookingData={uid:user?user.uid:'guest',email:bookingEmail,bookingNumber,name,phone,date,time,service:services,duration,baseTotal,total,deposit:"No",timestamp:firebase.firestore.FieldValue.serverTimestamp()};
     if(promoApplied)bookingData.promo=promoApplied;
     return db.collection('bookings').add(bookingData);
   }).then(docRef=>{

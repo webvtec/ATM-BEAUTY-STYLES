@@ -2129,8 +2129,7 @@ const firebaseConfig = {
       }
     }
 
-    // Load birthday promo on page load
-    loadBirthdayPromo();
+    // loadBirthdayPromo is called inside onAuthStateChanged below
 
     function setDiscountType(type) {
       document.getElementById('promoDiscountType').value = type;
@@ -2370,6 +2369,7 @@ const firebaseConfig = {
       loadUnavailableDates();
       loadPromotionsAdmin();
       loadRevenue();
+      loadBirthdayPromo();
     });
   </script>
   <!-- Admin Cancel Booking Modal -->
