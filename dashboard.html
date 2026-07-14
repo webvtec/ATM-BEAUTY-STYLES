@@ -2141,9 +2141,11 @@ const firebaseConfig = {
       const msgEl = document.getElementById('loyaltyMsg');
 
       if (active && (!discountValue || discountValue <= 0)) {
-        msgEl.textContent = 'Please enter a valid discount value.';
+        msgEl.textContent = 'Set a discount value to activate.';
         msgEl.style.color = '#e55';
         msgEl.style.display = 'block';
+        document.getElementById('loyaltyActive').checked = false;
+        setTimeout(() => msgEl.style.display = 'none', 3000);
         return;
       }
 
@@ -2200,9 +2202,11 @@ const firebaseConfig = {
       const msgEl = document.getElementById('bdayPromoMsg');
 
       if (active && (!discountValue || discountValue <= 0)) {
-        msgEl.textContent = 'Please enter a valid discount value.';
+        msgEl.textContent = 'Set a discount value to activate.';
         msgEl.style.color = '#e55';
         msgEl.style.display = 'block';
+        document.getElementById('bdayPromoActive').checked = false;
+        setTimeout(() => msgEl.style.display = 'none', 3000);
         return;
       }
 

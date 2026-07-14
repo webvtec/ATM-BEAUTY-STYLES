@@ -2804,6 +2804,7 @@ firebase.auth().onAuthStateChanged(async user => {
     userProfile = null;
     document.getElementById('drawerProfile').style.display = 'none';
     document.getElementById('drawerLoginSection').style.display = 'block';
+    loadLoyaltyProgress();
   }
 });
 
@@ -2975,9 +2976,6 @@ async function loadLoyaltyProgress() {
   const tracker = document.getElementById('loyaltyTracker');
   if (!tracker) return;
 
-  const user = firebase.auth().currentUser;
-  if (!user) { tracker.style.display = 'none'; return; }
-
   try {
     // Get loyalty config from admin
     const configDoc = await db.collection('loyaltyConfig').doc('config').get();
@@ -2988,7 +2986,24 @@ async function loadLoyaltyProgress() {
     const discountValue = config.discountValue || 500;
     const discountLabel = discountType === 'percent' ? discountValue + '% off' : '$' + Number(discountValue).toLocaleString() + ' off';
 
-    // Count completed bookings (non-cancelled) for this user
+    const user = firebase.auth().currentUser;
+    const badge = document.getElementById('loyaltyBadge');
+    const text = document.getElementById('loyaltyText');
+
+    if (!user) {
+      // Guest — show empty bars with sign-up motivation
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById('loyaltyBar' + i).className = 'loyalty-bar';
+      }
+      badge.textContent = '0 / 5';
+      badge.style.color = 'var(--gold)';
+      text.innerHTML = 'Sign in to start earning <strong style="color:var(--gold);">' + discountLabel + '</strong> every 5 bookings! <span onclick="openUserAuthModal()" style="color:var(--gold);cursor:pointer;text-decoration:underline;">Create an account</span>';
+      text.style.color = 'var(--text-dim)';
+      tracker.style.display = 'block';
+      return;
+    }
+
+    // Logged in — count bookings
     const bookingsSnap = await db.collection('bookings')
       .where('uid', '==', user.uid)
       .get();
@@ -2999,7 +3014,6 @@ async function loadLoyaltyProgress() {
       if (b.status !== 'Cancelled') completedCount++;
     });
 
-    // Progress is based on cycles of 5
     const progress = completedCount % 5;
     const remaining = 5 - progress;
     const earned = progress === 0 && completedCount > 0;
@@ -3024,10 +3038,6 @@ async function loadLoyaltyProgress() {
       badge.style.color = '#4CAF50';
       text.textContent = 'You earned ' + discountLabel + '! It will be applied to your next booking.';
       text.style.color = '#4CAF50';
-    } else if (completedCount === 0) {
-      badge.textContent = progress + ' / 5';
-      text.textContent = 'Book 5 times to earn ' + discountLabel + ' on your next style!';
-      text.style.color = 'var(--text-dim)';
     } else {
       badge.textContent = progress + ' / 5';
       text.textContent = remaining + ' more booking' + (remaining === 1 ? '' : 's') + ' to earn ' + discountLabel + '!';
