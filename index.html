@@ -2266,7 +2266,15 @@ form button:hover,
       <div class="section-kicker">Reserve Your Appointment</div>
       <h2 class="section-title">Book Now</h2>
 
-      <div class="booking-rules">
+      <!-- House Rules Toggle Button -->
+      <div style="text-align:center;margin-bottom:4px;">
+      <button onclick="toggleHouseRules()" id="houseRulesBtn" style="padding:12px 28px;background:rgba(212,71,138,0.06);border:1px solid rgba(212,71,138,0.15);color:var(--text-light);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;transition:all 0.3s;">
+        <span>📋 House Rules</span>
+        <span id="houseRulesArrow" style="transition:transform 0.3s;font-size:8px;">▼</span>
+      </button>
+      </div>
+      <div id="houseRulesContent" style="display:none;overflow:hidden;">
+        <div class="booking-rules" style="margin-top:0;">
         <div class="booking-rules-title">The House Rules</div>
         <div class="booking-rule-row"><span class="label">Working Days</span><span class="value">Monday – Saturday</span></div>
         <div class="booking-rule-row"><span class="label">Hours</span><span class="value">8:00 AM – 5:00 PM</span></div>
@@ -2291,6 +2299,8 @@ form button:hover,
             </div>
           </div>
         </div>
+        </div>
+      </div>
       </div>
 
       <!-- Loyalty Progress Tracker -->
@@ -3864,6 +3874,18 @@ function validateBookingForm() {
   const haircutVal = document.getElementById('adultService')?.value || 'NONE';
   if (haircutVal.endsWith('-Other') && selectedAddons.size === 0) { alert('Please select at least one add-on for the Other option.'); return false; }
   return true;
+}
+
+function toggleHouseRules() {
+  const content = document.getElementById('houseRulesContent');
+  const arrow = document.getElementById('houseRulesArrow');
+  if (content.style.display === 'none') {
+    content.style.display = 'block';
+    arrow.style.transform = 'rotate(180deg)';
+  } else {
+    content.style.display = 'none';
+    arrow.style.transform = 'rotate(0deg)';
+  }
 }
 
 function handleBookingClick() {
