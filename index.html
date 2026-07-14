@@ -2265,7 +2265,6 @@ form button:hover,
     <div class="section-inner">
       <div class="section-kicker">Reserve Your Appointment</div>
       <h2 class="section-title">Book Now</h2>
-      <p class="section-subtitle">Securing your appointment is simple. Choose your service, pick your time, and we'll take care of the rest.</p>
 
       <div class="booking-rules">
         <div class="booking-rules-title">The House Rules</div>
@@ -2292,6 +2291,22 @@ form button:hover,
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Loyalty Progress Tracker -->
+      <div id="loyaltyTracker" style="display:none;margin-top:20px;margin-bottom:8px;padding:20px;background:rgba(212,71,138,0.04);border:1px solid rgba(212,71,138,0.12);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;color:var(--text-light);letter-spacing:1px;">Loyalty Reward</span>
+          <span id="loyaltyBadge" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;"></span>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          <div class="loyalty-bar" id="loyaltyBar1"></div>
+          <div class="loyalty-bar" id="loyaltyBar2"></div>
+          <div class="loyalty-bar" id="loyaltyBar3"></div>
+          <div class="loyalty-bar" id="loyaltyBar4"></div>
+          <div class="loyalty-bar" id="loyaltyBar5"></div>
+        </div>
+        <p id="loyaltyText" style="font-size:12px;color:var(--text-dim);font-style:italic;margin:0;line-height:1.5;text-align:center;"></p>
       </div>
 
       <form onsubmit="submitBooking(event)">
@@ -2379,22 +2394,6 @@ form button:hover,
         <button type="button" onclick="handleBookingClick()">Book Now</button>
       </form>
       <p id="bookingMessage"></p>
-
-      <!-- Loyalty Progress Tracker -->
-      <div id="loyaltyTracker" style="display:none;margin-top:24px;padding:20px;background:rgba(212,71,138,0.04);border:1px solid rgba(212,71,138,0.12);">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-          <span style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;color:var(--text-light);letter-spacing:1px;">Loyalty Reward</span>
-          <span id="loyaltyBadge" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;"></span>
-        </div>
-        <div style="display:flex;gap:6px;margin-bottom:10px;">
-          <div class="loyalty-bar" id="loyaltyBar1"></div>
-          <div class="loyalty-bar" id="loyaltyBar2"></div>
-          <div class="loyalty-bar" id="loyaltyBar3"></div>
-          <div class="loyalty-bar" id="loyaltyBar4"></div>
-          <div class="loyalty-bar" id="loyaltyBar5"></div>
-        </div>
-        <p id="loyaltyText" style="font-size:12px;color:var(--text-dim);font-style:italic;margin:0;line-height:1.5;text-align:center;"></p>
-      </div>
     </div>
   </section>
 </div>
