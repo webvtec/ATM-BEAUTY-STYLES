@@ -2048,6 +2048,23 @@ form button:hover,
   margin-bottom: 8px;
 }
 
+/* ========== LOYALTY PROGRESS BARS ========== */
+.loyalty-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.loyalty-bar.filled {
+  background: linear-gradient(90deg, var(--gold), #E06AAF);
+  box-shadow: 0 0 8px rgba(212,71,138,0.3);
+}
+.loyalty-bar.filled-complete {
+  background: linear-gradient(90deg, #4CAF50, #66BB6A);
+  box-shadow: 0 0 8px rgba(76,175,80,0.3);
+}
+
 /* ========== USER PROFILE MODAL ========== */
 .profile-modal-overlay {
   position: fixed;
@@ -2211,9 +2228,6 @@ form button:hover,
     <p>Shop 7 Clock Tower Plaza, Kingston, JA</p>
   </div>
 
-  <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(212,71,138,0.1);">
-    <a id="authMenuBtn" class="drawer-btn" onclick="handleAuthButtonClick(); closeMenu();" href="javascript:void(0);">Log In</a>
-  </div>
 </div>
 
 <!-- ========== PROMOTIONS BANNER ========== -->
@@ -2365,6 +2379,22 @@ form button:hover,
         <button type="button" onclick="handleBookingClick()">Book Now</button>
       </form>
       <p id="bookingMessage"></p>
+
+      <!-- Loyalty Progress Tracker -->
+      <div id="loyaltyTracker" style="display:none;margin-top:24px;padding:20px;background:rgba(212,71,138,0.04);border:1px solid rgba(212,71,138,0.12);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;color:var(--text-light);letter-spacing:1px;">Loyalty Reward</span>
+          <span id="loyaltyBadge" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;"></span>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          <div class="loyalty-bar" id="loyaltyBar1"></div>
+          <div class="loyalty-bar" id="loyaltyBar2"></div>
+          <div class="loyalty-bar" id="loyaltyBar3"></div>
+          <div class="loyalty-bar" id="loyaltyBar4"></div>
+          <div class="loyalty-bar" id="loyaltyBar5"></div>
+        </div>
+        <p id="loyaltyText" style="font-size:12px;color:var(--text-dim);font-style:italic;margin:0;line-height:1.5;text-align:center;"></p>
+      </div>
     </div>
   </section>
 </div>
@@ -2743,7 +2773,6 @@ let userProfile = null; // loaded from Firestore userProfiles collection
 firebase.auth().onAuthStateChanged(async user => {
   currentUser = user || null;
   loadReviews(currentUser);
-  updateAuthButton(user);
   updateDrawerProfile(user);
 
   if (user) {
@@ -2769,6 +2798,7 @@ firebase.auth().onAuthStateChanged(async user => {
       }
       updateDrawerProfile(user);
       autoFillBookingForm();
+      loadLoyaltyProgress();
     } catch (e) { console.error('Profile load error:', e); }
   } else {
     userProfile = null;
@@ -2940,6 +2970,77 @@ function updateEmailFieldLabel() {
   }
 }
 
+// ========== LOYALTY PROGRAM ==========
+async function loadLoyaltyProgress() {
+  const tracker = document.getElementById('loyaltyTracker');
+  if (!tracker) return;
+
+  const user = firebase.auth().currentUser;
+  if (!user) { tracker.style.display = 'none'; return; }
+
+  try {
+    // Get loyalty config from admin
+    const configDoc = await db.collection('loyaltyConfig').doc('config').get();
+    if (!configDoc.exists || !configDoc.data().active) { tracker.style.display = 'none'; return; }
+
+    const config = configDoc.data();
+    const discountType = config.discountType || 'fixed';
+    const discountValue = config.discountValue || 500;
+    const discountLabel = discountType === 'percent' ? discountValue + '% off' : '$' + Number(discountValue).toLocaleString() + ' off';
+
+    // Count completed bookings (non-cancelled) for this user
+    const bookingsSnap = await db.collection('bookings')
+      .where('uid', '==', user.uid)
+      .get();
+
+    let completedCount = 0;
+    bookingsSnap.forEach(doc => {
+      const b = doc.data();
+      if (b.status !== 'Cancelled') completedCount++;
+    });
+
+    // Progress is based on cycles of 5
+    const progress = completedCount % 5;
+    const remaining = 5 - progress;
+    const earned = progress === 0 && completedCount > 0;
+
+    // Update bars
+    for (let i = 1; i <= 5; i++) {
+      const bar = document.getElementById('loyaltyBar' + i);
+      bar.className = 'loyalty-bar';
+      if (earned) {
+        bar.classList.add('filled-complete');
+      } else if (i <= progress) {
+        bar.classList.add('filled');
+      }
+    }
+
+    // Update text
+    const badge = document.getElementById('loyaltyBadge');
+    const text = document.getElementById('loyaltyText');
+
+    if (earned) {
+      badge.textContent = '🎉 REWARD EARNED';
+      badge.style.color = '#4CAF50';
+      text.textContent = 'You earned ' + discountLabel + '! It will be applied to your next booking.';
+      text.style.color = '#4CAF50';
+    } else if (completedCount === 0) {
+      badge.textContent = progress + ' / 5';
+      text.textContent = 'Book 5 times to earn ' + discountLabel + ' on your next style!';
+      text.style.color = 'var(--text-dim)';
+    } else {
+      badge.textContent = progress + ' / 5';
+      text.textContent = remaining + ' more booking' + (remaining === 1 ? '' : 's') + ' to earn ' + discountLabel + '!';
+      text.style.color = 'var(--text-dim)';
+    }
+
+    tracker.style.display = 'block';
+  } catch (e) {
+    console.error('Loyalty load error:', e);
+    tracker.style.display = 'none';
+  }
+}
+
 const ADMIN_UID = "2EWm9mnIEpTyLiW5vfZwlPNX1Dr2";
 
 function login() { document.getElementById('adminLoginModal').style.display = 'flex'; }
@@ -2964,20 +3065,11 @@ function adminGoogleSignIn() {
   });
 }
 
-function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }
 function googleSignIn() {
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
   firebase.auth().signInWithPopup(provider).then(() => { closeUserAuthModal(); }).catch(e => { if (e.code !== 'auth/popup-closed-by-user') alert('Sign-in failed: ' + e.message); });
 }
-function handleAuthButtonClick() { firebase.auth().currentUser ? logoutUser() : openUserAuthModal(); }
-function updateAuthButton(user) {
-  const btn = document.getElementById('authMenuBtn');
-  if (!btn) return;
-  if (user) { btn.textContent = 'LOGOUT'; btn.style.background = 'rgba(200,50,50,0.15)'; btn.style.color = '#e55'; btn.style.borderColor = 'rgba(200,50,50,0.3)'; }
-  else { btn.textContent = 'LOG IN'; btn.style.background = 'none'; btn.style.color = 'var(--text-light)'; btn.style.borderColor = 'rgba(212,71,138,0.25)'; }
-}
-
 // ========== USER AUTH MODAL ==========
 function openUserAuthModal() {
   document.getElementById('userAuthModal').classList.add('open');
@@ -3181,7 +3273,7 @@ function showSection(sectionId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (sectionId === 'gallerySection') loadGallery('galleryDisplay');
   else if (sectionId === 'reviewsSection') loadReviews(currentUser);
-  else if (sectionId === 'bookingSection') autoFillBookingForm();
+  else if (sectionId === 'bookingSection') { autoFillBookingForm(); loadLoyaltyProgress(); }
 }
 
 // Gallery — luxury glass cylinder exhibit
